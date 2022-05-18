@@ -1,0 +1,12 @@
+// Länkar för publicering på Admin
+.publish-posts {
+    width: 33%;
+    margin-top: 5px;
+    float: left;
+    text-align: center;
+
+    a {
+        color: $heading-color;
+        font-weight: bold;
+    }
+}

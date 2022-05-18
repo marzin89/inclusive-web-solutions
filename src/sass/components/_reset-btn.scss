@@ -1,0 +1,21 @@
+/* Rensa-knapp (Logga in, Admin, Kontakt) */
+.reset-btn {
+    width: 100%;
+    height: 35px;
+    background-color: $reset-btn-color;
+    color: white;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+    border: 1px solid  $reset-btn-color;
+    margin-top: 10px;
+
+    @media only screen and (min-width: 961px) {
+        max-width: 295px;
+        float: left;
+    }
+}
+
+.reset-btn:focus {
+    border: 3px solid black;
+}
