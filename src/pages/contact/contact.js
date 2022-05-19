@@ -604,8 +604,8 @@ class Contact extends React.Component {
             })
         }
 
-        if (firstNameInput.value && lastNameInput.value && emailInput.value &&
-            messageInput.value && consentInput.checked) {
+        if (firstNameInput.value !== '' && lastNameInput.value !== '' && emailInput.value !== '' &&
+            messageInput.value !== '' && consentInput.checked !== '') {
             localStorage.removeItem('error');
         }
     }
@@ -614,20 +614,11 @@ class Contact extends React.Component {
         e.preventDefault();
         this.validateForm();
 
-        const firstNameInput   = document.getElementById('first-name');
-        const lastNameInput    = document.getElementById('last-name');
-        const emailInput       = document.getElementById('email');
-        const messageInput     = document.getElementById('message');
-        const consentInput     = document.getElementById('consent');
-
-        if (firstNameInput.value !== '' && lastNameInput.value !== '' && emailInput.value !== '' &&
-            messageInput.value !== '' && consentInput.checked !== '') {
-            localStorage.removeItem('error');
-        }
-
         if (!localStorage.getItem('error')) {
             emailjs.sendForm('service_005r77b', 'contact_form', this.form.current, '7V3K7ahJFB30PLvxy')
             .then(result => {
+                console.log(result.text);
+
                 this.setState({
                     error:        false,
                     result: result.text,
@@ -647,6 +638,8 @@ class Contact extends React.Component {
                 }
 
             }, (error) => {
+                console.log(error.text);
+
                 this.setState({
                     error:          true,
                     result:         error.text,
@@ -667,7 +660,7 @@ class Contact extends React.Component {
                 }
             })
 
-            window.location.reload();
+            // window.location.reload();
         }
     }
 

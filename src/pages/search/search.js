@@ -73,7 +73,7 @@ class Search extends React.Component {
                 <section id="search">
                     <h1 className="text h1-font-size">Suchergebnisse</h1>
                     <form role="search">
-                        <input className="search-bar search-bar-mobile text-input input focus focus-header regular-font-size" 
+                        <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus focus-header regular-font-size" 
                             type="search" aria-label="Website durchsuchen" aria-required="true"
                             onChange={this.handleSearchChange}></input>
                         <button className="search-btn search-btn-mobile btn deutsch text focus focus-header regular-font-size" 
@@ -93,7 +93,7 @@ class Search extends React.Component {
                 <section id="search">
                     <h1 className="text h1-font-size">Sökresultat</h1>
                     <form role="search">
-                        <input className="search-bar search-bar-mobile text-input input focus focus-header regular-font-size" 
+                        <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus focus-header regular-font-size" 
                             type="search" aria-label="Sök på webbplatsen" aria-required="true"
                             onChange={this.handleSearchChange}></input>
                         <button className="search-btn search-btn-mobile btn svenska text focus focus-header regular-font-size" 
@@ -123,6 +123,12 @@ class Search extends React.Component {
 
         } else {
             document.title = 'Sökresultat';
+        }
+
+        const searchInput = document.getElementById('search-bar-main');
+
+        if (localStorage.getItem('query')) {
+            searchInput.value = localStorage.getItem('query');
         }
 
         if (localStorage.getItem('accessibility-error')) {
@@ -434,7 +440,7 @@ class Search extends React.Component {
                     <article>
                         <h2 className="text h2-font-size">{element.title}</h2>
                         <p className="text regular-font-size">
-                            {element.content.slice(0, 500) + ' ...'}</p>
+                            {element.content.slice(0, 150) + ' ...'}</p>
                         <p><Link className="text focus find-out-more regular-font-size"
                             to={`${element.path}`}>Mehr</Link></p>
                     </article>
@@ -468,7 +474,7 @@ class Search extends React.Component {
                     <article>
                         <h2 className="text h2-font-size">{element.title}</h2>
                         <p className="text regular-font-size">
-                            {element.content.slice(0, 500) + ' ...'}</p>
+                            {element.content.slice(0, 150) + ' ...'}</p>
                         <p><Link className="text focus find-out-more regular-font-size"
                             to={`${element.path}`}>Läs mer</Link></p>
                     </article>

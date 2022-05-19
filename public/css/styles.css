@@ -1200,6 +1200,27 @@ img {
   padding-left: 5px;
 }
 
+.h1-font-size-dynamic {
+  font-size: 19px;
+}
+
+.h2-font-size-dynamic {
+  font-size: 15px;
+}
+
+.h3-font-size-dynamic {
+  font-size: 12px;
+}
+
+.regular-font-size-dynamic {
+  font-size: 8px;
+  line-height: 8px;
+}
+
+.small-font-size-dynamic {
+  font-size: 8px;
+}
+
 @media only screen and (min-width: 1040px) {
   #footer-inner-wrap {
     width: 513px;

@@ -95,9 +95,9 @@ class Home extends React.Component {
                                 <article key={post.id}>
                                     <h3 className="text h3-font-size">{post.title}</h3>
                                     <p className="date text small-font-size">{post.date.slice(0, 10)}</p>
-                                    <p className="text regular-font-size">{post.content}</p>
+                                    <p className="text regular-font-size">{post.content[0].slice(0, 150) + ' ...'}</p>
                                     <p><Link id={`post${post.id}`} className="text focus find-out-more regular-font-size"
-                                        to={"/post"} onClick={this.handleLinkClick}>Mehr</Link></p>
+                                        to={"/posts"} onClick={this.handleLinkClick}>Mehr</Link></p>
                                 </article>
                             )
                         }) : <p className="error text regular-font-size" role="alert" style={localStorage.getItem('errorGerman') ?
@@ -171,7 +171,7 @@ class Home extends React.Component {
                                 <article key={post.id}>
                                     <h3 className="text h3-font-size">{post.title}</h3>
                                     <p className="date text small-font-size">{post.date.slice(0, 10)}</p>
-                                    <p className="text regular-font-size">{post.content}</p>
+                                    <p className="text regular-font-size">{post.content[0].slice(0, 150) + ' ...'}</p>
                                     <p><Link id={`post${post.id}`} className="text focus find-out-more regular-font-size"
                                         to={"/post"} onClick={this.handleLinkClick}>Läs mer</Link></p>
                                 </article>
@@ -201,7 +201,7 @@ class Home extends React.Component {
         }
 
         if (localStorage.getItem('accessibility-error')) {
-            const text = document.getElementsByClassName('text');
+            const text  = document.getElementsByClassName('text');
 
             switch(localStorage.getItem('accessibility-error')) {
                 case 'contrast':
@@ -210,18 +210,18 @@ class Home extends React.Component {
                     }
                 break;
     
-                /*
                 case 'responsiveness':
+
+                    /*
                     const meta = document.getElementsByName('viewport');
                     meta[0].remove();
+                    */
                 break;
-                */
     
                 case 'tab-focus':
                     const focus = document.getElementsByClassName('focus');
     
                     for (let i = 0; i < document.getElementsByClassName('focus').length; i++) {
-                        console.log('foo');
                         focus[i].className = focus[i].className.replace('focus', 'focus-invisible');
                     }
                 break;

@@ -393,7 +393,7 @@ class Blog extends React.Component {
                     <article key={post.id} className="post">
                         <h2 className="text h2-font-size">{post.title}</h2>
                         <p className="date text small-font-size">{post.date.slice(0, 10)}</p>
-                        <p className="text regular-font-size">{post.content[0]}</p>
+                        <p className="text regular-font-size">{post.content[0].slice(0, 150) + ' ...'}</p>
                         {post.imageUrl ? <img src={post.imageUrl} alt={post.altText}>
                         </img> : null}
                         <p><Link id={`post${post.id}`} className="text focus find-out-more regular-font-size"
@@ -426,7 +426,7 @@ class Blog extends React.Component {
                     <article key={post.id} className="post">
                     <h2 className="text h2-font-size">{post.title}</h2>
                     <p className="date text small-font-size">{post.date.slice(0, 10)}</p>
-                    <p className="text regular-font-size">{post.content[0]}</p>
+                    <p className="text regular-font-size">{post.content[0].slice(0, 150) + ' ...'}</p>
                     {post.imageUrl ? <img src={post.imageUrl} alt={post.altText}>
                     </img> : null}
                     <p><Link id={`post${post.id}`} className="text focus find-out-more regular-font-size"

@@ -200,7 +200,7 @@ class About extends React.Component {
         }
 
         if (localStorage.getItem('accessibility-error')) {
-            const text = document.getElementsByClassName('text');
+            const text  = document.getElementsByClassName('text');
 
             switch(localStorage.getItem('accessibility-error')) {
                 case 'contrast':
@@ -208,19 +208,19 @@ class About extends React.Component {
                         text[i].style.opacity = 0.1;
                     }
                 break;
-    
-                /*
+
                 case 'responsiveness':
+
+                    /*
                     const meta = document.getElementsByName('viewport');
                     meta[0].remove();
+                    */
                 break;
-                */
     
                 case 'tab-focus':
                     const focus = document.getElementsByClassName('focus');
     
                     for (let i = 0; i < document.getElementsByClassName('focus').length; i++) {
-                        console.log('foo');
                         focus[i].className = focus[i].className.replace('focus', 'focus-invisible');
                     }
                 break;

@@ -293,18 +293,18 @@ class Accessibility extends React.Component {
                     }
                 break;
     
-                /*
                 case 'responsiveness':
+
+                    /*
                     const meta = document.getElementsByName('viewport');
                     meta[0].remove();
+                    */
                 break;
-                */
     
                 case 'tab-focus':
                     const focus = document.getElementsByClassName('focus');
     
                     for (let i = 0; i < document.getElementsByClassName('focus').length; i++) {
-                        console.log('foo');
                         focus[i].className = focus[i].className.replace('focus', 'focus-invisible');
                     }
                 break;
@@ -360,7 +360,7 @@ class Accessibility extends React.Component {
             localStorage.setItem('accessibility-error', e.target.id);
         
         } else {
-            localStorage.setItem('accessibility-error', '');
+            localStorage.removeItem('accessibility-error');
         }
 
         switch(e.target.id) {
@@ -369,10 +369,12 @@ class Accessibility extends React.Component {
                     text[i].style.opacity = 0.1;
                 }
 
+                /*
                 const element = document.createElement('meta');
                 element.setAttribute('name', 'viewport');
                 element.setAttribute('content', 'width=device-width, initial-scale=1.0');
                 document.getElementsByTagName('head')[0].appendChild(element);
+                */
 
                 for (let i = 0; i < text.length; i++) {
                     if (text[i].className.indexOf('h1-font-size') >= 0) {
@@ -399,8 +401,10 @@ class Accessibility extends React.Component {
                     text[i].style.opacity = 1;
                 }
 
+                /*
                 const meta = document.getElementsByName('viewport');
                 meta[0].remove();
+                */
 
                 for (let i = 0; i < text.length; i++) {
                     if (text[i].className.indexOf('h1-font-size') >= 0) {
@@ -427,15 +431,16 @@ class Accessibility extends React.Component {
                     text[i].style.opacity = 1;
                 }
 
+                /*
                 const el = document.createElement('meta');
                 el.setAttribute('name', 'viewport');
                 el.setAttribute('content', 'width=device-width, initial-scale=1.0');
                 document.getElementsByTagName('head')[0].appendChild(el);
+                */
 
                 const focus = document.getElementsByClassName('focus');
 
                 for (let i = 0; i < document.getElementsByClassName('focus').length; i++) {
-                    console.log(focus[i].className);
                     focus[i].className = focus[i].className.replace('focus', 'focus-invisible');
                 }
 
@@ -464,10 +469,12 @@ class Accessibility extends React.Component {
                     text[i].style.opacity = 1;
                 }
 
+                /*
                 const metaEl = document.createElement('meta');
                 metaEl.setAttribute('name', 'viewport');
                 metaEl.setAttribute('content', 'width=device-width, initial-scale=1.0');
                 document.getElementsByTagName('head')[0].appendChild(metaEl);
+                */
 
                 for (let i = 0; i < text.length; i++) {
                     if (text[i].className.indexOf('h1-font-size') >= 0) {
@@ -505,10 +512,12 @@ class Accessibility extends React.Component {
                     text[i].style.opacity = 1;
                 }
 
+                /*
                 const metaElement = document.createElement('meta');
                 metaElement.setAttribute('name', 'viewport');
                 metaElement.setAttribute('content', 'width=device-width, initial-scale=1.0');
                 document.getElementsByTagName('head')[0].appendChild(metaElement);
+                */
 
                 for (let i = 0; i < text.length; i++) {
                     if (text[i].className.indexOf('h1-font-size') >= 0) {
