@@ -542,6 +542,20 @@ textarea {
     margin-top: 5px;
 }
 
+.respond {
+    text-align: right;
+}
+
+.respond-link {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    color: $heading-color;
+    font-size: $font-size-main-accessible;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
 button:focus {
     border: 3px solid black;
 }
@@ -917,6 +931,10 @@ footer {
 #comment-form {
     max-width: 600px;
     margin: 0 auto;
+}
+
+#comments {
+    margin-top: 50px;
 }
 
 #results {

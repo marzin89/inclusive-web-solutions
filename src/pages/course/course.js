@@ -22,14 +22,12 @@ class Course extends React.Component {
 
         this.state = {
             signedIn:     this.props.signedIn,
-            course:     [],
             error:        false,
-            errorSwedish: this.props.errorSwedish,
-            errorGerman:  this.props.errorGerman,
         }
 
-        console.log(localStorage.getItem('serviceId'));
-        this.getCourses();
+        console.log(this.props.courses);
+
+        // this.getCourses();
         this.getCourse();
     }
 
@@ -139,7 +137,17 @@ class Course extends React.Component {
 
     // Funktionen hämtar alla publicerade inlägg
     getCourse() {
-        /* GET-anrop till webbtjänsten */
+        this.props.courses.map((course) => {
+            if (course.id == localStorage.getItem('serviceId')) {
+                localStorage.setItem('name', course.name);
+                localStorage.setItem('price', course.price);
+                localStorage.setItem('description', JSON.stringify(course.description));
+                localStorage.setItem('imageUrl', course.imageUrl);
+                localStorage.setItem('altText', course.altText);
+            }
+        })
+
+        /* GET-anrop till webbtjänsten 
         fetch(`https://iws-rest-api.herokuapp.com/courses/id/${localStorage.getItem('serviceId')}`)
 
         // Konverterar svaret från JSON
@@ -192,11 +200,20 @@ class Course extends React.Component {
                 error:      true,
             })
         })
+        */
     }
 
     renderNavbar() {
-        let courses = localStorage.getItem('courses');
-        courses = JSON.parse(courses);
+        let courses = [];
+
+        if (this.props.courses) {
+            courses = this.props.courses;
+
+        } else {
+            courses = localStorage.getItem('courses');
+            courses = JSON.parse(courses);
+        }
+
         let links = [];
 
         if (localStorage.getItem('language') == 'Deutsch') {
@@ -235,8 +252,8 @@ class Course extends React.Component {
             <nav aria-label={localStorage.getItem('language') == 'Deutsch' ?
                 "Unternavigation mit Vorlesungen" : "Undermeny med befintliga utbildningar"}>
                 <ul>
-                    <li id="subnav-first-item"><Link className="text focus regular-font-size" to={'/course'}>
-                        {localStorage.getItem('language') == 'Deutsch' ? 'Vorlesungen' : 'Utbildningar'}</Link></li>
+                    <li id="subnav-first-item"><Link className="text focus regular-font-size" to={'/services'}>
+                        {localStorage.getItem('language') == 'Deutsch' ? 'Dienstleistungen' : 'Tjänster'}</Link></li>
                     {links}
                 </ul>
             </nav>
@@ -349,7 +366,11 @@ class Course extends React.Component {
 
     handleLinkClick(e) {
         localStorage.setItem('serviceId', e.target.id.slice(6));
-        this.getCourse();
+
+        if (e.target.className.indexOf('subnav-link') >= 0) {
+            this.getCourse();
+            window.location.reload();
+        }
 
         if (e.target.innerHTML == 'Logga ut') {
             this.handleLogout(e);

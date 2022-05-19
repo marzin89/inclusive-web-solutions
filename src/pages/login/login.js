@@ -15,6 +15,7 @@ class Login extends React.Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.validateUsername     = this.validateUsername.bind(this);
         this.validatePassword     = this.validatePassword.bind(this);
+        this.validateForm         = this.validateForm.bind(this);
         this.handleSubmit         = this.handleSubmit.bind(this);
         this.handlePageTitle      = this.handlePageTitle.bind(this);
 
@@ -131,11 +132,28 @@ class Login extends React.Component {
         }
     }
 
+    validateForm() {
+        if (!this.state.username) {
+            this.setState({
+                error:     true,
+                userError: 'Du måste ange ditt användarnamn.'
+            })
+        }
+
+        if (!this.state.password) {
+            this.setState({
+                error:         true,
+                passwordError: 'Du måste ange ditt lösenord.',
+            })
+        }
+    }
+
     // Validering, körs när formuläret skickas
     handleSubmit(e) {
 
         // Förhindrar att sidan laddas om
         e.preventDefault();
+        this.validateForm();
 
         /*
         // Skriver ut ett felmeddelande on användaren inte har angett sitt användarnamn

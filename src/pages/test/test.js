@@ -1,4 +1,5 @@
 // Imports
+import { toBeInTheDocument } from '@testing-library/jest-dom/dist/matchers';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -21,14 +22,12 @@ class Test extends React.Component {
 
         this.state = {
             signedIn:     this.props.signedIn,
-            test:         [],
             error:        false,
-            errorSwedish: this.props.errorSwedish,
-            errorGerman:  this.props.errorGerman,
         }
 
-        console.log(localStorage.getItem('serviceId'));
-        this.getTests();
+        console.log(this.props.tests);
+
+        // this.getTests();
         this.getTest();
     }
 
@@ -137,64 +136,28 @@ class Test extends React.Component {
 
     // Funktionen hämtar alla publicerade inlägg
     getTest() {
-        /* GET-anrop till webbtjänsten */
-        fetch(`https://iws-rest-api.herokuapp.com/tests/id/${localStorage.getItem('serviceId')}`)
-
-        // Konverterar svaret från JSON
-        .then(response => response.json())
-
-        // Skriver ut ett felmeddelande om inga inlägg hittades
-        .then(data => {
-            this.setState({
-                test: data,
-            })
-
-            localStorage.setItem('name', data[0].name);
-            localStorage.setItem('price', data[0].price);
-            localStorage.setItem('description', JSON.stringify(data[0].description));
-            localStorage.setItem('imageUrl', data[0].imageUrl);
-            localStorage.setItem('altText', data[0].altText);
-
-            if (localStorage.getItem('language') == 'Deutsch') {
-                if (data.language == 'swedish') {
-                    localStorage.setItem('errorGerman', 'Diese Seite ist leider nicht auf Deutsch verfügbar.');
-                    localStorage.removeItem('errorSwedish');
-
-                    this.setState({
-                        error:        true,
-                        errorSwedish: '',
-                        errorGerman:  'Diese Seite ist leider nicht auf Deutsch verfügbar.',
-                    })
-                }
-            
-            } else {
-                localStorage.removeItem('errorSwedish');
-                localStorage.removeItem('errorGerman');
-
-                this.setState({
-                    error:        false,
-                    errorSwedish: '',
-                    errorGerman:  '',
-                })
-            }   
-        })
-
-        // Skriver ut ett felmeddelande om ett serverfel har uppstått
-        .catch(() => {
-            localStorage.setItem('errorSwedish', 'Ett serverfel har uppstått. Det gick inte att hämta tjänsten.' 
-                + 'Försök igen lite senare.');
-            localStorage.setItem('errorSwedish', 'Ein Serverfehler ist aufgetreten. ' +
-                'Die Seite konnte leider nicht abgerufen werden. Versuchen Sie es später erneut.'); 
-
-            this.setState({             
-                error:      true,
-            })
+        this.props.tests.map((test) => {
+            if (test.id == localStorage.getItem('serviceId')) {
+                localStorage.setItem('name', test.name);
+                localStorage.setItem('price', test.price);
+                localStorage.setItem('description', JSON.stringify(test.description));
+                localStorage.setItem('imageUrl', test.imageUrl);
+                localStorage.setItem('altText', test.altText);
+            }
         })
     }
 
     renderNavbar() {
-        let tests = localStorage.getItem('tests');
-        tests = JSON.parse(tests);
+        let tests = [];
+
+        if (this.props.tests) {
+            tests = this.props.tests;
+
+        } else {
+            tests = localStorage.getItem('tests');
+            tests = JSON.parse(tests);
+        }
+
         let links = [];
 
         if (localStorage.getItem('language') == 'Deutsch') {
@@ -233,8 +196,8 @@ class Test extends React.Component {
             <nav aria-label={localStorage.getItem('language') == 'Deutsch' ?
                 "Unternavigation mit Tests" : "Undermeny med befintliga tester"}>
                 <ul>
-                    <li id="subnav-first-item"><Link className="text focus regular-font-size" to={'/test'}>
-                        {localStorage.getItem('language') == 'Deutsch' ? 'Tests' : 'Tester'}</Link></li>
+                    <li id="subnav-first-item"><Link className="text focus regular-font-size" to={'/services'}>
+                        {localStorage.getItem('language') == 'Deutsch' ? 'Dienstleistungen' : 'Tjänster'}</Link></li>
                     {links}
                 </ul>
             </nav>
@@ -315,8 +278,6 @@ class Test extends React.Component {
 
         // Skriver ut ett felmeddelande om inga tester hittades
         .then(data => {
-            console.log(data);
-
             if (!data.length) {
                 localStorage.setItem('errorServices', 'Inga tester hittades.');
 
@@ -349,7 +310,11 @@ class Test extends React.Component {
 
     handleLinkClick(e) {
         localStorage.setItem('serviceId', e.target.id.slice(4));
-        this.getTest();
+
+        if (e.target.className.indexOf('subnav-link') >= 0) {
+            this.getTest();
+            window.location.reload();
+        }
 
         if (e.target.innerHTML == 'Logga ut') {
             this.handleLogout(e);

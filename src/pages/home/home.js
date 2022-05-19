@@ -97,7 +97,7 @@ class Home extends React.Component {
                                     <p className="date text small-font-size">{post.date.slice(0, 10)}</p>
                                     <p className="text regular-font-size">{post.content}</p>
                                     <p><Link id={`post${post.id}`} className="text focus find-out-more regular-font-size"
-                                        to={"/posts"} onClick={this.handleLinkClick}>Mehr</Link></p>
+                                        to={"/post"} onClick={this.handleLinkClick}>Mehr</Link></p>
                                 </article>
                             )
                         }) : <p className="error text regular-font-size" role="alert" style={localStorage.getItem('errorGerman') ?

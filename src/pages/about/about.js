@@ -94,7 +94,7 @@ class About extends React.Component {
                                 <article id="rasmus">
                                     <img src={rasmus} alt="Rasmus Fogelberg"></img>  
                                     <h3 className="text h3-font-size">Rasmus Fogelberg</h3>
-                                    <h4 className="text regular-font-size">Projekmanagement och Entwicklung</h4>
+                                    <h4 className="text regular-font-size">Projekmanagement und Entwicklung</h4>
                                     <p><a className="text focus regular-font-size" href="mailto:rasmus.fogelberg@epost.se">
                                         rasmus.fogelberg@epost.se</a></p>
                                     <p className="text regular-font-size">073-123 45 67</p>
@@ -110,7 +110,7 @@ class About extends React.Component {
                                 <article id="marco">
                                     <img src={marco} alt="Marco Zintl"></img>  
                                     <h3 className="text h3-font-size">Marco Zintl</h3>
-                                    <h4 className="text regular-font-size">Qualitätssicherung och Entwicklung</h4>
+                                    <h4 className="text regular-font-size">Qualitätssicherung und Entwicklung</h4>
                                     <p><a className="text focus regular-font-size" href="mailto:mazi2001@student.miun.se">
                                         mazi2001@student.miun.se</a></p>
                                     <p className="text regular-font-size">073-123 45 67</p>

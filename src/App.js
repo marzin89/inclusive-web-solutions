@@ -32,7 +32,9 @@ class App extends React.Component {
     // Binder this till funktionerna
     this.setState            = this.setState.bind(this);
     this.getPosts            = this.getPosts.bind(this);
+    this.getComments         = this.getComments.bind(this);
     this.getSolutions        = this.getSolutions.bind(this);
+    this.getCourses          = this.getCourses.bind(this);
     this.loginCallback       = this.loginCallback.bind(this);
     this.logoutCallback      = this.logoutCallback.bind(this);
     this.logoutCallbackAdmin = this.logoutCallbackAdmin.bind(this);
@@ -43,7 +45,10 @@ class App extends React.Component {
       username:        sessionStorage.getItem('user'),
       permission:      localStorage.getItem('permission'),
       posts:           [],
+      comments:        [],
       tests:           [],
+      solutions:       [],
+      courses:         [],
       error:           false,
       validationError: '',
       serverError:     '',
@@ -52,8 +57,10 @@ class App extends React.Component {
     }
 
     this.getPosts();
+    this.getComments();
     this.getTests();
     this.getSolutions();
+    this.getCourses();
   }
   // Rendrering
   render() {
@@ -91,7 +98,7 @@ class App extends React.Component {
               logout={this.logoutCallback} />} />
             <Route path="/post" element={<Post signedIn={this.state.signedIn} 
               errorSwedish={this.state.errorSwedish} errorGerman={this.state.errorGerman}
-              posts={this.state.posts} logout={this.logoutCallback} />} />
+              posts={this.state.posts} comments={this.state.comments} logout={this.logoutCallback} />} />
             <Route path="/test" element={<Test signedIn={this.state.signedIn} 
               errorSwedish={this.state.errorSwedish} errorGerman={this.state.errorGerman}
               tests={this.state.tests} logout={this.logoutCallback} />} /> 
@@ -100,7 +107,7 @@ class App extends React.Component {
               solutions={this.state.solutions} logout={this.logoutCallback} />} />
             <Route path="/course" element={<Course signedIn={this.state.signedIn} 
               errorSwedish={this.state.errorSwedish} errorGerman={this.state.errorGerman}
-              solutions={this.state.solutions} logout={this.logoutCallback} />} /> 
+              courses={this.state.courses} logout={this.logoutCallback} />} /> 
             <Route path="*" element={<Home signedIn={this.state.signedIn}
               logout={this.logoutCallback} />} />
           </Routes>
@@ -228,6 +235,31 @@ class App extends React.Component {
     })
 }
 
+getComments() {
+  fetch('https://iws-rest-api.herokuapp.com/comments')
+  .then(response => response.json())
+  .then(data => {
+      if (!data.length) {
+          this.setState({
+              error: true,
+          })
+      
+      } else {
+          this.setState({
+              error:    false,
+              comments: data,
+          })
+
+          localStorage.setItem('comments', JSON.stringify(data)); 
+      }
+  })
+  .catch(() => {
+      this.setState({
+          error: true
+      })
+  })
+}
+
   // Funktionen hämtar alla tester
   getTests() {
 
@@ -308,8 +340,34 @@ class App extends React.Component {
     })
 }
 
-componentWillUnmount() {
-  localStorage.clear();
+// Funktionen hämtar alla utbildningar
+getCourses() {
+
+  // GET-anrop till webbtjänsten om användaren har tryckt på Utbildningar
+  fetch('https://iws-rest-api.herokuapp.com/courses')
+
+  // Konverterar svaret från JSON
+  .then(response => response.json())
+
+  // Skriver ut ett felmeddelande om inga utbildningar hittades
+  .then(data => {
+      if (!data.length) {
+          localStorage.setItem('errorCourses', 'Inga utbildningar hittades.');
+
+          this.setState({
+              error:        true,
+          })
+      
+      // Lagrar utbildningarna i state-arrayen
+      } else {
+          localStorage.removeItem('errorCourses');
+
+          this.setState({
+              error:        false,
+              courses:      data,
+          })
+      }
+  })
 }
 }
 

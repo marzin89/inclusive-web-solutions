@@ -25,6 +25,7 @@ class Post extends React.Component {
         this.validateEmail                    = this.validateEmail.bind(this);
         this.validateSignature                = this.validateSignature.bind(this);
         this.validateConsent                  = this.validateConsent.bind(this);
+        this.validateForm                     = this.validateForm.bind(this);
         this.handleSubmit                     = this.handleSubmit.bind(this);
         this.addComment                       = this.addComment.bind(this);
         this.handleLogout                     = this.handleLogout.bind(this);
@@ -43,16 +44,12 @@ class Post extends React.Component {
             emailInvalid:   '',
             signatureEmpty: '',
             consentEmpty:   '',
-            errorSwedish:   '',
-            errorGerman:    '',
             confirm:        false,
-            confirmSwedish: '',
-            confirmGerman:  '',
         }
 
-        this.getPosts();
+        // this.getPosts();
         this.getPost();
-        this.getComments();
+        // this.getComments();
     }
 
     // Rendrering
@@ -154,12 +151,18 @@ class Post extends React.Component {
                                 <div className="row">
                                     <button className="reset-btn text focus">Alle Felder löschen</button>
                                     <button className="submit-btn text focus" onClick={this.handleSubmit}>Senden</button>
-                                    <p className="text regular-font-size error" role="alert" 
-                                        style={localStorage.getItem('errorMessage') != '' ? {display: 'block'} : 
-                                        {display: 'none'}}>{localStorage.getItem('errorMessage')}</p>
-                                    <p className="text regular-font-size confirm" role="alert" 
-                                        style={localStorage.getItem('confirmMessage') != '' ? {display: 'block'} : 
-                                        {display: 'none'}}>{localStorage.getItem('confirmMessage')}</p>
+                                    <p className="text error regular-font-size error" role="alert" 
+                                        style={localStorage.getItem('errorGerman') != '' ? {display: 'block'} : 
+                                        {display: 'none'}}>{localStorage.getItem('errorGerman')}</p>
+                                    <p className="text error regular-font-size error" role="alert" 
+                                        style={localStorage.getItem('errorSwedish') != '' ? {display: 'block'} : 
+                                        {display: 'none'}}>{localStorage.getItem('errorSwedish')}</p>
+                                    <p className="text confirm regular-font-size confirm" role="alert" 
+                                        style={localStorage.getItem('confirmGerman') != '' ? {display: 'block'} : 
+                                        {display: 'none'}}>{localStorage.getItem('confirmGerman')}</p>
+                                    <p className="text confirm regular-font-size confirm" role="alert" 
+                                        style={localStorage.getItem('confirmSwedish') != '' ? {display: 'block'} : 
+                                        {display: 'none'}}>{localStorage.getItem('confirmSwedish')}</p>
                                 </div>
                             </form>
                         </section>
@@ -228,14 +231,14 @@ class Post extends React.Component {
                             </form>
                         </section>         
                         }
-                        <section>
+                        <section id="comments">
                             <h2 className="text h2-font-size">{localStorage.getItem('language') == 'Deutsch' ? 
                                 'Kommentare' : 'Kommentarer'}</h2>
                             {localStorage.getItem('comments') ?
                             this.renderComments() :
                             <p className="error text regular-font-size">
                                 {localStorage.getItem('language') == 'Deutsch' ?
-                                'Schreiben Sie den ersten Kommentar' : 'Skriv den första kommentaren'}</p>}
+                            'Schreiben Sie den ersten Kommentar' : 'Skriv den första kommentaren'}</p> }
                         </section>
                     </div>
                 </section>
@@ -462,8 +465,16 @@ class Post extends React.Component {
     }
 
     renderNavbar() {
-        let posts = localStorage.getItem('posts');
-        posts = JSON.parse(posts);
+        let posts = [];
+
+        if (this.props.posts) {
+            posts = this.props.posts;
+
+        } else {
+            posts = localStorage.getItem('posts');
+            posts = JSON.parse(posts);
+        }
+
         let links = [];
 
         posts.map((post) => {
@@ -483,7 +494,7 @@ class Post extends React.Component {
             <nav aria-label={localStorage.getItem('language') == 'Deutsch' ?
                 "Unternavigation mit Posts" : "Undermeny med befintliga blogginlägg"}>
                 <ul>
-                    <li id="subnav-first-item"><Link className="text focus regular-font-size" to={'/post'}>
+                    <li id="subnav-first-item"><Link className="text focus regular-font-size" to={'/blog'}>
                         {localStorage.getItem('language') == 'Deutsch' ? 'Blog' : 'Blogg'}</Link></li>
                     {links}
                 </ul>
@@ -494,57 +505,34 @@ class Post extends React.Component {
     }
 
     renderComments() {
-        console.log(localStorage.getItem('comments'));
-        let comments = localStorage.getItem('comments');
-        comments = JSON.parse(comments);
+        let comments = [];
+
+        this.props.comments.map((comment) => {
+            if (comment.postId == localStorage.getItem('postId')) {
+                comments.push(comment);
+            }
+        });
+
         let render = [];
 
-            /*
-            if (comments.length == 1) {
-                render = 
-                    <article>
-                        <h3 className="text h3-font-size">{comments[0].author}</h3>
-                        <p className="text date small-font-size">{comments[0].date.slice(0, 10)}</p>
-                        <p className="text regular-font-size">{comments[0].content}</p>
-                        <p><Link id={`comment${comments[0].id}`} className="text focus regular-font-size" 
-                            to={'/post'} onClick={this.handleSubmit}>
-                            {localStorage.getItem('language') == 'Deutsch' ? 'Antworten' : 'Svara'}
-                        </Link></p>
-                    </article>
-            
-            } else { */
-                comments.map((comment) => {
-                    render.push(
-                        <article>
-                            <h3 className="text h3-font-size">{comment.author}</h3>
-                            <p className="text date small-font-size">{comment.date.slice(0, 10)}</p>
-                            <p className="text regular-font-size">{comment.content}</p>
-                            <p><Link id={`comment${comment.id}`} className="text focus regular-font-size" 
-                                to={'/post'} onClick={this.handleSubmit}>
-                                {localStorage.getItem('language') == 'Deutsch' ? 'Antworten' : 'Svara'}
-                            </Link></p>
-                        </article>
-                    )
-                })
-            // }
-
-            /*
+        if (comments.length) {
             comments.map((comment) => {
                 render.push(
-                    <article>
+                    <article key={comment.id}>
                         <h3 className="text h3-font-size">{comment.author}</h3>
                         <p className="text date small-font-size">{comment.date.slice(0, 10)}</p>
                         <p className="text regular-font-size">{comment.content}</p>
-                        <p><Link id={`comment${comment.id}`} className="text focus regular-font-size" 
-                            to={'/post'} onClick={this.handleSubmit}>
+                        <p className="respond"><a id={`comment${comment.id}`} 
+                            className="text focus respond-link regular-font-size" 
+                            href="#subpage-content" onClick={this.handleLinkClick}>
                             {localStorage.getItem('language') == 'Deutsch' ? 'Antworten' : 'Svara'}
-                        </Link></p>
+                        </a></p>
                     </article>
                 )
             })
-            */
+        }
 
-            return render;
+        return render;
     }
 
     handleCommentChange(e) {
@@ -602,6 +590,8 @@ class Post extends React.Component {
                     commentEmpty: 'Du måste skriva en kommentar.',
                 })
             }
+
+            localStorage.setItem('error', true);
         }
     }
 
@@ -691,8 +681,117 @@ class Post extends React.Component {
         }
     }
 
+    validateForm() {
+        const comment   = document.getElementById('comment');
+        const email     = document.getElementById('email');
+        const signature = document.getElementById('signature');
+        const consent   = document.getElementById('consent');
+
+        if (!comment.value) {
+            if (localStorage.getItem('language') == 'Deutsch') {
+                this.setState({
+                    error:        true,
+                    commentEmpty: 'Bitte schreiben Sie einen Kommentar.',
+                })
+            
+            } else {
+                this.setState({
+                    error:          true,
+                    commentEmpty: 'Du måste skriva en kommentar.',
+                })
+            }
+
+            localStorage.setItem('error', true);
+        }
+
+        if (!email.value) {
+            if (localStorage.getItem('language') == 'Deutsch') {
+                this.setState({
+                    error:        true,
+                    emailEmpty:   'Bitte geben Sie Ihre E-Mail-Adresse ein.',
+                    emailInvalid: '',
+                    email:        '',
+                })
+            
+            } else {
+                this.setState({
+                    error:      true,
+                    emailEmpty: 'Du måste ange din e-postadress.',
+                    emailInvalid: '',
+                    email:        '',
+                })
+            }
+        
+        } else {
+            if (email.value.indexOf('@') < 0) {
+                if (localStorage.getItem('language') == 'Deutsch') {
+                    this.setState({
+                        error:        true,
+                        emailEmpty:   '',
+                        emailInvalid: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+                        email:        '',
+                    })
+    
+                } else {
+                    this.setState({
+                        error:        true,
+                        emailEmpty:   '',
+                        emailInvalid: 'Ange en giltig e-postadress.',
+                        email:        '',
+                    })
+                }
+    
+                localStorage.setItem('error', true);   
+            }
+        }
+
+        if (!signature.value) {
+            if (localStorage.getItem('language') == 'Deutsch') {
+                this.setState({
+                    error:          true,
+                    signatureEmpty: 'Bitte geben Sie ein Pseudonym ein.',
+                    signature:      '',
+                })
+            
+            } else {
+                this.setState({
+                    error:          true,
+                    signatureEmpty: 'Du måste ange en signatur.',
+                    signature:      '',
+                })
+            }
+
+            localStorage.setItem('error', true)
+        }
+
+        if (!consent.checked) {
+            if (localStorage.getItem('language') == 'Deutsch') {
+                this.setState({
+                    error:        true,
+                    consentEmpty: 'Bitte stimmen Sie der Bearbeitung Ihrer personenbezogenen Daten zu.',
+                })
+            
+            } else {
+                this.setState({
+                    error:        true,
+                    consentEmpty: 'Du måste samtycka till att IWS behandlar dina personuppgifter.',
+                })
+            } 
+
+            localStorage.setItem('error', true);
+        }
+
+        if (comment.value !== '' && email.value !== '' && signature.value !== ''
+            && consent.checked) {
+                if (email.value.indexOf('@') >= 0) {
+                    localStorage.removeItem('error');
+                } 
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
+        this.validateForm();
 
         const comment   = document.getElementById('comment');
         const email     = document.getElementById('email');
@@ -700,34 +799,34 @@ class Post extends React.Component {
         const consent   = document.getElementById('consent');
 
         if (!localStorage.getItem('error')) {
+            let commentArr = this.props.comments;
+            let id;
+
+            let content = [];
+
+            if (comment.value.indexOf('\n\n') >= 0) {
+                content = comment.value.split("\n\n")
+            
+            } else {
+                content.push(comment.value);
+            }
+
+            if (commentArr.length) {
+                commentArr.sort((a, b) => {
+                    return a.id - b.id;
+                })
+
+                id = commentArr[commentArr.length - 1].id + 1;
+            
+            } else {
+                id = 1;
+            }
+
+            let date = new Date();
+            let body;
+
             if (!localStorage.getItem('response')) {
-                let commentArr = localStorage.getItem('comments');
-                commentArr = JSON.parse(commentArr);
-                let id;
-
-                let content = [];
-
-                if (comment.value.indexOf('\n\n') >= 0) {
-                    content = comment.value.split("\n\n")
-                
-                } else {
-                    content.push(comment.value);
-                }
-
-                if (commentArr.length) {
-                    commentArr.sort((a, b) => {
-                        return a.id - b.id;
-                    })
-
-                    id = commentArr[commentArr.length - 1].id + 1;
-                
-                } else {
-                    id = 1;
-                }
-
-                let date = new Date();
-
-                const body = {
+                body = {
                     id:         id,
                     author:     signature.value,
                     email:      email.value,
@@ -740,9 +839,24 @@ class Post extends React.Component {
                     date:       date.toLocaleString(),
                     updated:    date.toLocaleString(),
                 }
-
-                this.addComment(body);
+            
+            } else {
+                body = {
+                    id:         id,
+                    author:     signature.value,
+                    email:      email.value,
+                    content:    content,
+                    postId:     localStorage.getItem('postId'),
+                    postTitle:  localStorage.getItem('title'),
+                    responses:  false,
+                    published:  false,
+                    responseTo: localStorage.getItem('commentId'),
+                    date:       date.toLocaleString(),
+                    updated:    date.toLocaleString(),
+                }
             }
+            
+            this.addComment(body);
         }
     }
 
@@ -779,107 +893,68 @@ class Post extends React.Component {
         })
         .then(response => response.json())
         .then(() => {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                this.setState({
-                    error:          false,
-                    confirm:        true,
-                    confirmMessage: 'Ihr Kommentar wurde gesendet.',
-                })
-            
-            } else {
-                this.setState({
-                    error:          false,
-                    confirm:        true,
-                    confirmMessage: 'Din kommentar har skickats.',
-                })
-            } 
+            localStorage.removeItem('errorSwedish');
+            localStorage.removeItem('errorGerman');
+            localStorage.setItem('confirmSwedish', 'Din kommentar har skickats.');
+            localStorage.setItem('confirmGerman', 'Ihr Kommentar wurde gesendet.');
+
+            this.setState({
+                error:          false,
+                confirm:        true,
+            })
         })
         .catch(() => {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                this.setState({
-                    error:          true,
-                    confirm:        false,
-                    confirmMessage: 'Ein Serverfehler ist aufgetreten. ' +
-                    'Ihr Kommentar konnte leider nicht gesendet werden ' +
-                    'Versuchen Sie es später erneut.',
-                })
-            
-            } else {
-                this.setState({
-                    error:          true,
-                    confirm:        false,
-                    confirmMessage: 'Ett serverfel har uppstått. ' +
-                    'Det gick inte att skicka kommentaren. Försök igen senare.',
-                })
-            } 
+            localStorage.removeItem('confirmSwedish');
+            localStorage.removeItem('confirmGerman');
+            localStorage.setItem('errorSwedish', 'Ett serverfel har uppstått. ' +
+                'Det gick inte att skicka kommentaren. Försök igen senare.');
+            localStorage.setItem('errorGerman', 'Ein Serverfehler ist aufgetreten. ' +
+                'Ihr Kommentar konnte leider nicht gesendet werden ' +
+                'Versuchen Sie es später erneut.');
+
+            this.setState({
+                error:          true,
+                confirm:        false,
+                confirmMessage: 'Ein Serverfehler ist aufgetreten. ' +
+                'Ihr Kommentar konnte leider nicht gesendet werden ' +
+                'Versuchen Sie es später erneut.',
+            })
         })
+
+        localStorage.removeItem('response');
     }
 
     // Funktionen hämtar alla publicerade inlägg
     getPost() {
-        /* GET-anrop till webbtjänsten */
-        fetch(`https://iws-rest-api.herokuapp.com/posts/id/${localStorage.getItem('postId')}`)
-
-        // Konverterar svaret från JSON
-        .then(response => response.json())
-
-        // Skriver ut ett felmeddelande om inga inlägg hittades
-        .then(data => {
-            this.setState({
-                post: data,
-            })
-
-            localStorage.setItem('title', data[0].title);
-            localStorage.setItem('date', data[0].date);
-            localStorage.setItem('content', JSON.stringify(data[0].content));
-            localStorage.setItem('imageUrl', data[0].imageUrl);
-            localStorage.setItem('altText', data[0].altText);
-            localStorage.setItem('author', data[0].author);
-            localStorage.setItem('published', data[0].published);
-            localStorage.setItem('comments', data[0].comments);
-            localStorage.setItem('postLanguage', data[0].language);
-            localStorage.setItem('updated', data[0].updated);
-
-            if (localStorage.getItem('language') == 'Deutsch') {
-                if (data.language == 'swedish') {
-                    localStorage.setItem('errorGerman', 'Diese Seite ist leider nicht auf Deutsch verfügbar.');
-                    localStorage.removeItem('errorSwedish');
-
-                    this.setState({
-                        error:        true,
-                        errorSwedish: '',
-                        errorGerman:  'Diese Seite ist leider nicht auf Deutsch verfügbar.',
-                    })
-                }
-            
-            } else {
-                localStorage.removeItem('errorSwedish');
-                localStorage.removeItem('errorGerman');
-
-                this.setState({
-                    error:        false,
-                    errorSwedish: '',
-                    errorGerman:  '',
-                })
-            }   
-        })
-
-        // Skriver ut ett felmeddelande om ett serverfel har uppstått
-        .catch(() => {
-            localStorage.setItem('errorSwedish', 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
-                + 'Försök igen lite senare.');
-            localStorage.setItem('errorSwedish', 'Ein Serverfehler ist aufgetreten. ' +
-                'Die Seite konnte leider nicht abgerufen werden. Versuchen Sie es später erneut.'); 
-
-            this.setState({             
-                error:      true,
-            })
+        this.props.posts.map((post) => {
+            if (post.id == localStorage.getItem('postId')) {
+                localStorage.setItem('title', post.title);
+                localStorage.setItem('date', post.date);
+                localStorage.setItem('content', JSON.stringify(post.content));
+                localStorage.setItem('imageUrl', post.imageUrl);
+                localStorage.setItem('altText', post.altText);
+                localStorage.setItem('author', post.author);
+                localStorage.setItem('published', post.published);
+                localStorage.setItem('comments', post.comments);
+                localStorage.setItem('postLanguage', post.language);
+                localStorage.setItem('updated', post.updated);
+            }
         })
     }
 
     handleLinkClick(e) {
-        localStorage.setItem('postId', e.target.id.slice(4));
-        this.getPost();
+        if (e.target.className.indexOf('respond-link') >= 0) {
+            localStorage.setItem('response', true);
+            localStorage.setItem('commentId', e.target.id.slice(7))
+        
+        } else {
+            localStorage.setItem('postId', e.target.id.slice(4));
+        }
+
+        if (e.target.className.indexOf('subnav-link') >= 0) {
+            this.getPost();
+            window.location.reload();
+        }
 
         if (e.target.innerHTML == 'Logga ut') {
             this.handleLogout(e);
