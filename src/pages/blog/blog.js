@@ -201,7 +201,7 @@ class Blog extends React.Component {
                         numberOfPagesSwedish = parseInt(postArrSwedish.length / 5) + 1;
                     
                     } else {
-                        numberOfPagesSwedish = postArrSwedish.length;
+                        numberOfPagesSwedish = postArrSwedish.length / 5;
                     }
                 }
 
@@ -213,7 +213,7 @@ class Blog extends React.Component {
                         numberOfPagesGerman = parseInt(postArrGerman.length / 5) + 1;
                     
                     } else {
-                        numberOfPagesGerman = postArrGerman.length;
+                        numberOfPagesGerman = postArrGerman.length / 5;
                     }
                 }
 

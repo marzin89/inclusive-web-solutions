@@ -231,7 +231,7 @@ class Post extends React.Component {
                             </form>
                         </section>         
                         }
-                        <section id="comments">
+                        <section id="comment-section">
                             <h2 className="text h2-font-size">{localStorage.getItem('language') == 'Deutsch' ? 
                                 'Kommentare' : 'Kommentarer'}</h2>
                             {localStorage.getItem('comments') ?

@@ -155,38 +155,6 @@ class Login extends React.Component {
         e.preventDefault();
         this.validateForm();
 
-        /*
-        // Skriver ut ett felmeddelande on användaren inte har angett sitt användarnamn
-        if (!this.state.username) {
-            this.setState({
-                error:     true,
-                userError: 'Du måste ange ditt användarnamn.'
-            })
-
-        // Tar bort felmeddelandet användaren har angett sitt användarnamn
-        } else {
-            this.setState({
-                error:        false,
-                userError:    '',
-            })
-        }
-
-        // Skriver ut ett felmeddelande on användaren inte har angett sitt lösenord
-        if (!this.state.password) {
-            this.setState({
-                error:         true,
-                passwordError: 'Du måste ange ditt lösenord.',
-            })
-        
-        // Tar bort felmeddelandet användaren har angett sitt lösenord
-        } else {
-            this.setState({
-                error:         false,
-                passwordError: '',
-            })
-        }
-        */
-
         // Här kontrolleras uppgifterna
         if (this.state.username && this.state.password) {
 

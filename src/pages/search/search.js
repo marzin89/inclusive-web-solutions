@@ -230,7 +230,7 @@ class Search extends React.Component {
                         numberOfPagesSwedish = parseInt(resultsSwedish.length / 5) + 1;
                     
                     } else {
-                        numberOfPagesSwedish = resultsSwedish.length;
+                        numberOfPagesSwedish = resultsSwedish.length / 5;
                     }
                 }
 
@@ -242,7 +242,7 @@ class Search extends React.Component {
                         numberOfPagesGerman = parseInt(resultsGerman.length / 5) + 1;
                     
                     } else {
-                        numberOfPagesGerman = resultsGerman.length;
+                        numberOfPagesGerman = resultsGerman.length / 5;
                     }
                 }
 

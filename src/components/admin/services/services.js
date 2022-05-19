@@ -438,7 +438,8 @@ class Services extends React.Component {
                     publicId      = name;
                     imageUrl      = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/${folder}/${publicId}${extension}`;
                     body.imageUrl = imageUrl;
-                    
+
+                    this.upload(imageInput.files[0], name);
                     this.props.post(body);
                 
                 } else {
@@ -462,14 +463,6 @@ class Services extends React.Component {
                     description.push(descriptionInput.value);
                 }
 
-                let url;
-
-                if (imageInput.files[0]) {
-                    url = this.upload(imageInput.files[0]);
-                }
-
-                console.log(url);
-
                 let id      = localStorage.getItem('id');
                 let service = this.props.service.slice(0, -1);
 
@@ -488,14 +481,30 @@ class Services extends React.Component {
                     name:        nameInput.value,
                     price:       priceInput.value,
                     description: description,
-                    imageUrl:    url,
+                    imageUrl:    '',
                     altText:     altTextInput.value,
                     language:    language,
                     path:        path,
                     updated:     date, 
                 }
-    
-                this.props.put(localStorage.getItem('id'), body);
+
+                let url;
+                let folder = this.props.service;
+                let publicId;
+
+                if (imageInput.files[0]) {
+                    let name      = imageInput.files[0].name.slice(0, imageInput.files[0].name.indexOf('.'));
+                    let extension = imageInput.files[0].name.slice(imageInput.files[0].name.indexOf('.'));            
+                    publicId      = name;
+                    url           = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/${folder}/${publicId}${extension}`;
+                    body.imageUrl = url;
+                    
+                    this.upload(imageInput.files[0], name);
+                    this.props.put(localStorage.getItem('id'), body);
+                
+                } else {
+                    this.props.put(localStorage.getItem('id'), body);
+                }
             }
         }
     }
@@ -509,6 +518,33 @@ class Services extends React.Component {
         const descriptionInput = document.getElementById('service-description-input');
         const altTextInput     = document.getElementById('alt-text-input');
 
+        if (!nameInput.value) {
+            this.setState({
+                error:     true,
+                nameEmpty: 'Du måste ange ett namn.',
+            })
+
+            localStorage.setItem('error', true);
+        }
+
+        if (!priceInput.value) {
+            this.setState({
+                error:      true,
+                priceEmpty: 'Du måste ange ett pris.',
+            })
+
+            localStorage.setItem('error', true);
+        }
+
+        if (!descriptionInput.value) {
+            this.setState({
+                error:            true,
+                descriptionEmpty: 'Du måste skriva en beskrivning.',
+            })
+
+            localStorage.setItem('error', true);
+        }
+
         if (nameInput.value !== '' && priceInput.value !== '' && descriptionInput.value !== '') {
             localStorage.removeItem('error');
         
@@ -518,8 +554,12 @@ class Services extends React.Component {
 
         if (altTextInput.ariaRequired == true) {
             if (!altTextInput.value) {
+                this.setState({
+                    error:        true,
+                    altTextEmpty: 'Du måste skriva en alt-text.',
+                })
+
                 localStorage.setItem('error', true);
-            
             } else {
                 localStorage.removeItem('error');
             }
@@ -545,13 +585,6 @@ class Services extends React.Component {
             this.setState({
                 imageUrl: data.url.replace('http', 'https'),
             })
-
-            /*
-            url = data.url.replace('http', 'https');
-            console.log(url);
-            return url;
-            */
-
         })
         .catch(err => {
             console.log(err);

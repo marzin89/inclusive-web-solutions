@@ -617,8 +617,6 @@ class Contact extends React.Component {
         if (!localStorage.getItem('error')) {
             emailjs.sendForm('service_005r77b', 'contact_form', this.form.current, '7V3K7ahJFB30PLvxy')
             .then(result => {
-                console.log(result.text);
-
                 this.setState({
                     error:        false,
                     result: result.text,
@@ -638,8 +636,6 @@ class Contact extends React.Component {
                 }
 
             }, (error) => {
-                console.log(error.text);
-
                 this.setState({
                     error:          true,
                     result:         error.text,
@@ -660,7 +656,7 @@ class Contact extends React.Component {
                 }
             })
 
-            // window.location.reload();
+            window.location.reload();
         }
     }
 

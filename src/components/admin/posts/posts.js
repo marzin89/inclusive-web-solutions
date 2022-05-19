@@ -334,6 +334,33 @@ class Posts extends React.Component {
         const contentInput     = document.getElementById('post-content-input');
         const altTextInput     = document.getElementById('alt-text-input');
 
+        if (!nameInput.value) {
+            this.setState({
+                error:      true,
+                titleEmpty: 'Du måste ange ett namn.',
+            })
+
+            localStorage.setItem('error', true);
+        }
+
+        if (!dateInput.value) {
+            this.setState({
+                error:      true,
+                dateEmpty: 'Du måste ange ett datum.',
+            })
+    
+            localStorage.setItem('error', true);
+        }
+
+        if (!contentInput.value) {
+            this.setState({
+                error:        true,
+                contentEmpty: 'Du måste skriva ett inlägg.',
+            })
+
+            localStorage.setItem('error', true);
+        }
+
         if (nameInput.value !== '' && dateInput.value !== '' && contentInput.value !== '') {
             localStorage.removeItem('error');
         
@@ -343,6 +370,11 @@ class Posts extends React.Component {
 
         if (altTextInput.ariaRequired == true) {
             if (!altTextInput.value) {
+                this.setState({
+                    error:        true,
+                    altTextEmpty: 'Du måste skriva en alt-text.',
+                })
+
                 localStorage.setItem('error', true);
             
             } else {
@@ -434,9 +466,7 @@ class Posts extends React.Component {
                 posts: postArr,
             })
         })
-        .catch(err => {
-            console.log(err);
-
+        .catch(() => {
             this.setState({
                 error:        true,
                 errorMessage: 'Ett serverfel har uppstått. Det gick inte att lägga till inlägget. ' 
@@ -585,12 +615,6 @@ class Posts extends React.Component {
                     content.push(this.state.content);
                 }
 
-                const imageInput = document.getElementById('image-upload-input');
-
-                if (imageInput.files[0]) {
-                    this.upload(imageInput.files[0]);
-                }
-             
                 const body = {
                     id:        0,
                     title:     this.state.title,
@@ -606,7 +630,24 @@ class Posts extends React.Component {
                     updated:   date, 
                 }
 
-                this.props.post(body);
+                let imageUrl;
+                let publicId;
+
+                const imageInput = document.getElementById('image-upload-input');
+
+                if (imageInput.files[0]) {
+                    let name      = imageInput.files[0].name.slice(0, imageInput.files[0].name.indexOf('.'));
+                    let extension = imageInput.files[0].name.slice(imageInput.files[0].name.indexOf('.'));            
+                    publicId      = name;
+                    imageUrl      = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/posts/${publicId}${extension}`;
+                    body.imageUrl = imageUrl;
+
+                    this.upload(imageInput.files[0]);
+                    this.props.post(body);
+                
+                } else {
+                    this.props.post(body);
+                }
             }  
 
             if (localStorage.getItem('action') == 'edit') {
@@ -630,12 +671,6 @@ class Posts extends React.Component {
                 
                 } else {
                     content.push(contentInput.value);
-                }
-
-                let url;
-
-                if (imageInput.files[0]) {
-                    url = this.upload(imageInput.files[0]);
                 }
 
                 let id      = localStorage.getItem('id');
@@ -663,7 +698,22 @@ class Posts extends React.Component {
                     updated:   date, 
                 }
 
-                this.props.put(localStorage.getItem('id'), body);
+                let url;
+                let publicId;
+
+                if (imageInput.files[0]) {
+                    let name      = imageInput.files[0].name.slice(0, imageInput.files[0].name.indexOf('.'));
+                    let extension = imageInput.files[0].name.slice(imageInput.files[0].name.indexOf('.'));            
+                    publicId      = name;
+                    url           = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/posts/${publicId}${extension}`;
+                    body.imageUrl = url;
+
+                    this.upload(imageInput.files[0], name);
+                    this.props.put(localStorage.getItem('id'), body);
+                
+                } else {
+                    this.props.put(localStorage.getItem('id'), body);
+                }
             }
         }
     }

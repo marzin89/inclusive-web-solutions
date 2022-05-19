@@ -501,88 +501,80 @@ class Users extends React.Component {
         const phoneInput     = document.getElementById('user-phone-input');
         const usernameInput  = document.getElementById('username-input');
         const passwordInput  = document.getElementById('password-input');
-        
-        /*
-        if (!this.state.firstName && !firstNameInput.value) {
+
+        if (!firstNameInput.value) {
             this.setState({
                 error:          true, 
                 firstNameEmpty: 'Du måste ange ett förnamn.',
             })
 
             localStorage.setItem('error', true);
-        
-        } else {
-            this.setState({
-                error:          false,
-                firstNameEmpty: '',
-            })
         }
 
-        if (!this.state.lastName && !lastNameInput.value) {
+        if (!lastNameInput.value) {
             this.setState({
                 error:         true, 
                 lastNameEmpty: 'Du måste ange ett efternamn.',
             })
 
             localStorage.setItem('error', true);
-        
-        } else {
-            this.setState({
-                error:         false,
-                lastNameEmpty: '',
-            })
         }
 
-        if (!this.state.email && !emailInput.value) {
+        if (!emailInput.value) {
             this.setState({
-                error:      true, 
-                emailEmpty: 'Du måste ange en e-postadress.',
+                error:        true, 
+                emailEmpty:   'Du måste ange en e-postadress.',
+                emailInvalid: '',
+                email:        '',
             })
-
+    
             localStorage.setItem('error', true);
         
         } else {
-            this.setState({
-                error:      false,
-                emailEmpty: '',
-            })
-        }
-
-        if (!this.state.phone && !phoneInput.value) {
-            this.setState({
-                error:      true, 
-                phoneEmpty: 'Du måste ange ett telefonnummer.',
-            })
-
-            localStorage.setItem('error', true);
-        
-        } else {
-            this.setState({
-                error:      false,
-                phoneEmpty: '',
-            })
-        }
-
-        if (!localStorage.getItem('action')) {
-
-            if (!this.state.username && !usernameInput.value) {
+            if (emailInput.value.indexOf('@') < 0) {
                 this.setState({
-                    error:      true, 
-                    usernameEmpty: 'Du måste ange ett användarnamn.',
+                    error:        true,
+                    emailEmpty:   '',
+                    emailInvalid: 'Ange en giltig e-postadress.',
+                    email:        '',
                 })
-
+    
                 localStorage.setItem('error', true);
+            }
+        }
 
-            } else {
-                this.setState({
-                    error:         false,
-                    usernameEmpty: '',
-                })
+        if (!usernameInput.value) {
+            this.setState({
+                error:      true, 
+                usernameEmpty: 'Du måste ange ett användarnamn.',
+                usernameTaken: '',
+            })
 
+            localStorage.setItem('error', true);
+        
+        } else {
+            if (!localStorage.getItem('action')) {
                 this.props.users.forEach((user) => {
                     if (user.username == usernameInput.value) {
                         this.setState({
                             error:         true,
+                            usernameEmpty: '',
+                            usernameTaken: 'Användarnamnet är upptaget.',
+                            username:      '',
+                        })
+    
+                        localStorage.setItem('error', true);
+                    }
+                })
+            
+            } else if (localStorage.getItem('action') == 'edit') {
+                this.props.users.forEach((user) => {
+                    if (user.username == usernameInput.value &&
+                        usernameInput.value !== oldUsername) {
+
+                        this.setState({
+                            error:         true,
+                            usernameEmpty: '',
                             usernameTaken: 'Användarnamnet är upptaget.',
                             username:      '',
                         })
@@ -590,121 +582,63 @@ class Users extends React.Component {
                         localStorage.setItem('error', true);
                     }
                 })
-            }
+            }   
+        }
 
-            if (!this.state.password && !passwordInput.value) {
+        if (!passwordInput.value) {
+            this.setState({
+                error:            true, 
+                passwordEmpty:    'Du måste ange ett lösenord.',
+                passwordTaken:    '',
+                passwordTooShort: '',
+                passwordInsecure: '',
+            })
+    
+            localStorage.setItem('error', true);
+        
+        } else {
+            const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
+
+            if (!pattern.test(passwordInput.value)) {
                 this.setState({
-                    error:         true, 
-                    passwordEmpty: 'Du måste ange ett lösenord.',
+                    error:            true,
+                    passwordEmpty:    '',
+                    passwordInsecure: 'Lösenordet måste innehålla versaler, gemener och siffror.',
                 })
 
                 localStorage.setItem('error', true);
             
-            } else {
+            }
+
+            if (passwordInput.value.length < 10) {
                 this.setState({
-                    error:         false,
-                    passwordEmpty: '',
+                    error:            true,
+                    passwordEmpty:    '',
+                    passwordTooShort: 'Lösenordet måste vara minst 10 tecken långt.',
                 })
+    
+                localStorage.setItem('error', true);
+            }
 
-                const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
-
-                if (!pattern.test(passwordInput.value)) {
-                    this.setState({
-                        error:            true,
-                        passwordInsecure: 'Lösenordet måste innehålla versaler, gemener och siffror.',
-                    })
-
-                    localStorage.setItem('error', true);
-                
-                } else {
-                    this.setState({
-                        error:            false,
-                        passwordInsecure: '',
-                    })
-                }
-
+            if (!localStorage.getItem('action')) {
                 for (let i = 0; i < this.state.users.length; i++) {
-
                     if (this.state.users[i].password == passwordInput.value) {
                         this.setState({
                             error:         true,
                             passwordTaken: 'Lösenordet är upptaget.',
                             password:       '',
                         })
-
+        
                         localStorage.setItem('error', true);
                     }
                 }
-            }
-        }
-
-        if (localStorage.getItem('action') == 'edit') {
-            if (!this.state.username && !usernameInput.value) {
-                this.setState({
-                    error:      true, 
-                    usernameEmpty: 'Du måste ange ett användarnamn.',
-                })
-
-                localStorage.setItem('error', true);
-
-            } else {
-                this.setState({
-                    error:         false,
-                    usernameEmpty: '',
-                })
-
-                this.props.users.forEach((user) => {
-                    if (user.username == usernameInput.value &&
-                        usernameInput.value !== oldUsername) {
-                        console.log(user.username);
-                        console.log(usernameInput.value);
-
-                        this.setState({
-                            error:         true,
-                            usernameTaken: 'Användarnamnet är upptaget.',
-                            username:      '',
-                        })
-
-                        localStorage.setItem('error', true);
-                    }
-                })
-            }
-
-            if (!this.state.password && !passwordInput.value) {
-                this.setState({
-                    error:         true, 
-                    passwordEmpty: 'Du måste ange ett lösenord.',
-                })
-
-                localStorage.setItem('error', true);
             
-            } else {
-                this.setState({
-                    error:         false,
-                    passwordEmpty: '',
-                })
-
-                const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
-
-                if (!pattern.test(passwordInput.value)) {
-                    this.setState({
-                        error:            true,
-                        passwordInsecure: 'Lösenordet måste innehålla versaler, gemener och siffror.',
-                    })
-
-                    localStorage.setItem('error', true);
-                
-                } else {
-                    this.setState({
-                        error:            false,
-                        passwordInsecure: '',
-                    })
-                }
-
+            } else if (localStorage.getItem('action') == 'edit') {
                 for (let i = 0; i < this.state.users.length; i++) {
-
                     if (this.state.users[i].password == passwordInput.value &&
                         passwordInput.value !== oldPassword) {
+                        alert(i);
+
                         this.setState({
                             error:         true,
                             passwordTaken: 'Lösenordet är upptaget.',
@@ -716,7 +650,6 @@ class Users extends React.Component {
                 }
             }
         }
-        */
     }
 
     handleLinkClick(e) {
@@ -775,7 +708,7 @@ class Users extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         // this.checkPasswordLength(e);
-        // this.validateForm(e);
+        this.validateForm(e);
 
         if (!localStorage.getItem('error')) {
             let date        = new Date().toLocaleDateString('sv-SE', {timeZone: 'CET'});
