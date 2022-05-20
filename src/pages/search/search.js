@@ -13,7 +13,8 @@ class Search extends React.Component {
         this.setState             = this.setState.bind(this);
         this.search               = this.search.bind(this);
         this.handleSearchChange   = this.handleSearchChange.bind(this);
-        this.toggleBtns           = this.toggleBtns.bind(this);
+        this.toggleBtnsSwedish    = this.toggleBtnsSwedish.bind(this);
+        this.toggleBtnsGerman     = this.toggleBtnsGerman.bind(this);
         this.handleBtnClick       = this.handleBtnClick.bind(this);
         this.toggleResultsSwedish = this.toggleResultsSwedish.bind(this);
         this.toggleResultsGerman  = this.toggleResultsGerman.bind(this);
@@ -86,7 +87,7 @@ class Search extends React.Component {
                         {localStorage.getItem('resultsGerman') ? this.renderResultsGerman() : 
                         <p className="text error regular-font-size" role="alert" style={localStorage.getItem('errorGerman') ?
                             {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorGerman')}</p>}
-                        {this.toggleBtns()}
+                        {this.toggleBtnsGerman()}
                     </section>
                 </section>
                 :
@@ -106,7 +107,7 @@ class Search extends React.Component {
                         {localStorage.getItem('resultsSwedish') ? this.renderResultsSwedish() : 
                         <p className="text error regular-font-size" role="alert" style={localStorage.getItem('errorSwedish') ?
                             {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorSwedish')}</p>}
-                        {this.toggleBtns()}
+                        {this.toggleBtnsSwedish()}
                     </section>
                 </section>
                 }
@@ -292,13 +293,13 @@ class Search extends React.Component {
         localStorage.setItem('query', e.target.value);
     }
 
-    toggleBtns() {
+    toggleBtnsGerman() {
         let buttons = [];
 
-        if (this.state.numberOfPagesSwedish > 1) {
-            for (let i = 1; i <= this.state.numberOfPagesSwedish; i++) {
+        if (this.state.numberOfPagesGerman > 1) {
+            for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
                 if (i == 1) {
-                    if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
+                    if (localStorage.getItem('activeSearchPageGerman') == 1 || !localStorage.getItem('activeSearchPageGerman')) {
                         buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
                         onClick={this.handleBtnClick}>{i}</button>);
@@ -309,12 +310,46 @@ class Search extends React.Component {
                         onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
-                    if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
+                    if (localStorage.getItem('activeSearchPageGerman') == 1 || !localStorage.getItem('activeSearchPageGerman')) {
                         buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
                         onClick={this.handleBtnClick}>{i}</button>);
                     
-                    } else if (i == localStorage.getItem('activePage')) {
+                    } else if (i == localStorage.getItem('activeSearchPageGerman')) {
+                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
+                        onClick={this.handleBtnClick}>{i}</button>);
+                    }
+                }
+            }
+        }
+
+        return buttons;
+    }
+
+    toggleBtnsSwedish() {
+        let buttons = [];
+
+        if (this.state.numberOfPagesSwedish > 1) {
+            for (let i = 1; i <= this.state.numberOfPagesSwedish; i++) {
+                if (i == 1) {
+                    if (localStorage.getItem('activeSearchPageSwedish') == 1 || !localStorage.getItem('activeSearchPageSwedish')) {
+                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
+                        onClick={this.handleBtnClick}>{i}</button>);
+                    
+                    } else {
+                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
+                        onClick={this.handleBtnClick}>{i}</button>);
+                    }
+                } else {
+                    if (localStorage.getItem('activeSearchPageSwedish') == 1 || !localStorage.getItem('activeSearchPageSwedish')) {
+                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
+                        onClick={this.handleBtnClick}>{i}</button>);
+                    
+                    } else if (i !== localStorage.getItem('activeSearchPageSwedish')) {
                         buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
                         onClick={this.handleBtnClick}>{i}</button>);
@@ -322,7 +357,7 @@ class Search extends React.Component {
                 }
             }
         
-        } else if (this.state.numberOfPagesGerman > 1) {
+        } /* else if (this.state.numberOfPagesGerman > 1) {
             for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
@@ -348,7 +383,7 @@ class Search extends React.Component {
                     }
                 }
             }
-        }
+        } */
 
         return buttons;
     }
@@ -379,18 +414,18 @@ class Search extends React.Component {
     toggleResultsGerman(id) {
         if (id == 1) {
             localStorage.setItem('index', 0);
-            localStorage.setItem('activePage', 1);
+            localStorage.setItem('activeSearchPageGerman', 1);
 
             this.setState({
                 index:      0,
                 activePage: 1,
             })
         } else {
-            localStorage.setItem('index', (this.state.numberOfPagesGerman - 1) * 5);
-            localStorage.setItem('activePage', id);
+            localStorage.setItem('index', (id - 1) * 5);
+            localStorage.setItem('activeSearchPageGerman', id);
 
             this.setState({
-                index:      (this.state.numberOfPagesGerman - 1) * 5,
+                index:      (id - 1) * 5,
                 activePage: id,
             })
         }
@@ -399,7 +434,7 @@ class Search extends React.Component {
     toggleResultsSwedish(id) {
         if (id == 1) {
             localStorage.setItem('index', 0);
-            localStorage.setItem('activePage', 1);
+            localStorage.setItem('activeSearchPageSwedish', 1);
 
             this.setState({
                 index:      0,
@@ -407,11 +442,11 @@ class Search extends React.Component {
             })
         
         } else {
-            localStorage.setItem('index', (this.state.numberOfPagesGerman - 1) * 5);
-            localStorage.setItem('activePage', id);
+            localStorage.setItem('index', (id - 1) * 5);
+            localStorage.setItem('activeSearchPageSwedish', id);
 
             this.setState({
-                index:      (this.state.numberOfPagesSwedish - 1) * 5,
+                index:      (id - 1) * 5,
                 activePage: id,
             })
         }
@@ -438,11 +473,12 @@ class Search extends React.Component {
             page.forEach((element) => {
                 render.push(
                     <article>
-                        <h2 className="text h2-font-size">{element.title}</h2>
+                        <h2 className="text h2-font-size h2-search">{element.title}</h2>
                         <p className="text regular-font-size">
                             {element.content.slice(0, 150) + ' ...'}</p>
-                        <p><Link className="text focus find-out-more regular-font-size"
-                            to={`${element.path}`}>Mehr</Link></p>
+                        <p><Link id={element.foreignKey ? element.foreignKey : null} 
+                            className="text focus find-out-more regular-font-size"
+                            to={`${element.path}`} onClick={this.handleLinkClick}>Mehr</Link></p>
                     </article>
                 )
             })
@@ -472,11 +508,12 @@ class Search extends React.Component {
             page.forEach((element) => {
                 render.push(
                     <article>
-                        <h2 className="text h2-font-size">{element.title}</h2>
+                        <h2 className="text h2-font-size h2-search">{element.title}</h2>
                         <p className="text regular-font-size">
                             {element.content.slice(0, 150) + ' ...'}</p>
-                        <p><Link className="text focus find-out-more regular-font-size"
-                            to={`${element.path}`}>Läs mer</Link></p>
+                        <p><Link id={element.foreignKey ? element.foreignKey : null} 
+                            className="text focus find-out-more regular-font-size"
+                            to={`${element.path}`} onClick={this.handleLinkClick}>Läs mer</Link></p>
                     </article>
                 )
             })
@@ -486,10 +523,18 @@ class Search extends React.Component {
     }
 
     handleLinkClick(e) {
-        // e.preventDefault();
-        localStorage.setItem('postId', e.target.id.slice(4));
-        const id = e.target.id.slice(4);
-        // this.props.getPost(id);
+        if (e.target.id.indexOf('test') >= 0) {
+            localStorage.setItem('serviceId', e.target.id.slice(4));
+
+        } else if (e.target.id.indexOf('solution') >= 0) {
+            localStorage.setItem('serviceId', e.target.id.slice(8));
+
+        } else if (e.target.id.indexOf('course') >= 0) {
+            localStorage.setItem('serviceId', e.target.id.slice(6));
+        
+        } else if (e.target.id.indexOf('post') >= 0) {
+            localStorage.setItem('postId', e.target.id.slice(4)); 
+        }
 
         if (e.target.innerHTML == 'Logga ut') {
             this.handleLogout(e);

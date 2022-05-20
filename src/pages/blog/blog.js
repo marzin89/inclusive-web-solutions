@@ -12,7 +12,8 @@ class Blog extends React.Component {
         // Binder this till funktionerna
         this.setState           = this.setState.bind(this);
         this.getAllPosts        = this.getAllPosts.bind(this);
-        this.toggleBtns         = this.toggleBtns.bind(this);
+        this.toggleBtnsSwedish  = this.toggleBtnsSwedish.bind(this);
+        this.toggleBtnsGerman   = this.toggleBtnsGerman.bind(this);
         this.togglePostsSwedish = this.togglePostsSwedish.bind(this);
         this.togglePostsGerman  = this.togglePostsGerman.bind(this); 
         this.renderPostsSwedish = this.renderPostsSwedish.bind(this);
@@ -74,7 +75,7 @@ class Blog extends React.Component {
                     <h1 id="h1-blog" className="text h1-font-size">Blog</h1>
                     <section>
                         {this.renderPostsGerman()}
-                        {this.toggleBtns()}
+                        {this.toggleBtnsGerman()}
                         <p className="text error regular-font-size" role="alert" style={localStorage.getItem('errorGerman') ?
                             {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorGerman')}</p>
                     </section>
@@ -84,7 +85,7 @@ class Blog extends React.Component {
                     <h1 id="h1-blog" className="text h1-font-size">Blogg</h1>
                     <section>
                         {this.renderPostsSwedish()}
-                        {this.toggleBtns()}
+                        {this.toggleBtnsSwedish()}
                         <p className="text error regular-font-size" role="alert" style={localStorage.getItem('errorSwedish') ?
                             {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorSwedish')}</p>
                     </section>
@@ -125,7 +126,6 @@ class Blog extends React.Component {
                     const focus = document.getElementsByClassName('focus');
     
                     for (let i = 0; i < document.getElementsByClassName('focus').length; i++) {
-                        console.log('foo');
                         focus[i].className = focus[i].className.replace('focus', 'focus-invisible');
                     }
                 break;
@@ -248,13 +248,13 @@ class Blog extends React.Component {
         })
     }
 
-    toggleBtns() {
+    toggleBtnsGerman() {
         let buttons = [];
 
-        if (this.state.numberOfPagesSwedish > 1) {
-            for (let i = 1; i <= this.state.numberOfPagesSwedish; i++) {
+        if (this.state.numberOfPagesGerman > 1) {
+            for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
                 if (i == 1) {
-                    if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
+                    if (localStorage.getItem('activeBlogPageGerman') == 1 || !localStorage.getItem('activeBlogPageGerman')) {
                         buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
                         onClick={this.handleBtnClick}>{i}</button>);
@@ -265,12 +265,46 @@ class Blog extends React.Component {
                         onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
-                    if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
+                    if (localStorage.getItem('activeBlogPageGerman') == 1 || !localStorage.getItem('activeBlogPageGerman')) {
                         buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
                         onClick={this.handleBtnClick}>{i}</button>);
                     
-                    } else if (i == localStorage.getItem('activePage')) {
+                    } else if (i == localStorage.getItem('activeBlogPageGerman')) {
+                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
+                        onClick={this.handleBtnClick}>{i}</button>);
+                    }
+                }
+            }
+        }
+
+        return buttons;
+    }
+
+    toggleBtnsSwedish() {
+        let buttons = [];
+
+        if (this.state.numberOfPagesSwedish > 1) {
+            for (let i = 1; i <= this.state.numberOfPagesSwedish; i++) {
+                if (i == 1) {
+                    if (localStorage.getItem('activeBlogPageSwedish') == 1 || !localStorage.getItem('activeBlogPageSwedish')) {
+                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
+                        onClick={this.handleBtnClick}>{i}</button>);
+                    
+                    } else {
+                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
+                        onClick={this.handleBtnClick}>{i}</button>);
+                    }
+                } else {
+                    if (i !== localStorage.getItem('activeBlogPageSwedish')) {
+                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
+                        onClick={this.handleBtnClick}>{i}</button>);
+                    
+                    } else if (i == localStorage.getItem('activeBlogPageSwedish')) {
                         buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
                         onClick={this.handleBtnClick}>{i}</button>);
@@ -278,7 +312,7 @@ class Blog extends React.Component {
                 }
             }
         
-        } else if (this.state.numberOfPagesGerman > 1) {
+        } /* else if (this.state.numberOfPagesGerman > 1) {
             for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
@@ -304,7 +338,7 @@ class Blog extends React.Component {
                     }
                 }
             }
-        }
+        } */
 
         return buttons;
     }
@@ -335,18 +369,18 @@ class Blog extends React.Component {
     togglePostsGerman(id) {
         if (id == 1) {
             localStorage.setItem('index', 0);
-            localStorage.setItem('activePage', 1);
+            localStorage.setItem('activeBlogPageGerman', 1);
 
             this.setState({
                 index:      0,
                 activePage: 1,
             })
         } else {
-            localStorage.setItem('index', (this.state.numberOfPagesGerman - 1) * 5);
-            localStorage.setItem('activePage', id);
+            localStorage.setItem('index', (id - 1) * 5);
+            localStorage.setItem('activeBlogPageGerman', id);
 
             this.setState({
-                index:      (this.state.numberOfPagesGerman - 1) * 5,
+                index:      (id - 1) * 5,
                 activePage: id,
             })
         }
@@ -355,7 +389,7 @@ class Blog extends React.Component {
     togglePostsSwedish(id) {
         if (id == 1) {
             localStorage.setItem('index', 0);
-            localStorage.setItem('activePage', 1);
+            localStorage.setItem('activeBlogPageSwedish', 1);
 
             this.setState({
                 index:      0,
@@ -363,11 +397,11 @@ class Blog extends React.Component {
             })
         
         } else {
-            localStorage.setItem('index', (this.state.numberOfPagesGerman - 1) * 5);
-            localStorage.setItem('activePage', id);
+            localStorage.setItem('index', (id - 1) * 5);
+            localStorage.setItem('activeBlogPageSwedish', id);
 
             this.setState({
-                index:      (this.state.numberOfPagesSwedish - 1) * 5,
+                index:      (id - 1) * 5,
                 activePage: id,
             })
         }
