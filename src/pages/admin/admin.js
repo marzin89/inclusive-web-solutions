@@ -471,7 +471,7 @@ class Admin extends React.Component {
 
             /* GET-anrop till webbtjänsten om användaren har tryckt på Användare och 
                 har full behörighet */
-            fetch('https://iws-rest-api.herokuapp.com/users')
+            fetch('https://iws-rest-api.herokuapp.com/users/password/tbbA=!vYzT99*,;oGSi8')
 
             // Konverterar svaret från JSON
             .then(response => response.json())
@@ -555,7 +555,7 @@ class Admin extends React.Component {
             body.id = this.state.search[this.state.search.length - 1].id + 1;
         }
 
-        fetch('https://iws-rest-api.herokuapp.com/search', {
+        fetch('https://iws-rest-api.herokuapp.com/search/password/tbbA=!vYzT99*,;oGSi8', {
             method:  'POST',
             headers: {'Content-Type': 'application/json',},
             body:    JSON.stringify(body),
@@ -579,7 +579,7 @@ class Admin extends React.Component {
             }
 
 
-            fetch('https://iws-rest-api.herokuapp.com/tests', {
+            fetch('https://iws-rest-api.herokuapp.com/tests/password/tbbA=!vYzT99*,;oGSi8', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json',},
                 body:    JSON.stringify(body),
@@ -621,7 +621,7 @@ class Admin extends React.Component {
                 body.id = 1;
             }
 
-            fetch('https://iws-rest-api.herokuapp.com/solutions', {
+            fetch('https://iws-rest-api.herokuapp.com/solutions/password/tbbA=!vYzT99*,;oGSi8', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json',},
                 body:    JSON.stringify(body),
@@ -663,7 +663,7 @@ class Admin extends React.Component {
                 body.id = 1;
             }
 
-            fetch('https://iws-rest-api.herokuapp.com/courses', {
+            fetch('https://iws-rest-api.herokuapp.com/courses/password/tbbA=!vYzT99*,;oGSi8', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json',},
                 body:    JSON.stringify(body),
@@ -705,7 +705,7 @@ class Admin extends React.Component {
                 body.id = 1;
             }
 
-            fetch('https://iws-rest-api.herokuapp.com/posts', {
+            fetch('https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json',},
                 body:    JSON.stringify(body),
@@ -745,7 +745,7 @@ class Admin extends React.Component {
             body.id = 1;
         }
 
-        fetch('https://iws-rest-api.herokuapp.com/users', {
+        fetch('https://iws-rest-api.herokuapp.com/users/password/tbbA=!vYzT99*,;oGSi8', {
             method:  'POST',
             headers: {'Content-Type': 'application/json',},
             body:    JSON.stringify(body),
@@ -773,7 +773,7 @@ class Admin extends React.Component {
 
     updateTest(id, body) {
         if (!localStorage.getItem('error')) {
-            fetch(`https://iws-rest-api.herokuapp.com/tests/id/${id}`, {
+            fetch(`https://iws-rest-api.herokuapp.com/tests/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json',},
                 body:    JSON.stringify(body),
@@ -806,7 +806,7 @@ class Admin extends React.Component {
 
     updateSolution(id, body) {
         if (!localStorage.getItem('error')) {
-            fetch(`https://iws-rest-api.herokuapp.com/solutions/id/${id}`, {
+            fetch(`https://iws-rest-api.herokuapp.com/solutions/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json',},
                 body:    JSON.stringify(body),
@@ -841,7 +841,7 @@ class Admin extends React.Component {
 
     updateCourse(id, body) {
         if (!localStorage.getItem('error')) {
-            fetch(`https://iws-rest-api.herokuapp.com/courses/id/${id}`, {
+            fetch(`https://iws-rest-api.herokuapp.com/courses/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json',},
                 body:    JSON.stringify(body),
@@ -880,7 +880,7 @@ class Admin extends React.Component {
 
     updatePost(id, body) {
         if (!localStorage.getItem('error')) {
-            fetch(`https://iws-rest-api.herokuapp.com/posts/id/${id}`, {
+            fetch(`https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json',},
                 body:    JSON.stringify(body),
@@ -918,7 +918,7 @@ class Admin extends React.Component {
     }
 
     updateUser(id, body) {
-        fetch(`https://iws-rest-api.herokuapp.com/users/id/${id}`, {
+        fetch(`https://iws-rest-api.herokuapp.com/users/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',},
             body:    JSON.stringify(body),
@@ -950,7 +950,7 @@ class Admin extends React.Component {
     }
 
     updateSearch(body) {
-        fetch(`https://iws-rest-api.herokuapp.com/search/id/${localStorage.getItem('searchId')}`, {
+        fetch(`https://iws-rest-api.herokuapp.com/search/password/tbbA=!vYzT99*,;oGSi8/id/${localStorage.getItem('searchId')}`, {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
             body:    JSON.stringify(body),
@@ -965,7 +965,7 @@ class Admin extends React.Component {
     }
 
     deleteTest(id) {
-        fetch(`https://iws-rest-api.herokuapp.com/tests/id/${id}`, {
+        fetch(`https://iws-rest-api.herokuapp.com/tests/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
         })
@@ -994,7 +994,7 @@ class Admin extends React.Component {
     }
 
     deleteSolution(id) {
-        fetch(`https://iws-rest-api.herokuapp.com/solutions/id/${id}`, {
+        fetch(`https://iws-rest-api.herokuapp.com/solutions/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
         })
@@ -1024,7 +1024,7 @@ class Admin extends React.Component {
     }
 
     deleteCourse(id) {
-        fetch(`https://iws-rest-api.herokuapp.com/courses/id/${id}`, {
+        fetch(`https://iws-rest-api.herokuapp.com/courses/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
         })
@@ -1055,7 +1055,7 @@ class Admin extends React.Component {
     }
 
     deletePost(id, published) {
-        fetch(`https://iws-rest-api.herokuapp.com/posts/id/${id}`, {
+        fetch(`https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
         })
@@ -1088,7 +1088,7 @@ class Admin extends React.Component {
     }
 
     deleteUser(id) {
-        fetch(`https://iws-rest-api.herokuapp.com/users/id/${id}`, {
+        fetch(`https://iws-rest-api.herokuapp.com/users/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
         })
@@ -1117,7 +1117,7 @@ class Admin extends React.Component {
     }
 
     deleteComment(id) {
-        fetch(`https://iws-rest-api.herokuapp.com/comments/id/${id}`, {
+        fetch(`https://iws-rest-api.herokuapp.com/comments/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
         })
@@ -1145,7 +1145,7 @@ class Admin extends React.Component {
     }
 
     deleteSearch() {
-        fetch(`https://iws-rest-api.herokuapp.com/search/id/${localStorage.getItem('searchId')}`, {
+        fetch(`https://iws-rest-api.herokuapp.com/search/password/tbbA=!vYzT99*,;oGSi8/id/${localStorage.getItem('searchId')}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
         })
@@ -1159,7 +1159,7 @@ class Admin extends React.Component {
     }
 
     publishPost(id, body) {
-        fetch(`https://iws-rest-api.herokuapp.com/posts/id/${id}/publish`, {
+        fetch(`https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8/id/${id}/publish`, {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
         })
@@ -1190,7 +1190,7 @@ class Admin extends React.Component {
     }
 
     publishComment(id) {
-        fetch(`https://iws-rest-api.herokuapp.com/comments/id/${id}/publish`, {
+        fetch(`https://iws-rest-api.herokuapp.com/comments/password/tbbA=!vYzT99*,;oGSi8/id/${id}/publish`, {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
         })

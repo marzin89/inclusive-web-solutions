@@ -171,7 +171,8 @@ class Users extends React.Component {
                             </div>
                         </div>
                         <button type="reset" className="reset-btn">Rensa</button>
-                        <button className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
+                        <button type="submit" className="submit-btn" onClick={this.handleSubmit}>
+                            Skicka</button>
                     </form>
                     {/* Här skrivs eventuella felmeddelanden ut (inga poster, serverfel) */}
                     <p className="error" role="alert" style={localStorage.getItem('errorUsers') ? 

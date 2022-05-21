@@ -152,8 +152,10 @@ class Contact extends React.Component {
                             style={this.state.consentEmpty ? {display: 'block'} : {display: 'none'}}>
                                 {this.state.consentEmpty}</p>
                         <div className="row">
-                            <button className="reset-btn text focus">Alle Felder löschen</button>
-                            <button className="submit-btn text focus" onClick={this.handleSubmit}>Senden</button>
+                            <button type="reset" className="reset-btn text focus">
+                                Alle Felder löschen</button>
+                            <button type="submit" className="submit-btn text focus" onClick={this.handleSubmit}>
+                                Senden</button>
                             <p className="text regular-font-size error" role="alert" 
                                 style={localStorage.getItem('errorMessage') != '' ? {display: 'block'} : 
                                 {display: 'none'}}>{localStorage.getItem('errorMessage')}</p>
@@ -236,8 +238,10 @@ class Contact extends React.Component {
                             style={this.state.consentEmpty ? {display: 'block'} : {display: 'none'}}>
                                 {this.state.consentEmpty}</p>
                         <div className="row">
-                            <button className="reset-btn text focus">Rensa</button>
-                            <button className="submit-btn text focus" onClick={this.handleSubmit}>Skicka</button>
+                            <button type="reset" className="reset-btn text focus">
+                                Rensa</button>
+                            <button type="submit" className="submit-btn text focus" onClick={this.handleSubmit}>
+                                Skicka</button>
                             <p className="text regular-font-size error" role="alert" 
                                 style={localStorage.getItem('errorMessage') != '' ? {display: 'block'} : 
                                 {display: 'none'}}>{localStorage.getItem('errorMessage')}</p>
@@ -655,8 +659,6 @@ class Contact extends React.Component {
                     );
                 }
             })
-
-            window.location.reload();
         }
     }
 

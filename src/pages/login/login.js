@@ -76,8 +76,9 @@ class Login extends React.Component {
                         </div>
                     </div>
                     <div className="row">
-                        <button className="reset-btn focus">Rensa</button>
-                        <button className="submit-btn focus" onClick={this.handleSubmit}>Logga in</button>
+                        <button type="reset" className="reset-btn focus">Rensa</button>
+                        <button type="submit" className="submit-btn focus" onClick={this.handleSubmit}>
+                            Logga in</button>
                         <p style={this.props.serverError != '' ? {display: 'block'} : {display: 'none'}} 
                             className="error" role="alert">{this.props.serverError}</p>
                     </div>

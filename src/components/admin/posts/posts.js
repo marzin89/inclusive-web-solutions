@@ -98,7 +98,8 @@ class Posts extends React.Component {
                         <p className="error" role="alert" style={this.state.altTextEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
                         <button type="reset" className="reset-btn">Rensa</button>
-                        <button className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
+                        <button type="submit" className="submit-btn" onClick={this.handleSubmit}>
+                            Skicka</button>
                     </form>
                     {/* Här skrivs eventuella felmeddelanden ut (inga poster, serverfel) */}
                     <p className="error" role="alert" style={localStorage.getItem('errorPosts') ?

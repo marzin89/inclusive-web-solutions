@@ -113,7 +113,7 @@ class Services extends React.Component {
                         <p className="error" role="alert" style={this.state.altTextEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
                         <button type="reset" className="reset-btn">Rensa</button>
-                        <button className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
+                        <button type="submit" className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
                     </form>
                     {/* Här skrivs övriga felmeddelanden ut (inga poster, serverfel) */}
                     <p className="error" role="alert" style={localStorage.getItem('error') && this.props.service == 'tests' ? 
