@@ -236,7 +236,7 @@ class App extends React.Component {
 }
 
 getComments() {
-  fetch('https://iws-rest-api.herokuapp.com/comments')
+  fetch('https://iws-rest-api.herokuapp.com/comments/admin')
   .then(response => response.json())
   .then(data => {
       if (!data.length) {

@@ -53,7 +53,7 @@ class Posts extends React.Component {
     render() {
         return (
             <div className="admin-form">
-                <section>
+                <section id="admin-form">
                     <h2 className="h2-admin">Inlägg</h2>
                     <form>
                         <p>Fält märkta med * är obligatoriska.</p>
@@ -124,15 +124,15 @@ class Posts extends React.Component {
                                     <p>{post.content}</p>
                                     {post.published ? 
                                     <div>
-                                        <p className="edit"><Link id={`edit${post.id}`} className="focus" to={"/admin"}
-                                            onClick={this.handleLinkClick}>Redigera</Link></p>
+                                        <p className="edit"><a id={`edit${post.id}`} className="focus" href="#admin-form"
+                                            onClick={this.handleLinkClick}>Redigera</a></p>
                                         <p className="delete"><Link id={`delete${post.id}`} className="focus" to={"/admin"}
                                             onClick={this.handleLinkClick}>Radera</Link></p> 
                                     </div>
                                     :
                                     <div>
-                                        <p className="edit-not-published"><Link id={`edit${post.id}`} className="focus" 
-                                            to={"/admin"} onClick={this.handleLinkClick}>Redigera</Link></p>
+                                        <p className="edit-not-published"><a id={`edit${post.id}`} className="focus" 
+                                            href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
                                         <p className="publish-posts"><Link id={`publish${post.id}`} className="focus" 
                                             to={"/admin"}onClick={this.handleLinkClick}>Publicera</Link></p> 
                                         <p className="delete-not-published"><Link id={`delete${post.id}`} className="focus" 

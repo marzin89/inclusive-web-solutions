@@ -65,7 +65,7 @@ class Users extends React.Component {
     render() {
         return (
             <div className="admin-form">
-                <section>
+                <section id="admin-form">
                     <h2 className="h2-admin">Användare</h2>
                     <form>
                         <p>Fält märkta med * är obligatoriska.</p>
@@ -216,8 +216,8 @@ class Users extends React.Component {
                                         <td>{user.blocked ? 'Ja' : 'Nej'}</td>
                                     </tr>
                                     <tr>
-                                        <td className="edit-users"><Link id={`edit${user.id}`} className="focus" 
-                                            to={"/admin"} onClick={this.handleLinkClick}>Redigera</Link></td>
+                                        <td className="edit-users"><a id={`edit${user.id}`} className="focus" 
+                                            href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></td>
                                         <td className="delete-users"><Link id={`delete${user.id}`} className="focus" 
                                             to={"/admin"} onClick={this.handleLinkClick}>Radera</Link></td>
                                     </tr>

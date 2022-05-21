@@ -53,7 +53,7 @@ class Services extends React.Component {
     render() {
         return (
             <div className="admin-form">
-                <section>
+                <section id="admin-form">
                     {/* Rubriken anpassas baserat på vilken tjänst som är vald */}
                     {this.props.service == 'tests' ? <h2 className="h2-admin">Tester</h2> : ''}
                     {this.props.service == 'solutions' ? <h2 className="h2-admin">Utveckling</h2> : ''}
@@ -149,8 +149,8 @@ class Services extends React.Component {
                                 <p className="price">Preis: {element.price}</p>}
                                 <p>{element.description}</p>
                                 <div>
-                                    <p className="edit"><Link id={`edit${element.id}`} className="focus" to={"/admin"} 
-                                        onClick={this.handleLinkClick}>Redigera</Link></p>
+                                    <p className="edit"><a id={`edit${element.id}`} className="focus" href="#admin-form" 
+                                        onClick={this.handleLinkClick}>Redigera</a></p>
                                     <p className="delete"><Link id={`delete${element.id}`} className="focus" to={"/admin"} 
                                         onClick={this.handleLinkClick}>Radera</Link></p>
                                 </div>

@@ -34,7 +34,7 @@ class Post extends React.Component {
 
         this.state = {
             signedIn:       this.props.signedIn,
-            comment:        '',
+            content:        '',
             email:          '',
             signature:      '',
             consent:        false,
@@ -150,7 +150,8 @@ class Post extends React.Component {
                                         {this.state.consentEmpty}</p>
                                 <div className="row">
                                     <button type="reset" className="reset-btn text focus">Alle Felder löschen</button>
-                                    <button type="submit" className="submit-btn text focus" onClick={this.handleSubmit}>Senden</button>
+                                    <button type="submit" className="submit-btn text focus" onClick={this.handleSubmit}>
+                                        Senden</button>
                                     <p className="text error regular-font-size error" role="alert" 
                                         style={localStorage.getItem('errorGerman') != '' ? {display: 'block'} : 
                                         {display: 'none'}}>{localStorage.getItem('errorGerman')}</p>
@@ -220,7 +221,8 @@ class Post extends React.Component {
                                         {this.state.consentEmpty}</p>
                                 <div className="row">
                                     <button type="reset" className="reset-btn text focus">Rensa</button>
-                                    <button type="submit" className="submit-btn text focus" onClick={this.handleSubmit}>Skicka</button>
+                                    <button type="submit" className="submit-btn text focus" onClick={this.handleSubmit}>
+                                        Skicka</button>
                                     <p className="text regular-font-size error" role="alert" 
                                         style={localStorage.getItem('errorMessage') != '' ? {display: 'block'} : 
                                         {display: 'none'}}>{localStorage.getItem('errorMessage')}</p>
@@ -539,7 +541,7 @@ class Post extends React.Component {
         this.setState({
             error:        false,
             commentEmpty: '',
-            comment:      e.target.value,
+            content:      e.target.value,
         })
 
         localStorage.removeItem('error');
@@ -892,7 +894,7 @@ class Post extends React.Component {
             body:    JSON.stringify(body),
         })
         .then(response => response.json())
-        .then((data) => {
+        .then(() => {
             localStorage.removeItem('errorSwedish');
             localStorage.removeItem('errorGerman');
             localStorage.setItem('confirmSwedish', 'Din kommentar har skickats.');
@@ -902,8 +904,12 @@ class Post extends React.Component {
                 error:          false,
                 confirm:        true,
             })
+
+            window.location.reload();
         })
-        .catch(() => {
+        .catch((err) => {
+            console.log(err);
+
             localStorage.removeItem('confirmSwedish');
             localStorage.removeItem('confirmGerman');
             localStorage.setItem('errorSwedish', 'Ett serverfel har uppstått. ' +
@@ -922,7 +928,6 @@ class Post extends React.Component {
         })
 
         localStorage.removeItem('response');
-        // window.location.reload();
     }
 
     // Funktionen hämtar alla publicerade inlägg
