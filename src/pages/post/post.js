@@ -225,8 +225,8 @@ class Post extends React.Component {
                                         style={localStorage.getItem('errorMessage') != '' ? {display: 'block'} : 
                                         {display: 'none'}}>{localStorage.getItem('errorMessage')}</p>
                                     <p className="text regular-font-size confirm" role="alert" 
-                                        style={localStorage.getItem('confirmMessage') != '' ? {display: 'block'} : 
-                                        {display: 'none'}}>{localStorage.getItem('confirmMessage')}</p>
+                                        style={localStorage.getItem('confirmSwedish') != '' ? {display: 'block'} : 
+                                        {display: 'none'}}>{localStorage.getItem('confirmSwedish')}</p>
                                 </div>
                             </form>
                         </section>         
