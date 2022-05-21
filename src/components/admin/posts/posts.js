@@ -383,13 +383,14 @@ class Posts extends React.Component {
         }     
     }
 
-    upload(image) {
+    upload(image, name) {
 
         const data = new FormData()
         data.append('file', image)
         data.append('upload_preset', 'iws_upload')
         data.append('cloud_name', 'inclusivewebsolutions')
         data.append('folder', 'posts')
+        data.append('public_id', name)
 
         fetch('https://api.cloudinary.com/v1_1/inclusivewebsolutions/image/upload', {
             method: 'POST',
@@ -642,7 +643,7 @@ class Posts extends React.Component {
                     imageUrl      = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/posts/${publicId}${extension}`;
                     body.imageUrl = imageUrl;
 
-                    this.upload(imageInput.files[0]);
+                    this.upload(imageInput.files[0], name);
                     this.props.post(body);
                 
                 } else {
