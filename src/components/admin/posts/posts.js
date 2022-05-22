@@ -505,6 +505,8 @@ class Posts extends React.Component {
                     contentInput.value     = post.content;
                     altTextInput.value     = post.altText;
 
+                    localStorage.setItem('imageUrl', post.imageUrl);
+
                     if (post.language == 'german') {
                         languageInput.value = 'Deutsch';
 
@@ -714,7 +716,12 @@ class Posts extends React.Component {
                     this.props.put(localStorage.getItem('id'), body);
                 
                 } else {
+                    if (localStorage.getItem('imageUrl')) {
+                        body.imageUrl = localStorage.getItem('imageUrl');
+                    }
+
                     this.props.put(localStorage.getItem('id'), body);
+                    localStorage.removeItem('imageUrl');
                 }
             }
         }

@@ -349,7 +349,9 @@ class Services extends React.Component {
                     nameInput.value        = service.name;
                     priceInput.value       = service.price;
                     descriptionInput.value = service.description;
-                    altTextInput.value     = service.altText;             
+                    altTextInput.value     = service.altText;  
+                    
+                    localStorage.setItem('imageUrl', service.imageUrl);
 
                     if (service.language == 'german') {
                         languageInput.value = 'Deutsch';
@@ -503,7 +505,12 @@ class Services extends React.Component {
                     this.props.put(localStorage.getItem('id'), body);
                 
                 } else {
+                    if (localStorage.getItem('imageUrl')) {
+                        body.imageUrl = localStorage.getItem('imageUrl');
+                    }
+
                     this.props.put(localStorage.getItem('id'), body);
+                    localStorage.removeItem('imageUrl');
                 }
             }
         }
