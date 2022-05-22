@@ -84,7 +84,7 @@ class Services extends React.Component {
                         </div>
                     </section>
                     <section id="solutions">
-                        <h2 className="text h2-font-size">Development</h2>
+                        <h2 className="text h2-font-size">Entwicklung</h2>
                         <div className="row-services">
                         {this.state.solutions.length ? this.state.solutions.map((solution) => {
                             if (solution.language == 'german') {

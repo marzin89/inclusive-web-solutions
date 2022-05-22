@@ -43,9 +43,8 @@ class Home extends React.Component {
                                 Sie möchten mit Ihrer Website alle 
                                 potentiellen Kunden erreichen? Wir 
                                 helfen Ihnen dabei. Wir von Inclusive 
-                                Web Solutions kennen uns mit Web 
-                                Accessibility aus. Unsere Vision ist es, 
-                                ein barrierefreies Internet zu schaffen.</p>
+                                Web Solutions kennen uns mit Barrierefreiheit im Internet aus. 
+                                Unsere Vision ist es, ein barrierefreies Internet zu schaffen.</p>
                             <button id="about-btn" className="text focus regular-font-size"
                                 aria-label="Seite Über uns öffnen"
                                 onClick={() => window.open('/about', '_self')}>Über uns</button>
@@ -59,14 +58,14 @@ class Home extends React.Component {
                                 <article className="tests">
                                     <h3 className="text h3-font-size">Tests</h3>
                                     <p className="text regular-font-size">
-                                        Wir Testen die Zugänglichkeit Ihrer
+                                        Wir testen die Zugänglichkeit Ihrer
                                         Website und bieten 
                                         Lösungsvorschläge an.</p>
                                     <p><Link className="text focus find-out-more regular-font-size"
                                         to={"/services"} >Mehr</Link></p>
                                 </article>
                                 <article className="solutions">
-                                    <h3 className="text h3-font-size">Development</h3>
+                                    <h3 className="text h3-font-size">Entwicklung</h3>
                                     <p className="text regular-font-size">
                                         Wir testen Ihre Website und beheben
                                         eventuelle Mängel für Sie.</p>
@@ -77,7 +76,7 @@ class Home extends React.Component {
                             <article className="courses">
                                 <h3 className="text h3-font-size">Kurse</h3>
                                 <p className="text regular-font-size">
-                                    Web Accessibility lernen und erleben.
+                                    Barrierefreies Internet lernen und erleben.
                                     Surfen Sie mit verschiedenen 
                                     Hilfsmitteln.</p>
                                 <p><Link className="text focus find-out-more regular-font-size"

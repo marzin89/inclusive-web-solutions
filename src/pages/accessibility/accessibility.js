@@ -33,7 +33,7 @@ class Accessibility extends React.Component {
                             <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/"}>
                                 Home</Link>/</li>
                             <li><Link className="active-breadcrumb text focus regular-font-size" to={"/accessibility"}> 
-                                Web Accessibility</Link></li>
+                                Barrierefreiheit</Link></li>
                         </ul>
                     </nav>
                     :
@@ -52,14 +52,14 @@ class Accessibility extends React.Component {
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="accessibility">
-                    <h1 className="text h1-font-size">Web Accessibility</h1>
+                    <h1 className="text h1-font-size">Barrierefreiheit</h1>
                     <section>
                         <p className="text body-text regular-font-size">
-                            Web Accessibility bedeutet, dass 
+                            Barrierefreiheit im Internet bedeutet, dass 
                             Websites so konstruiert sind, dass sie
                             von allen benutzt werden können. Es
-                            gibt viele Gründe, die für Web 
-                            Accessibility sprechen. Laut der 
+                            gibt viele Gründe, die für Barrierefreiheit im Internet 
+                            sprechen. Laut der 
                             Barrierefreie-Informationstechnik-
                             Verordnung (BITV) müssen Websites
                             öffentlicher Stellen barrierefrei sein.</p>
@@ -255,10 +255,10 @@ class Accessibility extends React.Component {
 
     componentDidMount() {
         localStorage.setItem('pageSwedish', 'Om webbtillgänglighet');
-        localStorage.setItem('pageGerman', 'Web Accessibility');
+        localStorage.setItem('pageGerman', 'Barrierefreiheit');
 
         if (localStorage.getItem('language') == 'Deutsch') {
-            document.title = 'Web Accessibility';
+            document.title = 'Barrierefreiheit';
 
         } else {
             document.title = 'Om webbtillgänglighet';

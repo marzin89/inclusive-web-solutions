@@ -35,6 +35,7 @@ class App extends React.Component {
     this.getComments         = this.getComments.bind(this);
     this.getSolutions        = this.getSolutions.bind(this);
     this.getCourses          = this.getCourses.bind(this);
+    this.getTests            = this.getTests.bind(this);
     this.loginCallback       = this.loginCallback.bind(this);
     this.logoutCallback      = this.logoutCallback.bind(this);
     this.logoutCallbackAdmin = this.logoutCallbackAdmin.bind(this);

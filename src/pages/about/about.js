@@ -72,8 +72,8 @@ class About extends React.Component {
                                     Unsere Vision ist es, ein barrierefreies 
                                     Internet zu schaffen.</p>
                                 <p className="text regular-font-size">
-                                    Wir bieten Dienstleistungen im 
-                                    Bereich Web Accessibility an 
+                                    Wir bieten IT-Dienstleistungen im 
+                                    Bereich Barrierefreiheit an 
                                     Unternehmen an. Die Digitalisierung
                                     führt dazu, dass immer mehr 
                                     Menschen auf das Internet 
@@ -94,7 +94,7 @@ class About extends React.Component {
                                 <article id="rasmus">
                                     <img src={rasmus} alt="Rasmus Fogelberg"></img>  
                                     <h3 className="text h3-font-size">Rasmus Fogelberg</h3>
-                                    <h4 className="text regular-font-size">Projekmanagement und Entwicklung</h4>
+                                    <h4 className="text regular-font-size">Projektmanagement und Entwicklung</h4>
                                     <p><a className="text focus regular-font-size" href="mailto:rasmus.fogelberg@epost.se">
                                         rasmus.fogelberg@epost.se</a></p>
                                     <p className="text regular-font-size">073-123 45 67</p>

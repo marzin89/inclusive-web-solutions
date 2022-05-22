@@ -80,7 +80,7 @@ class Header extends React.Component {
                                     <li className="deutsch"><Link className="navlink text focus focus-header regular-font-size" to={"/blog"}
                                         onClick={this.handlePageTitle}>Blog</Link></li>
                                     <li className="deutsch"><Link className="navlink text focus focus-header regular-font-size" to={"/accessibility"} 
-                                        onClick={this.handlePageTitle}>Web Accessibility</Link></li>
+                                        onClick={this.handlePageTitle}>Barrierefreiheit</Link></li>
                                 </ul>
                                 :
                                 <ul>
@@ -118,7 +118,7 @@ class Header extends React.Component {
                                     <li className="deutsch"><Link className="navlink text focus focus-header regular-font-size" to={"/blog"} 
                                         onClick={this.handlePageTitle}>Blog</Link></li>
                                     <li className="deutsch"><Link className="navlink text focus focus-header regular-font-size" to={"/accessibility"} 
-                                        onClick={this.handlePageTitle}>Web Accessibility</Link></li>
+                                        onClick={this.handlePageTitle}>Barrierefreiheit</Link></li>
                                     <li id="close-menu" className="deutsch"><a id="close-menu-link" 
                                         className="navlink text focus focus-header regular-font-size" href="#" tabIndex="0">Schließen</a></li>
                                 </ul>
