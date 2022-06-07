@@ -453,7 +453,7 @@ form, .admin-output {
     }
 }
 
-label {
+label, #consent-heading {
     font-size: $font-size-h3-accessible;
     color: $heading-color;
     font-weight: bold;
@@ -517,6 +517,16 @@ textarea {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    display: none;
+    color: $heading-color;
+    font-size: $font-size-main-accessible;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.error-services {
+    width: 100%;
+    max-width: 600px;
     display: none;
     color: $heading-color;
     font-size: $font-size-main-accessible;
@@ -891,7 +901,6 @@ footer {
     width: 20px;
     height: 20px;
     margin-right: 5px;
-    margin-top: 15px;
 }
 
 #consent:focus {

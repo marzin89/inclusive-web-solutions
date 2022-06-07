@@ -21,11 +21,9 @@ class Blog extends React.Component {
         this.handleBtnClick     = this.handleBtnClick.bind(this);      
         this.handleLinkClick    = this.handleLinkClick.bind(this);
         this.handleLogout       = this.handleLogout.bind(this);
-        this.handlePageTitle = this.handlePageTitle.bind(this);
 
         this.state = {
             signedIn:             this.props.signedIn,
-            post:                 [],
             postsSwedish:         [],
             postsGerman:          [],
             numberOfPagesSwedish: 0,
@@ -34,11 +32,11 @@ class Blog extends React.Component {
             activePage:           1,
             page:                 [],
             error:                false,
+            errorSwedish:         '',
+            errorGerman:          '',
         }
 
         this.getAllPosts();
-        this.renderPostsSwedish();
-        this.renderPostsGerman();
     }
 
     // Rendrering
@@ -73,22 +71,18 @@ class Blog extends React.Component {
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="blog">
                     <h1 id="h1-blog" className="text h1-font-size">Blog</h1>
-                    <section>
-                        {this.renderPostsGerman()}
-                        {this.toggleBtnsGerman()}
-                        <p className="text error regular-font-size" role="alert" style={localStorage.getItem('errorGerman') ?
-                            {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorGerman')}</p>
-                    </section>
+                    {this.renderPostsGerman()}
+                    {this.toggleBtnsGerman()}
+                    <p className="text error regular-font-size" role="alert" style={this.state.errorGerman ?
+                        {display: 'block'} : {display: 'none'}}>{this.state.errorGerman}</p>
                 </section>
                 :
                 <section id="blog">
                     <h1 id="h1-blog" className="text h1-font-size">Blogg</h1>
-                    <section>
-                        {this.renderPostsSwedish()}
-                        {this.toggleBtnsSwedish()}
-                        <p className="text error regular-font-size" role="alert" style={localStorage.getItem('errorSwedish') ?
-                            {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorSwedish')}</p>
-                    </section>
+                    {this.renderPostsSwedish()}
+                    {this.toggleBtnsSwedish()}
+                    <p className="text error regular-font-size" role="alert" style={this.state.errorSwedish ?
+                        {display: 'block'} : {display: 'none'}}>{this.state.errorSwedish}</p>
                 </section>}
             </main>
         )
@@ -168,10 +162,9 @@ class Blog extends React.Component {
             if (!data.length) {
                 this.setState({
                     error:        true,
+                    errorSwedish: 'Inga inlägg hittades.',
+                    errorGerman:  'Es wurden keine Posts gefunden.',
                 })
-
-                localStorage.setItem('errorSwedish', 'Inga inlägg hittades.');
-                localStorage.setItem('errorGerman', 'Es wurden keine Posts gefunden.');
             
             // Lagrar inläggen i state-arrayen
             } else {
@@ -180,9 +173,6 @@ class Blog extends React.Component {
                 let page           = [];
                 let numberOfPagesSwedish;
                 let numberOfPagesGerman;
-
-                localStorage.removeItem('errorSwedish');
-                localStorage.removeItem('errorGerman');
 
                 data.forEach((post) => {
                     if (post.language == 'swedish') {
@@ -228,9 +218,8 @@ class Blog extends React.Component {
                 if (!postArrGerman.length) {
                     this.setState({
                         error:       true,
+                        errorGerman: 'Diese Seite ist leider nicht auf Deutsch verfügbar.',
                     })
-
-                    localStorage.setItem('errorGerman', 'Diese Seite ist leider nicht auf Deutsch verfügbar.');
                 }
             }
         })
@@ -239,12 +228,11 @@ class Blog extends React.Component {
         .catch(() => {
             this.setState({
                 error:        true,
+                errorSwedish: 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
+                                + ' Försök igen lite senare.',
+                errorGerman:  'Ein Serverfehler ist aufgetreten. Es konnten keine Posts abgerufen werden.'
+                                + ' Versuchen Sie es später erneut.'
             })
-
-            localStorage.setItem('errorSwedish', 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
-                + 'Försök igen lite senare.');
-            localStorage.setItem('errorGerman', 'Ein Serverfehler ist aufgetreten. Es konnten keine Posts abgerufen werden. '
-                + 'Versuchen Sie es später erneut.');
         })
     }
 
@@ -312,33 +300,7 @@ class Blog extends React.Component {
                 }
             }
         
-        } /* else if (this.state.numberOfPagesGerman > 1) {
-            for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
-                if (i == 1) {
-                    if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
-                        onClick={this.handleBtnClick}>{i}</button>);
-                    
-                    } else {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
-                        onClick={this.handleBtnClick}>{i}</button>);
-                    }
-                } else {
-                    if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
-                        onClick={this.handleBtnClick}>{i}</button>);
-                    
-                    } else if (i == localStorage.getItem('activePage')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
-                        onClick={this.handleBtnClick}>{i}</button>);
-                    }
-                }
-            }
-        } */
+        }
 
         return buttons;
     }
@@ -475,35 +437,6 @@ class Blog extends React.Component {
 
     handleLinkClick(e) {
         localStorage.setItem('postId', e.target.id.slice(4));
-        const id = e.target.id.slice(4);
-        document.getElementById('blog').style.display = 'none';
-
-        if (localStorage.getItem('language') == 'Deutsch') {
-            this.state.postsGerman.map((post) => {
-                if (post.id == id) {
-                    this.setState({
-                        post: post,
-                    })
-                }
-            })
-
-        } else {
-            this.state.postsSwedish.map((post) => {
-                if (post.id == id) {
-                    this.setState({
-                        post: post,
-                    })
-                }
-            })
-        }
-
-        if (e.target.innerHTML == 'Logga ut') {
-            this.handleLogout(e);
-
-        } else if (e.target.innerHTML !== 'Läs mer' &&
-            e.target.innerHTML !== 'Mehr') {
-            this.handlePageTitle(e);
-        }
     }
 
     // Utloggning
@@ -514,25 +447,6 @@ class Blog extends React.Component {
 
         this.props.logout();
     }
-
-    handlePageTitle(e) {
-        if (e.target.id == 'logo') {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
-                document.title = 'Home';
-            
-            } else {
-                localStorage.setItem('page', 'Start');
-                document.title = 'Start';
-            }
-
-        } else {
-            localStorage.setItem('page', e.target.innerHTML);
-            document.title = e.target.innerHTML;
-        }
-    }
-    
-
 }
 
 // Exporterar komponenten

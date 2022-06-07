@@ -13,11 +13,9 @@ class Course extends React.Component {
         // Binder this till funktionerna
         this.setState                         = this.setState.bind(this);
         this.getCourse                        = this.getCourse.bind(this);
-        this.getCourses                       = this.getCourses.bind(this);
         this.renderNavbar                     = this.renderNavbar.bind(this);
         this.renderCourse                     = this.renderCourse.bind(this);
         this.handleLogout                     = this.handleLogout.bind(this);
-        this.handlePageTitle                  = this.handlePageTitle.bind(this);
         this.handleLinkClick                  = this.handleLinkClick.bind(this);
 
         this.state = {
@@ -25,9 +23,6 @@ class Course extends React.Component {
             error:        false,
         }
 
-        console.log(this.props.courses);
-
-        // this.getCourses();
         this.getCourse();
     }
 
@@ -40,41 +35,39 @@ class Course extends React.Component {
                     {localStorage.getItem('language') == 'Deutsch' ?
                     <nav className="breadcrumbs" aria-label="Brotkrümelnavigation">
                         <ul>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/"}
-                                onClick={this.handleLinkClick}>Home</Link>/</li>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/services"}
-                                onClick={this.handleLinkClick}> Dienstleistungen</Link>/</li>
-                            <li><Link className="active-breadcrumb text focus regular-font-size" to={"/course"}
-                                onClick={this.handleLinkClick}> {localStorage.getItem('name')}</Link></li>
+                            <li><Link className="inactive-breadcrumb text focus regular-font-size" 
+                                to={"/"}>Home</Link>/</li>
+                            <li><Link className="inactive-breadcrumb text focus regular-font-size" 
+                                to={"/services"}> Dienstleistungen</Link>/</li>
+                            <li><Link className="active-breadcrumb text focus regular-font-size" 
+                                to={"/course"}> {localStorage.getItem('name')}</Link></li>
                         </ul>
                     </nav>
                     :
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/"}
-                                onClick={this.handleLinkClick}>Start</Link>/</li>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/services"}
-                                onClick={this.handleLinkClick}> Tjänster</Link>/</li>
-                            <li><Link className="active-breadcrumb text focus regular-font-size" to={"/course"}
-                                onClick={this.handleLinkClick}>{localStorage.getItem('name')}</Link></li>
+                            <li><Link className="inactive-breadcrumb text focus regular-font-size" 
+                                to={"/"}>Start</Link>/</li>
+                            <li><Link className="inactive-breadcrumb text focus regular-font-size" 
+                                to={"/services"}> Tjänster</Link>/</li>
+                            <li><Link className="active-breadcrumb text focus regular-font-size" 
+                                to={"/course"}>{localStorage.getItem('name')}</Link></li>
                         </ul>
                     </nav>
                     }
                     <p id="logout" style={this.props.signedIn ? {display: 'block'} :
                         {display: 'none'}}><Link className="text focus regular-font-size" to={"/login"} 
-                        onClick={this.handleLinkClick}>Logga ut</Link></p>
+                        onClick={this.handleLogout}>Logga ut</Link></p>
                 </div> 
-                <section id="subpage">
-                    <section id="subnav">
-                        {this.renderNavbar()}
-                    </section>
+                <div id="subpage">
+                    {this.renderNavbar()}
                     <div id="subpage-right">
                         <section id="subpage-content">
                             <h1 className="text h1-font-size">{localStorage.getItem('name')}</h1>
                             {this.renderCourse()}
                         </section>
                     </div>
-                </section>  
+                </div>  
             </main>
         )
     }
@@ -146,61 +139,6 @@ class Course extends React.Component {
                 localStorage.setItem('altText', course.altText);
             }
         })
-
-        /* GET-anrop till webbtjänsten 
-        fetch(`https://iws-rest-api.herokuapp.com/courses/id/${localStorage.getItem('serviceId')}`)
-
-        // Konverterar svaret från JSON
-        .then(response => response.json())
-
-        // Skriver ut ett felmeddelande om inga inlägg hittades
-        .then(data => {
-            this.setState({
-                course: data,
-            })
-
-            localStorage.setItem('name', data[0].name);
-            localStorage.setItem('price', data[0].price);
-            localStorage.setItem('description', JSON.stringify(data[0].description));
-            localStorage.setItem('imageUrl', data[0].imageUrl);
-            localStorage.setItem('altText', data[0].altText);
-
-            if (localStorage.getItem('language') == 'Deutsch') {
-                if (data.language == 'swedish') {
-                    localStorage.setItem('errorGerman', 'Diese Seite ist leider nicht auf Deutsch verfügbar.');
-                    localStorage.removeItem('errorSwedish');
-
-                    this.setState({
-                        error:        true,
-                        errorSwedish: '',
-                        errorGerman:  'Diese Seite ist leider nicht auf Deutsch verfügbar.',
-                    })
-                }
-            
-            } else {
-                localStorage.removeItem('errorSwedish');
-                localStorage.removeItem('errorGerman');
-
-                this.setState({
-                    error:        false,
-                    errorSwedish: '',
-                    errorGerman:  '',
-                })
-            }   
-        })
-
-        // Skriver ut ett felmeddelande om ett serverfel har uppstått
-        .catch(() => {
-            localStorage.setItem('errorSwedish', 'Ett serverfel har uppstått. Det gick inte att hämta tjänsten.' 
-                + 'Försök igen lite senare.');
-            localStorage.setItem('errorSwedish', 'Ein Serverfehler ist aufgetreten. ' +
-                'Die Seite konnte leider nicht abgerufen werden. Versuchen Sie es später erneut.'); 
-
-            this.setState({             
-                error:      true,
-            })
-        })
-        */
     }
 
     renderNavbar() {
@@ -249,7 +187,7 @@ class Course extends React.Component {
         }
 
         let navbar =
-            <nav aria-label={localStorage.getItem('language') == 'Deutsch' ?
+            <nav id="subnav" aria-label={localStorage.getItem('language') == 'Deutsch' ?
                 "Unternavigation mit Vorlesungen" : "Undermeny med befintliga utbildningar"}>
                 <ul>
                     <li id="subnav-first-item"><Link className="text focus regular-font-size" to={'/services'}>
@@ -289,79 +227,42 @@ class Course extends React.Component {
 
         if (content2.length && image) {
             render = 
-                <article>
+                <div role="article" aria-label={localStorage.getItem('language') == 'Deutsch' ? 
+                    'Preis, Beschreibung und Bild' : 'Pris, beskrivning och bild'}>
                     <p className="price text regular-font-size">{localStorage.getItem('price')}</p>
                     <p className="text body-text regular-font-size">{content1}</p>
                     {image}
                     {content2}
-                </article>
+                </div>
         
         } else if (content2.length && !image) {
             render = 
-                <article>
+                <div role="article" aria-label={localStorage.getItem('language') == 'Deutsch' ? 
+                    'Preis und Beschreibung' : 'Pris och beskrivning'}>
                     <p className="price text regular-font-size">{localStorage.getItem('price')}</p>
                     <p className="text body-text regular-font-size">{content1}</p>
                     {content2}
-                </article>
+                </div>
         
         } else if (!content2.length && image) {
             render = 
-                <article>
+                <div role="article" aria-label={localStorage.getItem('language') == 'Deutsch' ? 
+                    'Preis, Beschreibung und Bild' : 'Pris, beskrivning och bild'}>
                     <p className="price text regular-font-size">{localStorage.getItem('price')}</p>
                     <p className="text body-text regular-font-size">{content1}</p>
                     {image}
-                </article>
+                </div>
         
         } else if (!content2.length && !image) {
             render = 
-                <article>
+                <div role="article" aria-label={localStorage.getItem('language') == 'Deutsch' ? 
+                    'Preis und Beschreibung' : 'Pris och beskrivning'}>
                     <p className="price text regular-font-size">{localStorage.getItem('price')}</p>
                     <p className="text body-text regular-font-size">{content1}</p>
-                </article>
+                </div>
         }
 
         return render;
-    }
-
-    // Funktionen hämtar alla tester
-    getCourses() {
-
-        // GET-anrop till webbtjänsten om användaren har tryckt på Tester
-        fetch('https://iws-rest-api.herokuapp.com/courses')
-
-        // Konverterar svaret från JSON
-        .then(response => response.json())
-
-        // Skriver ut ett felmeddelande om inga tester hittades
-        .then(data => {
-            if (!data.length) {
-                localStorage.setItem('errorServices', 'Inga anpassningar hittades.');
-
-                this.setState({
-                    error:      true,
-                })
-            
-            // Lagrar testerna i state-arrayen
-            } else {
-                localStorage.removeItem('errorServices');
-                localStorage.setItem('courses', JSON.stringify(data));
-
-                this.setState({
-                    error:     false,
-                    courses: data,
-                })
-            }
-        })
-
-        // Skriver ut ett felmeddelande om ett serverfel har uppstått
-        .catch(() => { 
-            localStorage.setItem('errorServices', 'Ett serverfel har uppstått. Det gick inte att hämta anpassningar.' 
-            + 'Försök igen lite senare.');
-
-            this.setState({
-                error:      true,
-            })
-        })
     }
 
     handleLinkClick(e) {
@@ -370,13 +271,6 @@ class Course extends React.Component {
         if (e.target.className.indexOf('subnav-link') >= 0) {
             this.getCourse();
             window.location.reload();
-        }
-
-        if (e.target.innerHTML == 'Logga ut') {
-            this.handleLogout(e);
-
-        } else {
-            this.handlePageTitle(e);
         }
     }
 
@@ -387,23 +281,6 @@ class Course extends React.Component {
         e.preventDefault();
 
         this.props.logout();
-    }
-
-    handlePageTitle(e) {
-        if (e.target.id == 'logo') {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
-                document.title = 'Home';
-            
-            } else {
-                localStorage.setItem('page', 'Start');
-                document.title = 'Start';
-            }
-
-        } else {
-            localStorage.setItem('page', e.target.innerHTML);
-            document.title = e.target.innerHTML;
-        }
     }
 }
 

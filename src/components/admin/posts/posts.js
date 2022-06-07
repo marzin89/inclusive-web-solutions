@@ -40,6 +40,9 @@ class Posts extends React.Component {
             altText:          '',
             language:         '',
             error:            false,
+            errorPosts:       this.props.errorPosts,
+            confirm:          false,
+            confirmPosts:     this.props.confirmPosts,
             titleEmpty:       '',
             dateEmpty:        '',
             contentEmpty:     '',
@@ -102,12 +105,12 @@ class Posts extends React.Component {
                             Skicka</button>
                     </form>
                     {/* Här skrivs eventuella felmeddelanden ut (inga poster, serverfel) */}
-                    <p className="error" role="alert" style={localStorage.getItem('errorPosts') ?
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorPosts')}
+                    <p className="error" role="alert" style={this.props.errorPosts ?
+                        {display: 'block'} : {display: 'none'}}>{this.props.errorPosts}
                     </p>
                         {/* Här skrivs övriga bekräftelsemeddelanden ut (uppdatering, borttagning) */}
-                    <p className="confirm" role="alert" style={localStorage.getItem('confirmPosts') ? 
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('confirmPosts')}
+                    <p className="confirm" role="alert" style={this.props.confirmPosts ? 
+                        {display: 'block'} : {display: 'none'}}>{this.props.confirmPosts}
                     </p>
                 </section>
 
@@ -126,17 +129,17 @@ class Posts extends React.Component {
                                     <div>
                                         <p className="edit"><a id={`edit${post.id}`} className="focus" href="#admin-form"
                                             onClick={this.handleLinkClick}>Redigera</a></p>
-                                        <p className="delete"><Link id={`delete${post.id}`} className="focus" to={"/admin"}
-                                            onClick={this.handleLinkClick}>Radera</Link></p> 
+                                        <p className="delete"><a id={`delete${post.id}`} className="focus" href=""
+                                            onClick={this.handleLinkClick}>Radera</a></p> 
                                     </div>
                                     :
                                     <div>
                                         <p className="edit-not-published"><a id={`edit${post.id}`} className="focus" 
                                             href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
-                                        <p className="publish-posts"><Link id={`publish${post.id}`} className="focus" 
-                                            to={"/admin"}onClick={this.handleLinkClick}>Publicera</Link></p> 
-                                        <p className="delete-not-published"><Link id={`delete${post.id}`} className="focus" 
-                                            to={"/admin"} onClick={this.handleLinkClick}>Radera</Link></p>
+                                        <p className="publish-posts"><a id={`publish${post.id}`} className="focus" 
+                                            href="" onClick={this.handleLinkClick}>Publicera</a></p> 
+                                        <p className="delete-not-published"><a id={`delete${post.id}`} className="focus" 
+                                            href="" onClick={this.handleLinkClick}>Radera</a></p>
                                     </div>
                                     }
                                 </article>
@@ -558,32 +561,6 @@ class Posts extends React.Component {
 
             this.props.publish(id, body);
         }
-
-        /*
-        if (action == 'delete') {
-            this.props.delete(id);
-        }
-
-        if (e.target.id.indexOf('edit') >= 0) {
-            action = 'edit';
-            id     = e.target.id.slice(4);
-        
-        } else if (e.target.id.indexOf('delete') >= 0) {
-            action = 'delete';
-            id     = e.target.id.slice(6);
-        
-        } else if (e.target.id.indexOf('publish') >= 0) {
-            action = 'publish';
-            id     = e.target.id.slice(7);
-        }
-
-        if (action == 'publish') {
-            this.props.publish(id);
-
-        } else if (action == 'delete') {
-            this.props.delete(id);
-        }
-        */
     }
 
     /* Denna funktion validerar uppgifterna och lägger till tjänster

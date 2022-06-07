@@ -13,13 +13,13 @@ class Home extends React.Component {
         this.setState        = this.setState.bind(this);
         this.getPosts        = this.getPosts.bind(this);
         this.handleLogout    = this.handleLogout.bind(this);
-        this.handlePageTitle = this.handlePageTitle.bind(this);
         this.handleLinkClick = this.handleLinkClick.bind(this);
 
         this.state = {
             postsSwedish: [],
             postsGerman:  [],
-            error:        false,
+            errorSwedish: '',
+            errorGerman:  '',
             signedIn:     this.props.signedIn,
         }
 
@@ -32,13 +32,13 @@ class Home extends React.Component {
                 <div className="row">
                     <p id="logout" style={this.props.signedIn ? {display: 'block'} : 
                         {display: 'none'}}><Link className="text focus regular-font-size" to={"/login"} 
-                        onClick={this.handleLinkClick}>Logga ut</Link></p>
+                        onClick={this.handleLogout}>Logga ut</Link></p>
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <div className="row">
                     <section id="home" className="home-left">
                         <h1 id="h1-home" className="text h1-font-size">Inclusive Web Solutions</h1>
-                        <section id="home-welcome">
+                        <div id="home-welcome">
                             <p className="text regular-font-size">
                                 Sie möchten mit Ihrer Website alle 
                                 potentiellen Kunden erreichen? Wir 
@@ -51,7 +51,7 @@ class Home extends React.Component {
                             <button id="contact-btn" className="text focus regular-font-size"
                                 aria-label="Seite Kontakt öffnen"
                                 onClick={() => window.open('/contact', '_self')}>Kontakt</button>
-                        </section>
+                        </div>
                         <section id="home-services">
                             <h2 className="h2-home text h2-font-size">Dienstleistungen</h2>
                             <div id="home-services-wrapper">
@@ -99,11 +99,12 @@ class Home extends React.Component {
                                         to={"/posts"} onClick={this.handleLinkClick}>Mehr</Link></p>
                                 </article>
                             )
-                        }) : <p className="error text regular-font-size" role="alert" style={localStorage.getItem('errorGerman') ?
-                                {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorGerman')}</p>}
+                        }) : null}
+                        <p className="error text regular-font-size" role="alert" style={this.state.errorGerman ?
+                                {display: 'block'} : {display: 'none'}}>{this.state.errorGerman}</p>
                         <button id="posts-btn" className="text focus regular-font-size"
                             aria-label="Seite Blog öffnen" onClick={() => window.open('/blog', '_self')} 
-                            style={this.state.postsGerman ? {display: 'block'} : {display: 'none'}}>
+                            style={this.state.errorGerman ? {display: 'none'} : {display: 'block'}}>
                                 Alle Posts</button>
                     </section>
                 </div>
@@ -111,7 +112,7 @@ class Home extends React.Component {
                 <div className="row">
                     <section id="home" className="home-left">
                         <h1 id="h1-home" className="text h1-font-size">Inclusive Web Solutions</h1>
-                        <section id="home-welcome">
+                        <div id="home-welcome">
                             <p className="text regular-font-size">
                                 Vill du nå ut till alla potentiella kunder 
                                 med din webbplats? Vi på Inclusive 
@@ -126,7 +127,7 @@ class Home extends React.Component {
                             <button id="contact-btn" className="text focus regular-font-size"
                                 aria-label="Öppnar sidan Kontakt" onClick={() => window.open('/contact', '_self')}>
                                     Kontakt</button>
-                        </section>
+                        </div>
                         <section id="home-services">
                             <h2 className="h2-home text h2-font-size">Tjänster</h2>
                             <div id="home-services-wrapper">
@@ -175,11 +176,12 @@ class Home extends React.Component {
                                         to={"/post"} onClick={this.handleLinkClick}>Läs mer</Link></p>
                                 </article>
                             )
-                        }) : <p className="error text regular-font-size" role="alert" style={localStorage.getItem('errorSwedish') ?
-                                {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorSwedish')}</p>}
+                        }) : null}
+                        <p className="error text regular-font-size" role="alert" style={this.state.errorSwedish ?
+                                {display: 'block'} : {display: 'none'}}>{this.state.errorSwedish}</p>
                         <button id="posts-btn" className="text focus regular-font-size" aria-label="Öppnar sidan Blogg"
                             onClick={() => window.open('/blog', '_self')} 
-                            style={this.state.postsSwedish ? {display: 'block'} : {display: 'none'}}>
+                            style={this.state.errorSwedish ? {display: 'none'} : {display: 'block'}}>
                                 Alla inlägg</button>
                     </section>
                 </div>
@@ -252,10 +254,7 @@ class Home extends React.Component {
     handleLinkClick(e) {
         localStorage.setItem('postId', e.target.id.slice(4));
 
-        if (e.target.innerHTML == 'Logga ut') {
-            this.handleLogout(e);
-
-        } else if (e.target.id == 'about-btn') {
+        if (e.target.id == 'about-btn') {
             if (localStorage.getItem('language') == 'Deutsch') {
                 document.title = 'Über uns';
             
@@ -282,8 +281,6 @@ class Home extends React.Component {
                 document.title = 'Blogg';
             }
         
-        } else {
-            this.handlePageTitle(e);
         }
     }
 
@@ -296,23 +293,6 @@ class Home extends React.Component {
         this.props.logout();
     }
 
-    handlePageTitle(e) {
-        if (e.target.id == 'logo') {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
-                document.title = 'Home';
-            
-            } else {
-                localStorage.setItem('page', 'Start');
-                document.title = 'Start';
-            }
-
-        } else {
-            localStorage.setItem('page', e.target.innerHTML);
-            document.title = e.target.innerHTML;
-        }
-    }
-
     getPosts() {
         fetch('https://iws-rest-api.herokuapp.com/posts')
         .then(response => response.json())
@@ -320,19 +300,15 @@ class Home extends React.Component {
             if (!data.length) {
                 this.setState({
                     error:        true,
+                    errorSwedish: 'Inga inlägg hittades.',
+                    errorGerman:  'Es wurden keine Posts gefunden.',
                 })
-
-                localStorage.setItem('errorSwedish', 'Inga inlägg hittades.');
-                localStorage.setItem('errorGerman', 'Es wurden keine Posts gefunden.');
             
             } else {
                 let filterSwedish  = [];
                 let filterGerman   = [];
                 let postArrSwedish = [];
                 let postArrGerman  = [];
-
-                localStorage.removeItem('errorSwedish');
-                localStorage.removeItem('errorGerman');
 
                 data.forEach((post) => {
                     if (post.language == 'german') {
@@ -362,13 +338,12 @@ class Home extends React.Component {
         })
         .catch(() => {
             this.setState({
-                error: true,
+                error:        true,
+                errorSwedish: 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
+                                + 'Försök igen lite senare.',
+                errorGerman:  'Ein Serverfehler ist aufgetreten. Es konnten keine Posts abgerufen werden. '
+                                + 'Versuchen Sie es später erneut.',
             })
-
-            localStorage.setItem('errorSwedish', 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
-                + 'Försök igen lite senare.');
-            localStorage.setItem('errorGerman', 'Ein Serverfehler ist aufgetreten. Es konnten keine Posts abgerufen werden. '
-                + 'Versuchen Sie es später erneut.');
         })
     }
 }

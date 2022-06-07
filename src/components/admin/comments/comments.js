@@ -15,7 +15,11 @@ class Comments extends React.Component {
         this.handleLinkClick = this.handleLinkClick.bind(this);
 
         this.state = {
-            comments:       this.props.comments,
+            comments:        this.props.comments,
+            error:           false,
+            errorComments:   this.props.errorComments,
+            confirm:         false,
+            confirmComments: this.props.confirmComments,
         }
     }
 
@@ -50,12 +54,12 @@ class Comments extends React.Component {
                     )
                 })}
                 {/* Här skrivs övriga felmeddelanden ut (inga poster, serverfel) */}
-                <p className="error" role="alert" style={localStorage.getItem('errorComments') ? 
-                    {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorComments')}
+                <p className="error" role="alert" style={this.state.errorComments ? 
+                    {display: 'block'} : {display: 'none'}}>{this.state.errorComments}
                 </p>
                 {/* Här skrivs övriga bekräftelsemeddelanden ut (uppdatering, borttagning) */}
-                <p className="confirm" role="alert" style={localStorage.getItem('confirmComments') ? 
-                    {display: 'block'} : {display: 'none'}}>{localStorage.getItem('confirmComments')}
+                <p className="confirm" role="alert" style={this.state.confirmComments ? 
+                    {display: 'block'} : {display: 'none'}}>{this.state.confirmComments}
                 </p>
             </div>
         )

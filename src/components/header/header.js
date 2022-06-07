@@ -4,9 +4,6 @@ import logoMobil from '../../images/logo/logoMobil.jpg';
 import logoDesktop from '../../images/logo/logoDesktop.jpg'
 import {Link} from 'react-router-dom';
 import { toHaveDisplayValue } from '@testing-library/jest-dom/dist/matchers';
-// import './css/styles.css';
-
-let selectCount = 0;
 
 // Sidhuvud
 class Header extends React.Component {
@@ -18,7 +15,6 @@ class Header extends React.Component {
         // Binder this till funktionerna
         this.setState              = this.setState.bind(this);
         this.handleSearchIconClick = this.handleSearchIconClick.bind(this);
-        this.handleSelectClick     = this.handleSelectClick.bind(this);
         this.handleNavIconClick    = this.handleNavIconClick.bind(this);
         this.handleLanguageChange  = this.handleLanguageChange.bind(this);
         this.handlePageTitle       = this.handlePageTitle.bind(this);
@@ -147,7 +143,7 @@ class Header extends React.Component {
                             {/* Rullgardinslista för språkbyte */}
                             <select id="language-switcher" className="focus text focus-header" 
                                 aria-label={localStorage.getItem('language') == 'Deutsch' ? 'Sprache wechseln' : 'Byt språk'} 
-                                onClick={this.handleSelectClick} onChange={this.handleLanguageChange}>
+                                onChange={this.handleLanguageChange}>
                                     <option className="text regular-font-size" value="Svenska">Svenska</option>
                                     <option className="text regular-font-size" value="Deutsch">Deutsch</option>
                             </select>
@@ -203,9 +199,11 @@ class Header extends React.Component {
 
         if (localStorage.getItem('language') == 'Deutsch') {
             select.value = 'Deutsch';
+            document.documentElement.setAttribute('lang', 'de');
         
         } else {
             select.value = 'Svenska';
+            document.documentElement.setAttribute('lang', 'sv');
         }
 
         if (localStorage.getItem('accessible') == false) {
@@ -260,18 +258,6 @@ class Header extends React.Component {
         e.target.setAttribute('aria-expanded', true);
     }
 
-    // Funktionen uppdaterar aria-expanded för språkval
-    handleSelectClick(e) {
-        selectCount++;
-
-        if (!selectCount || selectCount % 2 == 0) {
-            e.target.setAttribute('aria-expanded', false);
-        
-        } else if (selectCount % 2) {
-            e.target.setAttribute('aria-expanded', true);
-        }
-    }
-
     // Funktionen uppdaterar aria-expanded för hamburgerikonen
     handleNavIconClick(e) {
         e.target.setAttribute('aria-expanded', true);
@@ -280,16 +266,13 @@ class Header extends React.Component {
     handlePageTitle(e) {
         if (e.target.id == 'logo') {
             if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
                 document.title = 'Home';
             
             } else {
-                localStorage.setItem('page', 'Start');
                 document.title = 'Start';
             }
 
         } else {
-            localStorage.setItem('page', e.target.innerHTML);
             document.title = e.target.innerHTML;
         }
     }

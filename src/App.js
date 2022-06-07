@@ -42,19 +42,17 @@ class App extends React.Component {
     this.languageCallback    = this.languageCallback.bind(this);
 
     this.state = {
-      signedIn:        sessionStorage.getItem('signedIn'),
-      username:        sessionStorage.getItem('user'),
-      permission:      localStorage.getItem('permission'),
-      posts:           [],
-      comments:        [],
-      tests:           [],
-      solutions:       [],
-      courses:         [],
-      error:           false,
-      validationError: '',
-      serverError:     '',
-      errorSwedish:    '',
-      errorGerman:     '',
+      signedIn:           sessionStorage.getItem('signedIn'),
+      username:           sessionStorage.getItem('user'),
+      permission:         localStorage.getItem('permission'),
+      posts:              [],
+      comments:           [],
+      tests:              [],
+      solutions:          [],
+      courses:            [],
+      error:              false,
+      validationError:    '',
+      serverError:        '',
     }
 
     this.getPosts();
@@ -98,16 +96,12 @@ class App extends React.Component {
             <Route path="/search" element={<Search signedIn={this.state.signedIn}
               logout={this.logoutCallback} />} />
             <Route path="/post" element={<Post signedIn={this.state.signedIn} 
-              errorSwedish={this.state.errorSwedish} errorGerman={this.state.errorGerman}
               posts={this.state.posts} comments={this.state.comments} logout={this.logoutCallback} />} />
             <Route path="/test" element={<Test signedIn={this.state.signedIn} 
-              errorSwedish={this.state.errorSwedish} errorGerman={this.state.errorGerman}
               tests={this.state.tests} logout={this.logoutCallback} />} /> 
             <Route path="/solution" element={<Solution signedIn={this.state.signedIn} 
-              errorSwedish={this.state.errorSwedish} errorGerman={this.state.errorGerman}
               solutions={this.state.solutions} logout={this.logoutCallback} />} />
             <Route path="/course" element={<Course signedIn={this.state.signedIn} 
-              errorSwedish={this.state.errorSwedish} errorGerman={this.state.errorGerman}
               courses={this.state.courses} logout={this.logoutCallback} />} /> 
             <Route path="*" element={<Home signedIn={this.state.signedIn}
               logout={this.logoutCallback} />} />
@@ -212,6 +206,7 @@ class App extends React.Component {
 
             this.setState({
                 error:      true,
+                errorPosts: 'Inga inlägg hittades.',
             })
         
         // Lagrar inläggen i state-arrayen
@@ -227,11 +222,8 @@ class App extends React.Component {
 
     // Skriver ut ett felmeddelande om ett serverfel har uppstått
     .catch(() => {
-        localStorage.setItem('errorPosts', 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
-            + 'Försök igen lite senare.');
-
         this.setState({             
-            error:      true,
+            error:              true,
         })
     })
 }
@@ -242,7 +234,7 @@ getComments() {
   .then(data => {
       if (!data.length) {
           this.setState({
-              error: true,
+              error:                true,
           })
       
       } else {
@@ -256,7 +248,7 @@ getComments() {
   })
   .catch(() => {
       this.setState({
-          error: true
+          error:              true,
       })
   })
 }

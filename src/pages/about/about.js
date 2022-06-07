@@ -15,8 +15,6 @@ class About extends React.Component {
         // Binder this till funktionerna
         this.setState        = this.setState.bind(this);
         this.handleLogout    = this.handleLogout.bind(this);
-        this.handlePageTitle = this.handlePageTitle.bind(this);
-        this.handleLinkClick = this.handleLinkClick.bind(this);
 
         this.state = {
             signedIn: this.props.signedIn,
@@ -32,30 +30,30 @@ class About extends React.Component {
                     {localStorage.getItem('language') == 'Deutsch' ?
                     <nav className="breadcrumbs" aria-label="Brotkrümelnavigation">
                         <ul>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/"}
-                                onClick={this.handleLinkClick}>Home</Link>/</li>
-                            <li><Link className="active-breadcrumb text focus regular-font-size" to={"/about"}
-                                onClick={this.handleLinkClick}> Über uns</Link></li>
+                            <li><Link className="inactive-breadcrumb text focus regular-font-size" 
+                                to={"/"}>Home</Link>/</li>
+                            <li><Link className="active-breadcrumb text focus regular-font-size" 
+                                to={"/about"}> Über uns</Link></li>
                         </ul>
                     </nav>
                     :
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/"}
-                                onClick={this.handleLinkClick}>Start</Link>/</li>
-                            <li><Link className="active-breadcrumb text focus regular-font-size" to={"/about"}
-                                onClick={this.handleLinkClick}> Om oss</Link></li>
+                            <li><Link className="inactive-breadcrumb text focus regular-font-size" 
+                                to={"/"}>Start</Link>/</li>
+                            <li><Link className="active-breadcrumb text focus regular-font-size" 
+                                to={"/about"}> Om oss</Link></li>
                         </ul>
                     </nav>
                     }
                     <p id="logout" style={this.props.signedIn ? {display: 'block'} :
                         {display: 'none'}}><Link className="text focus regular-font-size" to={"/login"} 
-                        onClick={this.handleLinkClick}>Logga ut</Link></p>
+                        onClick={this.handleLogout}>Logga ut</Link></p>
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="about">
                     <h1 className="text h1-about h1-font-size">Über uns</h1>
-                        <section id="about-iws">
+                        <div id="about-iws">
                             <article>
                                 <h2 className="text h2-font-size">Geschichte</h2>
                                 <p className="text regular-font-size">
@@ -87,7 +85,7 @@ class About extends React.Component {
                                     Barrieren im Internet dorthin schaffen, 
                                     wo sie hingehören: in die Mottenkiste.</p>   
                             </article>
-                        </section>
+                        </div>
                         <section id="about-employees">
                             <h2 className="text h2-font-size">Mitarbeiter</h2>
                             <div id="about-employees-wrapper">
@@ -121,7 +119,7 @@ class About extends React.Component {
                 :
                 <section id="about">
                     <h1 className="h1-about text h1-font-size">Om oss</h1>
-                    <section id="about-iws">
+                    <div id="about-iws">
                         <article>
                             <h2 className="text h2-font-size">Historia</h2>
                             <p className="text regular-font-size">
@@ -152,7 +150,7 @@ class About extends React.Component {
                                 kompetens och kunskap vill vi bidra 
                                 till att undanröja barriärer på webben.</p>   
                         </article>
-                    </section>
+                    </div>
                     <section id="about-employees">
                         <h2 className="text h2-font-size">Medarbetare</h2>
                         <div id="about-employees-wrapper">
@@ -246,32 +244,6 @@ class About extends React.Component {
                     }
                 break;
             }
-        }
-    }
-
-    handleLinkClick(e) {
-        if (e.target.innerHTML == 'Logga ut') {
-            this.handleLogout(e);
-
-        } else {
-            this.handlePageTitle(e);
-        }
-    }
-
-    handlePageTitle(e) {
-        if (e.target.id == 'logo') {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
-                document.title = 'Home';
-            
-            } else {
-                localStorage.setItem('page', 'Start');
-                document.title = 'Start';
-            }
-
-        } else {
-            localStorage.setItem('page', e.target.innerHTML);
-            document.title = e.target.innerHTML;
         }
     }
 

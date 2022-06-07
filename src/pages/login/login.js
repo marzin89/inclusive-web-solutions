@@ -17,7 +17,6 @@ class Login extends React.Component {
         this.validatePassword     = this.validatePassword.bind(this);
         this.validateForm         = this.validateForm.bind(this);
         this.handleSubmit         = this.handleSubmit.bind(this);
-        this.handlePageTitle      = this.handlePageTitle.bind(this);
 
         this.state = {
             username:        '',
@@ -38,10 +37,8 @@ class Login extends React.Component {
                     {/* Länkstig */}
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb focus" to={"/"}
-                                onClick={this.handlePageTitle}>Start</Link>/</li>
-                            <li><Link className="active-breadcrumb focus" to={"/login"}
-                                onClick={this.handlePageTitle}> Logga in</Link></li>
+                            <li><Link className="inactive-breadcrumb focus" to={"/"}>Start</Link>/</li>
+                            <li><Link className="active-breadcrumb focus" to={"/login"}> Logga in</Link></li>
                         </ul>
                     </nav>
                 </div>
@@ -166,23 +163,6 @@ class Login extends React.Component {
             }
 
             this.props.function(body);
-        }
-    }
-
-    handlePageTitle(e) {
-        if (e.target.id == 'logo') {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
-                document.title = 'Home';
-            
-            } else {
-                localStorage.setItem('page', 'Start');
-                document.title = 'Start';
-            }
-
-        } else {
-            localStorage.setItem('page', e.target.innerHTML);
-            document.title = e.target.innerHTML;
         }
     }
 }

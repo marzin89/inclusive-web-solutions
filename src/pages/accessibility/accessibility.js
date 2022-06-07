@@ -13,8 +13,6 @@ class Accessibility extends React.Component {
         this.setState        = this.setState.bind(this);
         this.handleBtnClick  = this.handleBtnClick.bind(this);
         this.handleLogout    = this.handleLogout.bind(this);
-        this.handlePageTitle = this.handlePageTitle.bind(this);
-        this.handleLinkClick = this.handleLinkClick.bind(this);
 
         this.state = {
             signedIn: this.props.signedIn,
@@ -53,31 +51,29 @@ class Accessibility extends React.Component {
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="accessibility">
                     <h1 className="text h1-font-size">Barrierefreiheit</h1>
-                    <section>
-                        <p className="text body-text regular-font-size">
-                            Barrierefreiheit im Internet bedeutet, dass 
-                            Websites so konstruiert sind, dass sie
-                            von allen benutzt werden können. Es
-                            gibt viele Gründe, die für Barrierefreiheit im Internet 
-                            sprechen. Laut der 
-                            Barrierefreie-Informationstechnik-
-                            Verordnung (BITV) müssen Websites
-                            öffentlicher Stellen barrierefrei sein.</p>
-                        <p className="text body-text regular-font-size">
-                            Doch was ist mit privaten 
-                            Unternehmen? Lohnt sich der 
-                            Aufwand? Auf jeden Fall! Eine
-                            barrierefreie Website erreicht 
-                            mehr potentielle Kunden, was sich 
-                            wiederum positiv auf Ihren Umsatz
-                            auswirken kann. Und auch auf das 
-                            Ansehen Ihres Unternehmens. 
-                            Niedrigere Kosten, weniger 
-                            Beschwerden und zufriedenere 
-                            Kunden und Mitarbeiter sind weitere
-                            Vorteile. Kurz gesagt: Sie können 
-                            nur gewinnen.</p>
-                    </section>
+                    <p className="text body-text regular-font-size">
+                        Barrierefreiheit im Internet bedeutet, dass 
+                        Websites so konstruiert sind, dass sie
+                        von allen benutzt werden können. Es
+                        gibt viele Gründe, die für Barrierefreiheit im Internet 
+                        sprechen. Laut der 
+                        Barrierefreie-Informationstechnik-
+                        Verordnung (BITV) müssen Websites
+                        öffentlicher Stellen barrierefrei sein.</p>
+                    <p className="text body-text regular-font-size">
+                        Doch was ist mit privaten 
+                        Unternehmen? Lohnt sich der 
+                        Aufwand? Auf jeden Fall! Eine
+                        barrierefreie Website erreicht 
+                        mehr potentielle Kunden, was sich 
+                        wiederum positiv auf Ihren Umsatz
+                        auswirken kann. Und auch auf das 
+                        Ansehen Ihres Unternehmens. 
+                        Niedrigere Kosten, weniger 
+                        Beschwerden und zufriedenere 
+                        Kunden und Mitarbeiter sind weitere
+                        Vorteile. Kurz gesagt: Sie können 
+                        nur gewinnen.</p>
                     <section>
                         <h2 className="text h2-font-size">Erleben Sie den Unterschied</h2>
                         <p className="text regular-font-size">
@@ -156,34 +152,32 @@ class Accessibility extends React.Component {
                 :
                 <section id="accessibility">
                     <h1 className="text h1-font-size">Om webbtillgänglighet</h1>
-                    <section>
-                        <p className="text body-text regular-font-size">
-                            Webbtillgänglighet innebär att 
-                            webbplatser utformas så att de kan 
-                            användas av alla. Det finns många 
-                            goda skäl till att ha en tillgänglig 
-                            webbplats. Enligt lagen om 
-                            tillgänglighet till digital offentlig 
-                            service (DOS-lagen) måste offentliga 
-                            webbplatser vara tillgängliga och 
-                            lagen gäller även privata 
-                            verksamheter som finansieras med 
-                            offentliga medel. När 
-                            tillgänglighetsdirektivet träder i kraft 
-                            2025, kommer många fler privata
-                            aktörer att omfattas av kraven på 
-                            tillgänglighet.</p>
-                        <p className="text body-text regular-font-size">
-                            Men även om du inte omfattas av 
-                            lagkraven, har du allt att vinna på att
-                            ha en tillgänglig webbplats. Vad sägs 
-                            om ökad trafik (och därmed 
-                            konvertering och försäljning), ett 
-                            bättre rykte, minskade kostnader för
-                            support, ökad nöjdhet hos kunder 
-                            och medarbetare och färre klagomål?
-                            Ja, listan på fördelar kan göras lång.</p>
-                    </section>
+                    <p className="text body-text regular-font-size">
+                        Webbtillgänglighet innebär att 
+                        webbplatser utformas så att de kan 
+                        användas av alla. Det finns många 
+                        goda skäl till att ha en tillgänglig 
+                        webbplats. Enligt lagen om 
+                        tillgänglighet till digital offentlig 
+                        service (DOS-lagen) måste offentliga 
+                        webbplatser vara tillgängliga och 
+                        lagen gäller även privata 
+                        verksamheter som finansieras med 
+                        offentliga medel. När 
+                        tillgänglighetsdirektivet träder i kraft 
+                        2025, kommer många fler privata
+                        aktörer att omfattas av kraven på 
+                        tillgänglighet.</p>
+                    <p className="text body-text regular-font-size">
+                        Men även om du inte omfattas av 
+                        lagkraven, har du allt att vinna på att
+                        ha en tillgänglig webbplats. Vad sägs 
+                        om ökad trafik (och därmed 
+                        konvertering och försäljning), ett 
+                        bättre rykte, minskade kostnader för
+                        support, ökad nöjdhet hos kunder 
+                        och medarbetare och färre klagomål?
+                        Ja, listan på fördelar kan göras lång.</p>
                     <section>
                         <h2 className="text h2-font-size">Se skillnaden</h2>
                         <p className="text regular-font-size">
@@ -541,15 +535,6 @@ class Accessibility extends React.Component {
         }
     }
 
-    handleLinkClick(e) {
-        if (e.target.innerHTML == 'Logga ut') {
-            this.handleLogout(e);
-
-        } else {
-            this.handlePageTitle(e);
-        }
-    }
-
     // Utloggning
     handleLogout(e) {
 
@@ -557,23 +542,6 @@ class Accessibility extends React.Component {
         e.preventDefault();
 
         this.props.logout();
-    }
-
-    handlePageTitle(e) {
-        if (e.target.id == 'logo') {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
-                document.title = 'Home';
-            
-            } else {
-                localStorage.setItem('page', 'Start');
-                document.title = 'Start';
-            }
-
-        } else {
-            localStorage.setItem('page', e.target.innerHTML);
-            document.title = e.target.innerHTML;
-        }
     }
 }
 

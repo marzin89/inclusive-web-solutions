@@ -50,8 +50,6 @@ class Admin extends React.Component {
         this.publishComment       = this.publishComment.bind(this);
         this.publishPost          = this.publishPost.bind(this);
         this.handleLogout         = this.handleLogout.bind(this);
-        this.handlePageTitle      = this.handlePageTitle.bind(this);
-        this.handleLinkClick      = this.handleLinkClick.bind(this);
 
         this.state = {
             username:           this.props.username,
@@ -66,7 +64,19 @@ class Admin extends React.Component {
             users:              [],
             comments:           [],
             error:              false,
+            errorTests:         '',
+            errorSolutions:     '',
+            errorCourses:       '',
+            errorPosts:         '',
+            errorUsers:         '',
+            errorComments:      '',
             confirm:            false,
+            confirmTests:       '',
+            confirmSolutions:   '',
+            confirmCourses:     '',
+            confirmPosts:       '',
+            confirmUsers:       '',
+            confirmComments:    '',
         }
 
         this.getSearch();
@@ -154,25 +164,29 @@ class Admin extends React.Component {
                 
                 {this.state.component == 'tests' && this.state.userRole  == 'Medarbetare' ? 
                     <Services service="tests" data={this.state.tests} search={this.state.search} 
+                    errorTests={this.state.errorTests} confirmTests={this.state.confirmTests}
                     post={this.addTest} delete={this.deleteTest} put={this.updateTest} /> : null}
                 {this.state.component == 'solutions' && this.state.userRole == 'Medarbetare' ? 
                     <Services service="solutions" data={this.state.solutions} search={this.state.search}
+                    errorSolutions={this.state.errorSolutions} confirmSolutions={this.state.confirmSolutions}
                     post={this.addSolution} delete={this.deleteSolution} put={this.updateSolution} /> : null}
                 {this.state.component == 'courses' && this.state.userRole == 'Medarbetare' ? 
                     <Services service="courses" data={this.state.courses} search={this.state.search} 
+                    errorCourses={this.state.errorCourses} confirmCourses={this.state.confirmCourses}
                     post={this.addCourse} delete={this.deleteCourse} put={this.updateCourse} /> : null}
                 {this.state.component == 'posts' ? <Posts posts={this.state.userRole == 'Medarbetare' ? 
                     this.state.posts : this.state.userPosts} search={this.state.search} 
-                    username={this.state.username} userRole={this.state.userRole} post={this.addPost} 
+                    username={this.state.username} userRole={this.state.userRole} 
+                    errorPosts={this.state.errorPosts} confirmPosts={this.state.confirmPosts} post={this.addPost} 
                     delete={this.deletePost} publish={this.publishPost} put={this.updatePost} /> : null}
                 {this.state.component == 'users' && this.state.userRole == 'Medarbetare' ? <Users 
                     users={this.state.users} post={this.addUser} delete={this.deleteUser} 
-                    errorMessage={this.state.errorUsers} put={this.updateUser} 
-                    confirmMessage={this.state.confirmUsers}/> : null}
+                    errorUsers={this.state.errorUsers} put={this.updateUser} 
+                    confirmUsers={this.state.confirmUsers}/> : null}
                 {this.state.component == 'comments' && this.state.userRole == 'Medarbetare' ? 
                     <Comments comments={this.state.comments} publish={this.publishComment} 
-                    delete={this.deleteComment} errorMessage={this.state.errorComments} 
-                    confirmMessage={this.state.confirmComments}/> : null}
+                    delete={this.deleteComment} errorComments={this.state.errorComments} 
+                    confirmComments={this.state.confirmComments}/> : null}
             </main>
         )
     }
@@ -188,18 +202,6 @@ class Admin extends React.Component {
 
         localStorage.setItem('component', id);
         localStorage.removeItem('error');
-        localStorage.removeItem('errorTests');
-        localStorage.removeItem('confirmTests');
-        localStorage.removeItem('errorSolutions');
-        localStorage.removeItem('confirmSolutions');
-        localStorage.removeItem('errorCourses');
-        localStorage.removeItem('confirmCourses');
-        localStorage.removeItem('errorPosts');
-        localStorage.removeItem('confirmPosts');
-        localStorage.removeItem('errorUsers');
-        localStorage.removeItem('confirmUsers');
-        localStorage.removeItem('errorComments');
-        localStorage.removeItem('confirmComments');
 
         this.setState({
             component: id,
@@ -273,30 +275,25 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om inga tester hittades
         .then(data => {
             if (!data.length) {
-                localStorage.setItem('errorTests', 'Inga tester hittades.');
-
                 this.setState({
                     error:      true,
+                    errorTests: 'Inga tester hittades.',
                 })
             
             // Lagrar testerna i state-arrayen
             } else {
-                localStorage.removeItem('errorTests');
-
                 this.setState({
-                    error:      false,
-                    tests:      data,
+                    tests: data,
                 })
             }
         })
 
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => { 
-            localStorage.setItem('errorTests', 'Ett serverfel har uppstått. Det gick inte att hämta tester.' 
-            + 'Försök igen lite senare.');
-
             this.setState({
                 error:      true,
+                errorTests: 'Ett serverfel har uppstått. Det gick inte att hämta tester.' 
+                                + ' Försök igen lite senare.',
             })
         })
     }
@@ -313,30 +310,25 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om inga anpassningar hittades
         .then(data => {
             if (!data.length) {
-                localStorage.setItem('errorSolutions', 'Inga utvecklingspaket hittades.');
-
                 this.setState({
                     error:          true,
+                    errorSolutions: 'Inga utvecklingspaket hittades.',
                 })
             
             // Lagrar anpassningarna i state-arrayen
             } else {
-                localStorage.removeItem('errorSolutions');
-
                 this.setState({
-                    error:          false,
-                    solutions:      data,
+                    solutions: data,
                 })
             }
         })
 
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => { 
-            localStorage.setItem('errorSolutions', 'Ett serverfel har uppstått. Det gick inte att hämta utvecklingspaket.' 
-            + 'Försök igen lite senare.');
-
             this.setState({
                 error:          true,
+                errorSolutions: 'Ett serverfel har uppstått. Det gick inte att hämta utvecklingspaket.' 
+                                    + ' Försök igen lite senare.',
             })
         })
     }
@@ -353,30 +345,25 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om inga utbildningar hittades
         .then(data => {
             if (!data.length) {
-                localStorage.setItem('errorCourses', 'Inga utbildningar hittades.');
-
                 this.setState({
                     error:        true,
+                    errorCourses: 'Inga utbildningar hittades.',
                 })
             
             // Lagrar utbildningarna i state-arrayen
             } else {
-                localStorage.removeItem('errorCourses');
-
                 this.setState({
-                    error:        false,
                     courses:      data,
                 })
             }
         })
 
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
-        .catch(() => {
-            localStorage.setItem('errorCourses', 'Ett serverfel har uppstått. Det gick inte att hämta utbildningar.' 
-            + 'Försök igen lite senare.');
-            
+        .catch(() => {            
             this.setState({
                 error:        true,
+                errorCourses: 'Ett serverfel har uppstått. Det gick inte att hämta utbildningar.' 
+                                + ' Försök igen lite senare.'
             })
         })
     }
@@ -393,18 +380,14 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om inga inlägg hittades
         .then(data => {
             if (!data.length) {
-                localStorage.setItem('errorPosts', 'Inga inlägg hittades.');
-
                 this.setState({
                     error:      true,
+                    errorPosts: 'Inga inlägg hittades.',
                 })
             
             // Lagrar inläggen i state-arrayen
             } else {
-                localStorage.removeItem('errorPosts');
-
                 this.setState({
-                    error:      false,
                     posts:      data,
                 })
             }
@@ -412,11 +395,10 @@ class Admin extends React.Component {
 
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {
-            localStorage.setItem('errorPosts', 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
-                + 'Försök igen lite senare.');
-
             this.setState({             
                 error:      true,
+                errorPosts: 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
+                                + ' Försök igen lite senare.',
             })
         })
     }
@@ -434,19 +416,15 @@ class Admin extends React.Component {
 
             // Skriver ut ett felmeddelande om inga inlägg hittades
             .then(data => {
-                localStorage.setItem('errorPosts', 'Inga inlägg hittades.');
-
                 if (!data.length) {
                     this.setState({
                         error:      true,
+                        errorPosts: 'Inga inlägg hittades.',
                     })
                 
                 // Lagrar inläggen i state-arrayen
                 } else {
-                    localStorage.removeItem('errorPosts');
-
                     this.setState({
-                        error:      false,
                         userPosts:  data,
                     })
                 }
@@ -454,11 +432,10 @@ class Admin extends React.Component {
 
             // Skriver ut ett felmeddelande om ett serverfel har uppstått
             .catch(() => {
-                localStorage.setItem('errorPosts', 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
-                + 'Försök igen lite senare.');
-
                 this.setState({
                     error:      true,
+                    errorPosts: 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
+                                    + ' Försök igen lite senare.'
                 })
             })
         }
@@ -467,45 +444,37 @@ class Admin extends React.Component {
     // Funktionen hämtar alla användare
     getUsers() {
 
-        // if (this.state.userRole == 'Medarbetare') {
+        /* GET-anrop till webbtjänsten om användaren har tryckt på Användare och 
+            har full behörighet */
+        fetch('https://iws-rest-api.herokuapp.com/users/password/tbbA=!vYzT99*,;oGSi8')
 
-            /* GET-anrop till webbtjänsten om användaren har tryckt på Användare och 
-                har full behörighet */
-            fetch('https://iws-rest-api.herokuapp.com/users/password/tbbA=!vYzT99*,;oGSi8')
+        // Konverterar svaret från JSON
+        .then(response => response.json())
 
-            // Konverterar svaret från JSON
-            .then(response => response.json())
-
-            // Skriver ut ett felmeddelande om inga användare hittades
-            .then(data => {
-                if (!data.length) {
-                    localStorage.setItem('errorUsers', 'Inga användare hittades.');
-
-                    this.setState({
-                        error:      true,
-                    })
-                
-                // Lagrar användarna i state-arrayen
-                } else {
-                    localStorage.removeItem('errorUsers');
-
-                    this.setState({
-                        error:      false,
-                        users:      data,
-                    })
-                }
-            })
-
-            // Skriver ut ett felmeddelande om ett serverfel har uppstått
-            .catch(() => {
-                localStorage.setItem('errorUsers', 'Ett serverfel har uppstått. Det gick inte att hämta användare.' 
-                + 'Försök igen lite senare.');
-
+        // Skriver ut ett felmeddelande om inga användare hittades
+        .then(data => {
+            if (!data.length) {
                 this.setState({
                     error:      true,
+                    errorUsers: 'Inga användare hittades.',
                 })
+            
+            // Lagrar användarna i state-arrayen
+            } else {
+                this.setState({
+                    users:      data,
+                })
+            }
+        })
+
+        // Skriver ut ett felmeddelande om ett serverfel har uppstått
+        .catch(() => {
+            this.setState({
+                error:      true,
+                errorUsers: 'Ett serverfel har uppstått. Det gick inte att hämta användare.' 
+                                + ' Försök igen lite senare.'
             })
-        // }
+        })
     }
 
     // Funktionen hämtar alla kommentarer
@@ -521,18 +490,14 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om inga kommentarer hittades
         .then(data => {
             if (!data.length) {
-                localStorage.setItem('errorComments', 'Inga kommentarer hittades.');
-
                 this.setState({
                     error:         true,
+                    errorComments: 'Inga kommentarer hittades.',
                 })
             
             // Lagrar kommentarerna i state-arrayen
             } else {
-                localStorage.removeItem('errorComments');
-
                 this.setState({
-                    error:         false,
                     comments:      data,
                 })
             }
@@ -585,25 +550,25 @@ class Admin extends React.Component {
                 body:    JSON.stringify(body),
             })
             .then(response => response.json())
-            .then(() => {
-                localStorage.removeItem('errorTests');
-                localStorage.setItem('confirmTests', 'Testet har lagts till.');
-                window.location.reload();
+            .then((data) => {
+                this.addSearch(body);
+
+                let testArr = this.state.tests;
+                testArr.unshift(data);
 
                 this.setState({
-                    error:      false,
+                    tests:        testArr,
+                    confirm:      true,
+                    confirmTests: 'Testet har lagts till.',
                 })
             })
             .catch(() => {
-                localStorage.setItem('errorTests', 'Ett serverfel har uppstått. Det gick inte att lägga till testet. ' 
-                + 'Försök igen lite senare.');
-
                 this.setState({
                     error:      true,
+                    errorTests: 'Ett serverfel har uppstått. Det gick inte att lägga till testet.' 
+                                    + ' Försök igen lite senare.',
                 })
             })
-
-            this.addSearch(body);
         }
     }
 
@@ -627,25 +592,25 @@ class Admin extends React.Component {
                 body:    JSON.stringify(body),
             })
             .then(response => response.json())
-            .then(() => {
-                localStorage.removeItem('errorSolutions');
-                localStorage.setItem('confirmSolutions', 'Utvecklingspaketet har lagts till.');
-                window.location.reload();
+            .then((data) => {
+                this.addSearch(body);
+
+                let solutionArr = this.state.solutions;
+                solutionArr.unshift(data);
 
                 this.setState({
-                    error:          false,
+                    confirm:          true,
+                    confirmSolutions: 'Utvecklingspaketet har lagts till.',
+                    solutions:        solutionArr,
                 })
             })
             .catch(() => {
-                localStorage.setItem('errorSolutions', 'Ett serverfel har uppstått. Det gick inte att lägga till utvecklingspaketet. ' 
-                + 'Försök igen lite senare.');
-
                 this.setState({
                     error:          true,
+                    errorSolutions: 'Ett serverfel har uppstått. Det gick inte att lägga till utvecklingspaketet.' 
+                                        + ' Försök igen lite senare.'
                 })
             })
-
-            this.addSearch(body);
         }
     }
 
@@ -669,25 +634,25 @@ class Admin extends React.Component {
                 body:    JSON.stringify(body),
             })
             .then(response => response.json())
-            .then(() => {
-                localStorage.removeItem('errorCourses');
-                localStorage.setItem('confirmCourses', 'Utbildningen har lagts till.');
-                window.location.reload();
+            .then((data) => {
+                this.addSearch(body);
+
+                let courseArr = this.state.courses;
+                courseArr.unshift(data);
 
                 this.setState({
-                    error:        false,
+                    confirm:        true,
+                    confirmCourses: 'Utbildningen har lagts till.',
+                    courses:        courseArr,
                 })
             })
             .catch(() => {
-                localStorage.setItem('errorCourses', 'Ett serverfel har uppstått. Det gick inte att lägga till utbildningen. ' 
-                + 'Försök igen lite senare.');
-
                 this.setState({
                     error:        true,
+                    errorCourses: 'Ett serverfel har uppstått. Det gick inte att lägga till utbildningen.' 
+                                    + ' Försök igen lite senare.'
                 })
             })
-
-            this.addSearch(body);
         }
     }
 
@@ -711,22 +676,36 @@ class Admin extends React.Component {
                 body:    JSON.stringify(body),
             })
             .then(response => response.json())
-            .then(() => {
-                localStorage.removeItem('errorPosts');
-                localStorage.setItem('confirmPosts', 'Inlägget har lagts till.');
+            .then((data) => {
+                let postArr = [];
 
-                window.location.reload();
+                if (this.state.userRole == 'Medarbetare') {
+                    postArr = this.state.posts;
+                    postArr.unshift(data);
+
+                    this.setState({
+                        posts: postArr,
+                    })
+                
+                } else {
+                    postArr = this.state.userPosts;
+                    postArr.unshift(data);
+
+                    this.setState({
+                        userPosts: postArr,
+                    })
+                }
 
                 this.setState({
-                    error:      false,
+                    confirm:      true,
+                    confirmPosts: 'Inlägget har lagts till.',
                 })
             })
             .catch(() => {
-                localStorage.setItem('errorPosts', 'Ett serverfel har uppstått. Det gick inte att lägga till inlägget. ' 
-                + 'Försök igen lite senare.');
-
                 this.setState({
                     error:      true,
+                    errorPosts: 'Ett serverfel har uppstått. Det gick inte att lägga till inlägget.' 
+                                    + ' Försök igen lite senare.'
                 })
             })
         }
@@ -751,22 +730,21 @@ class Admin extends React.Component {
             body:    JSON.stringify(body),
         })
         .then(response => response.json())
-        .then(() => {
-            localStorage.removeItem('errorUsers');
-            localStorage.setItem('confirmUsers', 'Användaren har lagts till.');
-
-            window.location.reload();
+        .then((data) => {
+            let userArr = this.state.users;
+            userArr.unshift(data);
 
             this.setState({
-                error:      false,
+                confirm:      true,
+                confirmUsers: 'Användaren har lagts till.',
+                users:        userArr,
             })
         })
         .catch(() => {
-            localStorage.setItem('errorUsers', 'Ett serverfel har uppstått. Det gick inte att lägga till användaren. ' 
-            + 'Försök igen lite senare.');
-
             this.setState({
                 error:      true, 
+                errorUsers: 'Ett serverfel har uppstått. Det gick inte att lägga till användaren.' 
+                                + ' Försök igen lite senare.'
             })
         })
     }
@@ -779,28 +757,34 @@ class Admin extends React.Component {
                 body:    JSON.stringify(body),
             })
             .then(response => response.json())
-            .then(() => {
+            .then((data) => {
+                this.updateSearch(body);
+
                 localStorage.removeItem('action');
-                localStorage.removeItem('errorTests');
-                localStorage.setItem('confirmTests', 'Testet har uppdaterats.');
-                window.location.reload();
+
+                let testArr = this.state.tests;
+
+                for (let i = 0; i < testArr.length; i++) {
+                    if (testArr[i].id == data.id) {
+                        testArr.splice(i, 1, data);
+                    }
+                }
 
                 this.setState({
                     confirm:      true,
-                    error:        false,
+                    confirmTests: 'Testet har uppdaterats.',
+                    tests:        testArr,
                 })
             })
             .catch(() => {
                 localStorage.removeItem('action');
-                localStorage.setItem('errorTests', 'Ett serverfel har uppstått. Det gick inte att uppdatera testet. ' 
-                + 'Försök igen lite senare.');
 
                 this.setState({
                     error:      true,
+                    errorTests: 'Ett serverfel har uppstått. Det gick inte att uppdatera testet.' 
+                                    + ' Försök igen lite senare.'
                 })
             })
-
-            this.updateSearch(body);
         }
     }
 
@@ -812,31 +796,37 @@ class Admin extends React.Component {
                 body:    JSON.stringify(body),
             })
             .then(response => response.json())
-            .then(() => {
+            .then((data) => {
+                this.updateSearch(body);
+
                 localStorage.removeItem('action');
-                localStorage.removeItem('errorSolutions');
-                localStorage.setItem('confirmSolutions', 'Utvecklingspaketet har uppdaterats.');
-                window.location.reload();
+
+                let solutionArr = this.state.solutions;
+                
+                for (let i = 0; i < solutionArr.length; i++) {
+                    if (solutionArr[i].id == data.id) {
+                        solutionArr.splice(i, 1, data);
+                    }
+                }
 
                 /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
                     och uppdaterar sedan state-arrayen */
                 this.setState({
                     confirm:          true,
-                    error:            false,
+                    confirmSolutions: 'Utvecklingspaketet har uppdaterats.',
+                    solutions:        data,
                 })
             })
             .catch(() => {
                 localStorage.removeItem('action');
-                localStorage.setItem('errorSolutions', 'Ett serverfel har uppstått. Det gick inte att uppdatera utvecklingspaketet. ' 
-                + 'Försök igen lite senare.');
 
                 this.setState({
                     error:          true,
+                    errorSolutions: 'Ett serverfel har uppstått. Det gick inte att uppdatera utvecklingspaketet.' 
+                                        + ' Försök igen lite senare.'
                 })
             })
         }
-
-        this.updateSearch(body);
     }
 
     updateCourse(id, body) {
@@ -847,34 +837,36 @@ class Admin extends React.Component {
                 body:    JSON.stringify(body),
             })
             .then(response => response.json())
-            .then(() => {
-                localStorage.removeItem('action');
-                localStorage.removeItem('errorCourses');
-                localStorage.setItem('confirmCourses', 'Utbildningen har uppdaterats.');
+            .then((data) => {
+                this.updateSearch(body);
 
-                window.location.reload();
+                localStorage.removeItem('action');
 
                 let courseArr = this.state.courses;
+
+                for (let i = 0; i < courseArr.length; i++) {
+                    if (courseArr[i].id == data.id) {
+                        courseArr.splice(i, 1, data);
+                    }
+                }
 
                 /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
                     och uppdaterar sedan state-arrayen */
                 this.setState({
                     courses:        courseArr,
                     confirm:        true,
-                    error:          false,
+                    confirmCourses: 'Utbildningen har uppdaterats.',
                 })
             })
             .catch(() => {
                 localStorage.removeItem('action');
-                localStorage.setItem('errorCourses', 'Ett serverfel har uppstått. Det gick inte att uppdatera utbildningen. ' 
-                + 'Försök igen lite senare.');
 
                 this.setState({
                     error:        true,
+                    errorCourses: 'Ett serverfel har uppstått. Det gick inte att uppdatera utbildningen.' 
+                                    + ' Försök igen lite senare.'
                 })
             })
-
-            this.updateSearch(body);
         }
     }
 
@@ -886,34 +878,55 @@ class Admin extends React.Component {
                 body:    JSON.stringify(body),
             })
             .then(response => response.json())
-            .then(() => {
-                localStorage.removeItem('action');
-                localStorage.removeItem('errorPosts');
-                localStorage.setItem('confirmPosts', 'Inlägget har uppdaterats.');
+            .then((data) => {
+                if (body.published) {
+                    this.updateSearch(body);
+                }
 
-                window.location.reload();
+                localStorage.removeItem('action');
+
+                let postArr = [];
+
+                if (this.state.userRole == 'Medarbetare') {
+                    postArr = this.state.posts;
+                
+                } else {
+                    postArr = this.state.userPosts;
+                }
+
+                for (let i = 0; i < postArr.length; i++) {
+                    if (postArr[i].id == data.id) {
+                        postArr.splice(i, 1, data);
+                    }
+                }
+
+                if (this.state.userRole == 'Medarbetare') {
+                    this.setState({
+                        posts: postArr,
+                    })
+                
+                } else {
+                    this.setState({
+                        userPosts: postArr,
+                    })
+                }
 
                 /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
                     och uppdaterar sedan state-arrayen */
                 this.setState({
-                    userPosts:    userPosts,
                     confirm:      true,
-                    error:        false,
+                    confirmPosts: 'Inlägget har uppdaterats.',
                 })
             })
             .catch(() => {
                 localStorage.removeItem('action');
-                localStorage.setItem('errorPosts', 'Ett serverfel har uppstått. Det gick inte att uppdatera inlägget. ' 
-                + 'Försök igen lite senare.');
 
                 this.setState({
                     error:      true,
+                    errorPosts: 'Ett serverfel har uppstått. Det gick inte att uppdatera inlägget.' 
+                                    + ' Försök igen lite senare.'
                 })
             })
-
-            if (body.published) {
-                this.updateSearch(body);
-            }
         }
     }
 
@@ -924,27 +937,32 @@ class Admin extends React.Component {
             body:    JSON.stringify(body),
         })
         .then(response => response.json())
-        .then(() => {
+        .then((data) => {
             localStorage.removeItem('action');
-            localStorage.removeItem('errorUsers');
-            localStorage.setItem('confirmUsers', 'Användaren har uppdaterats.');
 
-            window.location.reload();
+            let userArr = this.state.users;
+
+            for (let i = 0; i < userArr.length; i++) {
+                if (userArr[i].id == data.id) {
+                    userArr.splice(i, 1, data);
+                }
+            }
             
             /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
                 och uppdaterar sedan state-arrayen */
             this.setState({
                 confirm:      true,
-                error:        false,
+                confirmUsers: 'Användaren har uppdaterats.',
+                users:        userArr,
             })
         })
         .catch(() => {
             localStorage.removeItem('action');
-            localStorage.setItem('errorUsers', 'Ett serverfel har uppstått. Det gick inte att uppdatera användaren. ' 
-            + 'Försök igen lite senare.');
 
             this.setState({
                 error:      true,
+                errorUsers: 'Ett serverfel har uppstått. Det gick inte att uppdatera användaren.' 
+                                + ' Försök igen lite senare.'
             })
         })
     }
@@ -970,27 +988,33 @@ class Admin extends React.Component {
             headers: {'Content-Type': 'application/json',},
         })
         .then(() => {
+            this.deleteSearch();
+
             localStorage.removeItem('action');
-            localStorage.removeItem('errorTests');
-            localStorage.setItem('confirmTests', 'Testet har raderats.');
-            window.location.reload();
+
+            let testArr = this.state.tests;
+
+            for (let i = 0; i < testArr.length; i++) {
+                if (testArr[i].id == id) {
+                    testArr.splice(i, 1);
+                }
+            }
 
             this.setState({
                 confirm:      true,
-                error:        false,
+                confirmTests: 'Testet har raderats.',
+                tests:        testArr,
             })
         })
         .catch(() => {
             localStorage.removeItem('action');
-            localStorage.setItem('errorTests', 'Ett serverfel har uppstått. Det gick inte att radera testet. ' 
-            + 'Försök igen lite senare.');
 
             this.setState({
                 error:      true,
+                errorTests: 'Ett serverfel har uppstått. Det gick inte att radera testet.' 
+                                + ' Försök igen lite senare.'
             })
         })
-
-        this.deleteSearch();
     }
 
     deleteSolution(id) {
@@ -1000,27 +1024,33 @@ class Admin extends React.Component {
         })
         .then(response => response.json())
         .then(() => {
+            this.deleteSearch();
+
             localStorage.removeItem('action');
-            localStorage.removeItem('errorSolutions');
-            localStorage.setItem('confirmSolutions', 'Utvecklingspaketet har raderats.');
-            window.location.reload();
+
+            let solutionArr = this.state.solutions;
+
+            for (let i = 0; i < solutionArr.length; i++) {
+                if (solutionArr[i].id == id) {
+                    solutionArr.splice(i, 1);
+                }
+            }
 
             this.setState({
                 confirm:          true,
-                error:            false,
+                confirmSolutions: 'Utvecklingspaketet har raderats.',
+                solutions:        solutionArr,
             })
         })
         .catch(() => {
             localStorage.removeItem('action');
-            localStorage.setItem('errorSolutions', 'Ett serverfel har uppstått. Det gick inte att radera utvecklingspaketet. ' 
-            + 'Försök igen lite senare.');
 
             this.setState({
                 error:          true,
+                errorSolutions: 'Ett serverfel har uppstått. Det gick inte att radera utvecklingspaketet. ' 
+                                    + 'Försök igen lite senare.',
             })
         })
-
-        this.deleteSearch();
     }
 
     deleteCourse(id) {
@@ -1030,28 +1060,33 @@ class Admin extends React.Component {
         })
         .then(response => response.json())
         .then(() => {
-            localStorage.removeItem('action');
-            localStorage.removeItem('errorCourses');
-            localStorage.setItem('confirmCourses', 'Utbildningen har raderats.');
+            this.deleteSearch();
 
-            window.location.reload();
+            localStorage.removeItem('action');
+
+            let courseArr = this.state.courses;
+
+            for (let i = 0; i < courseArr.length; i++) {
+                if (courseArr[i].id == id) {
+                    courseArr.splice(i, 1);
+                }
+            }
 
             this.setState({
                 confirm:        true,
-                error:          false,
+                confirmCourses: 'Utbildningen har raderats.',
+                courses:        courseArr,
             })
         })
         .catch(() => {
             localStorage.removeItem('action');
-            localStorage.setItem('errorCourses', 'Ett serverfel har uppstått. Det gick inte att radera utbildningen. ' 
-            + 'Försök igen lite senare.');
 
             this.setState({
                 error:        true,
+                errorCourses: 'Ett serverfel har uppstått. Det gick inte att radera utbildningen.' 
+                                + ' Försök igen lite senare.',
             })
         })
-
-        this.deleteSearch();
     }
 
     deletePost(id, published) {
@@ -1059,32 +1094,53 @@ class Admin extends React.Component {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
         })
-        .then(() => {
-            localStorage.removeItem('action');
-            localStorage.removeItem('errorPosts');
-            localStorage.setItem('confirmPosts', 'Inlägget har raderats.');
+        .then((data) => {
+            if (published) {
+                this.deleteSearch();
+            }
 
-            window.location.reload();
+            localStorage.removeItem('action');
+
+            let postArr = [];
+
+            if (this.state.userRole == 'Medarbetare') {
+                postArr = this.state.posts;
+            
+            } else {
+                postArr = this.state.userPosts;
+            }
+
+            for (let i = 0; i < postArr.length; i++) {
+                if (postArr[i].id == data.id) {
+                    postArr.splice(i, 1);
+                }
+            }
+
+            if (this.state.userRole == 'Medarbetare') {
+                this.setState({
+                    posts: postArr,
+                })
+            
+            } else {
+                this.setState({
+                    userPosts: postArr,
+                })
+            }
 
             this.setState({
-                userPosts:    userPosts,
                 confirm:      true,
-                error:        false,
+                confirmPosts: 'Inlägget har raderats.',
             })
         })
         .catch(() => {
             localStorage.removeItem('action');
-            localStorage.setItem('errorPosts', 'Ett serverfel har uppstått. Det gick inte att radera inlägget. ' 
-            + 'Försök igen lite senare.');
 
             this.setState({
                 error:      true,
+                errorPosts: 'Ett serverfel har uppstått. Det gick inte att radera inlägget.' 
+                                + ' Försök igen lite senare.',
             })
         })
-
-        if (published) {
-            this.deleteSearch();
-        }
     }
 
     deleteUser(id) {
@@ -1095,23 +1151,28 @@ class Admin extends React.Component {
         .then(response => response.json())
         .then(() => {
             localStorage.removeItem('action');
-            localStorage.removeItem('errorUsers');
-            localStorage.setItem('confirmUsers', 'Användaren har raderats.');
 
-            window.location.reload();
+            let userArr = this.state.users;
+
+            for (let i = 0; i < userArr.length; i++) {
+                if (userArr[i].id == id) {
+                    userArr.splice(i, 1);
+                }
+            }
 
             this.setState({
                 confirm:      true,
-                error:        false,
+                confirmUsers: 'Användaren har raderats.',
+                users:        userArr,
             })
         })
         .catch(() => {
             localStorage.removeItem('action');
-            localStorage.setItem('errorUsers', 'Ett serverfel har uppstått. Det gick inte att radera användaren. ' 
-            + 'Försök igen lite senare.');
 
             this.setState({
                 error:      true,
+                errorUsers: 'Ett serverfel har uppstått. Det gick inte att radera användaren.' 
+                                + ' Försök igen lite senare.'
             })
         })
     }
@@ -1123,23 +1184,28 @@ class Admin extends React.Component {
         })
         .then(() => {
             localStorage.removeItem('action');
-            localStorage.removeItem('errorComments');
-            localStorage.setItem('confirmComments', 'Kommentaren har raderats.');
 
-            window.location.reload();
+            let commentArr = this.state.comments;
+
+            for (let i = 0; i < commentArr; i ++) {
+                if (commentArr[i].id == id) {
+                    commentArr.splice(i, 1);
+                }
+            }
 
             this.setState({
                 confirm:         true,
-                error:           false,
+                confirmComments: 'Kommentaren har raderats.',
+                comments:        commentArr,
             })
         })
         .catch(() => {
             localStorage.removeItem('action');
-            localStorage.setItem('errorComments', 'Ett serverfel har uppstått. Det gick inte att radera kommentaren. ' 
-            + 'Försök igen lite senare.');
 
             this.setState({
                 error:         true,
+                errorComments: 'Ett serverfel har uppstått. Det gick inte att radera kommentaren.' 
+                                    + ' Försök igen lite senare.',
             })
         })
     }
@@ -1163,30 +1229,51 @@ class Admin extends React.Component {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
         })
-        .then(() => {
-            localStorage.removeItem('action');
-            localStorage.removeItem('errorPosts');
-            localStorage.setItem('confirmPosts', 'Inlägget har publicerats.');
+        .then((data) => {
+            this.addSearch(body);
 
-            window.location.reload();
+            localStorage.removeItem('action');
+
+            let postArr = [];
+
+            if (this.state.userRole == 'Medarbetare') {
+                postArr = this.state.posts;
+            
+            } else {
+                postArr = this.state.userPosts;
+            }
+
+            for (let i = 0; i < postArr.length; i++) {
+                if (postArr[i].id == data.id) {
+                    postArr.splice(i, 1, data);
+                }
+            }
+
+            if (this.state.userRole == 'Medarbetare') {
+                this.setState({
+                    posts: postArr,
+                })
+            
+            } else {
+                this.setState({
+                    userPosts: postArr,
+                })
+            }
 
             this.setState({
-                userPosts:    userPosts,
-                confirm:      true,
-                error:        false,
+                confirm:        true,
+                confirmMessage: 'Inlägget har publicerats.',
             })
         })
         .catch(() => {
             localStorage.removeItem('action');
-            localStorage.setItem('errorPosts', 'Ett serverfel har uppstått. Det gick inte att publicera inlägget. ' 
-            + 'Försök igen lite senare.');
 
             this.setState({
                 error:      true,
+                errorPosts: 'Ett serverfel har uppstått. Det gick inte att publicera inlägget.' 
+                                + ' Försök igen lite senare.',
             })
         })
-
-        this.addSearch(body);
     }
 
     publishComment(id) {
@@ -1194,25 +1281,30 @@ class Admin extends React.Component {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
         })
-        .then(() => {
+        .then((data) => {
             localStorage.removeItem('action');
-            localStorage.removeItem('errorComments');
-            localStorage.setItem('confirmComments', 'Kommentaren har publicerats.');
 
-            window.location.reload();
+            let commentArr = this.state.comments;
+            
+            for (let i = 0; i < commentArr.length; i++) {
+                if (commentArr[i].id == data.id) {
+                    commentArr.splice(i, 1, data);
+                }
+            }
 
             this.setState({
                 confirm:         true,
-                error:           false,
+                confirmComments: 'Kommentaren har publicerats.',
+                comments:        commentArr,
             })
         })
         .catch(() => {
             localStorage.removeItem('action');
-            localStorage.setItem('errorComments', 'Ett serverfel har uppstått. Det gick inte att publicera kommentaren. ' 
-            + 'Försök igen lite senare.');
 
             this.setState({
                 error:         true,
+                errorComments: 'Ett serverfel har uppstått. Det gick inte att publicera kommentaren.' 
+                                    + ' Försök igen lite senare.'
             })
         })
     }
@@ -1224,15 +1316,6 @@ class Admin extends React.Component {
 
         if (!this.state.error) {
             this.addUser(e);
-        }
-    }
-
-    handleLinkClick(e) {
-        if (e.target.innerHTML == 'Logga ut') {
-            this.handleLogout(e);
-
-        } else {
-            this.handlePageTitle(e);
         }
     }
 
@@ -1253,38 +1336,10 @@ class Admin extends React.Component {
         sessionStorage.removeItem('user');
         localStorage.removeItem('permission');
         localStorage.removeItem('component');
-        localStorage.removeItem('errorTests');
-        localStorage.removeItem('confirmTests');
-        localStorage.removeItem('errorSolutions');
-        localStorage.removeItem('confirmSolutions');
-        localStorage.removeItem('errorCourses');
-        localStorage.removeItem('confirmCourses');
-        localStorage.removeItem('errorPosts');
-        localStorage.removeItem('confirmPosts');
-        localStorage.removeItem('errorUsers');
-        localStorage.removeItem('confirmUsers');
 
         // Skickar användaren till Logga in
         this.props.function();
     }
-
-    handlePageTitle(e) {
-        if (e.target.id == 'logo') {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
-                document.title = 'Home';
-            
-            } else {
-                localStorage.setItem('page', 'Start');
-                document.title = 'Start';
-            }
-
-        } else {
-            localStorage.setItem('page', e.target.innerHTML);
-            document.title = e.target.innerHTML;
-        }
-    }
-
 }
 
 // Exporterar komponenten

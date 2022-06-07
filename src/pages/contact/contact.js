@@ -27,8 +27,6 @@ class Contact extends React.Component {
         this.validateMessage       = this.validateMessage.bind(this);
         this.validateConsent       = this.validateConsent.bind(this);
         this.handleSubmit          = this.handleSubmit.bind(this);
-        this.handlePageTitle       = this.handlePageTitle.bind(this);
-        this.handleLinkClick       = this.handleLinkClick.bind(this);
         this.handleLogout          = this.handleLogout.bind(this);
 
         this.state = {
@@ -40,6 +38,11 @@ class Contact extends React.Component {
             message:        '',
             consent:        false,
             error:          false,
+            errorSwedish:   '',
+            confirmGerman:  '',
+            confirm:        false,
+            confirmSwedish: '',
+            confirmGerman:  '',
             firstNameEmpty: '',
             lastNameEmpty:  '',
             emailEmpty:     '',
@@ -58,25 +61,25 @@ class Contact extends React.Component {
                     {localStorage.getItem('language') == 'Deutsch' ?
                     <nav className="breadcrumbs" aria-label="Brotkrümelnavigation">
                         <ul>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/"}
-                                onClick={this.handleLinkClick}>Home</Link>/</li>
-                            <li><Link className="active-breadcrumb text focus regular-font-size" to={"/contact"}
-                                onClick={this.handleLinkClick}> Kontakt</Link></li>
+                            <li><Link className="inactive-breadcrumb text focus regular-font-size" 
+                                to={"/"}>Home</Link>/</li>
+                            <li><Link className="active-breadcrumb text focus regular-font-size" 
+                                to={"/contact"}> Kontakt</Link></li>
                         </ul>
                     </nav>
                     :
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/"}
-                                onClick={this.handleLinkClick}>Start</Link>/</li>
-                            <li><Link className="active-breadcrumb text focus regular-font-size" to={"/contact"}
-                                onClick={this.handleLinkClick}> Kontakt</Link></li>
+                            <li><Link className="inactive-breadcrumb text focus regular-font-size" 
+                                to={"/"}>Start</Link>/</li>
+                            <li><Link className="active-breadcrumb text focus regular-font-size" 
+                                to={"/contact"}> Kontakt</Link></li>
                         </ul>
                     </nav>
                     }
                     <p id="logout" style={this.props.signedIn ? {display: 'block'} :
                         {display: 'none'}}><Link className="text focus regular-font-size" to={"/login"} 
-                        onClick={this.handleLinkClick}>Logga ut</Link></p>
+                        onClick={this.handleLogout}>Logga ut</Link></p>
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="contact">
@@ -127,7 +130,7 @@ class Contact extends React.Component {
                             <div className="form-right">
                                 <label htmlFor="phone" className="text h3-font-size">Telefon</label>
                                 <input id="phone" className="text focus text-input text-input-main regular-font-size" 
-                                    name="phone" type="phone" aria-required="false" 
+                                    name="phone" type="tel" aria-required="false" 
                                     onChange={this.handlePhoneChange}></input>
                             </div>
                         </div>
@@ -141,12 +144,13 @@ class Contact extends React.Component {
                                 style={this.state.messageEmpty ? {display: 'block'} : {display: 'none'}}>
                                     {this.state.messageEmpty}</p>
                         {/* Samtycke */}
+                        <p id="consent-heading" className="text h3-font-size">Einwilligung *</p>
                         <input id="consent" className="focus" type="checkbox" aria-required="true" 
                             onChange={this.handleConsentChange} onBlur={this.validateConsent}></input>  
                         <label id="consent-label" htmlFor="consent" className="text regular-font-size">
                             Hiermit stimme ich der Bearbeitung meiner Personenbezogenen Daten gemäß der 
                             <a className="text focus regular-font-size" href=""> Datenschutzerklärung</a> zu. 
-                            <b className="text regular-font-size">*</b></label>
+                            <b className="text regular-font-size"></b></label>
                         {/* Här skrivs ett felmeddelande om användaren inte har samtyckt */}
                         <p className="text regular-font-size error" role="alert" 
                             style={this.state.consentEmpty ? {display: 'block'} : {display: 'none'}}>
@@ -157,11 +161,11 @@ class Contact extends React.Component {
                             <button type="submit" className="submit-btn text focus" onClick={this.handleSubmit}>
                                 Senden</button>
                             <p className="text regular-font-size error" role="alert" 
-                                style={localStorage.getItem('errorMessage') != '' ? {display: 'block'} : 
-                                {display: 'none'}}>{localStorage.getItem('errorMessage')}</p>
+                                style={this.state.errorGerman != '' ? {display: 'block'} : 
+                                {display: 'none'}}>{this.state.errorGerman}</p>
                             <p className="text regular-font-size confirm" role="alert" 
-                                style={localStorage.getItem('confirmMessage') != '' ? {display: 'block'} : 
-                                {display: 'none'}}>{localStorage.getItem('confirmMessage')}</p>
+                                style={this.state.confirmGerman != '' ? {display: 'block'} : 
+                                {display: 'none'}}>{this.state.confirmGerman}</p>
                         </div>
                     </form>
                 </section>
@@ -227,6 +231,7 @@ class Contact extends React.Component {
                                 style={this.state.messageEmpty ? {display: 'block'} : {display: 'none'}}>
                                     {this.state.messageEmpty}</p>
                         {/* Samtycke */}
+                        <p id="consent-heading" className="text h3-font-size">Samtycke *</p>
                         <input id="consent" className="focus" type="checkbox" aria-required="true" 
                             onChange={this.handleConsentChange} onBlur={this.validateConsent}></input>  
                         <label id="consent-label" htmlFor="consent" className="text regular-font-size">
@@ -243,11 +248,11 @@ class Contact extends React.Component {
                             <button type="submit" className="submit-btn text focus" onClick={this.handleSubmit}>
                                 Skicka</button>
                             <p className="text regular-font-size error" role="alert" 
-                                style={localStorage.getItem('errorMessage') != '' ? {display: 'block'} : 
-                                {display: 'none'}}>{localStorage.getItem('errorMessage')}</p>
+                                style={this.state.errorSwedish != '' ? {display: 'block'} : 
+                                {display: 'none'}}>{this.state.errorSwedish}</p>
                             <p className="text regular-font-size confirm" role="alert" 
-                                style={localStorage.getItem('confirmMessage') != '' ? {display: 'block'} : 
-                                {display: 'none'}}>{localStorage.getItem('confirmMessage')}</p>
+                                style={this.state.confirmSwedish != '' ? {display: 'block'} : 
+                                {display: 'none'}}>{this.state.confirmSwedish}</p>
                         </div>
                     </form>
                 </section>}
@@ -622,52 +627,23 @@ class Contact extends React.Component {
             emailjs.sendForm('service_005r77b', 'contact_form', this.form.current, '7V3K7ahJFB30PLvxy')
             .then(result => {
                 this.setState({
-                    error:        false,
-                    result: result.text,
+                    confirm:        true,
+                    confirmSwedish: 'Tack för ditt meddelande! Vi svarar på ditt meddelande så snart vi kan.',
+                    confirmGerman:  'Vielen Dank für Ihre Mitteilung. Wir melden uns sobald wie möglich bei Ihnen.',
+                    result:         result.text,
                 })
-
-                localStorage.removeItem('errorMessage');
-
-                if (localStorage.getItem('language') == 'Deutsch') {
-                    localStorage.setItem(
-                        'confirmMessage', 'Vielen Dank für Ihre Mitteilung. Wir melden uns sobald wie möglich bei Ihnen.'
-                    );
-                
-                } else {
-                    localStorage.setItem(
-                        'confirmMessage', 'Tack för ditt meddelande! Vi svarar på ditt meddelande så snart vi kan.'
-                    );
-                }
 
             }, (error) => {
                 this.setState({
                     error:          true,
+                    errorSwedish:   'Ett fel har uppstått. ' +
+                                        'Det gick inte att skicka meddelandet. Försök igen lite senare.',
+                    errorGerman:    'Ein Fehler ist aufgetreten. ' +
+                                        'Ihre Mitteilung konnte leider nicht gesendet werden. ' +
+                                        'Versuchen Sie es später erneut.',
                     result:         error.text,
                 })
-
-                localStorage.removeItem('confirmMessage');
-
-                if (localStorage.getItem('language') == 'Deutsch') {
-                    localStorage.setItem('errorMessage', 'Ein Fehler ist aufgetreten. ' +
-                        'Ihre Mitteilung konnte leider nicht gesendet werden. ' +
-                        'Versuchen Sie es später erneut.'
-                    );
-                
-                } else {
-                    localStorage.setItem('errorMessage', 'Ett fel har uppstått. ' +
-                        'Det gick inte att skicka meddelandet. Försök igen lite senare.'
-                    );
-                }
             })
-        }
-    }
-
-    handleLinkClick(e) {
-        if (e.target.innerHTML == 'Logga ut') {
-            this.handleLogout(e);
-        
-        } else {
-            this.handlePageTitle(e);
         }
     }
 
@@ -678,23 +654,6 @@ class Contact extends React.Component {
         e.preventDefault();
 
         this.props.logout();
-    }
-
-    handlePageTitle(e) {
-        if (e.target.id == 'logo') {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
-                document.title = 'Home';
-            
-            } else {
-                localStorage.setItem('page', 'Start');
-                document.title = 'Start';
-            }
-
-        } else {
-            localStorage.setItem('page', e.target.innerHTML);
-            document.title = e.target.innerHTML;
-        }
     }
 }
 

@@ -22,11 +22,9 @@ class Search extends React.Component {
         this.renderResultsGerman  = this.renderResultsGerman.bind(this);
         this.handleLinkClick    = this.handleLinkClick.bind(this);
         this.handleLogout       = this.handleLogout.bind(this);
-        this.handlePageTitle = this.handlePageTitle.bind(this);
 
         this.state = {
             signedIn:             this.props.signedIn,
-            result:               [],
             results:              [],
             resultsSwedish:       [],
             resultsGerman:        [],
@@ -36,6 +34,8 @@ class Search extends React.Component {
             activePage:           1,
             page:                 [],
             error:                false,
+            errorSwedish:         '',
+            errorGerman:          '',
         }
 
         this.search();
@@ -83,12 +83,12 @@ class Search extends React.Component {
                             {display: 'block'} : {display: 'none'}}>{localStorage.getItem('numberOfResultsGerman') 
                             + ' Treffer'}</p>
                     </form>
-                    <section id="results">
-                        {localStorage.getItem('resultsGerman') ? this.renderResultsGerman() : 
-                        <p className="text error regular-font-size" role="alert" style={localStorage.getItem('errorGerman') ?
-                            {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorGerman')}</p>}
+                    <div id="results">
+                        {localStorage.getItem('resultsGerman') ? this.renderResultsGerman() : null}
+                        <p className="text error regular-font-size" role="alert" style={this.state.errorGerman ?
+                            {display: 'block'} : {display: 'none'}}>{this.state.errorGerman}</p>
                         {this.toggleBtnsGerman()}
-                    </section>
+                    </div>
                 </section>
                 :
                 <section id="search">
@@ -103,12 +103,12 @@ class Search extends React.Component {
                             {display: 'block'} : {display: 'none'}}>{localStorage.getItem('numberOfResultsSwedish') 
                             + ' träffar'}</p>
                     </form>
-                    <section id="results">
-                        {localStorage.getItem('resultsSwedish') ? this.renderResultsSwedish() : 
-                        <p className="text error regular-font-size" role="alert" style={localStorage.getItem('errorSwedish') ?
-                            {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorSwedish')}</p>}
+                    <div id="results">
+                        {localStorage.getItem('resultsSwedish') ? this.renderResultsSwedish() : null}
+                        <p className="text error regular-font-size" role="alert" style={this.state.errorSwedish ?
+                            {display: 'block'} : {display: 'none'}}>{this.state.errorSwedish}</p>
                         {this.toggleBtnsSwedish()}
-                    </section>
+                    </div>
                 </section>
                 }
             </main>
@@ -193,9 +193,6 @@ class Search extends React.Component {
                 let numberOfPagesSwedish;
                 let numberOfPagesGerman;
 
-                localStorage.removeItem('errorSwedish');
-                localStorage.removeItem('errorGerman');
-
                 data.forEach((page) => {
                     if (page.language == 'swedish') {
                         filterSwedish.push(page);
@@ -263,28 +260,25 @@ class Search extends React.Component {
                 if (!resultsSwedish.length) {
                     this.setState({
                         error:        true,
+                        errorSwedish: 'Sökningen gav inga träffar.',
                     })
-
-                    localStorage.setItem('errorSwedish', 'Sökningen gav inga träffar.');
                 }
 
                 if (!resultsGerman.length) {
                     this.setState({
-                        error:        true,
+                        error:       true,
+                        errorGerman: 'Ihre Suche ergab leider keine Treffer.',
                     })
-
-                    localStorage.setItem('errorGerman', 'Ihre Suche ergab leider keine Treffer.');
                 }
             })
             .catch(() => {
                 this.setState({
-                    error: true,
-                })
-
-                localStorage.setItem('errorSwedish', 'Ett serverfel har uppstått. Din sökning kunde inte genomföras. '
-                    + 'Försök igen lite senare.');
-                localStorage.setItem('errorGerman', 'Ein Serverfehler ist aufgetreten. Ihre Suche konnte leider nicht durchgeführt werden. '
-                    + 'Versuchen Sie es später erneut.');  
+                    error:        true,
+                    errorSwedish: 'Ett serverfel har uppstått. Din sökning kunde inte genomföras.'
+                                    + ' Försök igen lite senare.',
+                    errorGerman:  'Ein Serverfehler ist aufgetreten. Ihre Suche konnte leider nicht durchgeführt werden.'
+                                    + ' Versuchen Sie es später erneut.'
+                }) 
             })
         }
     }
@@ -357,33 +351,7 @@ class Search extends React.Component {
                 }
             }
         
-        } /* else if (this.state.numberOfPagesGerman > 1) {
-            for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
-                if (i == 1) {
-                    if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
-                        onClick={this.handleBtnClick}>{i}</button>);
-                    
-                    } else {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
-                        onClick={this.handleBtnClick}>{i}</button>);
-                    }
-                } else {
-                    if (localStorage.getItem('activePage') == 1 || !localStorage.getItem('activePage')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
-                        onClick={this.handleBtnClick}>{i}</button>);
-                    
-                    } else if (i == localStorage.getItem('activePage')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
-                        onClick={this.handleBtnClick}>{i}</button>);
-                    }
-                }
-            }
-        } */
+        }
 
         return buttons;
     }
@@ -535,14 +503,6 @@ class Search extends React.Component {
         } else if (e.target.id.indexOf('post') >= 0) {
             localStorage.setItem('postId', e.target.id.slice(4)); 
         }
-
-        if (e.target.innerHTML == 'Logga ut') {
-            this.handleLogout(e);
-
-        } else if (e.target.innerHTML !== 'Läs mer' &&
-            e.target.innerHTML !== 'Mehr') {
-            this.handlePageTitle(e);
-        }
     }
 
     // Utloggning
@@ -552,23 +512,6 @@ class Search extends React.Component {
         e.preventDefault();
 
         this.props.logout();
-    }
-
-    handlePageTitle(e) {
-        if (e.target.id == 'logo') {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                localStorage.setItem('page', 'Home');
-                document.title = 'Home';
-            
-            } else {
-                localStorage.setItem('page', 'Start');
-                document.title = 'Start';
-            }
-
-        } else {
-            localStorage.setItem('page', e.target.innerHTML);
-            document.title = e.target.innerHTML;
-        }
     }
 }
 

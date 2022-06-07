@@ -30,7 +30,6 @@ class Users extends React.Component {
         this.validatePhone           = this.validatePhone.bind(this);
         this.validateUsername        = this.validateUsername.bind(this);
         this.validatePassword        = this.validatePassword.bind(this);
-        this.checkPasswordLength     = this.checkPasswordLength.bind(this);
         this.handleLinkClick         = this.handleLinkClick.bind(this);
         this.handleSubmit            = this.handleSubmit.bind(this);
         this.validateForm            = this.validateForm.bind(this);
@@ -47,6 +46,9 @@ class Users extends React.Component {
             userRole:         '',
             blocked:          '',
             error:            false,
+            errorUsers:       this.props.errorUsers,
+            confirm:          false,
+            confirmUsers:     this.props.confirmUsers,
             firstNameEmpty:   '',
             lastNameEmpty:    '',
             emailEmpty:       '',
@@ -175,12 +177,12 @@ class Users extends React.Component {
                             Skicka</button>
                     </form>
                     {/* Här skrivs eventuella felmeddelanden ut (inga poster, serverfel) */}
-                    <p className="error" role="alert" style={localStorage.getItem('errorUsers') ? 
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorUsers')}
+                    <p className="error" role="alert" style={this.props.errorUsers ? 
+                        {display: 'block'} : {display: 'none'}}>{this.props.errorUsers}
                     </p> 
                     {/* Här skrivs övriga bekräftelsemeddelanden ut (uppdatering, borttagning) */}
-                    <p className="confirm" role="alert" style={localStorage.getItem('confirmUsers') ? 
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('confirmUsers')}
+                    <p className="confirm" role="alert" style={this.props.confirmUsers ? 
+                        {display: 'block'} : {display: 'none'}}>{this.props.confirmUsers}
                     </p>
                 </section>
 
@@ -482,19 +484,6 @@ class Users extends React.Component {
         }
     }
 
-    checkPasswordLength() {
-        const passwordInput = document.getElementById('password-input');
-
-        if (this.state.password.length < 10 && passwordInput.value.length < 10) {
-            this.setState({
-                error:            true,
-                passwordTooShort: 'Lösenordet måste vara minst 10 tecken långt.',
-            })
-
-            localStorage.setItem('error', true);
-        }
-    }
-
     validateForm(e) {
         const firstNameInput = document.getElementById('user-first-name-input');
         const lastNameInput  = document.getElementById('user-last-name-input');
@@ -708,7 +697,6 @@ class Users extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        // this.checkPasswordLength(e);
         this.validateForm(e);
 
         if (!localStorage.getItem('error')) {

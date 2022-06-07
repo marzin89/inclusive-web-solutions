@@ -40,6 +40,13 @@ class Services extends React.Component {
             altText:          '',
             language:         '',
             error:            false,
+            errorTests:       this.props.errorTests,
+            errorSolutions:   this.props.errorSolutions,
+            errorCourses:     this.props.errorCourses,
+            confirm:          false,
+            confirmTests:     this.props.confirmTests,
+            confirmSolutions: this.props.confirmSolutions,
+            confirmCourses:   this.props.confirmCourses,
             nameEmpty:        '',
             priceEmpty:       '',
             descriptionEmpty: '',
@@ -116,24 +123,24 @@ class Services extends React.Component {
                         <button type="submit" className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
                     </form>
                     {/* Här skrivs övriga felmeddelanden ut (inga poster, serverfel) */}
-                    <p className="error" role="alert" style={localStorage.getItem('error') && this.props.service == 'tests' ? 
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorTests')}
+                    <p className="error" role="alert" style={this.props.errorTests ? 
+                        {display: 'block'} : {display: 'none'}}>{this.props.errorTests}
                     </p>
-                    <p className="error" role="alert" style={localStorage.getItem('error') && this.props.service == 'solutions' ? 
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorSolutions')}
+                    <p className="error" role="alert" style={this.props.errorSolutions ? 
+                        {display: 'block'} : {display: 'none'}}>{this.props.errorSolutions}
                     </p>
-                    <p className="error" role="alert" style={localStorage.getItem('error') && this.props.service == 'courses' ? 
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('errorCourses')}
+                    <p className="error" role="alert" style={this.props.errorCourses ? 
+                        {display: 'block'} : {display: 'none'}}>{this.props.errorCourses}
                     </p>
                     {/* Här skrivs övriga bekräftelsemeddelanden ut (uppdatering, borttagning) */}
-                    <p className="confirm" role="alert" style={localStorage.getItem('confirmTests') && this.props.service == 'tests' ? 
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('confirmTests')}
+                    <p className="confirm" role="alert" style={this.props.confirmTests ? 
+                        {display: 'block'} : {display: 'none'}}>{this.props.confirmTests}
                     </p>
-                    <p className="confirm" role="alert" style={localStorage.getItem('confirmSolutions') && this.props.service == 'solutions' ? 
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('confirmSolutions')}
+                    <p className="confirm" role="alert" style={this.props.confirmSolutions ? 
+                        {display: 'block'} : {display: 'none'}}>{this.props.confirmSolutions}
                     </p>
-                    <p className="confirm" role="alert" style={localStorage.getItem('confirmCourses') && this.props.service == 'courses' ? 
-                        {display: 'block'} : {display: 'none'}}>{localStorage.getItem('confirmCourses')}
+                    <p className="confirm" role="alert" style={this.props.confirmCourses ? 
+                        {display: 'block'} : {display: 'none'}}>{this.props.confirmCourses}
                     </p>
                 </section>
 
@@ -194,6 +201,7 @@ class Services extends React.Component {
         if (e.target.value) {
             const imageInput = document.getElementById('image-upload-input');
             const altTextInput = document.getElementById('alt-text-input');
+            const label = document.getElementById('alt-text-input-label');
 
             const size = imageInput.files[0].size;
             const jpg  = imageInput.value.indexOf('jpg');
