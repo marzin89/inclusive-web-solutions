@@ -157,8 +157,8 @@ class App extends React.Component {
     // Skriver ut ett felmeddelande om ett serverfel har uppstått
     .catch(() => {
         this.setState({
-            error:        true,
-            serverError:  'Ett serverfel har uppstått. Det gick inte att logga in.' 
+            error:       true,
+            serverError: 'Ett serverfel har uppstått. Det gick inte att logga in.' 
                 + 'Försök igen lite senare.',
         })
     })
@@ -166,7 +166,7 @@ class App extends React.Component {
 
   logoutCallback() {
       this.setState({
-        signedIn:   false,
+        signedIn: false,
       })
 
       sessionStorage.removeItem('signedIn');
@@ -185,7 +185,7 @@ class App extends React.Component {
 
   logoutCallbackAdmin() {
     this.setState({
-      signedIn:   false,
+      signedIn: false,
     })
 
     window.open('/login', '_self');
@@ -212,10 +212,11 @@ class App extends React.Component {
         // Lagrar inläggen i state-arrayen
         } else {
             localStorage.removeItem('errorPosts');
+            localStorage.setItem('posts', JSON.stringify(data));
 
             this.setState({
-                error:      false,
-                posts:      data,
+                error: false,
+                posts: data,
             })
         }
     })
@@ -223,7 +224,7 @@ class App extends React.Component {
     // Skriver ut ett felmeddelande om ett serverfel har uppstått
     .catch(() => {
         this.setState({             
-            error:              true,
+            error: true,
         })
     })
 }
@@ -234,21 +235,21 @@ getComments() {
   .then(data => {
       if (!data.length) {
           this.setState({
-              error:                true,
+              error: true,
           })
       
       } else {
+          localStorage.setItem('comments', JSON.stringify(data)); 
+
           this.setState({
               error:    false,
               comments: data,
           })
-
-          localStorage.setItem('comments', JSON.stringify(data)); 
       }
   })
   .catch(() => {
       this.setState({
-          error:              true,
+          error: true,
       })
   })
 }
@@ -268,16 +269,17 @@ getComments() {
             localStorage.setItem('errorServices', 'Inga tester hittades.');
 
             this.setState({
-                error:      true,
+                error: true,
             })
         
         // Lagrar testerna i state-arrayen
         } else {
             localStorage.removeItem('errorServices');
+            localStorage.setItem('tests', JSON.stringify(data));
 
             this.setState({
-                error:      false,
-                tests:      data,
+                error: false,
+                tests: data,
             })
         }
     })
@@ -288,7 +290,7 @@ getComments() {
         + 'Försök igen lite senare.');
 
         this.setState({
-            error:      true,
+            error: true,
         })
     })
   }
@@ -305,30 +307,31 @@ getComments() {
     // Skriver ut ett felmeddelande om inga anpassningar hittades
     .then(data => {
         if (!data.length) {
-            localStorage.setItem('errorServices', 'Inga anpassningar hittades.');
+            localStorage.setItem('errorServices', 'Inga utvecklingspaket hittades.');
 
             this.setState({
-                error:          true,
+                error: true,
             })
         
         // Lagrar anpassningarna i state-arrayen
         } else {
             localStorage.removeItem('errorServices');
+            localStorage.setItem('solutions', JSON.stringify(data));
 
             this.setState({
-                error:          false,
-                solutions:      data,
+                error:     false,
+                solutions: data,
             })
         }
     })
 
     // Skriver ut ett felmeddelande om ett serverfel har uppstått
     .catch(() => { 
-        localStorage.setItem('errorServices', 'Ett serverfel har uppstått. Det gick inte att hämta anpassningar.' 
+        localStorage.setItem('errorServices', 'Ett serverfel har uppstått. Det gick inte att hämta utvecklingspaket.' 
         + 'Försök igen lite senare.');
 
         this.setState({
-            error:          true,
+            error: true,
         })
     })
 }
@@ -348,16 +351,17 @@ getCourses() {
           localStorage.setItem('errorCourses', 'Inga utbildningar hittades.');
 
           this.setState({
-              error:        true,
+              error: true,
           })
       
       // Lagrar utbildningarna i state-arrayen
       } else {
           localStorage.removeItem('errorCourses');
+          localStorage.setItem('courses', JSON.stringify(data));
 
           this.setState({
-              error:        false,
-              courses:      data,
+              error:   false,
+              courses: data,
           })
       }
   })

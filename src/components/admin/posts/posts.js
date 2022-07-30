@@ -12,12 +12,10 @@ class Posts extends React.Component {
         // Binder this till funktionerna
         this.setState            = this.setState.bind(this);
         this.handleTitleChange   = this.handleTitleChange.bind(this);
-        this.handleDateChange    = this.handleDateChange.bind(this);
         this.handleContentChange = this.handleContentChange.bind(this);
         this.handleImageChange   = this.handleImageChange.bind(this);
         this.handleAltTextChange = this.handleAltTextChange.bind(this);
         this.validateTitle       = this.validateTitle.bind(this);
-        this.validateDate        = this.validateDate.bind(this);
         this.validateContent     = this.validateContent.bind(this);
         this.validateAltText     = this.validateAltText.bind(this);
         this.handleLinkClick     = this.handleLinkClick.bind(this);
@@ -28,58 +26,59 @@ class Posts extends React.Component {
         /* Här lagras befintliga inlägg, användarnamn och -behörighet,
             uppgifter om den tjänst som läggs till/redigeras samt felmeddelanden */
         this.state = {
-            posts:            this.props.posts,
-            username:         this.props.username,
-            userRole:         this.props.userRole,
-            title:            '',
-            date:             '',
-            content:          '',
-            author:           '',
-            image:            '',
-            imageUrl:         '',
-            altText:          '',
-            language:         '',
-            error:            false,
-            errorPosts:       this.props.errorPosts,
-            confirm:          false,
-            confirmPosts:     this.props.confirmPosts,
-            titleEmpty:       '',
-            dateEmpty:        '',
-            contentEmpty:     '',
-            imageTooBig:      '',
-            imageWrongFormat: '',
-            altTextEmpty:     '',
+            posts:                 this.props.posts,
+            username:              this.props.username,
+            userRole:              this.props.userRole,
+            title:                 '',
+            date:                  '',
+            content:               '',
+            author:                '',
+            image:                 '',
+            imageUrl:              '',
+            altText:               '',
+            language:              '',
+            error:                 false,
+            errorCountTitle:       0,
+            errorCountContent:     0,
+            errorCountImageSize:   0,
+            errorCountImageFormat: 0,
+            errorCountAltText:     0,
+            errorPosts:            this.props.errorPosts,
+            confirm:               false,
+            confirmPosts:          this.props.confirmPosts,
+            titleEmpty:            '',
+            // dateEmpty:             '',
+            contentEmpty:          '',
+            imageTooBig:           '',
+            imageWrongFormat:      '',
+            altTextEmpty:          '',
         }
     }
 
     // Rendrering
     render() {
         return (
-            <div className="admin-form">
+            <div id="post-section" className="admin-form">
                 <section id="admin-form">
                     <h2 className="h2-admin">Inlägg</h2>
+                    <p style={this.state.error ? {display: 'block'} : {display: 'none'}} 
+                        className="text h2-error h3-font-size" role="alert">
+                        Formuläret innehåller {this.state.errorCountTitle + this.state.errorCountContent + 
+                            + this.state.errorCountImageSize + this.state.errorCountImageFormat + 
+                            this.state.errorCountAltText} fel</p>
                     <form>
                         <p>Fält märkta med * är obligatoriska.</p>
-                        <div className="form-left">
-                            <label htmlFor="post-name-input">Namn *</label>
-                            <input id="post-name-input" className="focus text-input-main" type="text" 
-                                aria-required="true" onChange={this.handleTitleChange}
-                                onBlur={this.validateTitle}></input>
-                            <p className="error" role="alert" style={this.state.titleEmpty ?
-                                {display: 'block'} : {display: 'none'}}>{this.state.titleEmpty}</p>
-                        </div>
-                        <div className="form-right">
-                            <label htmlFor="post-date-input">Datum *</label>
-                            <input id="post-date-input" className="focus text-input-main" type="text" 
-                                aria-required="true" placeholder="åååå-mm-dd"
-                                onChange={this.handleDateChange} onBlur={this.validateDate}></input>
-                            <p className="error" role="alert" style={this.state.dateEmpty ?
-                                {display: 'block'} : {display: 'none'}}>{this.state.dateEmpty}</p>
-                        </div>
+                        <label htmlFor="post-name-input">Namn *</label>
+                        <input id="post-name-input" className="focus" type="text" 
+                            aria-required="true" aria-describedby="post-name-error" 
+                            onChange={this.handleTitleChange} onBlur={this.validateTitle}></input>
+                        <p id="post-name-error" className="error" role="alert" style={this.state.titleEmpty ?
+                            {display: 'block'} : {display: 'none'}}>{this.state.titleEmpty}</p>
                         <label htmlFor="post-content-input">Text *</label>
                         <textarea id="post-content-input" className="focus" aria-required="true" 
-                            onChange={this.handleContentChange} onBlur={this.validateContent}></textarea>
-                        <p className="error" role="alert" style={this.state.contentEmpty ?
+                            aria-describedby="post-content-error" onChange={this.handleContentChange}
+                            onBlur={this.validateContent}></textarea>
+                        <p id="post-content-error" className="error" role="alert" style={this.state.contentEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.contentEmpty}</p>
                         <label htmlFor="language-switcher-admin">Språk *</label>
                         <select id="language-switcher-admin" className="focus text-input-main" aria-required="true">
@@ -89,16 +88,18 @@ class Posts extends React.Component {
                         <label htmlFor="image-upload-input">Ladda upp en bild</label>
                         <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
                         <input id="image-upload-input" className="focus" type="file" aria-required="false"
-                            onChange={this.handleImageChange}></input>
-                        <p className="error" role="alert" style={this.state.imageTooBig ?
+                            aria-describedby="image-size-error image-format-error" onChange={this.handleImageChange}>
+                        </input>
+                        <p id="image-size-error" className="error" role="alert" style={this.state.imageTooBig ?
                             {display: 'block'} : {display: 'none'}}>{this.state.imageTooBig}</p>
-                        <p className="error" role="alert" style={this.state.imageWrongFormat ?
+                        <p id="image-format-error" className="error" role="alert" style={this.state.imageWrongFormat ?
                             {display: 'block'} : {display: 'none'}}>{this.state.imageWrongFormat}</p>
                         <label htmlFor="alt-text-input">Alt-text</label>
                         <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
-                            aria-required="false" onChange={this.handleAltTextChange} 
-                            onBlur={this.validateAltText}></input>
-                        <p className="error" role="alert" style={this.state.altTextEmpty ?
+                            aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
+                            onBlur={this.validateAltText}>
+                        </input>
+                        <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
                         <button type="reset" className="reset-btn">Rensa</button>
                         <button type="submit" className="submit-btn" onClick={this.handleSubmit}>
@@ -127,19 +128,19 @@ class Posts extends React.Component {
                                     <p>{post.content}</p>
                                     {post.published ? 
                                     <div>
-                                        <p className="edit"><a id={`edit${post.id}`} className="focus" href="#admin-form"
-                                            onClick={this.handleLinkClick}>Redigera</a></p>
-                                        <p className="delete"><a id={`delete${post.id}`} className="focus" href=""
-                                            onClick={this.handleLinkClick}>Radera</a></p> 
+                                        <p className="edit"><a id={`edit${post.id}`} className="focus" 
+                                            href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
+                                        <p className="delete"><a id={`delete${post.id}`} className="focus" 
+                                            href="#admin-form" onClick={this.handleLinkClick}>Radera</a></p> 
                                     </div>
                                     :
                                     <div>
                                         <p className="edit-not-published"><a id={`edit${post.id}`} className="focus" 
                                             href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
                                         <p className="publish-posts"><a id={`publish${post.id}`} className="focus" 
-                                            href="" onClick={this.handleLinkClick}>Publicera</a></p> 
+                                            href="#admin-form" onClick={this.handleLinkClick}>Publicera</a></p> 
                                         <p className="delete-not-published"><a id={`delete${post.id}`} className="focus" 
-                                            href="" onClick={this.handleLinkClick}>Radera</a></p>
+                                            href="#admin-form" onClick={this.handleLinkClick}>Radera</a></p>
                                     </div>
                                     }
                                 </article>
@@ -152,10 +153,10 @@ class Posts extends React.Component {
                                     <p className="date">{post.updated.slice(0, 10)}</p>
                                     <p>{post.content}</p> 
                                     <div>
-                                        <p className="edit"><Link id={`edit${post.id}`} className="focus" 
-                                            to={"/admin"} onClick={this.handleLinkClick}>Redigera</Link></p>
-                                        <p className="delete"><Link id={`delete${post.id}`} className="focus" 
-                                            to={"/admin"} onClick={this.handleLinkClick}>Radera</Link></p> 
+                                        <p className="edit"><a id={`edit${post.id}`} className="focus" 
+                                            href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
+                                        <p className="delete"><a id={`delete${post.id}`} className="focus" 
+                                            href="#admin-form" onClick={this.handleLinkClick}>Radera</a></p> 
                                     </div>
                                 </article>
                             )
@@ -168,111 +169,134 @@ class Posts extends React.Component {
 
     handleTitleChange(e) {
         this.setState({
-            error:      false,
-            titleEmpty: '',
-            title:      e.target.value,
+            error: false,
+            title: e.target.value,
         })
-    }
 
-    handleDateChange(e) {
-        this.setState({
-            error:     false,
-            dateEmpty: '',
-            date:      e.target.value,
-        })
+        if (e.target.value) {
+            this.setState({
+                errorCountTitle: 0,
+                titleEmpty:      '',
+            })
+
+            e.target.setAttribute('aria-invalid', false);
+        }
     }
 
     handleContentChange(e) {
         this.setState({
-            error:        false,
-            contentEmpty: '',
-            content:      e.target.value,
+            error:   false,
+            content: e.target.value,
         })
+
+        if (e.target.value) {
+            this.setState({
+                errorCountContent: 0,
+                contentEmpty:      '',
+            })
+
+            e.target.setAttribute('aria-invalid', false);
+        }
     }
 
     /* Funktionen kontrollerar den uppladdade bildens storlek och filformat.
         Om användaren inte har laddat upp någon bild, lagras en tom sträng */
     handleImageChange(e) {
+        const altTextInput = document.getElementById('alt-text-input');
+
+        this.setState({
+            error:    false,
+            image:    e.target.files[0],
+            imageUrl: e.target.value,
+        })
+
         if (e.target.value) {
-            const imageInput = document.getElementById('image-upload-input');
-            const altTextInput = document.getElementById('alt-text-input');
+            const size = e.target.files[0].size;
+            const jpg  = e.target.value.indexOf('jpg');
+            const jpeg = e.target.value.indexOf('jpeg');
+            const png  = e.target.value.indexOf('png');
 
-            const size = imageInput.files[0].size;
-            const jpg  = imageInput.value.indexOf('jpg');
-            const jpeg = imageInput.value.indexOf('jpeg');
-            const png  = imageInput.value.indexOf('png');
-
-            altTextInput.setAttribute('aria-required', false);
+            altTextInput.setAttribute('aria-required', true);
 
             // Skriver ut ett felmeddelande om bilden är för stor
             if (size > 500000) {
                 this.setState({
-                    error:       true,
-                    imageTooBig: 'Bilden är för stor.',
-                    image:       '',
-                    imageUrl:    '',
+                    errorCountImageSize: 1,
+                    imageTooBig:         'Bilden är för stor.',
                 })
 
+                e.target.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
             
             } else {
                 this.setState ({
-                    imageTooBig: '',
+                    errorCountImageSize: 0,
+                    imageTooBig:         '',
                 })
             }
 
             // Skriver ut ett felmeddelande om bilden har fel filformat
             if (jpg < 0 && jpeg < 0 && png < 0) {
                 this.setState({
-                    error:            true,
-                    imageWrongFormat: 'Bilden har fel filformat.',
-                    image:            '',
-                    imageUrl:         '',
+                    errorCountImageFormat: 1,
+                    imageWrongFormat:      'Bilden har fel filformat.',
                 })
 
+                e.target.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
 
             } else {
                 this.setState({ 
-                    imageWrongFormat: '',
+                    errorCountImageFormat: 0,
+                    imageWrongFormat:      '',
                 })
             }
 
             // Om bilden inte är för stor och har rätt filformat, lagras sökvägen
-            if (size <= 500000 && jpg >= 0 || jpeg >= 0 && png >= 0) {
+            if (size <= 500000) {
                 this.setState({
-                    error:            false,
-                    imageTooBig:      '',
-                    imageWrongFormat: '',
-                    image:            e.target.files[0],
-                    imageUrl:         e.target.value,
+                    errorCountImageSize: 0,
+                    imageTooBig:         '',
                 })
 
-                altTextInput.setAttribute('aria-required', true);
-
-                localStorage.removeItem('error');
+                if (jpg >= 0 || jpeg >= 0 && png >= 0) {
+                    this.setState({
+                        errorCountImageFormat: 0,
+                        imageWrongFormat:      '',
+                    })
+    
+                    e.target.setAttribute('aria-invalid', false);
+                }
             }
 
         } else {
             this.setState({
-                error:            false,
-                imageTooBig:      '',
-                imageWrongFormat: '',
-                imageUrl:         e.target.value,
+                errorCountImageSize:   0,
+                errorCountImageFormat: 0,
+                imageTooBig:           '',
+                imageWrongFormat:      '',
             })
+
+            e.target.setAttribute('aria-invalid', false);
+            altTextInput.setAttribute('aria-required', false);
         }
     }
 
     handleAltTextChange(e) {
         const imageInput = document.getElementById('image-upload-input');
 
+        this.setState({
+            error:   false,
+            altText: e.target.value,
+        })
+
         if (e.target.value) {
             this.setState({
-                error:        false,
-                altTextEmpty: '',
-                altText:      e.target.value,
+                errorCountAltText: 0,
+                altTextEmpty:      '',
             })
 
+            e.target.setAttribute('aria-invalid', false);
             imageInput.setAttribute('aria-required', true);
 
         } else {
@@ -283,21 +307,11 @@ class Posts extends React.Component {
     validateTitle(e) {
         if (!e.target.value) {
             this.setState({
-                error:      true,
-                titleEmpty: 'Du måste ange ett namn.',
+                errorCountTitle: 1,
+                titleEmpty:      'Du måste ange ett namn.',
             })
 
-            localStorage.setItem('error', true);
-        }
-    }
-
-    validateDate(e) {
-        if (!e.target.value) {
-            this.setState({
-                error:      true,
-                dateEmpty: 'Du måste ange ett datum.',
-            })
-    
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         }
     }
@@ -305,10 +319,11 @@ class Posts extends React.Component {
     validateContent(e) {
         if (!e.target.value) {
             this.setState({
-                error:        true,
-                contentEmpty: 'Du måste skriva ett inlägg.',
+                errorCountContent: 1,
+                contentEmpty:      'Du måste skriva ett inlägg.',
             })
 
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         }
     }
@@ -317,15 +332,13 @@ class Posts extends React.Component {
         if (this.state.imageUrl) {
             if (!e.target.value) {
                 this.setState({
-                    error:        true,
-                    altTextEmpty: 'Du måste skriva en alt-text.',
+                    errorCountAltText: 1,
+                    altTextEmpty:      'Du måste skriva en alt-text.',
                 })
 
+                e.target.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
             }
-
-        } else {
-            e.target.setAttribute('aria-required', false);
         }
     }
 
@@ -334,57 +347,164 @@ class Posts extends React.Component {
         För bilder kontrolleras även storleken och filformatet. */
     validateForm() {
         const nameInput        = document.getElementById('post-name-input');
-        const dateInput        = document.getElementById('post-date-input');
         const contentInput     = document.getElementById('post-content-input');
+        const imageInput       = document.getElementById('image-upload-input');
         const altTextInput     = document.getElementById('alt-text-input');
 
         if (!nameInput.value) {
             this.setState({
-                error:      true,
-                titleEmpty: 'Du måste ange ett namn.',
+                error:           true,
+                errorCountTitle: 1,
+                titleEmpty:      'Du måste ange ett namn.',
             })
 
+            nameInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
-        }
-
-        if (!dateInput.value) {
+        
+        } else {
             this.setState({
-                error:      true,
-                dateEmpty: 'Du måste ange ett datum.',
+                errorCountTitle: 0,
+                titleEmpty:      '',
             })
-    
-            localStorage.setItem('error', true);
+
+            nameInput.setAttribute('aria-invalid', false);
         }
 
         if (!contentInput.value) {
             this.setState({
-                error:        true,
-                contentEmpty: 'Du måste skriva ett inlägg.',
+                error:             true,
+                errorCountContent: 1,
+                contentEmpty:      'Du måste skriva ett inlägg.',
             })
 
+            contentInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
-        }
-
-        if (nameInput.value !== '' && dateInput.value !== '' && contentInput.value !== '') {
-            localStorage.removeItem('error');
         
         } else {
-            localStorage.setItem('error', true);
+            this.setState({
+                errorCountContent: 0,
+                contentEmpty:      '',
+            })
+
+            contentInput.setAttribute('aria-invalid', false);
         }
 
-        if (altTextInput.ariaRequired == true) {
-            if (!altTextInput.value) {
+        if (imageInput.value) {
+            const size = imageInput.files[0].size;
+            const jpg  = imageInput.value.indexOf('jpg');
+            const jpeg = imageInput.value.indexOf('jpeg');
+            const png  = imageInput.value.indexOf('png');
+
+            altTextInput.setAttribute('aria-required', true);
+
+            // Skriver ut ett felmeddelande om bilden är för stor
+            if (size > 500000) {
                 this.setState({
-                    error:        true,
-                    altTextEmpty: 'Du måste skriva en alt-text.',
+                    error:               true,
+                    errorCountImageSize: 1,
+                    imageTooBig:         'Bilden är för stor.',
                 })
 
+                imageInput.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
             
             } else {
-                localStorage.removeItem('error');
+                this.setState ({
+                    errorCountImageSize: 0,
+                    imageTooBig:         '',
+                })
             }
-        }     
+
+            // Skriver ut ett felmeddelande om bilden har fel filformat
+            if (jpg < 0 && jpeg < 0 && png < 0) {
+                this.setState({
+                    error:                 true,
+                    errorCountImageFormat: 1,
+                    imageWrongFormat:      'Bilden har fel filformat.',
+                })
+
+                imageInput.setAttribute('aria-invalid', true);
+                localStorage.setItem('error', true);
+
+            } else {
+                this.setState({ 
+                    errorCountImageFormat: 0,
+                    imageWrongFormat:      '',
+                })
+            }
+
+            // Om bilden inte är för stor och har rätt filformat, lagras sökvägen
+            if (size <= 500000) {
+                this.setState({
+                    errorCountImageSize: 0,
+                    imageTooBig:         '',
+                })
+
+                if (jpg >= 0 || jpeg >= 0 || png >= 0) {
+                    this.setState({
+                        error:                 false,
+                        errorCountImageFormat: 0,
+                        imageWrongFormat:      '',
+                    })
+    
+                    imageInput.setAttribute('aria-invalid', false);
+                }
+            }
+
+            if (!altTextInput.value) {
+                this.setState({
+                    error:             true,
+                    errorCountAltText: 1,
+                    altTextEmpty:      'Du måste skriva en alt-text.',
+                })
+
+                altTextInput.setAttribute('aria-invalid', true);
+                localStorage.setItem('error', true);
+            
+            } else {
+                this.setState({
+                    errorCountAltText: 0,
+                    altTextEmpty:      '',
+                })
+
+                altTextInput.setAttribute('aria-invalid', false);
+            }
+        } else {
+            this.setState({
+                errorCountImageSize:   0,
+                errorCountImageFormat: 0,
+                imageTooBig:      '',
+                imageWrongFormat: '',
+            })
+
+            altTextInput.setAttribute('aria-required', false);
+        }
+        
+        if (nameInput.value !== '' && contentInput.value !== '' && !imageInput.value) {
+            this.setState({
+                error: false,
+            })
+
+            localStorage.removeItem('error');      
+        
+        } else if (nameInput.value !== '' && contentInput.value !== '' && imageInput.value !== ''
+            && altTextInput.value !== '') {
+
+            const size = imageInput.files[0].size;
+            const jpg  = imageInput.value.indexOf('jpg');
+            const jpeg = imageInput.value.indexOf('jpeg');
+            const png  = imageInput.value.indexOf('png');
+
+            if (size <= 500000) {
+                if (jpg >= 0 || jpeg >= 0 || png >= 0) {
+                    this.setState({
+                        error: false,
+                    })
+        
+                    localStorage.removeItem('error');
+                }
+            }
+        }
     }
 
     upload(image, name) {
@@ -408,10 +528,6 @@ class Posts extends React.Component {
         })
         .catch(err => {
             console.log(err);
-
-            this.setState({
-                error: true,
-            })
         })
     }
 
@@ -473,7 +589,6 @@ class Posts extends React.Component {
         })
         .catch(() => {
             this.setState({
-                error:        true,
                 errorMessage: 'Ett serverfel har uppstått. Det gick inte att lägga till inlägget. ' 
                 + 'Försök igen lite senare.',
             })
@@ -481,6 +596,8 @@ class Posts extends React.Component {
     }
 
     handleLinkClick(e) {
+        e.preventDefault();
+        
         let action;
         let id;
 
@@ -492,7 +609,7 @@ class Posts extends React.Component {
             localStorage.setItem('action', action);
 
             const nameInput        = document.getElementById('post-name-input');
-            const dateInput        = document.getElementById('post-date-input');
+            // const dateInput        = document.getElementById('post-date-input');
             const contentInput     = document.getElementById('post-content-input');
             const languageInput    = document.getElementById('language-switcher-admin');
             const altTextInput     = document.getElementById('alt-text-input');
@@ -504,7 +621,7 @@ class Posts extends React.Component {
                     })
 
                     nameInput.value        = post.title;
-                    dateInput.value        = post.date.slice(0, 10);
+                    // dateInput.value        = post.date.slice(0, 10);
                     contentInput.value     = post.content;
                     altTextInput.value     = post.altText;
 
@@ -599,7 +716,7 @@ class Posts extends React.Component {
                 const body = {
                     id:        0,
                     title:     this.state.title,
-                    date:      this.state.date,
+                    date:      date,
                     content:   content,
                     imageUrl:  '',
                     altText:   this.state.altText,
@@ -633,17 +750,19 @@ class Posts extends React.Component {
 
             if (localStorage.getItem('action') == 'edit') {
                 const nameInput        = document.getElementById('post-name-input');
-                const dateInput        = document.getElementById('post-date-input');
+                // const dateInput        = document.getElementById('post-date-input');
                 const contentInput     = document.getElementById('post-content-input');
                 const imageInput       = document.getElementById('image-upload-input');
                 const altTextInput     = document.getElementById('alt-text-input');
                 let published;
                 let comments;
+                let publishDate;
 
                 this.props.posts.map((post) => {
                     if (post.id == localStorage.getItem('id')) {
-                        published = post.published;
-                        comments  = post.comments;
+                        published   = post.published;
+                        comments    = post.comments;
+                        publishDate = post.date;
                     }
                 })
 
@@ -667,7 +786,7 @@ class Posts extends React.Component {
                 const body = {
                     id:        localStorage.getItem('id'),
                     title:     nameInput.value,
-                    date:      dateInput.value,
+                    date:      publishDate,
                     content:   content,
                     imageUrl:  '',
                     altText:   altTextInput.value,

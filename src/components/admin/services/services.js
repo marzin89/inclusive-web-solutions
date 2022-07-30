@@ -40,10 +40,15 @@ class Services extends React.Component {
             altText:          '',
             language:         '',
             error:            false,
+            errorCountName:        0,
+            errorCountPrice:       0,
+            errorCountDescription: 0,
+            errorCountImageSize:   0,
+            errorCountImageFormat: 0,
+            errorCountAltText:     0,
             errorTests:       this.props.errorTests,
             errorSolutions:   this.props.errorSolutions,
             errorCourses:     this.props.errorCourses,
-            confirm:          false,
             confirmTests:     this.props.confirmTests,
             confirmSolutions: this.props.confirmSolutions,
             confirmCourses:   this.props.confirmCourses,
@@ -59,47 +64,53 @@ class Services extends React.Component {
     // Rendrering
     render() {
         return (
-            <div className="admin-form">
+            <div id={`${localStorage.getItem('component')}-section`} className="admin-form">
                 <section id="admin-form">
                     {/* Rubriken anpassas baserat på vilken tjänst som är vald */}
                     {this.props.service == 'tests' ? <h2 className="h2-admin">Tester</h2> : ''}
                     {this.props.service == 'solutions' ? <h2 className="h2-admin">Utveckling</h2> : ''}
                     {this.props.service == 'courses' ? <h2 className="h2-admin">Utbildningar</h2> : ''}
+                    <p style={this.state.error ? {display: 'block'} : {display: 'none'}} 
+                        className="text h2-error h3-font-size" role="alert">
+                        Formuläret innehåller {this.state.errorCountName + this.state.errorCountPrice + 
+                            this.state.errorCountDescription + this.state.errorCountImageSize + 
+                            this.state.errorCountImageFormat + this.state.errorCountAltText} fel</p>
                     <form>
                         <p>Fält märkta med * är obligatoriska.</p>
                         {/* Tjänstens namn */}
-                        <div className="form-left">
+                        <div className="form-left" onBlur={this.validateName}>
                             <label htmlFor="service-name-input">Namn *</label>
-                            <input id="service-name-input" className="focus text-input-main admin-input" type="text"
-                                aria-required="true" onChange={this.handleNameChange}
-                                onBlur={this.validateName}></input>
+                            <input id="service-name-input" className="focus text-input-main admin-input" 
+                                type="text" aria-required="true" aria-describedby="service-name-error" 
+                                onChange={this.handleNameChange}>
+                            </input>
                             {/* Här skrivs ett felmeddelande ut om inget namn har angetts */}
-                            <p className="error" role="alert" style={this.state.nameEmpty ?
+                            <p id="service-name-error" className="error" role="alert" style={this.state.nameEmpty ?
                                 {display: 'block'} : {display: 'none'}}>{this.state.nameEmpty}</p>
                         </div>
                         {/* Tjänstens pris */}
-                        <div className="form-right">
+                        <div className="form-right" onBlur={this.validatePrice}>
                             <label htmlFor="service-price-input">Pris *</label>
                             <input id="service-price-input" className="focus text-input-main admin-input" type="text" 
-                                aria-required="true" onChange={this.handlePriceChange}
-                                onBlur={this.validatePrice}></input>
+                                placeholder="t.ex. 1 000 :-" aria-required="true" aria-describedby="service-price-error" 
+                                onChange={this.handlePriceChange}></input>
                             {/* Här skrivs ett felmeddelande ut om inget pris har angetts */}
-                            <p className="error" role="alert" style={this.state.priceEmpty ?
+                            <p id="service-price-error" className="error" role="alert" style={this.state.priceEmpty ?
                                 {display: 'block'} : {display: 'none'}}>{this.state.priceEmpty}</p>
                         </div>
                         {/* Beskrivning av tjänsten */}
                         <label htmlFor="service-description-input">Beskrivning *</label>
                         <textarea id="service-description-input" className="focus admin-input"
-                            aria-required="true" onChange={this.handleDescriptionChange}
-                            onBlur={this.validateDescription}>
-                            </textarea>
+                            aria-required="true" aria-describedby="service-description-error" 
+                            onChange={this.handleDescriptionChange} onBlur={this.validateDescription}></textarea>
                         {/* Här skrivs ett felmeddelande ut om ingen beskrivning har skrivits */}
-                        <p className="error" role="alert" style={this.state.descriptionEmpty ?
-                            {display: 'block'} : {display: 'none'}}>{this.state.descriptionEmpty}</p>
+                        <p id="service-description-error" className="error" role="alert" 
+                            style={this.state.descriptionEmpty ? {display: 'block'} : {display: 'none'}}>
+                            {this.state.descriptionEmpty}</p>
                         {/* Val av språk */}
                         <label htmlFor="language-switcher-admin">Språk *</label>
                         <select id="language-switcher-admin" className="focus text-input-main admin-input" 
-                            aria-required="true">
+                            aria-required="true" onChange={this.changePricePlaceholder}>
                             <option value="Svenska">Svenska</option>
                             <option value="Deutsch">Deutsch</option>
                         </select>
@@ -107,17 +118,19 @@ class Services extends React.Component {
                         <label htmlFor="image-upload-input">Ladda upp en bild</label>
                         <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
                         <input id="image-upload-input" className="focus admin-input" type="file" 
-                            aria-required="false" onChange={this.handleImageChange}></input>
+                            aria-required="false" aria-describedby="image-size-error image-format-error" 
+                            onChange={this.handleImageChange}></input>
                         {/* Här skrivs felmeddelanden ut om bilden är för stor och/eller har fel filformat */}
-                        <p className="error" role="alert" style={this.state.imageTooBig ?
+                        <p id="image-size-error" className="error" role="alert" style={this.state.imageTooBig ?
                             {display: 'block'} : {display: 'none'}}>{this.state.imageTooBig}</p>
-                        <p className="error" role="alert" style={this.state.imageWrongFormat ?
-                            {display: 'block'} : {display: 'none'}}>{this.state.imageWrongFormat}</p>
+                        <p id="image-format-error" className="error" role="alert" 
+                            style={this.state.imageWrongFormat ? {display: 'block'} : {display: 'none'}}>
+                            {this.state.imageWrongFormat}</p>
                         <label htmlFor="alt-text-input">Alt-text</label>
                         <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
-                            aria-required="false" onChange={this.handleAltTextChange}
+                            aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
                             onBlur={this.validateAltText}></input>
-                        <p className="error" role="alert" style={this.state.altTextEmpty ?
+                        <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
                         <button type="reset" className="reset-btn">Rensa</button>
                         <button type="submit" className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
@@ -156,10 +169,10 @@ class Services extends React.Component {
                                 <p className="price">Preis: {element.price}</p>}
                                 <p>{element.description}</p>
                                 <div>
-                                    <p className="edit"><a id={`edit${element.id}`} className="focus" href="#admin-form" 
-                                        onClick={this.handleLinkClick}>Redigera</a></p>
-                                    <p className="delete"><Link id={`delete${element.id}`} className="focus" to={"/admin"} 
-                                        onClick={this.handleLinkClick}>Radera</Link></p>
+                                    <p className="edit"><a id={`edit${element.id}`} className="focus" 
+                                        href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
+                                    <p className="delete"><a id={`delete${element.id}`} className="focus"
+                                        href="#admin-form" onClick={this.handleLinkClick}>Radera</a></p>
                                 </div>
                             </article>
                         )
@@ -173,126 +186,176 @@ class Services extends React.Component {
         och språk i state när användaren skriver */
     handleNameChange(e) {
         this.setState({
-            error:     false,
-            nameEmpty: '',
-            name:      e.target.value,
+            error: false,
+            name:  e.target.value,
         })
+
+        if (e.target.value) {
+            this.setState({
+                errorCountName: 0,
+                nameEmpty:      '',
+            })
+
+            e.target.setAttribute('aria-invalid', false);
+        }
     }
 
     handlePriceChange(e) {
         this.setState({
-            error:      false,
-            priceEmpty: '',
-            price:      e.target.value,
+            error: false,
+            price: e.target.value,
         })
+
+        if (e.target.value) {
+            this.setState({
+                errorCountPrice: 0,
+                priceEmpty:      '',
+            })
+
+            e.target.setAttribute('aria-invalid', false);     
+        }
     }
 
     handleDescriptionChange(e) {
         this.setState({
-            error:            false,
-            descriptionEmpty: '',
-            description:      e.target.value,
+            error:       false,
+            description: e.target.value,
         })
+
+        if (e.target.value) {
+            this.setState({
+                errorCountDescription: 0,
+                descriptionEmpty:      '',
+            })
+
+            e.target.setAttribute('aria-invalid', false);   
+        }
     }
 
     /* Funktionen kontrollerar den uppladdade bildens storlek och filformat.
         Om användaren inte har laddat upp någon bild, lagras en tom sträng */
     handleImageChange(e) {
+        const altTextInput = document.getElementById('alt-text-input');
+
+        this.setState({
+            error:    false,
+            image:    e.target.files[0],
+            imageUrl: e.target.value,
+        })
+
         if (e.target.value) {
-            const imageInput = document.getElementById('image-upload-input');
-            const altTextInput = document.getElementById('alt-text-input');
-            const label = document.getElementById('alt-text-input-label');
+            const size = e.target.files[0].size;
+            const jpg  = e.target.value.indexOf('jpg');
+            const jpeg = e.target.value.indexOf('jpeg');
+            const png  = e.target.value.indexOf('png');
 
-            const size = imageInput.files[0].size;
-            const jpg  = imageInput.value.indexOf('jpg');
-            const jpeg = imageInput.value.indexOf('jpeg');
-            const png  = imageInput.value.indexOf('png');
-
-            altTextInput.setAttribute('aria-required', false);
+            altTextInput.setAttribute('aria-required', true);
 
             // Skriver ut ett felmeddelande om bilden är för stor
             if (size > 500000) {
                 this.setState({
-                    error:       true,
-                    imageTooBig: 'Bilden är för stor.',
-                    image:       '',
-                    imageUrl:    '',
+                    errorCountImageSize: 1,
+                    imageTooBig:         'Bilden är för stor.',
                 })
 
+                e.target.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
             
             } else {
                 this.setState ({
-                    imageTooBig: '',
+                    errorCountImageSize: 0,
+                    imageTooBig:         '',
                 })
             }
 
             // Skriver ut ett felmeddelande om bilden har fel filformat
             if (jpg < 0 && jpeg < 0 && png < 0) {
                 this.setState({
-                    error:            true,
-                    imageWrongFormat: 'Bilden har fel filformat.',
-                    image:            '',
-                    imageUrl:         '',
+                    errorCountImageFormat: 1,
+                    imageWrongFormat:      'Bilden har fel filformat.',
                 })
 
+                e.target.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
 
             } else {
                 this.setState({ 
-                    imageWrongFormat: '',
+                    errorCountImageFormat: 0,
+                    imageWrongFormat:      '',
                 })
             }
 
             // Om bilden inte är för stor och har rätt filformat, lagras sökvägen
             if (size <= 500000 && jpg >= 0 || jpeg >= 0 && png >= 0) {
                 this.setState({
-                    error:            false,
-                    imageTooBig:      '',
-                    imageWrongFormat: '',
-                    image:            e.target.files[0],
-                    imageUrl:         e.target.value,
+                    errorCountImageSize: 0,
+                    imageTooBig:         '',
                 })
 
-                altTextInput.setAttribute('aria-required', true);
-
-                localStorage.removeItem('error');
+                if (jpg >= 0 || jpeg >= 0 && png >= 0) {
+                    this.setState({
+                        errorCountImageFormat: 0,
+                        imageWrongFormat:      '',
+                    })
+    
+                    e.target.setAttribute('aria-invalid', false);
+                }
             }
 
         } else {
             this.setState({
-                error:            false,
-                imageTooBig:      '',
-                imageWrongFormat: '',
-                imageUrl:         e.target.value,
+                errorCountImageSize:   0,
+                errorCountImageFormat: 0,
+                imageTooBig:           '',
+                imageWrongFormat:      '',
             })
+
+            e.target.setAttribute('aria-invalid', false);
+            altTextInput.setAttribute('aria-required', false);
         }
     }
 
     handleAltTextChange(e) {
         const imageInput = document.getElementById('image-upload-input');
 
+        this.setState({
+            error:   false,
+            altText: e.target.value,
+        })
+
         if (e.target.value) {
             this.setState({
-                error:        false,
-                altTextEmpty: '',
-                altText:      e.target.value,
+                errorCountAltText: 0,
+                altTextEmpty:      '',
             })
 
+            e.target.setAttribute('aria-invalid', false);
             imageInput.setAttribute('aria-required', true);
-
+        
         } else {
             imageInput.setAttribute('aria-required', false);
+        }
+    }
+
+    changePricePlaceholder(e) {
+        const priceInput = document.getElementById('service-price-input');
+
+        if (e.target.value == 'Deutsch') {
+            priceInput.placeholder = 'z.B. 1 000 EUR';
+        
+        } else {
+            priceInput.placeholder = 't.ex. 1 000 :-';
         }
     }
 
     validateName(e) {
         if (!e.target.value) {
             this.setState({
-                error:     true,
-                nameEmpty: 'Du måste ange ett namn.',
+                errorCountName: 1,
+                nameEmpty:      'Du måste ange ett namn.',
             })
 
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         }
     }
@@ -300,10 +363,11 @@ class Services extends React.Component {
     validatePrice(e) {
         if (!e.target.value) {
             this.setState({
-                error:      true,
-                priceEmpty: 'Du måste ange ett pris.',
+                errorCountPrice: 1,
+                priceEmpty:      'Du måste ange ett pris.',
             })
 
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         }
     }
@@ -311,10 +375,11 @@ class Services extends React.Component {
     validateDescription(e) {
         if (!e.target.value) {
             this.setState({
-                error:            true,
-                descriptionEmpty: 'Du måste skriva en beskrivning.',
+                errorCountDescription: 1,
+                descriptionEmpty:      'Du måste skriva en beskrivning.',
             })
 
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         }
     }
@@ -323,19 +388,19 @@ class Services extends React.Component {
         if (this.state.imageUrl) {
             if (!e.target.value) {
                 this.setState({
-                    error:        true,
-                    altTextEmpty: 'Du måste skriva en alt-text.',
+                    errorCountAltText: 1,
+                    altTextEmpty:      'Du måste skriva en alt-text.',
                 })
 
+                e.target.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
             }
-        
-        } else {
-            e.target.setAttribute('aria-required', false);
         }
     }
 
     handleLinkClick(e) {
+        e.preventDefault();
+        
         let action;
         let id;
 
@@ -531,52 +596,183 @@ class Services extends React.Component {
         const nameInput        = document.getElementById('service-name-input');
         const priceInput       = document.getElementById('service-price-input');
         const descriptionInput = document.getElementById('service-description-input');
+        const imageInput       = document.getElementById('image-upload-input')
         const altTextInput     = document.getElementById('alt-text-input');
 
         if (!nameInput.value) {
             this.setState({
-                error:     true,
-                nameEmpty: 'Du måste ange ett namn.',
+                error:          true,
+                errorCountName: 1,
+                nameEmpty:      'Du måste ange ett namn.',
             })
 
+            nameInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
+        
+        } else {
+            this.setState({
+                errorCountName: 0,
+                nameEmpty:      '',
+            })
+
+            nameInput.setAttribute('aria-invalid', false);
         }
 
         if (!priceInput.value) {
             this.setState({
-                error:      true,
-                priceEmpty: 'Du måste ange ett pris.',
+                error:           true,
+                errorCountPrice: 1,
+                priceEmpty:      'Du måste ange ett pris.',
             })
 
+            priceInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
+        
+        } else {
+            this.setState({
+                errorCountPrice: 0,
+                priceEmpty:      '',
+            })
+
+            priceInput.setAttribute('aria-invalid', false);
         }
 
         if (!descriptionInput.value) {
             this.setState({
-                error:            true,
-                descriptionEmpty: 'Du måste skriva en beskrivning.',
+                error:                 true,
+                errorCountDescription: 1,
+                descriptionEmpty:      'Du måste skriva en beskrivning.',
             })
 
+            descriptionInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
-        }
-
-        if (nameInput.value !== '' && priceInput.value !== '' && descriptionInput.value !== '') {
-            localStorage.removeItem('error');
         
         } else {
-            localStorage.setItem('error', true);
+            this.setState({
+                errorCountDescription: 0,
+                descriptionEmpty:      '',
+            })
+
+            descriptionInput.setAttribute('aria-invalid', false);
         }
 
-        if (altTextInput.ariaRequired == true) {
-            if (!altTextInput.value) {
+        if (imageInput.value) {
+            const size = imageInput.files[0].size;
+            const jpg  = imageInput.value.indexOf('jpg');
+            const jpeg = imageInput.value.indexOf('jpeg');
+            const png  = imageInput.value.indexOf('png');
+
+            altTextInput.setAttribute('aria-required', true);
+
+            // Skriver ut ett felmeddelande om bilden är för stor
+            if (size > 500000) {
                 this.setState({
-                    error:        true,
-                    altTextEmpty: 'Du måste skriva en alt-text.',
+                    error:               true,
+                    errorCountImageSize: 1,
+                    imageTooBig:         'Bilden är för stor.',
                 })
 
+                imageInput.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
+            
             } else {
-                localStorage.removeItem('error');
+                this.setState ({
+                    errorCountImageSize: 0,
+                    imageTooBig:         '',
+                })
+            }
+
+            // Skriver ut ett felmeddelande om bilden har fel filformat
+            if (jpg < 0 && jpeg < 0 && png < 0) {
+                this.setState({
+                    error:                 true,
+                    errorCountImageFormat: 1,
+                    imageWrongFormat:      'Bilden har fel filformat.',
+                })
+
+                imageInput.setAttribute('aria-invalid', true);
+                localStorage.setItem('error', true);
+
+            } else {
+                this.setState({ 
+                    errorCountImageFormat: 0,
+                    imageWrongFormat:      '',
+                })
+            }
+
+            // Om bilden inte är för stor och har rätt filformat, lagras sökvägen
+            if (size <= 500000) {
+                this.setState({
+                    errorCountImageSize: 0,
+                    imageTooBig:         '',
+                })
+
+                if (jpg >= 0 || jpeg >= 0 || png >= 0) {
+                    this.setState({
+                        error:                 false,
+                        errorCountImageFormat: 0,
+                        imageWrongFormat:      '',
+                    })
+    
+                    imageInput.setAttribute('aria-invalid', false);
+                }
+            }
+
+            if (!altTextInput.value) {
+                this.setState({
+                    error:             true,
+                    errorCountAltText: 1,
+                    altTextEmpty:      'Du måste skriva en alt-text.',
+                })
+                
+                altTextInput.setAttribute('aria-invalid', true);
+                localStorage.setItem('error', true);
+
+            } else {
+                this.setState({
+                    errorCountAltText: 0,
+                    altTextEmpty:      '',
+                })
+
+                altTextInput.setAttribute('aria-invalid', false);
+            }
+        
+        } else {
+            this.setState({
+                errorCountImageSize:   0,
+                errorCountImageFormat: 0,
+                imageTooBig:      '',
+                imageWrongFormat: '',
+            })
+
+            altTextInput.setAttribute('aria-required', false);
+        }
+
+        if (nameInput.value !== '' && priceInput.value !== '' && descriptionInput.value !== ''
+            && !imageInput.value) {
+
+            this.setState({
+                error: false,
+            })
+
+            localStorage.removeItem('error');
+    
+        } else if (nameInput.value !== '' && priceInput.value !== '' && descriptionInput.value !== ''
+            && imageInput.value !== '' && altTextInput.value !== '') {
+
+            const size = imageInput.files[0].size;
+            const jpg  = imageInput.value.indexOf('jpg');
+            const jpeg = imageInput.value.indexOf('jpeg');
+            const png  = imageInput.value.indexOf('png');
+
+            if (size <= 500000) {
+                if (jpg >= 0 || jpeg >= 0 || png >= 0) {
+                    this.setState({
+                        error: false,
+                    })
+        
+                    localStorage.removeItem('error');
+                }
             }
         }
     }
@@ -603,10 +799,6 @@ class Services extends React.Component {
         })
         .catch(err => {
             console.log(err);
-
-            this.setState({
-                error: true,
-            })
         })
     }
 }

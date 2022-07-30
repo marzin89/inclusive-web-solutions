@@ -1,0 +1,17 @@
+/* Skicka-knapp (Logga in, Admin, Kontakt) */
+.submit-btn {
+    width: 295px;
+    height: 35px;
+    background-color: $header-footer-color;
+    color: white;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+    border: 1px solid  $header-footer-color;
+    margin-top: 10px;
+    float: right;
+}
+
+.submit-btn:focus {
+    border: 3px solid black;
+}

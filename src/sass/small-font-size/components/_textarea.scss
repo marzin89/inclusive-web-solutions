@@ -1,0 +1,9 @@
+/* Inmatningsfält för meddelanden, inlägg, beskrivningar och kommentarer */
+textarea {
+    width: 100%;
+    height: 150px;
+    font-family: inherit;
+    border: 2px solid $heading-color;
+    padding-left: 10px;
+    margin-bottom: 5px;
+}

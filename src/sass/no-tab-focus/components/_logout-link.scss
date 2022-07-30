@@ -1,0 +1,12 @@
+/* Länk för utloggning */
+#logout {
+    width: 30%;
+    float: right;
+    padding: 5px 0;
+    text-align: right;
+
+    a {
+        color: $heading-color;
+        font-weight: bold;
+    }
+}

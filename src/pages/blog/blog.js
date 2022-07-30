@@ -1,6 +1,8 @@
 // Imports
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PostsSwedish from './swedish/posts-swedish';
+import PostsGerman from './german/posts-german';
 
 // Blogg
 class Blog extends React.Component {
@@ -16,8 +18,6 @@ class Blog extends React.Component {
         this.toggleBtnsGerman   = this.toggleBtnsGerman.bind(this);
         this.togglePostsSwedish = this.togglePostsSwedish.bind(this);
         this.togglePostsGerman  = this.togglePostsGerman.bind(this); 
-        this.renderPostsSwedish = this.renderPostsSwedish.bind(this);
-        this.renderPostsGerman  = this.renderPostsGerman.bind(this); 
         this.handleBtnClick     = this.handleBtnClick.bind(this);      
         this.handleLinkClick    = this.handleLinkClick.bind(this);
         this.handleLogout       = this.handleLogout.bind(this);
@@ -36,6 +36,14 @@ class Blog extends React.Component {
             errorGerman:          '',
         }
 
+        if (!localStorage.getItem('blogIndexSwedish')) {
+            localStorage.setItem('blogIndexSwedish', 0);
+        }
+
+        if (!localStorage.getItem('blogIndexGerman')) {
+            localStorage.setItem('blogIndexGerman', 0);
+        }
+
         this.getAllPosts();
     }
 
@@ -48,40 +56,40 @@ class Blog extends React.Component {
                     {localStorage.getItem('language') == 'Deutsch' ?
                     <nav className="breadcrumbs" aria-label="Brotkrümelnavigation">
                         <ul>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/"}>
-                                Home</Link>/</li>
-                            <li><Link className="active-breadcrumb text focus regular-font-size" to={"/blog"}> 
-                                Blog</Link></li>
+                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size"
+                                to={"/"}>Home</Link>/</li>
+                            <li><Link className="active-breadcrumb focus focus-invisible regular-font-size" 
+                                to={"/blog"}> Blog</Link></li>
                         </ul>
                     </nav>
                     :
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb text focus regular-font-size" to={"/"}>
-                                Start</Link>/</li>
-                            <li><Link className="active-breadcrumb text focus regular-font-size" to={"/blog"}> 
-                                Blogg</Link></li>
+                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
+                                to={"/"}>Start</Link>/</li>
+                            <li><Link className="active-breadcrumb focus focus-invisible regular-font-size" 
+                                to={"/blog"}> Blogg</Link></li>
                         </ul>
                     </nav>
                     }
-                    <p id="logout" style={this.props.signedIn ? {display: 'block'} :
-                        {display: 'none'}}><Link className="text focus regular-font-size" to={"/login"} 
-                        onClick={this.handleLogout}>Logga ut</Link></p>
+                    <p id="logout" style={this.props.signedIn ? {display: 'block'} : {display: 'none'}}>
+                        <Link className="focus focus-invisible regular-font-size" 
+                        to={"/login"} onClick={this.handleLogout}>Logga ut</Link></p>
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="blog">
-                    <h1 id="h1-blog" className="text h1-font-size">Blog</h1>
-                    {this.renderPostsGerman()}
+                    <h1 id="h1-blog" className="h1-font-size">Blog</h1>
+                    <PostsGerman />
                     {this.toggleBtnsGerman()}
-                    <p className="text error regular-font-size" role="alert" style={this.state.errorGerman ?
+                    <p className="error regular-font-size" role="alert" style={this.state.errorGerman ?
                         {display: 'block'} : {display: 'none'}}>{this.state.errorGerman}</p>
                 </section>
                 :
                 <section id="blog">
-                    <h1 id="h1-blog" className="text h1-font-size">Blogg</h1>
-                    {this.renderPostsSwedish()}
+                    <h1 id="h1-blog" className="h1-font-size">Blogg</h1>
+                    <PostsSwedish />
                     {this.toggleBtnsSwedish()}
-                    <p className="text error regular-font-size" role="alert" style={this.state.errorSwedish ?
+                    <p className="error regular-font-size" role="alert" style={this.state.errorSwedish ?
                         {display: 'block'} : {display: 'none'}}>{this.state.errorSwedish}</p>
                 </section>}
             </main>
@@ -97,54 +105,6 @@ class Blog extends React.Component {
 
         } else {
             document.title = 'Blogg';
-        }
-
-        if (localStorage.getItem('accessibility-error')) {
-            const text = document.getElementsByClassName('text');
-
-            switch(localStorage.getItem('accessibility-error')) {
-                case 'contrast':
-                    for (let i = 0; i < text.length; i++) {
-                        text[i].style.opacity = 0.1;
-                    }
-                break;
-    
-                /*
-                case 'responsiveness':
-                    const meta = document.getElementsByName('viewport');
-                    meta[0].remove();
-                break;
-                */
-    
-                case 'tab-focus':
-                    const focus = document.getElementsByClassName('focus');
-    
-                    for (let i = 0; i < document.getElementsByClassName('focus').length; i++) {
-                        focus[i].className = focus[i].className.replace('focus', 'focus-invisible');
-                    }
-                break;
-    
-                case 'font-size':
-                    for (let i = 0; i < text.length; i++) {
-                        if (text[i].className.indexOf('h1-font-size') >= 0) {
-                            text[i].style.fontSize = '19px';
-                        
-                        } else if (text[i].className.indexOf('h2-font-size') >= 0) {
-                            text[i].style.fontSize = '15px';
-                        
-                        } else if (text[i].className.indexOf('h3-font-size') >= 0) {
-                            text[i].style.fontSize = '12px';
-    
-                        } else if (text[i].className.indexOf('regular-font-size')) {
-                            text[i].style.fontSize   = '8px';
-                            text[i].style.lineHeight = '8px'
-                        
-                        } else if (text[i].className.indexOf('small-font-size')) {
-                            text[i].style.fontSize = '8px';
-                        }
-                    }
-                break;
-            }
         }
     }
 
@@ -243,25 +203,21 @@ class Blog extends React.Component {
             for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activeBlogPageGerman') == 1 || !localStorage.getItem('activeBlogPageGerman')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
-                        onClick={this.handleBtnClick}>{i}</button>);
+                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
-                        onClick={this.handleBtnClick}>{i}</button>);
+                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeBlogPageGerman') == 1 || !localStorage.getItem('activeBlogPageGerman')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
-                        onClick={this.handleBtnClick}>{i}</button>);
+                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeBlogPageGerman')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
-                        onClick={this.handleBtnClick}>{i}</button>);
+                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }
             }
@@ -277,25 +233,21 @@ class Blog extends React.Component {
             for (let i = 1; i <= this.state.numberOfPagesSwedish; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activeBlogPageSwedish') == 1 || !localStorage.getItem('activeBlogPageSwedish')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
-                        onClick={this.handleBtnClick}>{i}</button>);
+                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
-                        onClick={this.handleBtnClick}>{i}</button>);
+                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
-                    if (i !== localStorage.getItem('activeBlogPageSwedish')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" 
-                        onClick={this.handleBtnClick}>{i}</button>);
+                    if (localStorage.getItem('activeBlogPageSwedish') == 1 || !localStorage.getItem('activeBlogPageSwedish')) {
+                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeBlogPageSwedish')) {
-                        buttons.push(<button id={`btn${i}`} className="text focus toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" 
-                        onClick={this.handleBtnClick}>{i}</button>);
+                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }
             }
@@ -311,11 +263,11 @@ class Blog extends React.Component {
 
         for (let i = 0; i < buttons.length; i++) {
             if (buttons[i].innerHTML == id) {
-                buttons[i].className = 'text focus toggle-btn active-toggle-btn h3-font-size';
+                buttons[i].className = 'focus toggle-btn active-toggle-btn h3-font-size';
                 buttons[i].setAttribute('aria-pressed', true);
 
             } else {
-                buttons[i].className = 'text focus toggle-btn inactive-toggle-btn h3-font-size';
+                buttons[i].className = 'focus toggle-btn inactive-toggle-btn h3-font-size';
                 buttons[i].setAttribute('aria-pressed', false);
             }
         }
@@ -330,7 +282,7 @@ class Blog extends React.Component {
     
     togglePostsGerman(id) {
         if (id == 1) {
-            localStorage.setItem('index', 0);
+            localStorage.setItem('blogIndexGerman', 0);
             localStorage.setItem('activeBlogPageGerman', 1);
 
             this.setState({
@@ -338,7 +290,7 @@ class Blog extends React.Component {
                 activePage: 1,
             })
         } else {
-            localStorage.setItem('index', (id - 1) * 5);
+            localStorage.setItem('blogIndexGerman', (id - 1) * 5);
             localStorage.setItem('activeBlogPageGerman', id);
 
             this.setState({
@@ -350,7 +302,7 @@ class Blog extends React.Component {
 
     togglePostsSwedish(id) {
         if (id == 1) {
-            localStorage.setItem('index', 0);
+            localStorage.setItem('blogIndexSwedish', 0);
             localStorage.setItem('activeBlogPageSwedish', 1);
 
             this.setState({
@@ -359,79 +311,13 @@ class Blog extends React.Component {
             })
         
         } else {
-            localStorage.setItem('index', (id - 1) * 5);
+            localStorage.setItem('blogIndexSwedish', (id - 1) * 5);
             localStorage.setItem('activeBlogPageSwedish', id);
 
             this.setState({
                 index:      (id - 1) * 5,
                 activePage: id,
             })
-        }
-    }
-
-    renderPostsGerman() {
-        if (this.state.postsGerman.length) {
-            let posts     = [];
-            let page      = [];
-            let lastIndex = this.state.index + 5;
-
-            for (let i = this.state.index; i < lastIndex; i++) {
-                if (this.state.postsGerman[i]) {
-                    posts.push(this.state.postsGerman[i])
-                
-                } else {
-                    break;
-                }
-            }
-
-            posts.forEach((post) => {
-                page.push(
-                    <article key={post.id} className="post">
-                        <h2 className="text h2-font-size">{post.title}</h2>
-                        <p className="date text small-font-size">{post.date.slice(0, 10)}</p>
-                        <p className="text regular-font-size">{post.content[0].slice(0, 150) + ' ...'}</p>
-                        {post.imageUrl ? <img src={post.imageUrl} alt={post.altText}>
-                        </img> : null}
-                        <p><Link id={`post${post.id}`} className="text focus find-out-more regular-font-size"
-                            href="" to={"/post"} onClick={this.handleLinkClick} >Mehr</Link></p>
-                    </article>
-                )
-            })
-
-            return page;
-        }
-    }
-
-    renderPostsSwedish() {
-        if (this.state.postsSwedish.length) {
-            let posts     = [];
-            let page      = [];
-            let lastIndex = this.state.index + 5;
-
-            for (let i = this.state.index; i < lastIndex; i++) {
-                if (this.state.postsSwedish[i]) {
-                    posts.push(this.state.postsSwedish[i])
-                
-                } else {
-                    break;
-                } 
-            }
-
-            posts.forEach((post) => {
-                page.push(
-                    <article key={post.id} className="post">
-                    <h2 className="text h2-font-size">{post.title}</h2>
-                    <p className="date text small-font-size">{post.date.slice(0, 10)}</p>
-                    <p className="text regular-font-size">{post.content[0].slice(0, 150) + ' ...'}</p>
-                    {post.imageUrl ? <img src={post.imageUrl} alt={post.altText}>
-                    </img> : null}
-                    <p><Link id={`post${post.id}`} className="text focus find-out-more regular-font-size"
-                        href="" to={"/post"} onClick={this.handleLinkClick} >Läs mer</Link></p>
-                </article>
-                )
-            })
-
-            return page;
         }
     }
 

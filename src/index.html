@@ -14,4 +14,23 @@
 
   </div>
 </body>
+<script>
+  const link = document.querySelectorAll('link');
+
+  if (!localStorage.getItem('accessibility-error')) {
+    link[0].href = './css/styles.css';
+  
+  } else if (localStorage.getItem('accessibility-error') == 'contrast') {
+    link[0].href = './css/low-contrast.css';
+  
+  } else if (localStorage.getItem('accessibility-error') == 'responsiveness') {
+    link[0].href = './css/unresponsive.css';
+  
+  } else if (localStorage.getItem('accessibility-error') == 'font-size') {
+    link[0].href = './css/small-font-size.css';
+  
+  } else if (localStorage.getItem('accessibility-error') == 'tab-focus') {
+    link[0].href = './css/no-tab-focus.css';
+  }
+</script>
 </html>

@@ -36,119 +36,149 @@ class Users extends React.Component {
 
         // Här lagras användaruppgifter, fel- och bekräftelsemeddelanden
         this.state = {
-            users:            this.props.users,
-            firstName:        '',
-            lastName:         '',
-            email:            '',
-            phone:            '',
-            username:         '',
-            password:         '',
-            userRole:         '',
-            blocked:          '',
-            error:            false,
-            errorUsers:       this.props.errorUsers,
-            confirm:          false,
-            confirmUsers:     this.props.confirmUsers,
-            firstNameEmpty:   '',
-            lastNameEmpty:    '',
-            emailEmpty:       '',
-            emailInvalid:     '',
-            phoneEmpty:       '',
-            usernameEmpty:    '',
-            usernameTaken:    '',
-            passwordEmpty:    '',
-            passwordTooShort: '',
-            passwordInsecure: '',
-            passwordTaken:    '',
+            users:                      this.props.users,
+            firstName:                  '',
+            lastName:                   '',
+            email:                      '',
+            phone:                      '',
+            username:                   '',
+            password:                   '',
+            userRole:                   '',
+            blocked:                    '',
+            error:                      false,
+            errorUsers:                 this.props.errorUsers,
+            confirmUsers:               this.props.confirmUsers,
+            errorCountFirstName:        0,
+            errorCountLastName:         0,
+            errorCountEmailEmpty:       0,
+            errorCountEmailInvalid:     0,
+            errorCountPhone:            0,
+            errorCountUsernameEmpty:    0,
+            errorCountUsernameTaken:    0,
+            errorCountPasswordEmpty:    0,
+            errorCountPasswordTooShort: 0,
+            errorCountPasswordInsecure: 0,
+            errorCountPasswordTaken:    0,
+            firstNameEmpty:             '',
+            lastNameEmpty:              '',
+            emailEmpty:                 '',
+            emailInvalid:               '',
+            phoneEmpty:                 '',
+            usernameEmpty:              '',
+            usernameTaken:              '',
+            passwordEmpty:              '',
+            passwordTooShort:           '',
+            passwordInsecure:           '',
+            passwordTaken:              '',
         }
     }
     
     // Rendrering
     render() {
         return (
-            <div className="admin-form">
+            <div id="user-section" className="admin-form">
                 <section id="admin-form">
                     <h2 className="h2-admin">Användare</h2>
+                    <p style={this.state.error ? {display: 'block'} : {display: 'none'}} 
+                        className="text h2-error h3-font-size" role="alert">
+                        Formuläret innehåller {this.state.errorCountFirstName + 
+                            this.state.errorCountLastName + this.state.errorCountEmailEmpty + 
+                            this.state.errorCountEmailInvalid + this.state.errorCountPhone + 
+                            this.state.errorCountUsernameEmpty + this.state.errorCountUsernameTaken + 
+                            this.state.errorCountPasswordEmpty + this.state.errorCountPasswordTooShort + 
+                            this.state.errorCountPasswordInsecure + this.state.errorCountPasswordTaken} fel</p>
                     <form>
                         <p>Fält märkta med * är obligatoriska.</p>
                         <div className="row">
                             {/* Förnamn */}
-                            <div className="form-left">
+                            <div className="form-left" onBlur={this.validateFirstName}>
                                 <label htmlFor="user-first-name-input">Förnamn *</label>
-                                <input id="user-first-name-input" className="focus text-input-main" type="text" 
-                                    aria-required="true" onChange={this.handleFirstNameChange}
-                                    onBlur={this.validateFirstName}></input>
+                                <input id="user-first-name-input" className="focus text-input-main" 
+                                    type="text" aria-required="true" aria-describedby="first-name-empty" 
+                                    onChange={this.handleFirstNameChange}>
+                                </input>
                                 {/* Här skrivs ett felmeddelande ut om inget förnamn har angetts */}
-                                <p className="error empty" role="alert" style={this.state.firstNameEmpty ? 
-                                    {display: 'block'} : {display: 'none'}}>{this.state.firstNameEmpty}</p>
+                                <p id="first-name-empty" className="error empty" role="alert" 
+                                    style={this.state.firstNameEmpty ? {display: 'block'} : {display: 'none'}}>
+                                        {this.state.firstNameEmpty}</p>
                             </div>
                             {/* Förnamn */}
-                            <div className="form-right">
+                            <div className="form-right" onBlur={this.validateLastName}>
                                 <label htmlFor="user-last-name-input">Efternamn *</label>
-                                <input id="user-last-name-input" className="focus text-input-main" type="text" 
-                                    aria-required="true" onChange={this.handleLastNameChange}
-                                    onBlur={this.validateLastName}></input>
+                                <input id="user-last-name-input" className="focus text-input-main" 
+                                    type="text" aria-required="true" aria-describedby="last-name-empty" 
+                                    onChange={this.handleLastNameChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om inget efternamn har angetts */}
-                                <p className="error empty" role="alert" style={this.state.lastNameEmpty ? 
-                                    {display: 'block'} : {display: 'none'}}>{this.state.lastNameEmpty}</p>
+                                <p id="last-name-empty" className="error empty" role="alert" 
+                                    style={this.state.lastNameEmpty ? {display: 'block'} : {display: 'none'}}>
+                                        {this.state.lastNameEmpty}</p>
                             </div>
                         </div>
                         <div className="row">
                             {/* E-post */}
-                            <div className="form-left">
+                            <div className="form-left" onBlur={this.validateEmail}>
                                 <label htmlFor="user-email-input">E-post *</label>
                                 <input id="user-email-input" className="focus text-input-main" type="email" 
-                                    aria-required="true" onChange={this.handleEmailChange}
-                                    onBlur={this.validateEmail}></input>
+                                    aria-required="true" aria-describedby="email-empty email-invalid" 
+                                    onChange={this.handleEmailChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om ingen e-postadress har angetts */}
-                                <p className="error empty" role="alert" style={this.state.emailEmpty ? 
+                                <p id="email-empty" className="error empty" role="alert" 
+                                    style={this.state.emailEmpty ? 
                                     {display: 'block'} : {display: 'none'}}>{this.state.emailEmpty}</p>
                                 {/* Här skrivs ett felmeddelande om e-postadressen är ogiltig */}
-                                <p className="error" role="alert" style={this.state.emailInvalid ? 
+                                <p id="email-invalid" className="error" role="alert" 
+                                    style={this.state.emailInvalid ? 
                                     {display: 'block'} : {display: 'none'}}>{this.state.emailInvalid}</p>
                             </div>
                             {/* Telefon */}
-                            <div className="form-right">
+                            <div className="form-right" onBlur={this.validatePhone}>
                                 <label htmlFor="user-phone-input">Telefon *</label>
                                 <input id="user-phone-input" className="focus text-input-main" type="tel" 
-                                    aria-required="true" onChange={this.handlePhoneChange}
-                                    onBlur={this.validatePhone}></input>
+                                    aria-required="true" aria-describedby="phone-empty" 
+                                    onChange={this.handlePhoneChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om inget telefonnummer har angetts */}
-                                <p className="error empty" role="alert" style={this.state.phoneEmpty ? 
+                                <p id="phone-empty" className="error empty" role="alert" 
+                                    style={this.state.phoneEmpty ? 
                                     {display: 'block'} : {display: 'none'}}>{this.state.phoneEmpty}</p>
                             </div>
                         </div>
                         <div className="row">
                             {/* Användarnamn */}
-                            <div className="form-left">
+                            <div className="form-left" onBlur={this.validateUsername}>
                                 <label htmlFor="username-input">Användarnamn *</label>
                                 <input id="username-input" className="focus text-input-main" type="text" 
-                                    aria-required="true" onChange={this.handleUsernameChange}
-                                    onBlur={this.validateUsername}></input>
+                                    aria-required="true" aria-describedby="username-empty username-taken" 
+                                    onChange={this.handleUsernameChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om inget användarnamn har angetts */}
-                                <p className="error emtpy" role="alert" style={this.state.usernameEmpty ? 
+                                <p id="username-empty" className="error emtpy" role="alert" 
+                                    style={this.state.usernameEmpty ? 
                                     {display: 'block'} : {display: 'none'}}>{this.state.usernameEmpty}</p>
                                 {/* Här skrivs ett felmeddelande ut om användarnamnet är upptaget */}
-                                <p className="error" role="alert" style={this.state.usernameTaken ? 
+                                <p id="username-taken" className="error" role="alert" 
+                                    style={this.state.usernameTaken ? 
                                     {display: 'block'} : {display: 'none'}}>{this.state.usernameTaken}</p>
                             </div>
                             {/* Lösenord */}
-                            <div className="form-right">
+                            <div className="form-right" onBlur={this.validatePassword}>
                                 <label htmlFor="password-input">Lösenord *</label>
                                 <input id="password-input" className="focus text-input-main" type="password" 
-                                    aria-required="true" onChange={this.handlePasswordChange}
-                                    onBlur={this.validatePassword}></input>
+                                    aria-required="true" aria-describedby="password-empty password-too-short
+                                    password-insecure password-taken" onChange={this.handlePasswordChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om inget lösenord har angetts */}
-                                <p className="error empty" role="alert" style={this.state.passwordEmpty ? 
+                                <p id="password-empty" className="error empty" role="alert" 
+                                    style={this.state.passwordEmpty ? 
                                     {display: 'block'} : {display: 'none'}}>{this.state.passwordEmpty}</p>
                                 {/* Här skrivs ett felmeddelande ut om lösenordet är för kort */}
-                                <p className="error" role="alert" style={this.state.passwordTooShort ? 
+                                <p id="password-too-short" className="error" role="alert" 
+                                    style={this.state.passwordTooShort ? 
                                     {display: 'block'} : {display: 'none'}}>{this.state.passwordTooShort}</p>
                                 {/* Här skrivs ett felmeddelande ut om lösenordet är osäkert */}
-                                <p className="error" role="alert" style={this.state.passwordInsecure ? 
+                                <p id="password-insecure" className="error" role="alert" 
+                                    style={this.state.passwordInsecure ? 
                                     {display: 'block'} : {display: 'none'}}>{this.state.passwordInsecure}</p>
                                 {/* Här skrivs ett felmeddelande ut om lösenordet är upptaget */}
-                                <p className="error" role="alert" style={this.state.passwordTaken ? 
+                                <p id="password-taken" className="error" role="alert" 
+                                    style={this.state.passwordTaken ? 
                                     {display: 'block'} : {display: 'none'}}>{this.state.passwordTaken}</p>
                             </div>
                         </div>
@@ -220,8 +250,8 @@ class Users extends React.Component {
                                     <tr>
                                         <td className="edit-users"><a id={`edit${user.id}`} className="focus" 
                                             href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></td>
-                                        <td className="delete-users"><Link id={`delete${user.id}`} className="focus" 
-                                            to={"/admin"} onClick={this.handleLinkClick}>Radera</Link></td>
+                                        <td className="delete-users"><a id={`delete${user.id}`} className="focus" 
+                                            href="#admin-form" onClick={this.handleLinkClick}>Radera</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -235,71 +265,243 @@ class Users extends React.Component {
     /* Dessa funktioner lagrar förnamn, efternamn, e-post, telefon,
         användarnamn, lösenord, behörighet och blockering och språk 
         i state när användaren skriver */
-    handleFirstNameChange(e) {
+    handleFirstNameChange(e) {  
         this.setState({
-            error:          false,
-            firstNameEmpty: '',
-            firstName:      e.target.value,
+            error:     false,
+            firstName: e.target.value,
         })
 
-        localStorage.removeItem('error');
+        if (e.target.value) {
+            this.setState({
+                errorCountFirstName: 0,
+                firstNameEmpty:      '',
+            })
+
+            e.target.setAttribute('aria-invalid', false);
+        }
     }
 
     handleLastNameChange(e) {
         this.setState({
-            error:         false,
-            lastNameEmpty: '',
-            lastName:       e.target.value,
+            error:    false,
+            lastName: e.target.value,
         })
 
-        localStorage.removeItem('error');
+        if (e.target.value) {
+            this.setState({
+                errorCountLastName: 0,
+                lastNameEmpty:      '',
+            })
+
+            e.target.setAttribute('aria-invalid', false);
+        }
     }
 
     /* Funktionen skriver ut ett felmeddelande om e-postadressen
         är ogiltig, annars lagras den */
     handleEmailChange(e) {
         this.setState({
-            error:        false,
-            emailEmpty:   '',
-            emailInvalid: '',
-            email:        e.target.value,
+            error: false,
+            email: e.target.value,
         })
 
-        localStorage.removeItem('error');
+        if (e.target.value) {
+            if (e.target.value.indexOf('@') > 0) {
+                this.setState({
+                    errorCountEmailEmpty:   0,
+                    errorCountEmailInvalid: 0,
+                    emailEmpty:             '',
+                    emailInvalid:           '',
+                })
+
+                e.target.setAttribute('aria-invalid', false);
+            
+            } else {
+                this.setState({
+                    errorCountEmailEmpty:   0,
+                    errorCountEmailInvalid: 1,
+                    emailEmpty:             '',
+                    emailInvalid:           'Ange en giltig e-postadress.',
+                })
+    
+                e.target.setAttribute('aria-invalid', true);
+            }
+        
+        } else {
+            this.setState({
+                errorCountEmailEmpty:   1,
+                errorCountEmailInvalid: 0,
+                emailEmpty:             'Du måste ange en e-postadress.',
+                emailInvalid:           '',
+            })
+
+            e.target.setAttribute('aria-invalid', true);
+        }
     }
 
     handlePhoneChange(e) {
         this.setState({
-            error:      false,
-            phoneEmpty: '',
-            phone:      e.target.value,
+            error: false,
+            phone: e.target.value,
         })
 
-        localStorage.removeItem('error');
+        if (e.target.value) {
+            this.setState({
+                errorCountPhone: 0,
+                phoneEmpty:      '',
+            })
+
+            e.target.setAttribute('aria-invalid', false);
+        }
     }
 
     handleUsernameChange(e) {
         this.setState({
-            error:         false,
-            usernameEmpty: '',
-            usernameTaken: '',
-            username:      e.target.value,
+            error:    false,
+            username: e.target.value,
         })
 
-        localStorage.removeItem('error');
+        let count = 0;
+
+        if (e.target.value) {
+            this.setState({
+                errorCountUsernameEmpty: 0,
+                usernameEmpty:           '',
+            })
+
+            if (!localStorage.getItem('action')) {
+                this.props.users.forEach((user) => {
+                    if (user.username == e.target.value) {
+
+                        count = 1;
+
+                        this.setState({
+                            errorCountUsernameTaken: 1,
+                            usernameTaken:           'Användarnamnet är upptaget.',
+                        })
+    
+                        e.target.setAttribute('aria-invalid', true);
+                        localStorage.setItem('error', true);
+                    }
+                })
+            
+            } else if (localStorage.getItem('action') == 'edit') {
+                this.props.users.forEach((user) => {
+                    if (user.username == e.target.value &&
+                        e.target.value !== oldUsername) {
+
+                        count = 1;
+
+                        this.setState({
+                            errorCountUsernameTaken: 1,
+                            usernameTaken:           'Användarnamnet är upptaget.',
+                        })
+
+                        e.target.setAttribute('aria-invalid', true);
+                        localStorage.setItem('error', true);
+                    }
+                })
+            }
+        }
+
+        if (!count) {
+            this.setState({
+                errorCountUsernameTaken: 0,
+                usernameTaken:           '',
+            })
+        }
     }
 
     handlePasswordChange(e) {
         this.setState({
-            error:            false,
-            passwordEmpty:    '',
-            passwordTaken:    '',
-            passwordTooShort: '',
-            passwordInsecure: '',
-            password:         e.target.value,
+            error:    false,
+            password: e.target.value,
         })
+        
+        if (e.target.value) {
+            this.setState({
+                errorCountPasswordEmpty: 0,
+                passwordEmpty:           '',
+            })
 
-        localStorage.removeItem('error');
+            const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
+
+            if (!pattern.test(e.target.value)) {
+                this.setState({
+                    errorCountPasswordInsecure: 1,
+                    passwordInsecure:           'Lösenordet måste innehålla versaler, gemener och siffror.',
+                })
+    
+                e.target.setAttribute('aria-invalid', true);
+                localStorage.setItem('error', true);    
+            
+            } else {
+                this.setState({
+                    errorCountPasswordInsecure: 0,
+                    passwordInsecure:           '',
+                })
+            }
+    
+            if (e.target.value.length < 10) {
+                this.setState({
+                    errorCountPasswordTooShort: 1,
+                    passwordTooShort:           'Lösenordet måste vara minst 10 tecken långt.',
+                })
+    
+                e.target.setAttribute('aria-invalid', true);
+                localStorage.setItem('error', true);
+            
+            } else {
+                this.setState({
+                    errorCountPasswordTooShort: 0,
+                    passwordTooShort:           '',
+                })
+            }
+    
+            let count = 0;
+    
+            if (!localStorage.getItem('action')) {
+                for (let i = 0; i < this.state.users.length; i++) {
+                    if (this.state.users[i].password == e.target.value) {
+    
+                        count = 1;
+                        
+                        this.setState({
+                            errorCountPasswordTaken: 1,
+                            passwordTaken:           'Lösenordet är upptaget.',
+                        })
+        
+                        e.target.setAttribute('aria-invalid', true);
+                        localStorage.setItem('error', true);
+                    }
+                }
+            
+            } else if (localStorage.getItem('action') == 'edit') {
+                for (let i = 0; i < this.state.users.length; i++) {
+                    if (this.state.users[i].password == e.target.value &&
+                        e.target.value !== oldPassword) {
+                        
+                        count = 1;
+    
+                        this.setState({
+                            errorCountPasswordTaken: 1,
+                            passwordTaken:           'Lösenordet är upptaget.',
+                        })
+    
+                        e.target.setAttribute('aria-invalid', true);
+                        localStorage.setItem('error', true);
+                    }
+                }
+            }
+    
+            if (!count) {
+                this.setState({
+                    errorCountPasswordTaken: 0,
+                    passwordTaken:           '',
+                    password:                '',
+                })
+            }
+        }
     }
 
     handleUserRoleChange(e) {
@@ -317,10 +519,11 @@ class Users extends React.Component {
     validateFirstName(e) {
         if (!e.target.value) {
             this.setState({
-                error:          true, 
-                firstNameEmpty: 'Du måste ange ett förnamn.',
+                errorCountFirstName: 1, 
+                firstNameEmpty:      'Du måste ange ett förnamn.',
             })
 
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         }
     }
@@ -328,10 +531,11 @@ class Users extends React.Component {
     validateLastName(e) {
         if (!e.target.value) {
             this.setState({
-                error:         true, 
-                lastNameEmpty: 'Du måste ange ett efternamn.',
+                errorCountLastName: 1, 
+                lastNameEmpty:      'Du måste ange ett efternamn.',
             })
 
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         }
     }
@@ -339,23 +543,27 @@ class Users extends React.Component {
     validateEmail(e) {
         if (!e.target.value) {
             this.setState({
-                error:        true, 
-                emailEmpty:   'Du måste ange en e-postadress.',
-                emailInvalid: '',
-                email:        '',
+                errorCountEmailEmpty:   1,
+                errorCountEmailInvalid: 0,
+                emailEmpty:             'Du måste ange en e-postadress.',
+                emailInvalid:           '',
+                email:                  e.target.value,
             })
-    
+
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         
         } else {
-            if (e.target.value.indexOf('@') < 0) {
+            if (e.target.value.indexOf('@') < 1) {
                 this.setState({
-                    error:        true,
-                    emailEmpty:   '',
-                    emailInvalid: 'Ange en giltig e-postadress.',
-                    email:        '',
+                    errorCountEmailEmpty:   0,
+                    errorCountEmailInvalid: 1,
+                    emailEmpty:             '',
+                    emailInvalid:           'Ange en giltig e-postadress.',
+                    email:                  e.target.value,
                 })
     
+                e.target.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
             }
         }
@@ -364,10 +572,11 @@ class Users extends React.Component {
     validatePhone(e) {
         if (!e.target.value) {
             this.setState({
-                error:      true, 
-                phoneEmpty: 'Du måste ange ett telefonnummer.',
+                errorCountPhone: 1,
+                phoneEmpty:      'Du måste ange ett telefonnummer.',
             })
 
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         }
     }
@@ -375,11 +584,12 @@ class Users extends React.Component {
     validateUsername(e) {
         if (!e.target.value) {
             this.setState({
-                error:      true, 
-                usernameEmpty: 'Du måste ange ett användarnamn.',
-                usernameTaken: '',
+                errorCountUsernameEmpty: 1, 
+                usernameEmpty:           'Du måste ange ett användarnamn.',
+                usernameTaken:           '',
             })
 
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         
         } else {
@@ -387,12 +597,13 @@ class Users extends React.Component {
                 this.props.users.forEach((user) => {
                     if (user.username == e.target.value) {
                         this.setState({
-                            error:         true,
-                            usernameEmpty: '',
-                            usernameTaken: 'Användarnamnet är upptaget.',
-                            username:      '',
+                            errorCountUsernameTaken: 1,
+                            usernameEmpty:           '',
+                            usernameTaken:           'Användarnamnet är upptaget.',
+                            username:                '',
                         })
     
+                        e.target.setAttribute('aria-invalid', true);
                         localStorage.setItem('error', true);
                     }
                 })
@@ -403,12 +614,13 @@ class Users extends React.Component {
                         e.target.value !== oldUsername) {
 
                         this.setState({
-                            error:         true,
-                            usernameEmpty: '',
-                            usernameTaken: 'Användarnamnet är upptaget.',
-                            username:      '',
+                            errorCountUsernameTaken: 1,
+                            usernameEmpty:           '',
+                            usernameTaken:           'Användarnamnet är upptaget.',
+                            username:                '',
                         })
 
+                        e.target.setAttribute('aria-invalid', true);
                         localStorage.setItem('error', true);
                     }
                 })
@@ -419,13 +631,14 @@ class Users extends React.Component {
     validatePassword(e) {
         if (!e.target.value) {
             this.setState({
-                error:            true, 
-                passwordEmpty:    'Du måste ange ett lösenord.',
-                passwordTaken:    '',
-                passwordTooShort: '',
-                passwordInsecure: '',
+                errorCountPasswordEmpty: 1,
+                passwordEmpty:           'Du måste ange ett lösenord.',
+                passwordTaken:           '',
+                passwordTooShort:        '',
+                passwordInsecure:        '',
             })
     
+            e.target.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         
         } else {
@@ -433,22 +646,24 @@ class Users extends React.Component {
 
             if (!pattern.test(e.target.value)) {
                 this.setState({
-                    error:            true,
-                    passwordEmpty:    '',
-                    passwordInsecure: 'Lösenordet måste innehålla versaler, gemener och siffror.',
+                    errorCountPasswordInsecure: 1,
+                    passwordEmpty:              '',
+                    passwordInsecure:           'Lösenordet måste innehålla versaler, gemener och siffror.',
                 })
 
+                e.target.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
             
             }
 
             if (e.target.value.length < 10) {
                 this.setState({
-                    error:            true,
-                    passwordEmpty:    '',
-                    passwordTooShort: 'Lösenordet måste vara minst 10 tecken långt.',
+                    errorCountPasswordTooShort: 1,
+                    passwordEmpty:              '',
+                    passwordTooShort:           'Lösenordet måste vara minst 10 tecken långt.',
                 })
     
+                e.target.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
             }
 
@@ -456,11 +671,12 @@ class Users extends React.Component {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == e.target.value) {
                         this.setState({
-                            error:         true,
-                            passwordTaken: 'Lösenordet är upptaget.',
-                            password:       '',
+                            errorCountPasswordTaken: 1,
+                            passwordTaken:           'Lösenordet är upptaget.',
+                            password:                '',
                         })
         
+                        e.target.setAttribute('aria-invalid', true);
                         localStorage.setItem('error', true);
                     }
                 }
@@ -469,14 +685,14 @@ class Users extends React.Component {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == e.target.value &&
                         e.target.value !== oldPassword) {
-                        alert(i);
 
                         this.setState({
-                            error:         true,
-                            passwordTaken: 'Lösenordet är upptaget.',
-                            password:       '',
+                            errorCountPasswordTaken: 1,
+                            passwordTaken:           'Lösenordet är upptaget.',
+                            password:                '',
                         })
 
+                        e.target.setAttribute('aria-invalid', true);
                         localStorage.setItem('error', true);
                     }
                 }
@@ -494,65 +710,127 @@ class Users extends React.Component {
 
         if (!firstNameInput.value) {
             this.setState({
-                error:          true, 
-                firstNameEmpty: 'Du måste ange ett förnamn.',
+                error:               true, 
+                errorCountFirstName: 1,
+                firstNameEmpty:      'Du måste ange ett förnamn.',
             })
 
+            firstNameInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
+        
+        } else {
+            this.setState({
+                errorCountFirstName: 0,
+                firstNameEmpty:      '',
+            })
+
+            firstNameInput.setAttribute('aria-invalid', false);
         }
 
         if (!lastNameInput.value) {
             this.setState({
-                error:         true, 
-                lastNameEmpty: 'Du måste ange ett efternamn.',
+                error:              true,
+                errorCountLastName: 1,
+                lastNameEmpty:      'Du måste ange ett efternamn.',
             })
 
+            lastNameInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
+        
+        } else {
+            this.setState({
+                errorCountLastName: 0,
+                lastNameEmpty:      '',
+            })
+
+            lastNameInput.setAttribute('aria-invalid', false);
         }
 
         if (!emailInput.value) {
             this.setState({
-                error:        true, 
-                emailEmpty:   'Du måste ange en e-postadress.',
-                emailInvalid: '',
-                email:        '',
+                error:                true,
+                errorCountEmailEmpty: 1,
+                emailEmpty:           'Du måste ange en e-postadress.',
             })
-    
+
+            emailInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         
         } else {
-            if (emailInput.value.indexOf('@') < 0) {
+            if (emailInput.value.indexOf('@') < 1) {
                 this.setState({
-                    error:        true,
-                    emailEmpty:   '',
-                    emailInvalid: 'Ange en giltig e-postadress.',
-                    email:        '',
+                    error:                  true,
+                    errorCountEmailEmpty:   0,
+                    errorCountEmailInvalid: 1,
+                    emailEmpty:             '',
+                    emailInvalid:           'Ange en giltig e-postadress.',
+                    email:                  '',
                 })
     
+                emailInput.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
+            
+            } else {
+                this.setState({
+                    errorCountEmailEmpty:   0,
+                    errorCountEmailInvalid: 0,
+                    emailEmpty:             '',
+                })
+
+                emailInput.setAttribute('aria-invalid', false);
             }
+        }
+
+        if (!phoneInput.value) {
+            this.setState({
+                error:           true,
+                errorCountPhone: 1,
+                phoneEmpty:      'Du måste ange ett telefonnummer.',
+            })
+
+            phoneInput.setAttribute('aria-invalid', true);
+            localStorage.setItem('error', true);
+        
+        } else {
+            this.setState({
+                errorCountPhone: 0,
+                phoneEmpty:      '',
+            })
+
+            phoneInput.setAttribute('aria-invalid', false);
         }
 
         if (!usernameInput.value) {
             this.setState({
-                error:      true, 
-                usernameEmpty: 'Du måste ange ett användarnamn.',
-                usernameTaken: '',
+                error:                   true,
+                errorCountUsernameEmpty: 1, 
+                usernameEmpty:           'Du måste ange ett användarnamn.',
             })
 
+            usernameInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         
         } else {
+            this.setState({
+                errorCountUsernameEmpty: 0, 
+                usernameEmpty:           '',
+            })
+
+            let count = 0;
+
             if (!localStorage.getItem('action')) {
                 this.props.users.forEach((user) => {
                     if (user.username == usernameInput.value) {
+
+                        count = 1;
+
                         this.setState({
-                            error:         true,
-                            usernameEmpty: '',
-                            usernameTaken: 'Användarnamnet är upptaget.',
-                            username:      '',
+                            error:                   true,
+                            errorCountUsernameTaken: 1,
+                            usernameTaken:           'Användarnamnet är upptaget.',
                         })
     
+                        usernameInput.setAttribute('aria-invalid', true);
                         localStorage.setItem('error', true);
                     }
                 })
@@ -562,63 +840,95 @@ class Users extends React.Component {
                     if (user.username == usernameInput.value &&
                         usernameInput.value !== oldUsername) {
 
+                        count = 1;
+
                         this.setState({
-                            error:         true,
-                            usernameEmpty: '',
-                            usernameTaken: 'Användarnamnet är upptaget.',
-                            username:      '',
+                            error:                   true,
+                            errorCountUsernameTaken: 1,
+                            usernameTaken:           'Användarnamnet är upptaget.',
                         })
 
+                        usernameInput.setAttribute('aria-invalid', true);
                         localStorage.setItem('error', true);
                     }
                 })
             }   
+
+            if (!count) {
+                this.setState({
+                    errorCountUsernameTaken: 0,
+                    usernameTaken:           '',
+                })
+            }
         }
 
         if (!passwordInput.value) {
             this.setState({
-                error:            true, 
-                passwordEmpty:    'Du måste ange ett lösenord.',
-                passwordTaken:    '',
-                passwordTooShort: '',
-                passwordInsecure: '',
+                error:                   true,
+                errorCountPasswordEmpty: 1,
+                passwordEmpty:           'Du måste ange ett lösenord.',
             })
     
+            passwordInput.setAttribute('aria-invalid', true);
             localStorage.setItem('error', true);
         
         } else {
+            this.setState({
+                errorCountPasswordEmpty: 0,
+                passwordEmpty:           '',
+            })
+
             const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
 
             if (!pattern.test(passwordInput.value)) {
                 this.setState({
-                    error:            true,
-                    passwordEmpty:    '',
-                    passwordInsecure: 'Lösenordet måste innehålla versaler, gemener och siffror.',
+                    error:                      true,
+                    errorCountPasswordInsecure: 1,
+                    passwordInsecure:           'Lösenordet måste innehålla versaler, gemener och siffror.',
                 })
 
+                passwordInput.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
             
+            } else {
+                this.setState({
+                    errorCountPasswordInsecure: 0,
+                    passwordInsecure:           '',
+                })
             }
 
             if (passwordInput.value.length < 10) {
                 this.setState({
-                    error:            true,
-                    passwordEmpty:    '',
-                    passwordTooShort: 'Lösenordet måste vara minst 10 tecken långt.',
+                    error:                      true,    
+                    errorCountPasswordTooShort: 1,
+                    passwordTooShort:           'Lösenordet måste vara minst 10 tecken långt.',
                 })
     
+                passwordInput.setAttribute('aria-invalid', true);
                 localStorage.setItem('error', true);
+            
+            } else {
+                this.setState({    
+                    errorCountPasswordTooShort: 0,
+                    passwordTooShort:           '',
+                })
             }
+
+            let count = 0;
 
             if (!localStorage.getItem('action')) {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == passwordInput.value) {
+
+                        count = 1;
+
                         this.setState({
-                            error:         true,
-                            passwordTaken: 'Lösenordet är upptaget.',
-                            password:       '',
+                            error:                   true,
+                            errorCountPasswordTaken: 1,
+                            passwordTaken:           'Lösenordet är upptaget.',
                         })
         
+                        passwordInput.setAttribute('aria-invalid', true);
                         localStorage.setItem('error', true);
                     }
                 }
@@ -627,22 +937,33 @@ class Users extends React.Component {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == passwordInput.value &&
                         passwordInput.value !== oldPassword) {
-                        alert(i);
+
+                        count = 1;
 
                         this.setState({
-                            error:         true,
-                            passwordTaken: 'Lösenordet är upptaget.',
-                            password:       '',
+                            error:                   true,
+                            errorCountPasswordTaken: 1,
+                            passwordTaken:           'Lösenordet är upptaget.',
                         })
 
+                        passwordInput.setAttribute('aria-invalid', true);
                         localStorage.setItem('error', true);
                     }
                 }
+            }
+
+            if (!count) {
+                this.setState({
+                    errorCountPasswordTaken: 0,
+                    passwordTaken:           '',
+                })
             }
         }
     }
 
     handleLinkClick(e) {
+        e.preventDefault();
+        
         let action;
         let id;
 

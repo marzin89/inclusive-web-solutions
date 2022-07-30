@@ -146,7 +146,7 @@ class Admin extends React.Component {
                 </div> 
                 :
                 // Gästskribenter
-                <section className="admin-menu">
+                <div className="admin-menu">
                     <p>Här kan du administrera 
                     webbplatsens innehåll. Välj kategori
                     med hjälp av knapparna nedan. 
@@ -156,7 +156,7 @@ class Admin extends React.Component {
                         aria-label="Visar formuläret för inlägg samt befintliga inlägg" 
                         aria-pressed="false" onClick={this.handleBtnClick}>
                             Inlägg</button>
-                </section>
+                </div>
                 }
                 {/* Formulär för att lägga till och redigera tjänster, användare, inlägg och kommentarer.
                     Vilket formulär som visas beror på vilket val som gjorts i menyn ovan. 
@@ -554,7 +554,8 @@ class Admin extends React.Component {
                 this.addSearch(body);
 
                 let testArr = this.state.tests;
-                testArr.unshift(data);
+                testArr.push(data);
+                testArr.reverse();
 
                 this.setState({
                     tests:        testArr,
@@ -596,7 +597,8 @@ class Admin extends React.Component {
                 this.addSearch(body);
 
                 let solutionArr = this.state.solutions;
-                solutionArr.unshift(data);
+                solutionArr.push(data);
+                solutionArr.reverse();
 
                 this.setState({
                     confirm:          true,
@@ -638,7 +640,8 @@ class Admin extends React.Component {
                 this.addSearch(body);
 
                 let courseArr = this.state.courses;
-                courseArr.unshift(data);
+                courseArr.push(data);
+                courseArr.reverse();
 
                 this.setState({
                     confirm:        true,
@@ -681,7 +684,8 @@ class Admin extends React.Component {
 
                 if (this.state.userRole == 'Medarbetare') {
                     postArr = this.state.posts;
-                    postArr.unshift(data);
+                    postArr.push(data);
+                    postArr.reverse();
 
                     this.setState({
                         posts: postArr,
@@ -689,7 +693,8 @@ class Admin extends React.Component {
                 
                 } else {
                     postArr = this.state.userPosts;
-                    postArr.unshift(data);
+                    postArr.push(data);
+                    postArr.reverse();
 
                     this.setState({
                         userPosts: postArr,
@@ -732,7 +737,8 @@ class Admin extends React.Component {
         .then(response => response.json())
         .then((data) => {
             let userArr = this.state.users;
-            userArr.unshift(data);
+            userArr.push(data);
+            userArr.reverse();
 
             this.setState({
                 confirm:      true,
@@ -1094,7 +1100,7 @@ class Admin extends React.Component {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
         })
-        .then((data) => {
+        .then(() => {
             if (published) {
                 this.deleteSearch();
             }
@@ -1111,7 +1117,7 @@ class Admin extends React.Component {
             }
 
             for (let i = 0; i < postArr.length; i++) {
-                if (postArr[i].id == data.id) {
+                if (postArr[i].id == id) {
                     postArr.splice(i, 1);
                 }
             }
@@ -1229,7 +1235,7 @@ class Admin extends React.Component {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
         })
-        .then((data) => {
+        .then(() => {
             this.addSearch(body);
 
             localStorage.removeItem('action');
@@ -1244,8 +1250,8 @@ class Admin extends React.Component {
             }
 
             for (let i = 0; i < postArr.length; i++) {
-                if (postArr[i].id == data.id) {
-                    postArr.splice(i, 1, data);
+                if (postArr[i].id == id) {
+                    postArr[i].published = true;
                 }
             }
 
@@ -1281,14 +1287,14 @@ class Admin extends React.Component {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
         })
-        .then((data) => {
+        .then(() => {
             localStorage.removeItem('action');
 
             let commentArr = this.state.comments;
             
             for (let i = 0; i < commentArr.length; i++) {
-                if (commentArr[i].id == data.id) {
-                    commentArr.splice(i, 1, data);
+                if (commentArr[i].id == id) {
+                    commentArr[i].published = true;
                 }
             }
 

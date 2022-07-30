@@ -1,0 +1,24 @@
+// Länkar för borttagning på Admin
+.delete {
+    width: 50%;
+    margin-top: 5px;
+    float: right;
+    text-align: right;
+
+    a {
+        color: $heading-color;
+        font-weight: bold;
+    }
+}
+
+.delete-not-published {
+    width: 33%;
+    margin-top: 5px;
+    float: right;
+    text-align: right;
+
+    a {
+        color: $heading-color;
+        font-weight: bold;
+    }
+}

@@ -96,7 +96,7 @@
 }
 
 .admin-btn:focus {
-  outline: 3px solid black;
+  border: 3px solid black;
 }
 
 /* Inmatningsfält för meddelanden, inlägg, beskrivningar och kommentarer */
@@ -245,10 +245,26 @@ header {
   background-color: #2A7373;
   padding: 10px;
   overflow: auto;
+  z-index: 1;
 }
 @media only screen and (min-width: 1040px) {
   header {
     height: 125px;
+  }
+}
+
+@media only screen and (min-width: 1040px) {
+  #header-mobile {
+    display: none;
+  }
+}
+
+#header-desktop {
+  display: none;
+}
+@media only screen and (min-width: 1040px) {
+  #header-desktop {
+    display: block;
   }
 }
 
@@ -286,7 +302,6 @@ header {
   width: 100px;
   float: right;
   overflow: auto;
-  margin-top: -35px;
 }
 @media only screen and (min-width: 1040px) {
   #icon-wrapper {
@@ -340,7 +355,13 @@ header {
 }
 
 #nav-language-wrapper-desktop {
+  float: left;
   overflow: auto;
+}
+@media only screen and (min-width: 1040px) {
+  #nav-language-wrapper-desktop {
+    float: none;
+  }
 }
 
 #search-form-desktop {
@@ -351,12 +372,24 @@ header {
 #search-icon {
   width: 35px;
   float: left;
+  margin-top: 13px;
 }
 
 #nav-icon {
   display: block;
   width: 40px;
   float: right;
+  background-color: #2A7373;
+  color: white;
+  font-weight: bold;
+  font-size: 2em;
+  padding: 0;
+  text-decoration: none;
+  border: none;
+}
+
+#nav-icon:focus {
+  border: 3px solid black;
 }
 
 .bar {
@@ -538,6 +571,12 @@ h1, .h2-admin {
   font-size: 1.5em;
 }
 
+.h2-error {
+  font-size: 1.5em;
+  max-width: 600px;
+  margin: 5px auto;
+}
+
 #h1-home {
   margin-left: 0;
 }
@@ -705,7 +744,7 @@ select {
 }
 
 textarea {
-  height: 150px;
+  height: 300px;
 }
 
 #language-switcher-admin {
@@ -733,10 +772,6 @@ textarea {
   font-size: inherit;
   font-weight: bold;
   display: none;
-}
-
-#stop-btn:focus {
-  border: 3px solid black;
 }
 
 @media only screen and (min-width: 1040px) {
@@ -803,10 +838,6 @@ textarea {
   font-size: 1.125em;
   font-weight: bold;
   margin-top: 5px;
-}
-
-button:focus {
-  border: 3px solid black;
 }
 
 button:hover {
@@ -1157,16 +1188,8 @@ footer {
   font-weight: bold;
 }
 
-.text-low-contrast {
-  opacity: 0.1;
-}
-
 .focus:focus {
   border: 3px solid black;
-}
-
-.focus-invisible:focus {
-  border: 1px solid rgba(255, 255, 255, 0);
 }
 
 .body-text {
@@ -1213,27 +1236,6 @@ img {
   padding-left: 5px;
 }
 
-.h1-font-size-dynamic {
-  font-size: 19px;
-}
-
-.h2-font-size-dynamic {
-  font-size: 15px;
-}
-
-.h3-font-size-dynamic {
-  font-size: 12px;
-}
-
-.regular-font-size-dynamic {
-  font-size: 8px;
-  line-height: 8px;
-}
-
-.small-font-size-dynamic {
-  font-size: 8px;
-}
-
 @media only screen and (min-width: 1040px) {
   #footer-inner-wrap {
     width: 513px;
@@ -1247,12 +1249,28 @@ img {
   }
 
   #copyright {
-    width: 40%;
-    float: left;
+    width: 60%;
+    float: right;
   }
 }
 #scroll-to-top-btn {
   display: block;
   width: 45px;
   float: right;
+}
+
+#post-name-input {
+  width: 100%;
+  display: block;
+  margin-bottom: 5px;
+  width: 100%;
+  height: 35px;
+  font-family: inherit;
+  font-size: inherit;
+  border: 2px solid #3D5858;
+  padding-left: 10px;
+}
+
+#post-name-input:focus {
+  border: 3px solid black;
 }

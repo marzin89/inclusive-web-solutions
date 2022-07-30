@@ -1,0 +1,11 @@
+/* Inmatningsfält i formulär (Logga in, Admin, Kontakt) */
+.text-input-main {
+    display: block;
+    margin-bottom: 5px;
+    width: 295px;
+    height: 35px;
+    font-family: inherit;
+    font-size: inherit;
+    border: 2px solid $heading-color;
+    padding-left: 10px;
+}

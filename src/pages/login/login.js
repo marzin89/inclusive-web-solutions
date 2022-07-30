@@ -19,13 +19,15 @@ class Login extends React.Component {
         this.handleSubmit         = this.handleSubmit.bind(this);
 
         this.state = {
-            username:        '',
-            password:        '',
-            error:           false,
-            userError:       '',
-            passwordError:   '',
-            validationError: this.props.validationError,
-            serverError:     this.props.serverError,
+            username:           '',
+            password:           '',
+            error:              false,
+            errorCountUsername: 0,
+            errorCountPassword: 0,
+            usernameError:      '',
+            passwordError:      '',
+            validationError:    this.props.validationError,
+            serverError:        this.props.serverError,
         }
     }
 
@@ -46,28 +48,34 @@ class Login extends React.Component {
                 {/* Formulär */}
                 <form id="login-form">  
                     <p id="login-text">Fält märkta med * är obligatoriska.</p>
+                    <p style={this.state.error ? {display: 'block'} : {display: 'none'}} 
+                        className="text h2-error h3-font-size" role="alert">
+                        Formuläret innehåller {this.state.errorCountUsername + this.state.errorCountPassword} fel
+                    </p>
                     <div className="row">
-                        <div className="form-left">
+                        <div className="form-left" onBlur={this.validateUsername}>
                             {/* Användarnamn. Värdet lagras i state vid inmatning. */}
                             <label htmlFor="login-username">Användarnamn *</label>
                             <input id="login-username" className="focus text-input text-input-main" type="text" 
-                                aria-required="true" onChange={this.handleUsernameChange}
-                                onBlur={this.validateUsername}></input>
+                                aria-required="true" aria-describedby="login-username-error" 
+                                onChange={this.handleUsernameChange}></input>
                             {/* Felmeddelandet visas om användaren inte har angett ett användarnamn 
                                 (state.error: true) */ }
-                            <p style={this.state.userError != '' ? {display: 'block'} : {display: 'none'}} 
-                                className="error" role="alert">{this.state.userError}</p>
+                            <p id="login-username-error" style={this.state.usernameError != '' ? {display: 'block'} : 
+                                {display: 'none'}} className="error" role="alert">{this.state.usernameError}</p>
                         </div>
-                        <div className="form-right">
+                        <div className="form-right" onBlur={this.validatePassword}>
                             {/* Lösenord. Värdet lagras i state vid inmatning. */}
                             <label htmlFor="login-password" className="text">Lösenord *</label>
                             <input id="login-password" className="focus text-input text-input-main" type="password" 
-                                aria-required="true" onChange={this.handlePasswordChange}
-                                onBlur={this.validatePassword}></input>
+                                aria-required="true" aria-describedby="login-password-error" 
+                                onChange={this.handlePasswordChange}>
+                            </input>
                             {/* Felmeddelandet visas om användaren inte har angett ett lösenord 
                                 (state.error: true) */ }
-                            <p className="error" role="alert" style={this.state.passwordError != '' ? 
-                                {display: 'block'} : {display: 'none'}}>{this.state.passwordError}</p>
+                            <p id="login-password-error" className="error" role="alert" 
+                                style={this.state.passwordError != '' ? {display: 'block'} : {display: 'none'}}>
+                                {this.state.passwordError}</p>
                             <p className="error" role="alert" style={this.props.validationError != '' ? 
                                 {display: 'block'} : {display: 'none'}}>{this.props.validationError}</p>
                         </div>
@@ -93,56 +101,98 @@ class Login extends React.Component {
     // Lagrar användarnamnet i state
     handleUsernameChange(e) {
         this.setState({
-            error:     false,
-            userError: '',
-            username:  e.target.value,
+            error:    false,
+            username: e.target.value,
         })
+
+        if (e.target.value) {
+            this.setState({
+                errorCountUsername: 0,
+                usernameError:      '',
+            })
+    
+            e.target.setAttribute('aria-invalid', false);  
+        }
     }
 
     // Lagrar användarnamnet i state
     handlePasswordChange(e) {
         this.setState({
-            error:         false,
-            passwordError: '',
-            password:      e.target.value,
+            error:    false,
+            password: e.target.value,
         })
+
+        if (e.target.value) {
+            this.setState({
+                errorCountPassword: 0,
+                passwordError:      '',
+            })
+    
+            e.target.setAttribute('aria-invalid', false);
+        
+        }
     }
 
     validateUsername(e) {
         if (!e.target.value) {
-            if (!this.state.username) {
                 this.setState({
-                    error:     true,
-                    userError: 'Du måste ange ditt användarnamn.'
+                    errorCountUsername: 1,
+                    usernameError:      'Du måste ange ditt användarnamn.'
                 })
-            }
+
+            e.target.setAttribute('aria-invalid', true);
         }
     }
 
     validatePassword(e) {
         if (!e.target.value) {
-            if (!this.state.password) {
                 this.setState({
-                    error:         true,
-                    passwordError: 'Du måste ange ditt lösenord.',
+                    errorCountPassword: 1,
+                    passwordError:      'Du måste ange ditt lösenord.',
                 })
-            }
+
+            e.target.setAttribute('aria-invalid', true);
         }
     }
 
     validateForm() {
+        const username = document.getElementById('login-username');
+        const password = document.getElementById('login-password');
+
         if (!this.state.username) {
             this.setState({
-                error:     true,
-                userError: 'Du måste ange ditt användarnamn.'
+                error:              true,
+                errorCountUsername: 1,
+                usernameError:      'Du måste ange ditt användarnamn.'
             })
+
+            username.setAttribute('aria-invalid', true);
+
+        } else {
+            this.setState({
+                errorCountUsername: 0,
+                usernameError:      '',
+            })
+
+            username.setAttribute('aria-invalid', false);
         }
 
         if (!this.state.password) {
             this.setState({
-                error:         true,
-                passwordError: 'Du måste ange ditt lösenord.',
+                error:              true,
+                errorCountPassword: 1,
+                passwordError:      'Du måste ange ditt lösenord.',
             })
+
+            password.setAttribute('aria-invalid', true);
+        
+        } else {
+            this.setState({
+                errorCountPassword: 0,
+                passwordError:      '',
+            })
+
+            password.setAttribute('aria-invalid', false);
         }
     }
 

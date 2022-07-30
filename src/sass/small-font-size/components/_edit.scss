@@ -1,0 +1,23 @@
+// Länkar för redigering på Admin
+.edit {
+    width: 50%;
+    margin-top: 5px;
+    float: left;
+
+    a {
+        color: $heading-color;
+        font-weight: bold;
+    }
+}
+
+.edit-not-published {
+    width: 33%;
+    margin-top: 5px;
+    float: left;
+
+    a {
+        color: $heading-color;
+        font-weight: bold;
+    }
+
+}
