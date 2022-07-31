@@ -96,7 +96,7 @@
 }
 
 .admin-btn:focus {
-  outline: 3px solid black;
+  border: 3px solid black;
 }
 
 /* Inmatningsfält för meddelanden, inlägg, beskrivningar och kommentarer */
@@ -199,7 +199,7 @@ textarea {
   background-color: white;
   border: 2px solid #517788;
   font-family: inherit;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin: 0 5px;
 }
@@ -211,7 +211,7 @@ textarea {
   background-color: #517788;
   border: 1px solid #517788;
   font-family: inherit;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin: 0 5px;
 }
@@ -245,10 +245,26 @@ header {
   background-color: #2A7373;
   padding: 10px;
   overflow: auto;
+  z-index: 1;
 }
 @media only screen and (min-width: 1040px) {
   header {
     height: 125px;
+  }
+}
+
+@media only screen and (min-width: 1040px) {
+  #header-mobile {
+    display: none;
+  }
+}
+
+#header-desktop {
+  display: none;
+}
+@media only screen and (min-width: 1040px) {
+  #header-desktop {
+    display: block;
   }
 }
 
@@ -286,7 +302,6 @@ header {
   width: 100px;
   float: right;
   overflow: auto;
-  margin-top: -35px;
 }
 @media only screen and (min-width: 1040px) {
   #icon-wrapper {
@@ -340,7 +355,13 @@ header {
 }
 
 #nav-language-wrapper-desktop {
+  float: left;
   overflow: auto;
+}
+@media only screen and (min-width: 1040px) {
+  #nav-language-wrapper-desktop {
+    float: none;
+  }
 }
 
 #search-form-desktop {
@@ -351,12 +372,24 @@ header {
 #search-icon {
   width: 35px;
   float: left;
+  margin-top: 13px;
 }
 
 #nav-icon {
   display: block;
   width: 40px;
   float: right;
+  background-color: #2A7373;
+  color: white;
+  font-weight: bold;
+  font-size: 2em;
+  padding: 0;
+  text-decoration: none;
+  border: none;
+}
+
+#nav-icon:focus {
+  border: 3px solid black;
 }
 
 .bar {
@@ -527,9 +560,19 @@ main {
 }
 
 h1, .h2-admin {
-  font-size: 2.375em;
+  font-size: 2em;
   margin-top: 5px;
   color: #3D5858;
+  max-width: 600px;
+  margin: 5px auto;
+}
+
+.h2-search {
+  font-size: 1.25em;
+}
+
+.h2-error {
+  font-size: 1.25em;
   max-width: 600px;
   margin: 5px auto;
 }
@@ -543,17 +586,17 @@ h1, .h2-admin {
 }
 
 h2 {
-  font-size: 1.875em;
+  font-size: 1.5em;
   color: #3D5858;
   margin-bottom: 5px;
 }
 
 .h2-home {
-  font-size: 2.375em;
+  font-size: 2em;
 }
 
 h3 {
-  font-size: 1.5em;
+  font-size: 1.25em;
   margin-bottom: 5px;
   color: #3D5858;
 }
@@ -570,7 +613,7 @@ table {
 }
 
 caption {
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin-bottom: 5px;
   color: #3D5858;
@@ -685,8 +728,8 @@ form, .admin-output {
   }
 }
 
-label {
-  font-size: 1.5em;
+label, #consent-heading {
+  font-size: 1.25em;
   color: #3D5858;
   font-weight: bold;
 }
@@ -701,7 +744,7 @@ select {
 }
 
 textarea {
-  height: 150px;
+  height: 300px;
 }
 
 #language-switcher-admin {
@@ -731,10 +774,6 @@ textarea {
   display: none;
 }
 
-#stop-btn:focus {
-  border: 3px solid black;
-}
-
 @media only screen and (min-width: 1040px) {
   .admin-btn-left {
     margin-right: 5px;
@@ -748,6 +787,16 @@ textarea {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+  display: none;
+  color: #3D5858;
+  font-size: 1.125em;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.error-services {
+  width: 100%;
+  max-width: 600px;
   display: none;
   color: #3D5858;
   font-size: 1.125em;
@@ -777,8 +826,18 @@ textarea {
   margin-top: 5px;
 }
 
-button:focus {
-  border: 3px solid black;
+.respond {
+  text-align: right;
+}
+
+.respond-link {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  color: #3D5858;
+  font-size: 1.125em;
+  font-weight: bold;
+  margin-top: 5px;
 }
 
 button:hover {
@@ -1110,7 +1169,6 @@ footer {
   width: 20px;
   height: 20px;
   margin-right: 5px;
-  margin-top: 15px;
 }
 
 #consent:focus {
@@ -1130,16 +1188,8 @@ footer {
   font-weight: bold;
 }
 
-.text-low-contrast {
-  opacity: 0.1;
-}
-
 .focus:focus {
   border: 3px solid black;
-}
-
-.focus-invisible:focus {
-  border: 1px solid rgba(255, 255, 255, 0);
 }
 
 .body-text {
@@ -1153,6 +1203,10 @@ footer {
 #comment-form {
   max-width: 600px;
   margin: 0 auto;
+}
+
+#comment-section {
+  margin-top: 50px;
 }
 
 #results {
@@ -1195,12 +1249,28 @@ img {
   }
 
   #copyright {
-    width: 40%;
-    float: left;
+    width: 60%;
+    float: right;
   }
 }
 #scroll-to-top-btn {
   display: block;
   width: 45px;
   float: right;
+}
+
+#post-name-input {
+  width: 100%;
+  display: block;
+  margin-bottom: 5px;
+  width: 100%;
+  height: 35px;
+  font-family: inherit;
+  font-size: inherit;
+  border: 2px solid #3D5858;
+  padding-left: 10px;
+}
+
+#post-name-input:focus {
+  border: 3px solid black;
 }
