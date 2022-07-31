@@ -38,20 +38,7 @@ class PostsGerman extends React.Component {
 
     renderPosts() {
         let posts = [];
-
-        if (!localStorage.getItem('accessibility-error')) {
-            this.renderPostsAccessible(posts);
-        
-        } else if (localStorage.getItem('accessibility-error') == 'contrast') {
-            this.renderPostsLowContrast(posts);
-        
-        } else if (localStorage.getItem('accessibility-error') == 'font-size') {
-            this.renderPostsSmallFontSize(posts);
-        
-        } else if (localStorage.getItem('accessibility-error') == 'tab-focus') {
-            this.renderPostsInvisibleFocus(posts);
-        }
-
+        this.renderPostsAccessible(posts);
         return posts;
     }
 

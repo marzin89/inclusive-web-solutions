@@ -141,6 +141,7 @@ header {
     width: 35px;
     float: left;
     margin-top: 13px;
+    opacity: 0.1;
 }
 
 #nav-icon {
@@ -152,6 +153,9 @@ header {
     font-weight: bold;
     font-size: 2em;
     padding: 0;
+    text-decoration: none;
+    border: none;
+    opacity: 0.1;
 }
 
 #nav-icon:focus {
@@ -269,6 +273,7 @@ header {
 .navlink {
     color: white;
     text-decoration: none;
+    opacity: 0.1;
 }
 
 .navlink:hover {
@@ -307,6 +312,7 @@ main {
 
         li {
             display: inline-block;
+            opacity: 0.1;
 
             a {
                 color: black;
@@ -318,6 +324,10 @@ main {
 
 .inactive-breadcrumb {
     text-decoration: none;
+}
+
+h1 {
+    opacity: 0.1;
 }
 
 h1, .h2-admin {
@@ -350,6 +360,7 @@ h2 {
     font-size: $font-size-h2-accessible;
     color: $heading-color;
     margin-bottom: 5px;
+    opacity: 0.1;
 }
 
 .h2-home {
@@ -360,12 +371,14 @@ h3 {
     font-size: $font-size-h3-accessible;
     margin-bottom: 5px;
     color: $heading-color;
+    opacity: 0.1;
 }
 
 h4 {
     font-size: $font-size-main-accessible;
     color: $heading-color;
     margin-bottom: 5px;
+    opacity: 0.1;
 }
 
 table {
@@ -497,6 +510,7 @@ label, #consent-heading {
 label {
     display: block;
     margin-bottom: 5px;
+    opacity: 0.1;
 }
 
 select {
@@ -532,6 +546,7 @@ textarea {
     font-size: inherit;
     font-weight: bold;
     display: none;
+    opacity: 1;
 }
 
 @media only screen and (min-width: 1040px) {
@@ -607,6 +622,7 @@ button:hover {
 
 button {
     padding-bottom: 2px;
+    opacity: 0.1;
 }
 
 #login-text {
@@ -616,6 +632,7 @@ button {
 
 p {
     line-height: 1.875em;
+    opacity: 0.1;
 }
 
 .admin-menu {
@@ -895,6 +912,7 @@ footer {
         color: $heading-color;
         font-weight: bold;
         text-decoration: none;
+        opacity: 0.1;
     }
 }
 
@@ -903,6 +921,7 @@ footer {
     font-weight: bold;
     padding-left: 30px;
     text-decoration: none;
+    opacity: 0.1;
 }
 
 #open-subpage {
@@ -1018,6 +1037,7 @@ img {
     display: block;
     width: 45px;
     float: right;
+    opacity: 0.1;
 }
 
 #post-name-input {
@@ -1030,10 +1050,6 @@ img {
     font-size: inherit;
     border: 2px solid $heading-color;
     padding-left: 10px;
-}
-
-h1, h2, h3, h4, p, label, button, option, li, a {
-    opacity: 0.1;
 }
 
 

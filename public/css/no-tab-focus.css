@@ -368,6 +368,8 @@ header {
   font-weight: bold;
   font-size: 2em;
   padding: 0;
+  text-decoration: none;
+  border: none;
 }
 
 .bar {
