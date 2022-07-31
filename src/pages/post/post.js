@@ -16,13 +16,18 @@ class Post extends React.Component {
         super(props);
 
         // Binder this till funktionerna
-        this.handleLogout = this.handleLogout.bind(this);
-        this.getComments  = this.getComments.bind(this);
+        this.getTitle               = this.getTitle.bind(this);
+        this.getComments            = this.getComments.bind(this);
+        this.checkIfPostHasComments = this.checkIfPostHasComments.bind(this);
+        this.handleLogout           = this.handleLogout.bind(this);
 
         this.state = {
             posts:    this.props.posts,
-            comments: this.props.comments,
+            comments: [],
         }
+
+        this.getComments();
+        this.getTitle();
     }
 
     // Rendrering
@@ -64,18 +69,16 @@ class Post extends React.Component {
                     <div id="subpage-right">
                         {localStorage.getItem('language') == 'Deutsch' ? <PostGerman posts={this.state.posts} /> 
                             : <PostSwedish posts={this.state.posts} />}              
-                        {localStorage.getItem('language') == 'Deutsch' ? <CommentFormGerman /> : 
-                            <CommentFormSwedish />
-                        }
+                        {localStorage.getItem('language') == 'Deutsch' ? 
+                            <CommentFormGerman comments={this.state.comments} /> : 
+                            <CommentFormSwedish comments={this.state.comments} />}
                         <section id="comment-section">
                             <h2 className="h2-font-size">{localStorage.getItem('language') == 'Deutsch' ? 
-                                'Kommentare' : 'Kommentarer'}</h2>
-                            {localStorage.getItem('comments') ? <Comments comments={this.state.comments} /> : null}
-                            {localStorage.getItem('language') == 'Deutsch' ?
-                            <p className="error regular-font-size" style={this.props.comments ?
-                                {display: 'none'} : {display: 'block'}}>Schreiben Sie den ersten Kommentar</p> :
-                            <p className="error regular-font-size" style={this.props.comments ?
-                                {display: 'none'} : {display: 'block'}}>Skriv den första kommentaren</p>}
+                                'Kommentare' : 'Kommentarer'}</h2> 
+                            {this.checkIfPostHasComments() ? <Comments comments={this.state.comments} />
+                                : <p className="error regular-font-size" style={{display: 'block'}}>
+                                    {localStorage.getItem('language') == 'Deutsch' ?
+                                    'Schreiben Sie den ersten Kommentar' : 'Skriv den första kommentaren'}</p>}
                         </section>
                     </div>
                 </div>
@@ -91,76 +94,52 @@ class Post extends React.Component {
     }
 
     getComments() {
-        fetch('https://iws-rest-api.herokuapp.com/comments/admin')
-        .then(response => response.json())
-        .then(data => {
-            if (!data.length) {
-                this.setState({
-                    error: true,
-                })
-            
-            } else {
-                localStorage.setItem('comments', JSON.stringify(data)); 
-      
-                this.setState({
-                    error:    false,
-                    comments: data,
-                })
-            }
-        })
-        .catch(() => {
+    fetch('https://iws-rest-api.herokuapp.com/comments/admin')
+    .then(response => response.json())
+    .then(data => {
+        if (!data.length) {
             this.setState({
                 error: true,
             })
-        })
-      }
-
-    renderComments() {
-        let comments = [];
-
-        this.props.comments.map((comment) => {
-            if (comment.postId == localStorage.getItem('postId')) {
-                if (comment.published) {
-                    comments.push(comment);
-                }
-            }
-        });
-
-        let render  = [];
-
-        if (comments.length) {
-            comments.map((comment) => {
-                render.push(
-                    <article key={comment.id}>
-                        <h3 className="h3-font-size">{comment.author}</h3>
-                        <p className="date small-font-size">{comment.date.slice(0, 10)}</p>
-                        <p className="regular-font-size">{comment.content}</p>
-                        <p className="respond"><a id={`comment${comment.id}`} 
-                            className="focus respond-link regular-font-size" 
-                            href="#subpage-content" onClick={this.handleLinkClick}>
-                            {localStorage.getItem('language') == 'Deutsch' ? 'Antworten' : 'Svara'}
-                        </a></p>
-                    </article>
-                )
-            })
-        }
-
-        return render;
-    }
-
-    handleLinkClick(e) {
-        if (e.target.className.indexOf('respond-link') >= 0) {
-            localStorage.setItem('response', true);
-            localStorage.setItem('commentId', e.target.id.slice(7));
         
         } else {
-            localStorage.setItem('postId', e.target.id.slice(4));
+            localStorage.setItem('commentArr', JSON.stringify(data)); 
+    
+            this.setState({
+                error:    false,
+                comments: data,
+            })
         }
+    })
+    .catch(() => {
+        this.setState({
+            error: true,
+        })
+    })
+    }
 
-        if (e.target.className.indexOf('subnav-link') >= 0) {
-            this.getPost();
-            window.location.reload();
-        }
+    getTitle() {
+        const id = localStorage.getItem('postId');
+
+        this.props.posts.map((post) => {
+            if (post.id == id) {
+                localStorage.setItem('title', post.title);
+            }
+        })
+    }
+
+    checkIfPostHasComments() {
+        const id   = localStorage.getItem('postId');
+        let result = false;
+
+        this.state.comments.map((comment) => {
+            if (comment.postId == id && comment.published) {
+                result = true;
+            }
+        })
+
+        console.log(result);
+        return result;
     }
 
     // Utloggning
@@ -168,7 +147,6 @@ class Post extends React.Component {
 
         // Förhidrar att sidan laddas om
         e.preventDefault();
-
         this.props.logout();
     }
 }

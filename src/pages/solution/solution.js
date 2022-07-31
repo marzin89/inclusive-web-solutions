@@ -13,11 +13,14 @@ class Solution extends React.Component {
         super(props);
 
         // Binder this till funktionerna
+        this.getName      = this.getName.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
 
         this.state = {
             solutions: this.props.solutions,
         }
+
+        this.getName();
     }
 
     // Rendrering
@@ -72,6 +75,16 @@ class Solution extends React.Component {
         localStorage.setItem('pageSwedish', title);
         localStorage.setItem('pageGerman', title);
         document.title = title;
+    }
+
+    getName() {
+        const id = localStorage.getItem('serviceId');
+
+        this.props.solutions.map((solution) => {
+            if (solution.id == id) {
+                localStorage.setItem('name', solution.name);
+            }
+        })
     }
 
     // Utloggning

@@ -27,14 +27,15 @@ class NavbarSwedish extends React.Component {
 
         courses.map((course) => {
             if (course.id == localStorage.getItem('serviceId')) {
-                links.push(<li id="open-subpage"><Link id={`course${course.id}`} 
+                links.push(<li key={course.id} id="open-subpage"><Link id={`course${course.id}`} 
                     className="focus regular-font-size subnav-link open-subpage-link" 
                     to={'/course'} onClick={this.handleLinkClick}>{course.name}</Link></li>);
 
             } else {
                 if (course.language == 'swedish') {
-                    links.push(<li><Link id={`course${course.id}`} className="focus regular-font-size subnav-link" 
-                    to={'/course'} onClick={this.handleLinkClick}>{course.name}</Link></li>);
+                    links.push(<li key={course.id}><Link id={`course${course.id}`} className="focus 
+                    regular-font-size subnav-link" to={'/course'} onClick={this.handleLinkClick}>
+                        {course.name}</Link></li>);
                 
                 }
             }

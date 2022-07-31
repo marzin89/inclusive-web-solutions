@@ -7,8 +7,8 @@ class PostSwedish extends React.Component {
         super(props);
 
         // Binder this till funktionerna
-        this.getPost                          = this.getPost.bind(this);
-        this.renderPost                       = this.renderPost.bind(this);
+        this.getPost    = this.getPost.bind(this);
+        this.renderPost = this.renderPost.bind(this);
 
         this.getPost();
     }
@@ -32,7 +32,7 @@ class PostSwedish extends React.Component {
         if (content.length > 1) {
             for (let i = 1; i <= content.length; i++) {
                 content2.push(
-                    <p className="body-text regular-font-size line-height">{content[i]}</p>
+                    <p key={i} className="body-text regular-font-size line-height">{content[i]}</p>
                 )
             }
         }

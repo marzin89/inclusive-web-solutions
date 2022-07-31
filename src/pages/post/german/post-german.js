@@ -32,7 +32,7 @@ class PostGerman extends React.Component {
         if (content.length > 1) {
             for (let i = 1; i <= content.length; i++) {
                 content2.push(
-                    <p className="body-text regular-font-size line-height">{content[i]}</p>
+                    <p key={i} className="body-text regular-font-size line-height">{content[i]}</p>
                 )
             }
         }

@@ -199,7 +199,7 @@ textarea {
   background-color: white;
   border: 2px solid #517788;
   font-family: inherit;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin: 0 5px;
 }
@@ -211,7 +211,7 @@ textarea {
   background-color: #517788;
   border: 1px solid #517788;
   font-family: inherit;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin: 0 5px;
 }
@@ -560,7 +560,7 @@ main {
 }
 
 h1, .h2-admin {
-  font-size: 2.375em;
+  font-size: 2em;
   margin-top: 5px;
   color: #3D5858;
   max-width: 600px;
@@ -568,11 +568,11 @@ h1, .h2-admin {
 }
 
 .h2-search {
-  font-size: 1.5em;
+  font-size: 1.25em;
 }
 
 .h2-error {
-  font-size: 1.5em;
+  font-size: 1.25em;
   max-width: 600px;
   margin: 5px auto;
 }
@@ -586,17 +586,17 @@ h1, .h2-admin {
 }
 
 h2 {
-  font-size: 1.875em;
+  font-size: 1.5em;
   color: #3D5858;
   margin-bottom: 5px;
 }
 
 .h2-home {
-  font-size: 2.375em;
+  font-size: 2em;
 }
 
 h3 {
-  font-size: 1.5em;
+  font-size: 1.25em;
   margin-bottom: 5px;
   color: #3D5858;
 }
@@ -613,7 +613,7 @@ table {
 }
 
 caption {
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin-bottom: 5px;
   color: #3D5858;
@@ -729,7 +729,7 @@ form, .admin-output {
 }
 
 label, #consent-heading {
-  font-size: 1.5em;
+  font-size: 1.25em;
   color: #3D5858;
   font-weight: bold;
 }

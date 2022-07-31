@@ -14,11 +14,14 @@ class Course extends React.Component {
         super(props);
 
         // Binder this till funktionerna
-        this.handleLogout                     = this.handleLogout.bind(this);
+        this.getName      = this.getName.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
 
         this.state = {
             courses: this.props.courses,
         }
+
+        this.getName();
     }
 
     // Rendrering
@@ -73,6 +76,16 @@ class Course extends React.Component {
         localStorage.setItem('pageSwedish', title);
         localStorage.setItem('pageGerman', title);
         document.title = title;
+    }
+
+    getName() {
+        const id = localStorage.getItem('serviceId');
+
+        this.props.courses.map((course) => {
+            if (course.id == id) {
+                localStorage.setItem('name', course.name);
+            }
+        })
     }
 
     // Utloggning

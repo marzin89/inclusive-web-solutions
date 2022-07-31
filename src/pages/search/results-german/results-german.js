@@ -56,7 +56,7 @@ class ResultsGerman extends React.Component {
     renderResultsAccessible(render, page) {
         page.forEach((element) => {
             render.push(
-                <article>
+                <article key={element.id}>
                     <h2 className="h2-font-size">{element.title}</h2>
                     <p className="regular-font-size line-height">{element.content.slice(0, 150) + ' ...'}</p>
                     <p><Link id={element.foreignKey ? element.foreignKey : null} className="find-out-more 

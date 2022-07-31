@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ResultsSwedish from './results-swedish/results-swedish';
-import SearchResultsGerman from './results-german/results-german';
+import ResultsGerman from './results-german/results-german';
 
 // Sökresultat
 class Search extends React.Component {
@@ -93,7 +93,7 @@ class Search extends React.Component {
                             + ' Treffer'}</p>
                     </form>
                     <div id="results">
-                        <SearchResultsGerman errorMessage={this.state.errorGerman} />
+                        <ResultsGerman errorMessage={this.state.errorGerman} />
                         {this.toggleBtnsGerman()}
                     </div>
                 </section>
@@ -252,20 +252,20 @@ class Search extends React.Component {
             for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activeSearchPageGerman') == 1 || !localStorage.getItem('activeSearchPageGerman')) {
-                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
-                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeSearchPageGerman') == 1 || !localStorage.getItem('activeSearchPageGerman')) {
-                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeSearchPageGerman')) {
-                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }
@@ -282,20 +282,20 @@ class Search extends React.Component {
             for (let i = 1; i <= this.state.numberOfPagesSwedish; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activeSearchPageSwedish') == 1 || !localStorage.getItem('activeSearchPageSwedish')) {
-                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
-                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeSearchPageSwedish') == 1 || !localStorage.getItem('activeSearchPageSwedish')) {
-                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeSearchPageSwedish')) {
-                        buttons.push(<button id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }

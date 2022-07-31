@@ -8,8 +8,8 @@ class TestSwedish extends React.Component {
 
         // Binder this till funktionerna
         this.getTest    = this.getTest.bind(this);
-        this.renderPost = this.renderTest.bind(this);
-
+        this.renderTest = this.renderTest.bind(this);
+        
         this.getTest();
     }
 
@@ -32,7 +32,7 @@ class TestSwedish extends React.Component {
         if (content.length > 1) {
             for (let i = 1; i <= content.length; i++) {
                 content2.push(
-                    <p className="body-text regular-font-size line-height">{content[i]}</p>
+                    <p key={i} className="body-text regular-font-size line-height">{content[i]}</p>
                 )
             }
         }

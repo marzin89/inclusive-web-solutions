@@ -14,11 +14,17 @@ class Test extends React.Component {
         super(props);
 
         // Binder this till funktionerna
+        this.getName      = this.getName.bind(this);
+        this.getTest      = this.getTest.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
 
         this.state = {
             tests: this.props.tests,
+            test:  [],
         }
+
+        this.getTest();
+        this.getName();
     }
 
     // Rendrering
@@ -71,6 +77,50 @@ class Test extends React.Component {
         localStorage.setItem('pageSwedish', title);
         localStorage.setItem('pageGerman', title);
         document.title = title;
+    }
+
+    // Funktionen hämtar alla tester
+  getTest() {
+    const id = localStorage.getItem('serviceId');
+
+    // GET-anrop till webbtjänsten
+    fetch(`https://iws-rest-api.herokuapp.com/tests/id/${id}`)
+
+    // Konverterar svaret från JSON
+    .then(response => response.json())
+
+    // Skriver ut ett felmeddelande om inga tester hittades
+    .then(data => {
+        if (!data.length) {
+            this.setState({
+                error: true,
+            })
+        
+        // Lagrar testerna i state-arrayen
+        } else {
+            this.setState({
+                error: false,
+                test:  data,
+            })
+        }
+    })
+
+    // Skriver ut ett felmeddelande om ett serverfel har uppstått
+    .catch(() => { 
+        this.setState({
+            error: true,
+        })
+    })
+  }
+
+    getName() {
+        const id = localStorage.getItem('serviceId');
+
+        this.props.tests.map((test) => {
+            if (test.id == id) {
+                localStorage.setItem('name', test.name);
+            }
+        })
     }
 
     // Utloggning

@@ -122,8 +122,8 @@ class Posts extends React.Component {
                     {this.props.posts.map((post) => {
                         if (this.props.userRole == 'Medarbetare') {
                             return (
-                                <article>
-                                    <h3 key={post.id}>{post.title}</h3>
+                                <article key={post.id}>
+                                    <h3>{post.title}</h3>
                                     <p className="date">{post.updated.slice(0, 10)}</p>
                                     <p>{post.content}</p>
                                     {post.published ? 
@@ -148,8 +148,8 @@ class Posts extends React.Component {
                         
                         } else if (this.props.userRole == 'Gästskribent') {
                             return (
-                                <article>
-                                    <h3 key={post.id}>{post.title}</h3>
+                                <article key={post.id}>
+                                    <h3>{post.title}</h3>
                                     <p className="date">{post.updated.slice(0, 10)}</p>
                                     <p>{post.content}</p> 
                                     <div>

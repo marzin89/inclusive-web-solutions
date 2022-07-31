@@ -32,7 +32,6 @@ class App extends React.Component {
     // Binder this till funktionerna
     this.setState            = this.setState.bind(this);
     this.getPosts            = this.getPosts.bind(this);
-    this.getComments         = this.getComments.bind(this);
     this.getSolutions        = this.getSolutions.bind(this);
     this.getCourses          = this.getCourses.bind(this);
     this.getTests            = this.getTests.bind(this);
@@ -46,7 +45,6 @@ class App extends React.Component {
       username:           sessionStorage.getItem('user'),
       permission:         localStorage.getItem('permission'),
       posts:              [],
-      comments:           [],
       tests:              [],
       solutions:          [],
       courses:            [],
@@ -56,7 +54,6 @@ class App extends React.Component {
     }
 
     this.getPosts();
-    this.getComments();
     this.getTests();
     this.getSolutions();
     this.getCourses();
@@ -96,7 +93,7 @@ class App extends React.Component {
             <Route path="/search" element={<Search signedIn={this.state.signedIn}
               logout={this.logoutCallback} />} />
             <Route path="/post" element={<Post signedIn={this.state.signedIn} 
-              posts={this.state.posts} comments={this.state.comments} logout={this.logoutCallback} />} />
+              posts={this.state.posts} logout={this.logoutCallback} />} />
             <Route path="/test" element={<Test signedIn={this.state.signedIn} 
               tests={this.state.tests} logout={this.logoutCallback} />} /> 
             <Route path="/solution" element={<Solution signedIn={this.state.signedIn} 
@@ -227,31 +224,6 @@ class App extends React.Component {
             error: true,
         })
     })
-}
-
-getComments() {
-  fetch('https://iws-rest-api.herokuapp.com/comments/admin')
-  .then(response => response.json())
-  .then(data => {
-      if (!data.length) {
-          this.setState({
-              error: true,
-          })
-      
-      } else {
-          localStorage.setItem('comments', JSON.stringify(data)); 
-
-          this.setState({
-              error:    false,
-              comments: data,
-          })
-      }
-  })
-  .catch(() => {
-      this.setState({
-          error: true,
-      })
-  })
 }
 
   // Funktionen hämtar alla tester

@@ -3,8 +3,8 @@ import React from 'react';
 
 class CommentFormSwedish extends React.Component {
     // Konstruktor
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         // Binder this till funktionerna
         this.setState                         = this.setState.bind(this);
@@ -405,11 +405,9 @@ class CommentFormSwedish extends React.Component {
         const consent   = document.getElementById('consent');
 
         if (!localStorage.getItem('error')) {
-            let commentArr = localStorage.getItem('comments');
-            commentArr     = JSON.parse(commentArr);
+            let comments = this.props.comments;
 
             let id;
-
             let content = [];
 
             if (comment.value.indexOf('\n\n') >= 0) {
@@ -419,12 +417,12 @@ class CommentFormSwedish extends React.Component {
                 content.push(comment.value);
             }
 
-            if (commentArr.length) {
-                commentArr.sort((a, b) => {
+            if (comments.length) {
+                comments.sort((a, b) => {
                     return a.id - b.id;
                 })
 
-                id = commentArr[commentArr.length - 1].id + 1;
+                id = comments[comments.length - 1].id + 1;
             
             } else {
                 id = 1;
@@ -479,6 +477,8 @@ class CommentFormSwedish extends React.Component {
             this.setState({
                 confirmMessage: 'Din kommentar har skickats.',
             })
+
+            setTimeout(() => window.location.reload(), 3000);
         })
         .catch(() => {
             this.setState({

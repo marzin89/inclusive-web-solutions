@@ -105,7 +105,9 @@ class PostsGerman extends React.Component {
     }
 
     handleLinkClick(e) {
-        localStorage.setItem('postId', e.target.id.slice(4));        
+        localStorage.setItem('postId', e.target.id.slice(4));
+        
+        
     }
 }
 
