@@ -39,7 +39,7 @@ class Header extends React.Component {
                     {/* Logotyp */}
                     <div id="header-left">
                         <Link id="logo" to={"/"} onClick={this.handlePageTitle} aria-label='Link zur Homepage' 
-                            className="focus">
+                            className="focus focus-invisible">
                             <img id="logo-mobile" src={logoMobil} alt="Logo von IWS"></img>
                             <img id="logo-desktop" src={logoDesktop} alt="Logo von IWS"></img>
                         </Link>
@@ -48,11 +48,11 @@ class Header extends React.Component {
                         {/* Sökruta desktop */}
                         <div id="search-wrapper-desktop">
                             <form id="search-form-desktop" role="search">
-                                <input className="search-bar text-input input focus regular-font-size" 
+                                <input className="search-bar text-input input focus focus-invisible-input regular-font-size" 
                                     type="search" aria-label='Website durchsuchen' aria-required="true"
                                     onChange={this.handleSearchChange}></input>
                                 {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
-                                <button className="search-btn btn deutsch focus regular-font-size" 
+                                <button className="search-btn btn deutsch focus focus-invisible-input regular-font-size" 
                                     type="submit" onClick={this.validateSearch}>Suchen</button>
                             </form>
                         </div>
@@ -60,41 +60,41 @@ class Header extends React.Component {
                             {/* Huvudmeny desktop. Texten är på tyska eller svenska beroende på vilket språk som valts */}
                             <nav id="main-nav-desktop" aria-label='Hauptmenü'>
                                 <ul>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/"} 
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/"} 
                                         onClick={this.handlePageTitle}>Home</Link></li>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/about"}
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/about"}
                                         onClick={this.handlePageTitle}>Über uns</Link></li>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/contact"}
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/contact"}
                                         onClick={this.handlePageTitle}>Kontakt</Link></li>                                   
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/services"}
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/services"}
                                         onClick={this.handlePageTitle}>Dienstleistungen</Link></li>    
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/blog"}
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/blog"}
                                         onClick={this.handlePageTitle}>Blog</Link></li>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/accessibility"} 
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/accessibility"} 
                                         onClick={this.handlePageTitle}>Barrierefreiheit</Link></li>
                                 </ul>
                             </nav>
                             {/* Huvudmeny mobil. Texten är på tyska eller svenska beroende på vilket språk som valts */}
                             <nav id="main-nav-mobile" aria-label='Hauptmenü' aria-labelledby="nav-icon">
                                 <ul>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/"} 
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/"} 
                                         onClick={this.handlePageTitle}>Home</Link></li>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/about"} 
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/about"} 
                                         onClick={this.handlePageTitle}>Über uns</Link></li>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/contact"} 
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/contact"} 
                                         onClick={this.handlePageTitle}>Kontakt</Link></li>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/services"} 
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/services"} 
                                         onClick={this.handlePageTitle}>Dienstleistungen</Link></li>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/blog"} 
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/blog"} 
                                         onClick={this.handlePageTitle}>Blog</Link></li>
-                                    <li className="deutsch"><Link className="navlink focus regular-font-size" to={"/accessibility"} 
+                                    <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/accessibility"} 
                                         onClick={this.handlePageTitle}>Barrierefreiheit</Link></li>
-                                    <li id="close-menu" className="deutsch"><a id="close-menu-link" className="navlink focus 
+                                    <li id="close-menu" className="deutsch"><a id="close-menu-link" className="navlink focus focus-invisible
                                         regular-font-size" onClick={this.handleCloseNav}>Schließen</a></li>
                                 </ul>
                             </nav>
                             {/* Rullgardinslista för språkbyte */}
-                            <select id="language-switcher" className="focus" 
+                            <select id="language-switcher" className="focus focus-invisible" 
                                 aria-label='Sprache wechseln' onChange={this.handleLanguageChange}>
                                     <option className="regular-font-size" value="Svenska">Svenska</option>
                                     <option className="regular-font-size" value="Deutsch">Deutsch</option>
@@ -102,17 +102,17 @@ class Header extends React.Component {
                         </div>
                         <div id="icon-wrapper">
                             {/* Förstoringsglas */}
-                            <a role="button" href="#search-mobile" className="focus" aria-haspopup="true" 
+                            <a role="button" href="#search-mobile" className="focus focus-invisible" aria-haspopup="true" 
                                 aria-controls="search-mobile"
                                 aria-label='Suchleiste zeigen' aria-expanded="false" onClick={this.handleSearchIconClick}> 
-                                <svg id="search-icon" role="button" className="focus" aria-haspopup="true" 
+                                <svg id="search-icon" role="button" className="focus focus-invisible" aria-haspopup="true" 
                                     aria-controls="search-mobile" aria-label='Suchleiste zeigen' width="35" height="40">
                                     <circle cx="13" cy="13" r="10" stroke="white" strokeWidth="4" fill="#2A7373"></circle>
                                     <line x1="20" y1="22" x2="27" y2="31" stroke="white" strokeWidth="4" />
                                 </svg>
                             </a>
                             {/* Hamburgerikon */}
-                            <a id="nav-icon" href="#main-nav-mobile" className="focus" 
+                            <a id="nav-icon" href="#main-nav-mobile" className="focus focus-invisible" 
                                 aria-controls="main-nav-mobile" aria-haspopup="true" aria-label='Hauptmenü öffnen' 
                                 aria-expanded="false" onClick={this.handleNavIconClick}>☰</a>
                         </div> 
@@ -120,13 +120,13 @@ class Header extends React.Component {
                     {/* Sökruta mobil */}
                     <div id="search-mobile">
                         <form id="search-form-mobile" role="search">
-                            <input className="search-bar search-bar-mobile text-input input focus regular-font-size" 
+                            <input className="search-bar search-bar-mobile text-input input focus focus-invisible-input regular-font-size" 
                                 type="search" aria-label='Website durchsuchen' aria-required="true"
                                 onChange={this.handleSearchChange}></input>
                             {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
-                            <button className="search-btn search-btn-mobile btn deutsch focus regular-font-size" 
+                            <button className="search-btn search-btn-mobile btn deutsch focus focus-invisible-input regular-font-size" 
                                 type="submit" onClick={this.validateSearch}>Suchen</button>
-                            <a id="close-search-bar-link" className="navlink focus regular-font-size" href="#"
+                            <a id="close-search-bar-link" className="navlink focus focus-invisible-input regular-font-size" href="#"
                                 aria-label='Suchleiste schließen'>X</a>
                         </form>
                     </div> 
@@ -136,7 +136,7 @@ class Header extends React.Component {
                     {/* Logotyp */}
                     <div id="header-left">
                         <Link id="logo" to={"/"} onClick={this.handlePageTitle} 
-                            aria-label='Länk till startsidan' className="focus">
+                            aria-label='Länk till startsidan' className="focus focus-invisible">
                             <img id="logo-mobile" src={logoMobil} alt="IWS logotyp"></img>
                             <img id="logo-desktop" src={logoDesktop} alt="IWS logotyp"></img>
                         </Link>
@@ -145,11 +145,11 @@ class Header extends React.Component {
                         {/* Sökruta desktop */}
                         <div id="search-wrapper-desktop">
                             <form id="search-form-desktop" role="search">
-                                <input className="search-bar text-input input focus regular-font-size" 
+                                <input className="search-bar text-input input focus focus-invisible-input regular-font-size" 
                                     type="search" aria-label='Sök på webbplatsen' aria-required="true"
                                     onChange={this.handleSearchChange}></input>
                                 {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
-                                <button className="search-btn btn svenska focus regular-font-size" 
+                                <button className="search-btn btn svenska focus focus-invisible-input regular-font-size" 
                                     type="submit" onClick={this.validateSearch}>Sök</button>
                             </form>
                         </div>
@@ -157,48 +157,48 @@ class Header extends React.Component {
                             {/* Huvudmeny desktop. Texten är på tyska eller svenska beroende på vilket språk som valts */}
                             <nav id="main-nav-desktop" aria-label='Huvudmeny'>
                                 <ul>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/"} 
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/"} 
                                         onClick={this.handlePageTitle}>Start</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/about"}
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/about"}
                                         onClick={this.handlePageTitle}>Om oss</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/contact"} 
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/contact"} 
                                         onClick={this.handlePageTitle}>Kontakt</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/services"} 
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/services"} 
                                         onClick={this.handlePageTitle}>Tjänster</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/blog"} 
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/blog"} 
                                         onClick={this.handlePageTitle}>Blogg</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/accessibility"} 
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/accessibility"} 
                                         onClick={this.handlePageTitle}>Om webbtillgänglighet</Link></li>
                                     {this.props.signedIn ? 
-                                        <li className="svenska"><Link className="navlink focus regular-font-size" 
+                                        <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
                                             to={"/admin"} onClick={this.handlePageTitle}>Admin</Link></li> : null}
                                 </ul>
                             </nav>
                             {/* Huvudmeny mobil. Texten är på tyska eller svenska beroende på vilket språk som valts */}
                             <nav id="main-nav-mobile" aria-label='Huvudmeny' aria-labelledby="nav-icon">      
                                 <ul>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/"} 
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/"} 
                                         onClick={this.handlePageTitle}>Start</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/about"} 
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/about"} 
                                         onClick={this.handlePageTitle}>Om oss</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/contact"} 
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/contact"} 
                                         onClick={this.handlePageTitle}>Kontakt</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/services"} 
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/services"} 
                                         onClick={this.handlePageTitle}>Tjänster</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/blog"}
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/blog"}
                                         onClick={this.handlePageTitle}>Blogg</Link></li>
-                                    <li className="svenska"><Link className="navlink focus regular-font-size" to={"/accessibility"}
+                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/accessibility"}
                                         onClick={this.handlePageTitle}>Om webbtillgänglighet</Link></li>
                                     {this.props.signedIn ? 
-                                        <li className="svenska"><Link className="navlink focus regular-font-size" to={"/admin"} 
+                                        <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" to={"/admin"} 
                                             onClick={this.handlePageTitle} href="#">Admin</Link></li> : null}
                                     <li id="close-menu" className="svenska"><a id="close-menu-link" 
-                                        className="navlink focus regular-font-size"
+                                        className="navlink focus focus-invisible regular-font-size"
                                         onClick={this.handleCloseNav}>Stäng</a></li>
                                 </ul>
                             </nav>
                             {/* Rullgardinslista för språkbyte */}
-                            <select id="language-switcher" className="focus" 
+                            <select id="language-switcher" className="focus focus-invisible" 
                                 aria-label='Välj språk' onChange={this.handleLanguageChange}>
                                     <option className="regular-font-size" value="Svenska">Svenska</option>
                                     <option className="regular-font-size" value="Deutsch">Deutsch</option>
@@ -206,17 +206,17 @@ class Header extends React.Component {
                         </div>
                         <div id="icon-wrapper">
                             {/* Förstoringsglas */}
-                            <a role="button" href="#search-mobile" className="focus" aria-haspopup="true" 
+                            <a role="button" href="#search-mobile" className="focus focus-invisible" aria-haspopup="true" 
                                 aria-controls="search-mobile" aria-label= 'Visar sökrutan' aria-expanded="false" 
                                 onClick={this.handleSearchIconClick}> 
-                                <svg id="search-icon" role="button" className="focus" aria-haspopup="true" 
+                                <svg id="search-icon" role="button" className="focus focus-invisible" aria-haspopup="true" 
                                     aria-controls="search-mobile" aria-label='Visar sökrutan' width="35" height="40">
                                     <circle cx="13" cy="13" r="10" stroke="white" strokeWidth="4" fill="#2A7373"></circle>
                                     <line x1="20" y1="22" x2="27" y2="31" stroke="white" strokeWidth="4" />
                                 </svg>
                             </a>
                             {/* Hamburgerikon */}
-                            <button id="nav-icon" className="focus" aria-controls="main-nav-mobile" 
+                            <button id="nav-icon" className="focus focus-invisible" aria-controls="main-nav-mobile" 
                                 aria-haspopup="true" aria-label='Öppnar huvudmenyn' aria-expanded="false" 
                                 onClick={this.handleNavIconClick}>☰</button>
                         </div> 
@@ -224,13 +224,13 @@ class Header extends React.Component {
                     {/* Sökruta mobil */}
                     <div id="search-mobile">
                         <form id="search-form-mobile" role="search">
-                            <input className="search-bar search-bar-mobile text-input input focus regular-font-size" 
+                            <input className="search-bar search-bar-mobile text-input input focus focus-invisible-input regular-font-size" 
                                 type="search" aria-label='Sök på webbplatsen' aria-required="true" 
                                 onChange={this.handleSearchChange}></input>
                             {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
-                            <button className="search-btn search-btn-mobile btn svenska focus regular-font-size" 
+                            <button className="search-btn search-btn-mobile btn svenska focus focus-invisible-input regular-font-size" 
                                 type="submit" onClick={this.validateSearch}>Sök</button><a id="close-search-bar-link" 
-                                className="navlink focus regular-font-size" href="#" aria-label='Döljer sökrutan'>X</a>
+                                className="navlink focus focus-invisible regular-font-size" href="#" aria-label='Döljer sökrutan'>X</a>
                         </form>
                     </div>
                     

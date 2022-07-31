@@ -57,7 +57,7 @@ class CommentFormGerman extends React.Component {
                 <form>
                     {/* Kommentar */}
                     <label htmlFor="comment" className="h3-font-size">Kommentar *</label>
-                    <textarea id="comment" className="focus regular-font-size" name="comment"
+                    <textarea id="comment" className="focus focus-invisible-input regular-font-size" name="comment"
                         aria-required="true" aria-describedby="comment-empty" 
                         onChange={this.handleCommentChange} onBlur={this.validateComment}></textarea>
                     {/* Här skrivs ett felmeddelande om användaren inte har skrivit någon kommentar */}
@@ -68,7 +68,7 @@ class CommentFormGerman extends React.Component {
                         {/* E-post */}
                         <div className="form-left" onBlur={this.validateEmail}>
                             <label htmlFor="email" className="h3-font-size">E-Mail-Adresse *</label>
-                            <input id="email" className="focus text-input text-input-main regular-font-size" 
+                            <input id="email" className="focus focus-invisible-input text-input text-input-main regular-font-size" 
                                 name="email" type="email" aria-required="true" aria-describedby="email-empty email-invalid" 
                                 onChange={this.handleEmailChange}></input>
                             {/* Här skrivs ett felmeddelande ut om ingen e-postadress har angetts */}
@@ -83,7 +83,7 @@ class CommentFormGerman extends React.Component {
                         {/* Signatur */}
                         <div className="form-right" onBlur={this.validateSignature}>
                             <label htmlFor="signature" className="h3-font-size">Pseudonym *</label>
-                            <input id="signature" className="focus text-input text-input-main regular-font-size" 
+                            <input id="signature" className="focus focus-invisible-input text-input text-input-main regular-font-size" 
                                 name="phone" type="text" aria-required="true" aria-describedby="signature-empty" 
                                 onChange={this.handleSignatureChange}></input>
                             <p id="signature-empty" className="regular-font-size error" role="alert" 
@@ -93,21 +93,22 @@ class CommentFormGerman extends React.Component {
                     </div>
                     {/* Samtycke */}
                     <p id="consent-heading" className="h3-font-size">Einwilligung *</p>
-                    <input id="consent" className="focus" type="checkbox" aria-required="true"
+                    <input id="consent" className="focus focus-invisible-input" type="checkbox" aria-required="true"
                         aria-describedby="consent-empty" onChange={this.handleConsentChange} 
                         onBlur={this.validateConsent}></input>  
                     <label id="consent-label" htmlFor="consent" className="regular-font-size">
                         Hiermit stimme ich der Bearbeitung meiner Personenbezogenen Daten gemäß der 
-                        <a className="focus regular-font-size" href=""> Datenschutzerklärung</a> zu. 
+                        <a className="focus focus-invisible regular-font-size" href=""> Datenschutzerklärung</a> zu. 
                         <b className="regular-font-size"></b></label>
                     {/* Här skrivs ett felmeddelande om användaren inte har samtyckt */}
                     <p id="consent-empty" className="regular-font-size error" role="alert" 
                         style={this.state.consentEmpty ? {display: 'block'} : {display: 'none'}}>
                             {this.state.consentEmpty}</p>
                     <div className="row">
-                        <button type="reset" className="reset-btn focus">Alle Felder löschen</button>
-                        <button type="submit" className="submit-btn focus" onClick={this.handleSubmit}>
-                            Senden</button>
+                        <button type="reset" className="reset-btn focus focus-invisible regular-font-size">
+                            Alle Felder löschen</button>
+                        <button type="submit" className="submit-btn focus focus-invisible regular-font-size" 
+                            onClick={this.handleSubmit}>Senden</button>
                         <p className="error regular-font-size error" role="alert" 
                             style={this.state.errorMessage != '' ? {display: 'block'} : 
                             {display: 'none'}}>{this.state.errorMessage}</p>

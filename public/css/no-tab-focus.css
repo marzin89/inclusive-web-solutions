@@ -443,6 +443,10 @@ header {
   }
 }
 
+#language-switcher:focus {
+  outline: none;
+}
+
 #main-nav-mobile {
   width: 100%;
   position: fixed;
@@ -748,6 +752,10 @@ textarea {
   font-size: inherit;
   font-weight: bold;
   display: none;
+}
+
+#stop-btn:focus {
+  border: 3px solid black;
 }
 
 @media only screen and (min-width: 1040px) {
@@ -1145,18 +1153,18 @@ footer {
 }
 
 .focus-invisible:focus {
-  border: 1px solid rgba(255, 255, 255, 0);
-  outline: 1px solid rgba(255, 255, 255, 0);
+  border: none;
+  outline: none;
 }
 
 .focus-invisible-input:focus {
   border: 2px solid #3D5858;
-  outline: 1px solid rgba(255, 255, 255, 0);
+  outline: none;
 }
 
 .focus-invisible-btns:focus {
   border: 2px solid #517788;
-  outline: 1px solid rgba(255, 255, 255, 0);
+  outline: none;
 }
 
 .body-text {

@@ -377,7 +377,7 @@ header {
   background-color: #2A7373;
   color: white;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 32px;
   padding: 0;
   text-decoration: none;
   border: none;
@@ -746,6 +746,7 @@ textarea {
   color: white;
   background-color: #BD3E33;
   border: 1px solid #BD3E33;
+  font-size: 20px;
   font-family: inherit;
   font-weight: bold;
   display: none;

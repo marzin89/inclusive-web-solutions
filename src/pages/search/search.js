@@ -83,10 +83,10 @@ class Search extends React.Component {
                     <h1 className="h1-font-size">Suchergebnisse</h1>
                     <form role="search">
                         <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus 
-                            focus-header regular-font-size" 
+                            focus-invisible-input regular-font-size" 
                             type="search" aria-label="Website durchsuchen" aria-required="true"
                             onChange={this.handleSearchChange}></input>
-                        <button className="search-btn search-btn-mobile btn deutsch focus focus-header regular-font-size" 
+                        <button className="search-btn search-btn-mobile btn deutsch focus focus-invisible-input regular-font-size" 
                             type="submit" onClick={this.search}>Suchen</button>
                         <p className="number-of-results regular-font-size" role="alert" style={localStorage.getItem('resultsGerman') ?
                             {display: 'block'} : {display: 'none'}}>{localStorage.getItem('numberOfResultsGerman') 
@@ -102,10 +102,10 @@ class Search extends React.Component {
                     <h1 className="h1-font-size">Sökresultat</h1>
                     <form role="search">
                         <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus 
-                            focus-header regular-font-size" 
+                            focus-invisible-input regular-font-size" 
                             type="search" aria-label="Sök på webbplatsen" aria-required="true"
                             onChange={this.handleSearchChange}></input>
-                        <button className="search-btn search-btn-mobile btn svenska focus focus-header regular-font-size" 
+                        <button className="search-btn search-btn-mobile btn svenska focus focus-invisible-input regular-font-size" 
                             type="submit" onClick={this.search}>Sök</button>
                         <p className="number-of-results regular-font-size" role="alert" style={localStorage.getItem('resultsSwedish') ?
                             {display: 'block'} : {display: 'none'}}>{localStorage.getItem('numberOfResultsSwedish') 
@@ -252,20 +252,20 @@ class Search extends React.Component {
             for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activeSearchPageGerman') == 1 || !localStorage.getItem('activeSearchPageGerman')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeSearchPageGerman') == 1 || !localStorage.getItem('activeSearchPageGerman')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeSearchPageGerman')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }
@@ -282,20 +282,20 @@ class Search extends React.Component {
             for (let i = 1; i <= this.state.numberOfPagesSwedish; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activeSearchPageSwedish') == 1 || !localStorage.getItem('activeSearchPageSwedish')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeSearchPageSwedish') == 1 || !localStorage.getItem('activeSearchPageSwedish')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeSearchPageSwedish')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }

@@ -132,9 +132,9 @@ class StaticSwedish extends React.Component {
                         role="alert" style={this.state.consentEmpty ? {display: 'block'} : {display: 'none'}}>
                         {this.state.consentEmpty}</p>
                     <div className="row">
-                        <button type="reset" className="reset-btn focus focus-invisible">
+                        <button type="reset" className="reset-btn focus focus-invisible regular-font-size">
                             Rensa</button>
-                        <button type="submit" className="submit-btn focus focus-invisible" 
+                        <button type="submit" className="submit-btn focus focus-invisible regular-font-size" 
                             onClick={this.handleSubmit}>
                             Skicka</button>
                         <p className="regular-font-size error" role="alert" 

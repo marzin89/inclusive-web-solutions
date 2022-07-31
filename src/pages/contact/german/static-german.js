@@ -132,10 +132,10 @@ class StaticGerman extends React.Component {
                         style={this.state.consentEmpty ? {display: 'block'} : {display: 'none'}}>
                         {this.state.consentEmpty}</p>
                     <div className="row">
-                        <button type="reset" className="reset-btn focus focus-invisible">
+                        <button type="reset" className="reset-btn focus focus-invisible regular-font-size">
                             Alle Felder löschen</button>
-                        <button type="submit" className="submit-btn focus focus-invisible" onClick={this.handleSubmit}>
-                            Senden</button>
+                        <button type="submit" className="submit-btn focus focus-invisible regular-font-size" 
+                            onClick={this.handleSubmit}>Senden</button>
                         <p className="regular-font-size error" role="alert" 
                             style={this.state.errorMessage != '' ? {display: 'block'} : 
                             {display: 'none'}}>{this.state.errorMessage}</p>

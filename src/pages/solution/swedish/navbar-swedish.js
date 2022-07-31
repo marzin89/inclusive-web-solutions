@@ -28,12 +28,12 @@ class NavbarSwedish extends React.Component {
         solutions.map((solution) => {
             if (solution.id == localStorage.getItem('serviceId')) {
                 links.push(<li key={solution.id} id="open-subpage"><Link id={`solution${solution.id}`} 
-                    className="focus regular-font-size subnav-link open-subpage-link" 
+                    className="focus focus-invisible regular-font-size subnav-link open-subpage-link" 
                     to={'/solution'} onClick={this.handleLinkClick}>{solution.name}</Link></li>);
 
             } else {
                 if (solution.language == 'swedish') {
-                    links.push(<li key={solution.id}><Link id={`solution${solution.id}`} className="focus 
+                    links.push(<li key={solution.id}><Link id={`solution${solution.id}`} className="focus focus-invisible 
                     regular-font-size subnav-link" to={'/solution'} onClick={this.handleLinkClick}>
                         {solution.name}</Link></li>);
                 
@@ -44,7 +44,7 @@ class NavbarSwedish extends React.Component {
         let navbar =
             <nav id="subnav" aria-label="Undermeny med befintliga utvecklingspaket">
                 <ul>
-                    <li id="subnav-first-item"><Link className="focus regular-font-size" 
+                    <li id="subnav-first-item"><Link className="focus focus-invisible regular-font-size" 
                         to={'/services'}>Tjänster</Link></li>
                     {links}
                 </ul>

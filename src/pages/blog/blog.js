@@ -202,20 +202,20 @@ class Blog extends React.Component {
             for (let i = 1; i <= this.state.numberOfPagesGerman; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activeBlogPageGerman') == 1 || !localStorage.getItem('activeBlogPageGerman')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeBlogPageGerman') == 1 || !localStorage.getItem('activeBlogPageGerman')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeBlogPageGerman')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }
@@ -232,20 +232,20 @@ class Blog extends React.Component {
             for (let i = 1; i <= this.state.numberOfPagesSwedish; i++) {
                 if (i == 1) {
                     if (localStorage.getItem('activeBlogPageSwedish') == 1 || !localStorage.getItem('activeBlogPageSwedish')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeBlogPageSwedish') == 1 || !localStorage.getItem('activeBlogPageSwedish')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn inactive-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeBlogPageSwedish')) {
-                        buttons.push(<button key={i} id={`btn${i}`} className="focus toggle-btn active-toggle-btn h3-font-size"
+                        buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }

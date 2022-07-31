@@ -28,12 +28,12 @@ class NavbarGerman extends React.Component {
         tests.map((test) => {
             if (test.id == localStorage.getItem('serviceId')) {
                 links.push(<li key={test.id} id="open-subpage"><Link id={`test${test.id}`} 
-                    className="focus regular-font-size subnav-link open-subpage-link" 
+                    className="focus focus-invisible regular-font-size subnav-link open-subpage-link" 
                     to={'/test'} onClick={this.handleLinkClick}>{test.name}</Link></li>);
             
             } else {
                 if (test.language == 'german') {
-                    links.push(<li key={test.id}><Link id={`test${test.id}`} className="focus 
+                    links.push(<li key={test.id}><Link id={`test${test.id}`} className="focus focus-invisible
                     regular-font-size subnav-link" to={'/test'} onClick={this.handleLinkClick}>
                         {test.name}</Link></li>);
                 
@@ -44,7 +44,7 @@ class NavbarGerman extends React.Component {
         let navbar =
             <nav id="subnav" aria-label="Unternavigation mit Tests">
                 <ul>
-                    <li id="subnav-first-item"><Link className="focus regular-font-size" 
+                    <li id="subnav-first-item"><Link className="focus focus-invisible regular-font-size" 
                         to={'/services'}>Dienstleistungen</Link></li>
                     {links}
                 </ul>

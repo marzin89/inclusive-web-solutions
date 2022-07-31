@@ -36,28 +36,28 @@ class Test extends React.Component {
                     {localStorage.getItem('language') == 'Deutsch' ?
                     <nav className="breadcrumbs" aria-label="Brotkrümelnavigation">
                         <ul>
-                            <li><Link className="inactive-breadcrumb focus regular-font-size" 
+                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/"}>Home</Link>/</li>
-                            <li><Link className="inactive-breadcrumb focus regular-font-size" 
+                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/services"}> Dienstleistungen</Link>/</li>
-                            <li><Link className="active-breadcrumb focus regular-font-size" 
+                            <li><Link className="active-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/test"}> {localStorage.getItem('name')}</Link></li>
                         </ul>
                     </nav>
                     :
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb focus regular-font-size" 
+                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/"}>Start</Link>/</li>
-                            <li><Link className="inactive-breadcrumb focus regular-font-size" 
+                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/services"}> Tjänster</Link>/</li>
-                            <li><Link className="active-breadcrumb focus regular-font-size" 
+                            <li><Link className="active-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/test"}>{localStorage.getItem('name')}</Link></li>
                         </ul>
                     </nav>
                     }
                     <p id="logout" style={this.props.signedIn ? {display: 'block'} :
-                        {display: 'none'}}><Link className="focus regular-font-size" to={"/login"} 
+                        {display: 'none'}}><Link className="focus focus-invisible regular-font-size" to={"/login"} 
                         onClick={this.handleLogout}>Logga ut</Link></p>
                 </div>   
                 <div id="subpage">
