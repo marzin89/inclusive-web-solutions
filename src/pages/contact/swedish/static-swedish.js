@@ -64,7 +64,8 @@ class StaticSwedish extends React.Component {
                             <label htmlFor="first-name" className="h3-font-size">Förnamn *</label>
                             <input id="first-name" className="focus focus-invisible-input text-input text-input-main 
                                 regular-font-size" name="first_name" type="text" aria-required="true" 
-                                aria-describedby="first-name-empty" onChange={this.handleFirstNameChange}></input>
+                                aria-describedby="first-name-empty" autoComplete='given-name' 
+                                onChange={this.handleFirstNameChange}></input>
                             {/* Här skrivs ett felmeddelande ut om inget förnamn har angetts */}
                             <p id="first-name-empty" className="regular-font-size error empty" 
                                 role="alert" style={this.state.firstNameEmpty ? {display: 'block'} : {display: 'none'}}>
@@ -75,7 +76,8 @@ class StaticSwedish extends React.Component {
                             <label htmlFor="last-name" className="h3-font-size">Efternamn *</label>
                             <input id="last-name" className="focus focus-invisible-input text-input text-input-main 
                                 regular-font-size" name="last_name" type="text" aria-required="true" 
-                                aria-describedby="last-name-empty" onChange={this.handleLastNameChange}></input>
+                                aria-describedby="last-name-empty" autoComplete='family-name' 
+                                onChange={this.handleLastNameChange}></input>
                             {/* Här skrivs ett felmeddelande ut om inget efternamn har angetts */}
                             <p id="last-name-empty" className="regular-font-size error empty" 
                                 role="alert" style={this.state.lastNameEmpty ? {display: 'block'} : {display: 'none'}}>
@@ -88,7 +90,8 @@ class StaticSwedish extends React.Component {
                             <label htmlFor="email" className="h3-font-size">E-post *</label>
                             <input id="email" className="focus focus-invisible-input text-input text-input-main 
                                 regular-font-size" name="email" type="email" aria-required="true" 
-                                aria-describedby="email-empty email-invalid" onChange={this.handleEmailChange}>
+                                aria-describedby="email-empty email-invalid" autoComplete='email' 
+                                onChange={this.handleEmailChange}>
                             </input>
                             {/* Här skrivs ett felmeddelande ut om ingen e-postadress har angetts */}
                             <p id="email-empty" className="regular-font-size error empty" 
@@ -103,7 +106,7 @@ class StaticSwedish extends React.Component {
                         <div className="form-right">
                             <label htmlFor="phone" className="h3-font-size">Telefon</label>
                             <input id="phone" className="focus focus-invisible-input text-input text-input-main 
-                                regular-font-size" name="phone" type="tel" aria-required="false" 
+                                regular-font-size" name="phone" type="tel" aria-required="false" autoComplete='tel' 
                                 onChange={this.handlePhoneChange}>
                             </input>
                         </div>
@@ -111,8 +114,8 @@ class StaticSwedish extends React.Component {
                     {/* Meddelande */}
                     <label htmlFor="message" className="h3-font-size">Meddelande *</label>
                     <textarea id="message" className="focus focus-invisible-input regular-font-size" name="message"
-                        aria-required="true" aria-describedby="message-empty" onChange={this.handleMessageChange}
-                        onBlur={this.validateMessage}>
+                        aria-required="true" aria-describedby="message-empty" autoComplete='on' 
+                        onChange={this.handleMessageChange} onBlur={this.validateMessage}>
                     </textarea>
                     {/* Här skrivs ett felmeddelande om användaren inte har skrivit något meddelande */}
                     <p id="message-empty" className="regular-font-size error" 

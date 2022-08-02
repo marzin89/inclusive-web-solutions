@@ -82,7 +82,7 @@ class Services extends React.Component {
                             <label htmlFor="service-name-input">Namn *</label>
                             <input id="service-name-input" className="focus text-input-main admin-input" 
                                 type="text" aria-required="true" aria-describedby="service-name-error" 
-                                onChange={this.handleNameChange}>
+                                autoComplete='on' onChange={this.handleNameChange}>
                             </input>
                             {/* Här skrivs ett felmeddelande ut om inget namn har angetts */}
                             <p id="service-name-error" className="error" role="alert" style={this.state.nameEmpty ?
@@ -93,7 +93,7 @@ class Services extends React.Component {
                             <label htmlFor="service-price-input">Pris *</label>
                             <input id="service-price-input" className="focus text-input-main admin-input" type="text" 
                                 placeholder="t.ex. 1 000 :-" aria-required="true" aria-describedby="service-price-error" 
-                                onChange={this.handlePriceChange}></input>
+                                autoComplete='on' onChange={this.handlePriceChange}></input>
                             {/* Här skrivs ett felmeddelande ut om inget pris har angetts */}
                             <p id="service-price-error" className="error" role="alert" style={this.state.priceEmpty ?
                                 {display: 'block'} : {display: 'none'}}>{this.state.priceEmpty}</p>
@@ -102,7 +102,8 @@ class Services extends React.Component {
                         <label htmlFor="service-description-input">Beskrivning *</label>
                         <textarea id="service-description-input" className="focus admin-input"
                             aria-required="true" aria-describedby="service-description-error" 
-                            onChange={this.handleDescriptionChange} onBlur={this.validateDescription}></textarea>
+                            autoComplete='on' onChange={this.handleDescriptionChange} 
+                            onBlur={this.validateDescription}></textarea>
                         {/* Här skrivs ett felmeddelande ut om ingen beskrivning har skrivits */}
                         <p id="service-description-error" className="error" role="alert" 
                             style={this.state.descriptionEmpty ? {display: 'block'} : {display: 'none'}}>
@@ -129,7 +130,7 @@ class Services extends React.Component {
                         <label htmlFor="alt-text-input">Alt-text</label>
                         <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
                             aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
-                            onBlur={this.validateAltText}></input>
+                            autoComplete='on' onBlur={this.validateAltText}></input>
                         <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
                         <button type="reset" className="reset-btn">Rensa</button>

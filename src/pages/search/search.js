@@ -14,7 +14,9 @@ class Search extends React.Component {
         // Binder this till funktionerna
         this.setState             = this.setState.bind(this);
         this.search               = this.search.bind(this);
+        this.handleSubmit         = this.handleSubmit.bind(this);
         this.handleSearchChange   = this.handleSearchChange.bind(this);
+        this.validateSearch       = this.validateSearch.bind(this);
         this.toggleBtnsSwedish    = this.toggleBtnsSwedish.bind(this);
         this.toggleBtnsGerman     = this.toggleBtnsGerman.bind(this);
         this.handleBtnClick       = this.handleBtnClick.bind(this);
@@ -25,6 +27,7 @@ class Search extends React.Component {
 
         this.state = {
             signedIn:             this.props.signedIn,
+            query:                '',
             results:              [],
             resultsSwedish:       [],
             resultsGerman:        [],
@@ -58,8 +61,8 @@ class Search extends React.Component {
                     {localStorage.getItem('language') == 'Deutsch' ?
                     <nav className="breadcrumbs" aria-label="Brotkrümelnavigation">
                         <ul>
-                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
-                                to={"/"}>Home</Link>/</li>
+                            <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus focus-invisible 
+                                regular-font-size" to={"/"}>Home</Link>/</li>
                             <li><Link className="active-breadcrumb focus focus-invisible regular-font-size"
                                 to={"/search"}> Suchergebnisse</Link></li>
                         </ul>
@@ -67,8 +70,8 @@ class Search extends React.Component {
                     :
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
-                                to={"/"}>Start</Link>/</li>
+                            <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus focus-invisible 
+                                regular-font-size" to={"/"}>Start</Link>/</li>
                             <li><Link className="active-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/search"}> Sökresultat</Link></li>
                         </ul>
@@ -83,14 +86,17 @@ class Search extends React.Component {
                     <h1 className="h1-font-size">Suchergebnisse</h1>
                     <form role="search">
                         <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus 
-                            focus-invisible-input regular-font-size" 
-                            type="search" aria-label="Website durchsuchen" aria-required="true"
-                            onChange={this.handleSearchChange}></input>
-                        <button className="search-btn search-btn-mobile btn deutsch focus focus-invisible-input regular-font-size" 
-                            type="submit" onClick={this.search}>Suchen</button>
-                        <p className="number-of-results regular-font-size" role="alert" style={localStorage.getItem('resultsGerman') ?
-                            {display: 'block'} : {display: 'none'}}>{localStorage.getItem('numberOfResultsGerman') 
-                            + ' Treffer'}</p>
+                            focus-invisible-input regular-font-size" type="search" aria-label="Website durchsuchen" 
+                            aria-required="true" aria-describedby="number-of-results search-phrase-empty"
+                            autoComplete='on' onChange={this.handleSearchChange}></input>
+                        <button className="search-btn search-btn-mobile btn deutsch focus focus-invisible-input 
+                            regular-font-size" type="submit" onClick={this.handleSubmit}>Suchen</button>
+                        <p id="number-of-results" className="number-of-results regular-font-size" role="alert" 
+                            style={localStorage.getItem('resultsGerman') ? {display: 'block'} : {display: 'none'}}>
+                                {localStorage.getItem('numberOfResultsGerman') + ' Treffer'}</p>
+                        <p id="search-phrase-empty" className="regular-font-size error" role="alert" 
+                                style={this.state.searchErrorGerman ? {display: 'block'} : {display: 'none'}}>
+                                {this.state.searchErrorGerman}</p>
                     </form>
                     <div id="results">
                         <ResultsGerman errorMessage={this.state.errorGerman} />
@@ -102,14 +108,17 @@ class Search extends React.Component {
                     <h1 className="h1-font-size">Sökresultat</h1>
                     <form role="search">
                         <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus 
-                            focus-invisible-input regular-font-size" 
-                            type="search" aria-label="Sök på webbplatsen" aria-required="true"
-                            onChange={this.handleSearchChange}></input>
+                            focus-invisible-input regular-font-size" type="search" aria-label="Sök på webbplatsen" 
+                            aria-required="true" aria-describedby="number-of-results search-phrase-empty"
+                            autoComplete='on' onChange={this.handleSearchChange}></input>
                         <button className="search-btn search-btn-mobile btn svenska focus focus-invisible-input regular-font-size" 
-                            type="submit" onClick={this.search}>Sök</button>
-                        <p className="number-of-results regular-font-size" role="alert" style={localStorage.getItem('resultsSwedish') ?
-                            {display: 'block'} : {display: 'none'}}>{localStorage.getItem('numberOfResultsSwedish') 
-                            + ' träffar'}</p>
+                            type="submit" onClick={this.handleSubmit}>Sök</button>
+                        <p id="number-of-results" className="number-of-results regular-font-size" role="alert" 
+                            style={localStorage.getItem('resultsSwedish') ? {display: 'block'} : {display: 'none'}}>
+                            {localStorage.getItem('numberOfResultsSwedish') + ' träffar'}</p>
+                        <p id="search-phrase-empty" className="regular-font-size error" role="alert" 
+                            style={this.state.searchErrorSwedish ? {display: 'block'} : {display: 'none'}}>
+                            {this.state.searchErrorSwedish}</p>
                     </form>
                     <div id="results">
                         <ResultsSwedish errorMessage={this.state.errorSwedish} />
@@ -136,6 +145,28 @@ class Search extends React.Component {
 
         if (localStorage.getItem('query')) {
             searchInput.value = localStorage.getItem('query');
+        }
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+
+        if (!this.state.query) {
+            if (localStorage.getItem('language') == 'Deutsch') {
+                this.setState({
+                    searchErrorGerman: 'Bitte geben Sie ein Suchwort ein.',
+                })
+            
+            } else {
+                this.setState({
+                    searchErrorSwedish: 'Du måste skriva ett sökord.',
+                })
+            }
+
+            document.getElementById('search-bar-main').setAttribute('aria-invalid', true);
+
+        } else {
+            this.search();
         }
     }
 
@@ -242,7 +273,42 @@ class Search extends React.Component {
     }
 
     handleSearchChange(e) {
+        this.setState({
+            query:        e.target.value,
+        })
+
+        if (e.target.value) {
+            this.setState({
+                searchErrorSwedish: '',
+                searchErrorGerman:  '',
+            })
+
+            e.target.setAttribute('aria-invalid', false);
+        }
+
         localStorage.setItem('query', e.target.value);
+    }
+
+    validateSearch(e) {
+        e.preventDefault();
+
+        if (!this.state.query) {
+            if (localStorage.getItem('language') == 'Deutsch') {
+                this.setState({
+                    searchErrorGerman: 'Bitte geben Sie ein Suchwort ein.',
+                })
+            
+            } else {
+                this.setState({
+                    searchErrorSwedish: 'Du måste skriva ett sökord.',
+                })
+            }
+
+            document.getElementById('search-bar-main').setAttribute('aria-invalid', true);
+
+        } else {
+            window.open('/search', '_self');
+        }
     }
 
     toggleBtnsGerman() {

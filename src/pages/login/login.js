@@ -39,7 +39,7 @@ class Login extends React.Component {
                     {/* Länkstig */}
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb focus" to={"/"}>Start</Link>/</li>
+                            <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus" to={"/"}>Start</Link>/</li>
                             <li><Link className="active-breadcrumb focus" to={"/login"}> Logga in</Link></li>
                         </ul>
                     </nav>
@@ -57,7 +57,7 @@ class Login extends React.Component {
                             {/* Användarnamn. Värdet lagras i state vid inmatning. */}
                             <label htmlFor="login-username">Användarnamn *</label>
                             <input id="login-username" className="focus text-input text-input-main" type="text" 
-                                aria-required="true" aria-describedby="login-username-error" 
+                                aria-required="true" aria-describedby="login-username-error" autoComplete='username' 
                                 onChange={this.handleUsernameChange}></input>
                             {/* Felmeddelandet visas om användaren inte har angett ett användarnamn 
                                 (state.error: true) */ }
@@ -68,7 +68,7 @@ class Login extends React.Component {
                             {/* Lösenord. Värdet lagras i state vid inmatning. */}
                             <label htmlFor="login-password" className="text">Lösenord *</label>
                             <input id="login-password" className="focus text-input text-input-main" type="password" 
-                                aria-required="true" aria-describedby="login-password-error" 
+                                aria-required="true" aria-describedby="login-password-error" autoComplete='new-password' 
                                 onChange={this.handlePasswordChange}>
                             </input>
                             {/* Felmeddelandet visas om användaren inte har angett ett lösenord 

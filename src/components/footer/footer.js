@@ -24,7 +24,7 @@ function Footer() {
                     <p id="copyright" className="regular-font-size">Copyright</p>
                 </div>
                 {/* Tillbaka-till-toppen-knapp */}
-                <a id="scroll-to-top-btn" className="focus focus-invisible" role="button" href={"#main"} 
+                <a id="scroll-to-top-btn" className="focus focus-invisible" role="button" href="#main"
                     aria-label={localStorage.getItem('language') == 'Deutsch' ? 'Zum Seitenanfang springen' : 
                     'Gå till toppen av sidan'}>
                     <svg role="button" width="45" height="25">

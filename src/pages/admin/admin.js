@@ -7,7 +7,7 @@ import Users from '../../components/admin/users/users';
 import Comments from '../../components/admin/comments/comments';
 import { toHaveAccessibleDescription } from '@testing-library/jest-dom/dist/to-have-accessible-description';
 
-const buttons = document.getElementsByClassName('admin-btn');
+const buttons = document.getElementsByClassName('btn');
 let userPosts = [];
 
 // Admin
@@ -20,7 +20,6 @@ class Admin extends React.Component {
         // Binder this till funktionerna
         this.setState             = this.setState.bind(this);
         this.handleBtnClick       = this.handleBtnClick.bind(this);
-        this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.getSearch            = this.getSearch.bind(this);
         this.addSearch            = this.addSearch.bind(this);
         this.updateSearch         = this.updateSearch.bind(this);
@@ -52,6 +51,7 @@ class Admin extends React.Component {
         this.handleLogout         = this.handleLogout.bind(this);
 
         this.state = {
+            reRender:           false,
             username:           this.props.username,
             userRole:           this.props.userRole,
             component:          localStorage.getItem('component'),
@@ -97,7 +97,8 @@ class Admin extends React.Component {
                     {/* Länkstig */}
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb focus" to={"/"}>Start</Link>/</li>
+                            <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus" to={"/"}>
+                                Start</Link>/</li>
                             <li><Link className="active-breadcrumb focus" to={"/admin"}> Admin</Link></li>
                         </ul>
                     </nav>
@@ -114,34 +115,64 @@ class Admin extends React.Component {
                     kategorin.</p>
                     {/* Medarbetare */}
                     <div className="row">
-                        <button id="tests" className="focus admin-btn admin-btn-left" 
+                        {localStorage.getItem('component') == 'tests' ? 
+                        <button id="tests" className="focus btn active-admin-btn admin-btn-left" 
                             aria-label="Visar formuläret för tester samt befintliga tester" 
                             aria-pressed="false" onClick={this.handleBtnClick}>
-                                Tester</button>
-                        <button id="solutions" className="focus admin-btn admin-btn-right" 
+                                Tester</button> :
+                        <button id="tests" className="focus btn admin-btn admin-btn-left" 
+                            aria-label="Visar formuläret för tester samt befintliga tester" 
+                            aria-pressed="false" onClick={this.handleBtnClick}>
+                                Tester</button>}
+                        {localStorage.getItem('component') == 'solutions' ?
+                        <button id="solutions" className="focus btn active-admin-btn admin-btn-right" 
                             aria-label="Visar formuläret för utvecklingspaket samt befintliga utvecklingspaket"
                             aria-pressed="false" onClick={this.handleBtnClick}>
-                                Utveckling</button>
+                                Utveckling</button> :
+                        <button id="solutions" className="focus btn admin-btn admin-btn-right" 
+                            aria-label="Visar formuläret för utvecklingspaket samt befintliga utvecklingspaket"
+                            aria-pressed="false" onClick={this.handleBtnClick}>
+                                Utveckling</button>}
                     </div>
                     <div className="row">
-                        <button id="courses" className="focus admin-btn admin-btn-left" 
+                        {localStorage.getItem('component') == 'courses' ?
+                        <button id="courses" className="focus btn active-admin-btn admin-btn-left" 
                             aria-label="Visar formuläret för utbildningar samt befintliga utbildningar"
                             aria-pressed="false" onClick={this.handleBtnClick}>
-                                Utbildningar</button>
-                        <button id="posts" className="focus admin-btn admin-btn-right" 
+                                Utbildningar</button> :
+                        <button id="courses" className="focus btn admin-btn admin-btn-left" 
+                            aria-label="Visar formuläret för utbildningar samt befintliga utbildningar"
+                            aria-pressed="false" onClick={this.handleBtnClick}>
+                                Utbildningar</button>}
+                        {localStorage.getItem('component') == 'posts' ?
+                        <button id="posts" className="focus btn active-admin-btn admin-btn-right" 
                             aria-label="Visar formuläret för inlägg samt befintliga inlägg"
                             aria-pressed="false" onClick={this.handleBtnClick}>
-                                Inlägg</button>
+                                Inlägg</button> :
+                        <button id="posts" className="focus btn admin-btn admin-btn-right" 
+                            aria-label="Visar formuläret för inlägg samt befintliga inlägg"
+                            aria-pressed="false" onClick={this.handleBtnClick}>
+                                Inlägg</button>}
                     </div>
                     <div className="row">
-                        <button id="comments" className="focus admin-btn admin-btn-left" 
+                        {localStorage.getItem('component') == 'comments' ?
+                        <button id="comments" className="focus btn active-admin-btn admin-btn-left" 
                             aria-label="Visar befintliga kommentarer" 
                             aria-pressed="false" onClick={this.handleBtnClick}>
-                                Kommentarer</button>
-                        <button id="users" className="focus admin-btn admin-btn-right" 
+                                Kommentarer</button> :
+                        <button id="comments" className="focus btn admin-btn admin-btn-left" 
+                            aria-label="Visar befintliga kommentarer" 
+                            aria-pressed="false" onClick={this.handleBtnClick}>
+                                Kommentarer</button>}
+                        {localStorage.getItem('component') == 'users' ?
+                        <button id="users" className="focus btn active-admin-btn admin-btn-right" 
                             aria-label="Visar formuläret för användare samt befintliga användare" 
                             aria-pressed="false" onClick={this.handleBtnClick}>
-                                Användare</button>
+                                Användare</button> :
+                        <button id="users" className="focus btn admin-btn admin-btn-right" 
+                            aria-label="Visar formuläret för användare samt befintliga användare" 
+                            aria-pressed="false" onClick={this.handleBtnClick}>
+                                Användare</button>}
                     </div>
                 </div> 
                 :
@@ -152,10 +183,16 @@ class Admin extends React.Component {
                     med hjälp av knapparna nedan. 
                     Gränssnittet anpassas efter den valda 
                     kategorin.</p>
-                    <button id="posts" className="focus admin-btn admin-btn-contributors" 
-                        aria-label="Visar formuläret för inlägg samt befintliga inlägg" 
-                        aria-pressed="false" onClick={this.handleBtnClick}>
-                            Inlägg</button>
+
+                    {localStorage.getItem('component') == 'posts' ?
+                        <button id="posts" className="focus btn active-admin-btn admin-btn-contributors 
+                            admin-btn-right" aria-label="Visar formuläret för inlägg samt befintliga inlägg"
+                            aria-pressed="false" onClick={this.handleBtnClick}>
+                                Inlägg</button> :
+                        <button id="posts" className="focus btn admin-btn admin-btn-contributors admin-btn-right" 
+                            aria-label="Visar formuläret för inlägg samt befintliga inlägg"
+                            aria-pressed="false" onClick={this.handleBtnClick}>
+                                Inlägg</button>}
                 </div>
                 }
                 {/* Formulär för att lägga till och redigera tjänster, användare, inlägg och kommentarer.
@@ -191,35 +228,23 @@ class Admin extends React.Component {
         )
     }
 
-    // Kör funktionen nedan och hämtar alla poster inom den valda kategorin
-    handleBtnClick(e) {
-        this.handleCategoryChange(e);
-    }
-
     // Funktionen anpassar gränssnittet (via state) samt knapparnas utseende och aria-pressed 
-    handleCategoryChange(e) {
+    handleBtnClick(e) {
         const id = e.target.id;
+
+        this.setState({
+            reRender:  true,
+            component: id,
+        })
 
         localStorage.setItem('component', id);
         localStorage.removeItem('error');
 
-        this.setState({
-            component: id,
-        })
-
         for (let i = 0; i < buttons.length; i++) {
-            if (buttons[i].id == id) {
-                buttons[i].style.color           = '#517788';
-                buttons[i].style.backgroundColor = 'white';
-                buttons[i].style.border          = '2px solid #517788';
-
+            if (e.target.id == buttons[i].id) {
                 buttons[i].setAttribute('aria-pressed', true);
 
             } else {
-                buttons[i].style.color           = 'white';
-                buttons[i].style.backgroundColor = '#517788';
-                buttons[i].style.border          = '1px solid #517788';
-
                 buttons[i].setAttribute('aria-pressed', false);
             }
         }
@@ -231,18 +256,10 @@ class Admin extends React.Component {
         document.title = 'Admin';
 
         for (let i = 0; i < buttons.length; i++) {
-            if (buttons[i].id == this.state.component) {
-                buttons[i].style.color           = '#517788';
-                buttons[i].style.backgroundColor = 'white';
-                buttons[i].style.border          = '2px solid #517788';
-
+            if (buttons[i].id == localStorage.getItem('component')) {
                 buttons[i].setAttribute('aria-pressed', true);
 
             } else {
-                buttons[i].style.color           = 'white';
-                buttons[i].style.backgroundColor = '#517788';
-                buttons[i].style.border          = '1px solid #517788';
-
                 buttons[i].setAttribute('aria-pressed', false);
             }
         }

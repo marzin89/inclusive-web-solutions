@@ -95,6 +95,22 @@
   }
 }
 
+.active-admin-btn {
+  width: 100%;
+  height: 35px;
+  background-color: white;
+  border: 2px solid #517788;
+  color: #517788;
+  font-size: inherit;
+  font-weight: bold;
+  margin-top: 10px;
+}
+@media only screen and (min-width: 961px) {
+  .active-admin-btn {
+    max-width: 295px;
+  }
+}
+
 .admin-btn:focus {
   border: 3px solid black;
 }
@@ -183,6 +199,18 @@ textarea {
   background-color: #517788;
   border: 1px solid #517788;
   color: white;
+  font-size: inherit;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.active-accessibility-btn {
+  width: 100%;
+  max-width: 600px;
+  height: 35px;
+  background-color: white;
+  border: 2px solid #517788;
+  color: #517788;
   font-size: inherit;
   font-weight: bold;
   margin-top: 10px;
@@ -330,10 +358,6 @@ header {
 
 #search-mobile {
   display: none;
-}
-
-#search-mobile:target {
-  display: block;
   width: 100%;
   position: fixed;
   top: 70px;
@@ -370,22 +394,19 @@ header {
 }
 
 #search-icon {
-  width: 35px;
+  display: block;
+  width: 30px;
+  height: 30px;
   float: left;
-  margin-top: 13px;
+  margin-top: 10px;
 }
 
 #nav-icon {
   display: block;
   width: 40px;
+  height: 35px;
   float: right;
-  background-color: #2A7373;
-  color: white;
-  font-weight: bold;
-  font-size: 2em;
-  padding: 0;
-  text-decoration: none;
-  border: none;
+  margin-top: 10px;
 }
 
 #nav-icon:focus {
@@ -482,10 +503,6 @@ header {
 }
 #main-nav-mobile ul li {
   padding: 5px 0;
-}
-
-#main-nav-mobile:target {
-  display: block;
 }
 
 #main-nav-desktop {
@@ -792,6 +809,16 @@ textarea {
   font-size: 1.125em;
   font-weight: bold;
   margin-top: 5px;
+}
+
+.error-search {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  display: none;
+  color: white;
+  font-size: 1.125em;
+  font-weight: bold;
 }
 
 .error-services {
@@ -1169,6 +1196,7 @@ footer {
   width: 20px;
   height: 20px;
   margin-right: 5px;
+  outline: 2px solid #3D5858;
 }
 
 #consent:focus {

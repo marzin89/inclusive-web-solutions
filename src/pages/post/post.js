@@ -39,8 +39,8 @@ class Post extends React.Component {
                     {localStorage.getItem('language') == 'Deutsch' ?
                     <nav className="breadcrumbs" aria-label="Brotkrümelnavigation">
                         <ul>
-                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
-                                to={"/"}>Home</Link>/</li>
+                            <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus focus-invisible 
+                                regular-font-size" to={"/"}>Home</Link>/</li>
                             <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/blog"}> Blog</Link>/</li>
                             <li><Link className="active-breadcrumb focus focus-invisible regular-font-size" 
@@ -50,8 +50,8 @@ class Post extends React.Component {
                     :
                     <nav className="breadcrumbs" aria-label="Länkstig">
                         <ul>
-                            <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
-                                to={"/"}>Start</Link>/</li>
+                            <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus focus-invisible 
+                                regular-font-size" to={"/"}>Start</Link>/</li>
                             <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/blog"}> Blogg</Link>/</li>
                             <li><Link className="active-breadcrumb focus focus-invisible regular-font-size" 

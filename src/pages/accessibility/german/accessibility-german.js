@@ -5,6 +5,10 @@ class AccessibilityGerman extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            accessibilityError: '',
+        }
+
         this.handleBtnClick  = this.handleBtnClick.bind(this);
     }
 
@@ -54,9 +58,15 @@ class AccessibilityGerman extends React.Component {
                     <p className="regular-font-size line-height">
                         Drücken Sie auf den Knopf, um die
                         Website mit unzureichendem Kontrast zu erleben.</p>
+                    {localStorage.getItem('accessibility-error') == 'contrast' ?
                     <button id="contrast" className="focus focus-invisible-btns regular-font-size 
-                        accessibility-btn" aria-label="Niedrigkontrast-Modus aktivieren" aria-pressed="false" 
-                        aria-controls="stop-btn" onClick={this.handleBtnClick}>Kontrast</button>
+                        btn active-accessibility-btn" aria-label="Niedrigkontrast-Modus aktivieren" 
+                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                            Kontrast</button> :
+                    <button id="contrast" className="focus focus-invisible-btns regular-font-size 
+                        btn accessibility-btn" aria-label="Niedrigkontrast-Modus aktivieren" 
+                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                            Kontrast</button>}
                     <p id="contrast-explanation" className="explanation regular-font-size contrast
                         line-height">
                         Wer nicht unter Sehbeschwerden
@@ -71,9 +81,15 @@ class AccessibilityGerman extends React.Component {
                         verringern Sie, für den Fall dass Sie
                         einen Desktop-Computer benutzen,
                         die Breite des Browser-Fensters.</p>
+                    {localStorage.getItem('accessibility-error') == 'responsiveness' ?
                     <button id="responsiveness" className="focus focus-invisible-btns regular-font-size 
-                        accessibility-btn" aria-label="Responsivität der Website deaktivieren" aria-pressed="false" 
-                        aria-controls="stop-btn" onClick={this.handleBtnClick}>Responsivität</button>
+                        btn active-accessibility-btn" aria-label="Responsivität der Website deaktivieren" 
+                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                            Responsivität</button> :
+                    <button id="responsiveness" className="focus focus-invisible-btns regular-font-size 
+                        btn accessibility-btn" aria-label="Responsivität der Website deaktivieren" 
+                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                            Responsivität</button>}
                     <p id="responsivity-explanation" className="explanation regular-font-size responsiveness
                         line-height">
                         Das nervt vielleicht, waagerecht 
@@ -86,10 +102,15 @@ class AccessibilityGerman extends React.Component {
                         versuchen Sie, die Website mit der
                         Tabulatortaste anstatt der Maus zu 
                         benutzen.</p>   
+                    {localStorage.getItem('accessibility-error') == 'tab-focus' ?
                     <button id="tab-focus" className="focus focus-invisible-btns regular-font-size 
-                        accessibility-btn" aria-label="Fokus bei der Navigation mittels der Tabulatortaste unsichtbar machen" 
-                        aria-controls="stop-btn" aria-pressed="false" onClick={this.handleBtnClick}>Tab-Fokus
-                    </button>
+                        btn active-accessibility-btn" aria-label="Fokus bei der Navigation mittels der Tabulatortaste 
+                        unsichtbar machen" aria-controls="stop-btn" aria-pressed="false" onClick={this.handleBtnClick}>
+                            Tab-Fokus</button> :
+                    <button id="tab-focus" className="focus focus-invisible-btns regular-font-size 
+                        btn accessibility-btn" aria-label="Fokus bei der Navigation mittels der Tabulatortaste 
+                        unsichtbar machen" aria-controls="stop-btn" aria-pressed="false" onClick={this.handleBtnClick}>
+                            Tab-Fokus</button>}
                     <p id="tab-focus-explanation" className="explanation regular-font-size tab-focus
                         line-height">
                         Konnten Sie sich zurechtfinden? 
@@ -104,10 +125,15 @@ class AccessibilityGerman extends React.Component {
                         Drücken Sie auf den Knopf und 
                         versuchen Sie, den Text auf der 
                         Website zu vergrößern (ctrl+). </p>
+                    {localStorage.getItem('accessibility-error') == 'font-size' ?
                     <button id="font-size" className="focus focus-invisible-btns regular-font-size 
-                        accessibility-btn" aria-label="Textgröße und Zeilenabstand verkleinern" aria-pressed="false"
-                        aria-controls="stop-btn" onClick={this.handleBtnClick}>Textgröße/Zeilenabstand
-                    </button>
+                        btn active-accessibility-btn" aria-label="Textgröße und Zeilenabstand verkleinern" 
+                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                            Textgröße/Zeilenabstand</button> :
+                    <button id="font-size" className="focus focus-invisible-btns regular-font-size 
+                        btn accessibility-btn" aria-label="Textgröße und Zeilenabstand verkleinern" 
+                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                            Textgröße/Zeilenabstand</button>}
                     <p id="font-size-explanation" className="explanation regular-font-size font-size
                         line-height">
                         Wer nicht unter Sehbeschwerden
@@ -123,25 +149,36 @@ class AccessibilityGerman extends React.Component {
         )
     }
 
+    componentDidMount() {
+        const buttons      = document.getElementsByClassName('btn');
+        
+        for (let i = 0; i < buttons.length; i++) {
+            if (buttons[i].id == localStorage.getItem('accessibility-error')) {
+                buttons[i].setAttribute('aria-pressed', true);
+            
+            } else {
+                buttons[i].setAttribute('aria-pressed', false);
+            }
+        }
+    }
+
     handleBtnClick(e) {
+        this.setState({
+            accessibilityError: e.target.id,
+        })
+
         const link         = document.querySelectorAll('link');
         const stopBtn      = document.getElementById('stop-btn');
         const explanations = document.getElementsByClassName('explanation');
-        const buttons      = document.getElementsByClassName('accessibility-btn');
+        const buttons      = document.getElementsByClassName('btn');
 
         stopBtn.style.display = 'block';
 
         for (let i = 0; i < buttons.length; i++) {
             if (e.target.id == buttons[i].id) {
-                buttons[i].style.color           = '#517788';
-                buttons[i].style.backgroundColor = 'white';
-                buttons[i].style.border          = '2px solid #517788';
                 buttons[i].setAttribute('aria-pressed', true);
             
             } else {
-                buttons[i].style.color           = 'white';
-                buttons[i].style.backgroundColor = '#517788';
-                buttons[i].style.border          = '1px solid #517788';
                 buttons[i].setAttribute('aria-pressed', false);
             }
         }

@@ -98,6 +98,17 @@ textarea {
   margin-top: 10px;
 }
 
+.active-accessibility-btn {
+  width: 600px;
+  height: 35px;
+  background-color: white;
+  border: 2px solid #517788;
+  color: #517788;
+  font-size: inherit;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
 .accessibility-btn:focus {
   border: 3px solid black;
 }
@@ -507,6 +518,10 @@ textarea {
   display: none;
 }
 
+#stop-btn:focus {
+  border: 3px solid black;
+}
+
 .error {
   width: 600px;
   margin: 0 auto;
@@ -515,6 +530,15 @@ textarea {
   font-size: 1.125em;
   font-weight: bold;
   margin-top: 5px;
+}
+
+.error-search {
+  width: 350px;
+  margin: 0 auto;
+  display: none;
+  color: white;
+  font-size: 1.125em;
+  font-weight: bold;
 }
 
 .error-services {
@@ -817,6 +841,7 @@ footer {
   width: 20px;
   height: 20px;
   margin-right: 5px;
+  outline: 2px solid #3D5858;
 }
 
 #consent:focus {

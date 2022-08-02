@@ -58,7 +58,7 @@ class CommentFormSwedish extends React.Component {
                     {/* Kommentar */}
                     <label htmlFor="comment" className="h3-font-size">Kommentar *</label>
                     <textarea id="comment" className="focus focus-invisible-input regular-font-size" name="comment"
-                        aria-required="true" aria-describedby="comment-empty" 
+                        aria-required="true" aria-describedby="comment-empty" autoComplete='on'
                         onChange={this.handleCommentChange} onBlur={this.validateComment}></textarea>
                     {/* Här skrivs ett felmeddelande om användaren inte har skrivit någon kommentar */}
                     <p id="comment-empty" className="regular-font-size error" role="alert" 
@@ -70,7 +70,7 @@ class CommentFormSwedish extends React.Component {
                             <label htmlFor="email" className="h3-font-size">E-post *</label>
                             <input id="email" className="focus focus-invisible-input text-input text-input-main regular-font-size" 
                                 name="email" type="email" aria-required="true" aria-describedby="email-empty email-invalid" 
-                                onChange={this.handleEmailChange}></input>
+                                autoComplete='email' onChange={this.handleEmailChange}></input>
                             {/* Här skrivs ett felmeddelande ut om ingen e-postadress har angetts */}
                             <p id="email-empty" className="regular-font-size error" role="alert" 
                                 style={this.state.emailEmpty ? {display: 'block'} : {display: 'none'}}>
@@ -85,7 +85,7 @@ class CommentFormSwedish extends React.Component {
                             <label htmlFor="signature" className="h3-font-size">Signatur *</label>
                             <input id="signature" className="focus focus-invisible-input text-input text-input-main regular-font-size" 
                                 name="phone" type="text" aria-required="true" aria-describedby="signature-empty"
-                                onChange={this.handleSignatureChange}></input>
+                                autoComplete='on' onChange={this.handleSignatureChange}></input>
                             <p id="signature-empty" className="error regular-font-size" role="alert" 
                                 style={this.state.signatureEmpty ? {display: 'block'} : {display: 'none'}}>
                                     {this.state.signatureEmpty}</p>

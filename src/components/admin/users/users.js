@@ -95,7 +95,7 @@ class Users extends React.Component {
                                 <label htmlFor="user-first-name-input">Förnamn *</label>
                                 <input id="user-first-name-input" className="focus text-input-main" 
                                     type="text" aria-required="true" aria-describedby="first-name-empty" 
-                                    onChange={this.handleFirstNameChange}>
+                                    autoComplete='given-name' onChange={this.handleFirstNameChange}>
                                 </input>
                                 {/* Här skrivs ett felmeddelande ut om inget förnamn har angetts */}
                                 <p id="first-name-empty" className="error empty" role="alert" 
@@ -107,7 +107,7 @@ class Users extends React.Component {
                                 <label htmlFor="user-last-name-input">Efternamn *</label>
                                 <input id="user-last-name-input" className="focus text-input-main" 
                                     type="text" aria-required="true" aria-describedby="last-name-empty" 
-                                    onChange={this.handleLastNameChange}></input>
+                                    autoComplete='family-name' onChange={this.handleLastNameChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om inget efternamn har angetts */}
                                 <p id="last-name-empty" className="error empty" role="alert" 
                                     style={this.state.lastNameEmpty ? {display: 'block'} : {display: 'none'}}>
@@ -120,7 +120,7 @@ class Users extends React.Component {
                                 <label htmlFor="user-email-input">E-post *</label>
                                 <input id="user-email-input" className="focus text-input-main" type="email" 
                                     aria-required="true" aria-describedby="email-empty email-invalid" 
-                                    onChange={this.handleEmailChange}></input>
+                                    autoComplete='email' onChange={this.handleEmailChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om ingen e-postadress har angetts */}
                                 <p id="email-empty" className="error empty" role="alert" 
                                     style={this.state.emailEmpty ? 
@@ -135,7 +135,7 @@ class Users extends React.Component {
                                 <label htmlFor="user-phone-input">Telefon *</label>
                                 <input id="user-phone-input" className="focus text-input-main" type="tel" 
                                     aria-required="true" aria-describedby="phone-empty" 
-                                    onChange={this.handlePhoneChange}></input>
+                                    autoComplete='tel' onChange={this.handlePhoneChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om inget telefonnummer har angetts */}
                                 <p id="phone-empty" className="error empty" role="alert" 
                                     style={this.state.phoneEmpty ? 
@@ -148,7 +148,7 @@ class Users extends React.Component {
                                 <label htmlFor="username-input">Användarnamn *</label>
                                 <input id="username-input" className="focus text-input-main" type="text" 
                                     aria-required="true" aria-describedby="username-empty username-taken" 
-                                    onChange={this.handleUsernameChange}></input>
+                                    autoComplete='username' onChange={this.handleUsernameChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om inget användarnamn har angetts */}
                                 <p id="username-empty" className="error emtpy" role="alert" 
                                     style={this.state.usernameEmpty ? 
@@ -163,7 +163,8 @@ class Users extends React.Component {
                                 <label htmlFor="password-input">Lösenord *</label>
                                 <input id="password-input" className="focus text-input-main" type="password" 
                                     aria-required="true" aria-describedby="password-empty password-too-short
-                                    password-insecure password-taken" onChange={this.handlePasswordChange}></input>
+                                    password-insecure password-taken" autoComplete='new-password' 
+                                    onChange={this.handlePasswordChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om inget lösenord har angetts */}
                                 <p id="password-empty" className="error empty" role="alert" 
                                     style={this.state.passwordEmpty ? 

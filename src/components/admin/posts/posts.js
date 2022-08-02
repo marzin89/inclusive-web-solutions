@@ -70,12 +70,12 @@ class Posts extends React.Component {
                         <p>Fält märkta med * är obligatoriska.</p>
                         <label htmlFor="post-name-input">Namn *</label>
                         <input id="post-name-input" className="focus" type="text" 
-                            aria-required="true" aria-describedby="post-name-error" 
+                            aria-required="true" aria-describedby="post-name-error" autoComplete='on'
                             onChange={this.handleTitleChange} onBlur={this.validateTitle}></input>
                         <p id="post-name-error" className="error" role="alert" style={this.state.titleEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.titleEmpty}</p>
                         <label htmlFor="post-content-input">Text *</label>
-                        <textarea id="post-content-input" className="focus" aria-required="true" 
+                        <textarea id="post-content-input" className="focus" aria-required="true" autoComplete='on' 
                             aria-describedby="post-content-error" onChange={this.handleContentChange}
                             onBlur={this.validateContent}></textarea>
                         <p id="post-content-error" className="error" role="alert" style={this.state.contentEmpty ?
@@ -96,8 +96,8 @@ class Posts extends React.Component {
                             {display: 'block'} : {display: 'none'}}>{this.state.imageWrongFormat}</p>
                         <label htmlFor="alt-text-input">Alt-text</label>
                         <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
-                            aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
-                            onBlur={this.validateAltText}>
+                            aria-required="false" aria-describedby="alt-text-error" autoComplete='on' 
+                            onChange={this.handleAltTextChange} onBlur={this.validateAltText}>
                         </input>
                         <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
@@ -609,7 +609,6 @@ class Posts extends React.Component {
             localStorage.setItem('action', action);
 
             const nameInput        = document.getElementById('post-name-input');
-            // const dateInput        = document.getElementById('post-date-input');
             const contentInput     = document.getElementById('post-content-input');
             const languageInput    = document.getElementById('language-switcher-admin');
             const altTextInput     = document.getElementById('alt-text-input');
@@ -621,7 +620,6 @@ class Posts extends React.Component {
                     })
 
                     nameInput.value        = post.title;
-                    // dateInput.value        = post.date.slice(0, 10);
                     contentInput.value     = post.content;
                     altTextInput.value     = post.altText;
 
@@ -750,7 +748,6 @@ class Posts extends React.Component {
 
             if (localStorage.getItem('action') == 'edit') {
                 const nameInput        = document.getElementById('post-name-input');
-                // const dateInput        = document.getElementById('post-date-input');
                 const contentInput     = document.getElementById('post-content-input');
                 const imageInput       = document.getElementById('image-upload-input');
                 const altTextInput     = document.getElementById('alt-text-input');

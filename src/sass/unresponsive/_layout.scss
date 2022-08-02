@@ -373,6 +373,10 @@ textarea {
     display: none;
 }
 
+#stop-btn:focus {
+    border: 3px solid black;
+}
+
 .error {
     width: 600px;
     margin: 0 auto;
@@ -381,6 +385,15 @@ textarea {
     font-size: $font-size-main-accessible;
     font-weight: bold;
     margin-top: 5px;
+}
+
+.error-search {
+    width: 350px;
+    margin: 0 auto;
+    display: none;
+    color: white;
+    font-size: $font-size-main-accessible;
+    font-weight: bold;
 }
 
 .error-services {
@@ -689,6 +702,7 @@ footer {
     width: 20px;
     height: 20px;
     margin-right: 5px;
+    outline: 2px solid $heading-color;
 }
 
 #consent:focus {
