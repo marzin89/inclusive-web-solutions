@@ -151,7 +151,9 @@ class Search extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        if (!this.state.query) {
+        const search = document.getElementById('search-bar-main');
+
+        if (!search.value) {
             if (localStorage.getItem('language') == 'Deutsch') {
                 this.setState({
                     searchErrorGerman: 'Bitte geben Sie ein Suchwort ein.',
@@ -166,7 +168,7 @@ class Search extends React.Component {
             document.getElementById('search-bar-main').setAttribute('aria-invalid', true);
 
         } else {
-            this.search();
+            window.location.reload();
         }
     }
 
@@ -292,7 +294,9 @@ class Search extends React.Component {
     validateSearch(e) {
         e.preventDefault();
 
-        if (!this.state.query) {
+        const search = document.getElementById('search-bar-main');
+
+        if (!search.value) {
             if (localStorage.getItem('language') == 'Deutsch') {
                 this.setState({
                     searchErrorGerman: 'Bitte geben Sie ein Suchwort ein.',
@@ -326,7 +330,7 @@ class Search extends React.Component {
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
-                    if (localStorage.getItem('activeSearchPageGerman') == 1 || !localStorage.getItem('activeSearchPageGerman')) {
+                    if (localStorage.getItem('activeSearchPageGerman') != i || !localStorage.getItem('activeSearchPageGerman')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
@@ -356,13 +360,14 @@ class Search extends React.Component {
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
-                    if (localStorage.getItem('activeSearchPageSwedish') == 1 || !localStorage.getItem('activeSearchPageSwedish')) {
+                    if (localStorage.getItem('activeSearchPageSwedish') != i || !localStorage.getItem('activeSearchPageSwedish')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeSearchPageSwedish')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
+                    
                     }
                 }
             }

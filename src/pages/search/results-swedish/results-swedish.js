@@ -37,7 +37,7 @@ class ResultsSwedish extends React.Component {
         let render  = []; 
 
         if (results.length) {
-            let lastIndex = localStorage.getItem('searchIndexSwedish') + 5;
+            let lastIndex = Number(localStorage.getItem('searchIndexSwedish')) + 5;
 
             for (let i = localStorage.getItem('searchIndexSwedish'); i < lastIndex; i++) {
                 if (results[i]) {

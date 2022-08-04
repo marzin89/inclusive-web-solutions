@@ -37,7 +37,7 @@ class ResultsGerman extends React.Component {
         let render  = []; 
 
         if (results.length) {
-            let lastIndex = localStorage.getItem('searchIndexGerman') + 5;
+            let lastIndex = Number(localStorage.getItem('searchIndexGerman')) + 5;
 
             for (let i = localStorage.getItem('searchIndexGerman'); i < lastIndex; i++) {
                 if (results[i]) {

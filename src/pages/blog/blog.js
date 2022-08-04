@@ -210,7 +210,7 @@ class Blog extends React.Component {
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
-                    if (localStorage.getItem('activeBlogPageGerman') == 1 || !localStorage.getItem('activeBlogPageGerman')) {
+                    if (localStorage.getItem('activeBlogPageGerman') != i || !localStorage.getItem('activeBlogPageGerman')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
@@ -240,7 +240,7 @@ class Blog extends React.Component {
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
-                    if (localStorage.getItem('activeBlogPageSwedish') == 1 || !localStorage.getItem('activeBlogPageSwedish')) {
+                    if (localStorage.getItem('activeBlogPageSwedish') != i || !localStorage.getItem('activeBlogPageSwedish')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
                         aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     

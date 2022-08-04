@@ -37,7 +37,7 @@ class PostsGerman extends React.Component {
         let page  = []; 
 
         if (this.state.posts.length) {
-            let lastIndex = localStorage.getItem('blogIndexGerman') + 5;
+            let lastIndex = Number(localStorage.getItem('blogIndexGerman')) + 5;
 
             for (let i = localStorage.getItem('blogIndexGerman'); i < lastIndex; i++) {
                 if (this.state.posts[i]) {
