@@ -35,7 +35,7 @@ class Home extends React.Component {
             <main id="main">
                 <div className="row">
                     <p id="logout" style={this.props.signedIn ? {display: 'block'} : {display: 'none'}}>
-                        <Link className="focus focus-invisible regular-font-size" to={"/login"} 
+                        <Link className="focus focus-invisible regular-font-size" to={"/home"} 
                         onClick={this.handleLogout}>Logga ut</Link></p>
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
@@ -99,11 +99,7 @@ class Home extends React.Component {
     }
 
     // Utloggning
-    handleLogout(e) {
-
-        // Förhidrar att sidan laddas om
-        e.preventDefault();
-
+    handleLogout() {
         this.props.logout();
     }
 

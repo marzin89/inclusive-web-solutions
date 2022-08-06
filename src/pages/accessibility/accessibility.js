@@ -48,7 +48,7 @@ class Accessibility extends React.Component {
                     }
                     <p id="logout" style={this.props.signedIn ? {display: 'block'} :
                         {display: 'none'}}><Link className="focus focus-invisible regular-font-size" 
-                            to={"/login"} onClick={this.handleLogout}>Logga ut</Link></p>
+                            to={"/accessibility"} onClick={this.handleLogout}>Logga ut</Link></p>
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <AccessibilityGerman /> : <AccessibilitySwedish />}

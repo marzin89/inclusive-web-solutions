@@ -37,7 +37,6 @@ class App extends React.Component {
     this.getTests            = this.getTests.bind(this);
     this.loginCallback       = this.loginCallback.bind(this);
     this.logoutCallback      = this.logoutCallback.bind(this);
-    this.logoutCallbackAdmin = this.logoutCallbackAdmin.bind(this);
     this.languageCallback    = this.languageCallback.bind(this);
 
     this.state = {
@@ -67,13 +66,13 @@ class App extends React.Component {
           <Routes>
             <Route path="/login" element={this.state.signedIn && this.state.username ? 
               <Navigate replace to="/admin" username={this.state.username} 
-                userRole={this.state.permission} function={this.logoutCallbackAdmin} /> 
+                userRole={this.state.permission} function={this.logoutCallback} /> 
                 : <Login function={this.loginCallback}
                 validationError={this.state.validationError}
                 serverError={this.state.serverError} />} />
             <Route path="/admin" element={this.state.signedIn && this.state.username ? 
               <Admin username={this.state.username} userRole={this.state.permission} 
-                function={this.logoutCallbackAdmin} /> : <Navigate replace to="/login" 
+                function={this.logoutCallback} /> : <Navigate replace to="/login" 
                 function={this.loginCallback} validationError={this.state.validationError} 
                 serverError={this.state.serverError} />} />
             <Route path="/" element={<Home signedIn={this.state.signedIn}
@@ -170,22 +169,6 @@ class App extends React.Component {
       sessionStorage.removeItem('user');
       localStorage.removeItem('permission');
       localStorage.removeItem('component');
-      localStorage.removeItem('errorServices');
-      localStorage.removeItem('confirmServices');
-      localStorage.removeItem('errorPosts');
-      localStorage.removeItem('confirmPosts');
-      localStorage.removeItem('errorUsers');
-      localStorage.removeItem('confirmUsers');
-
-      window.open(`/${document.title.toLowerCase()}`, '_self');
-  }
-
-  logoutCallbackAdmin() {
-    this.setState({
-      signedIn: false,
-    })
-
-    window.open('/login', '_self');
   }
 
   // Funktionen hämtar alla publicerade inlägg

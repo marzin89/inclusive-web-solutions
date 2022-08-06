@@ -1343,22 +1343,10 @@ class Admin extends React.Component {
     }
 
     // Raderar användarnamn, -roll och status för inloggning vid utloggning
-    handleLogout(e) {
-
-        // Förhidrar att sidan laddas om
-        e.preventDefault();
-
-        this.setState({
-            username: '',
-            userRole: '',
-        })
-
+    handleLogout() {
         /* Tar bort status för inloggning, användarnamn, behörighet samt
             samt vilka komponenter som visas ur localStorage */
         sessionStorage.removeItem('signedIn');
-        sessionStorage.removeItem('user');
-        localStorage.removeItem('permission');
-        localStorage.removeItem('component');
 
         // Skickar användaren till Logga in
         this.props.function();

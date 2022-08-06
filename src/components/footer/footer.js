@@ -1,8 +1,7 @@
 // Imports
 import React from 'react';
-// import './css/styles.css';
 
-// Sidfor
+// Sidfot
 function Footer() {
     return (
         <footer>

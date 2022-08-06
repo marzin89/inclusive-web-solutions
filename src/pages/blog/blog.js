@@ -73,7 +73,7 @@ class Blog extends React.Component {
                     }
                     <p id="logout" style={this.props.signedIn ? {display: 'block'} : {display: 'none'}}>
                         <Link className="focus focus-invisible regular-font-size" 
-                        to={"/login"} onClick={this.handleLogout}>Logga ut</Link></p>
+                        to={"/blog"} onClick={this.handleLogout}>Logga ut</Link></p>
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="blog">
@@ -321,11 +321,7 @@ class Blog extends React.Component {
     }
 
     // Utloggning
-    handleLogout(e) {
-
-        // Förhidrar att sidan laddas om
-        e.preventDefault();
-
+    handleLogout() {
         this.props.logout();
     }
 }
