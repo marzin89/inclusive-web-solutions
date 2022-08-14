@@ -1,8 +1,8 @@
 // Imports
 import React from 'react';
 import { Link } from 'react-router-dom';
-import StaticGerman from './german/accessibility-german';
-import StaticSwedish from './swedish/accessibility-swedish.';
+import StaticGerman from './german/static-german';
+import StaticSwedish from './swedish/static-swedish';
 
 // Om webbtillgänglighet
 class Accessibility extends React.Component {
