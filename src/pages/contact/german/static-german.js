@@ -14,12 +14,14 @@ class StaticGerman extends React.Component {
         this.handlePhoneChange     = this.handlePhoneChange.bind(this);
         this.handleMessageChange   = this.handleMessageChange.bind(this);
         this.handleConsentChange   = this.handleConsentChange.bind(this);
+        /*
         this.validateFirstName     = this.validateFirstName.bind(this);
         this.validateLastName      = this.validateLastName.bind(this);
-        this.validateForm          = this.validateForm.bind(this);
         this.validateEmail         = this.validateEmail.bind(this);
         this.validateMessage       = this.validateMessage.bind(this);
         this.validateConsent       = this.validateConsent.bind(this);
+        */
+        this.validateForm          = this.validateForm.bind(this);
         this.handleSubmit          = this.handleSubmit.bind(this);
 
         this.state = {
@@ -51,7 +53,7 @@ class StaticGerman extends React.Component {
     render() {
         return (
             <section id="contact">
-                <h1 className="h1-font-size">Kontakt</h1>
+                <h1 id="main" className="h1-font-size">Kontakt</h1>
                 <p className="regular-font-size">Pflichtfelder sind mit * gekennzeichnet.</p>
                 <p style={this.state.error ? {display: 'block'} : {display: 'none'}} 
                     className="h2-error h3-font-size" role="alert">
@@ -61,7 +63,7 @@ class StaticGerman extends React.Component {
                 <form ref={this.form}>
                     <div className="row">
                         {/* Förnamn */}
-                        <div className="form-left" onBlur={this.validateFirstName}>
+                        <div className="form-left">
                             <label htmlFor="first-name" className="h3-font-size">Vorname *</label>
                             <input id="first-name" className="focus focus-invisible-input text-input text-input-main 
                                 regular-font-size" name="first_name" type="text" aria-required="true" 
@@ -73,7 +75,7 @@ class StaticGerman extends React.Component {
                                 {this.state.firstNameEmpty}</p>
                         </div>
                         {/* Efternamn */}
-                        <div className="form-right" onBlur={this.validateLastName}>
+                        <div className="form-right">
                             <label htmlFor="last-name" className="h3-font-size">Nachname *</label>
                             <input id="last-name" className="focus focus-invisible-input text-input text-input-main 
                                 regular-font-size" name="last_name" type="text" aria-required="true" aria-describedby="last-name-empty"
@@ -86,7 +88,7 @@ class StaticGerman extends React.Component {
                     </div>
                     <div className="row">
                         {/* E-post */}
-                        <div className="form-left" onBlur={this.validateEmail}>
+                        <div className="form-left">
                             <label htmlFor="email" className="h3-font-size">E-Mail-Adresse *</label>
                             <input id="email" className="focus focus-invisible-input text-input text-input-main 
                                 regular-font-size" name="email" type="email" aria-required="true" 
@@ -114,7 +116,7 @@ class StaticGerman extends React.Component {
                     <label htmlFor="message" className="h3-font-size">Mitteilung *</label>
                     <textarea id="message" className="focus focus-invisible-input regular-font-size" 
                         name="message" aria-required="true" aria-describedby="message-empty" autoComplete='on'
-                        onChange={this.handleMessageChange} onBlur={this.validateMessage}>
+                        onChange={this.handleMessageChange}>
                     </textarea>
                     {/* Här skrivs ett felmeddelande om användaren inte har skrivit något meddelande */}
                     <p id="message-empty" className="regular-font-size error" role="alert" 
@@ -124,7 +126,7 @@ class StaticGerman extends React.Component {
                     <p id="consent-heading" className="h3-font-size">Einwilligung *</p>
                     <input id="consent" className="focus focus-invisible-input" type="checkbox" 
                         aria-required="true" aria-describedby="consent-empty" 
-                        onChange={this.handleConsentChange} onBlur={this.validateConsent}></input>  
+                        onChange={this.handleConsentChange}></input>  
                     <label id="consent-label" htmlFor="consent" className="regular-font-size line-height">
                         Hiermit stimme ich der Bearbeitung meiner Personenbezogenen Daten gemäß der 
                         <a className="focus focus-invisible regular-font-size line-height" href=""> Datenschutzerklärung</a> zu. 
@@ -265,6 +267,7 @@ class StaticGerman extends React.Component {
         }
     }
 
+    /*
     validateFirstName(e) {
         if (!e.target.value) {
             this.setState({
@@ -273,7 +276,7 @@ class StaticGerman extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -285,7 +288,7 @@ class StaticGerman extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -300,7 +303,7 @@ class StaticGerman extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             if (e.target.value.indexOf('@') < 1) {
@@ -313,7 +316,7 @@ class StaticGerman extends React.Component {
                 })
     
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);      
+                      
             }
         }
     }
@@ -326,7 +329,7 @@ class StaticGerman extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -338,9 +341,10 @@ class StaticGerman extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
+    */
 
     /* Här valideras uppgifterna. För varje uppgift som saknas,
         skrivs ett felmeddelande ut under inmatningsfältet. */
@@ -359,7 +363,7 @@ class StaticGerman extends React.Component {
             })
                
             firstNameInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -378,7 +382,7 @@ class StaticGerman extends React.Component {
             })
 
             lastNameInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -397,7 +401,7 @@ class StaticGerman extends React.Component {
             })
 
             emailInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             if (emailInput.value.indexOf('@') < 1) {
@@ -411,7 +415,7 @@ class StaticGerman extends React.Component {
                 })
 
                 emailInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
 
             } else {
                 this.setState({
@@ -432,7 +436,7 @@ class StaticGerman extends React.Component {
             })
 
             messageInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -451,7 +455,7 @@ class StaticGerman extends React.Component {
             })
 
             consentInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -470,16 +474,22 @@ class StaticGerman extends React.Component {
                     error: false,
                 })
     
-                localStorage.removeItem('error');
+                
+                return true;
+            
+            } else {
+                return false;
             }
+        
+        } else {
+            return false;
         }
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        this.validateForm();
 
-        if (!localStorage.getItem('error')) {
+        if (this.validateForm()) {
             emailjs.sendForm('service_005r77b', 'contact_form', this.form.current, '7V3K7ahJFB30PLvxy')
             .then(result => {
                 this.setState({
@@ -495,6 +505,8 @@ class StaticGerman extends React.Component {
                     result:       error.text,
                 })
             })
+
+            this.form.current.reset();
         }
     }
 }

@@ -13,7 +13,6 @@ class SolutionsSwedish extends React.Component {
 
         this.state = {
             solutions:    [],
-            error:        false,
             errorMessage: '',
         }
 
@@ -72,7 +71,6 @@ class SolutionsSwedish extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:        true,
                     errorMessage: 'Inga utvecklingspaket hittades.',
                 })
             
@@ -87,8 +85,9 @@ class SolutionsSwedish extends React.Component {
                     }
                 });
 
+                localStorage.setItem('solutionsSwedish', JSON.stringify(solutionArr));
+
                 this.setState({
-                    error: false,
                     solutions: solutionArr,
                 })
             }
@@ -97,7 +96,6 @@ class SolutionsSwedish extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {
             this.setState({
-                error:        true,
                 errorMessage: 'Ett serverfel har uppstått. Det gick inte att hämta tester.' 
                                 + ' Försök igen lite senare.',
             })

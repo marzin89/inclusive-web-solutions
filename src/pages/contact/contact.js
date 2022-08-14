@@ -14,16 +14,12 @@ class Contact extends React.Component {
         // Binder this till funktionerna
         this.setState              = this.setState.bind(this);
         this.handleLogout          = this.handleLogout.bind(this);
-
-        this.state = {
-            signedIn: this.props.signedIn,
-        }
     }
 
     //Rendrering
     render() {
         return (
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     {localStorage.getItem('language') == 'Deutsch' ?

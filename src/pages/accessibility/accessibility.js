@@ -1,8 +1,8 @@
 // Imports
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AccessibilityGerman from './german/accessibility-german';
-import AccessibilitySwedish from './swedish/accessibility-swedish.';
+import StaticGerman from './german/accessibility-german';
+import StaticSwedish from './swedish/accessibility-swedish.';
 
 // Om webbtillgänglighet
 class Accessibility extends React.Component {
@@ -15,16 +15,12 @@ class Accessibility extends React.Component {
         this.setState        = this.setState.bind(this);
         // this.handleBtnClick  = this.handleBtnClick.bind(this);
         this.handleLogout    = this.handleLogout.bind(this);
-
-        this.state = {
-            signedIn: this.props.signedIn,
-        }
     }
 
     // Rendrering
     render() {
         return (
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     {localStorage.getItem('language') == 'Deutsch' ?
@@ -51,7 +47,7 @@ class Accessibility extends React.Component {
                             to={"/accessibility"} onClick={this.handleLogout}>Logga ut</Link></p>
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
-                <AccessibilityGerman /> : <AccessibilitySwedish />}
+                <StaticGerman /> : <StaticSwedish />}
             </main>
         )
     }

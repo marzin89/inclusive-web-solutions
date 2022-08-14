@@ -20,7 +20,7 @@ class NavbarGerman extends React.Component {
     }
 
     renderNavbar() {
-        let courses = localStorage.getItem('courses');
+        let courses = localStorage.getItem('coursesGerman');
         courses     = JSON.parse(courses);
 
         let links = [];
@@ -42,7 +42,7 @@ class NavbarGerman extends React.Component {
         })
 
         let navbar =
-            <nav id="subnav" aria-label="Unternavigation mit Vorlesungen">
+            <nav id="subnav" aria-label="Vorlesungen">
                 <ul>
                     <li id="subnav-first-item"><Link className="focus focus-invisible regular-font-size" 
                         to={'/services'}>Dienstleistungen</Link></li>
@@ -55,7 +55,7 @@ class NavbarGerman extends React.Component {
 
     // Funktionen hämtar alla publicerade inlägg
     getCourse() {
-        let courses = localStorage.getItem('courses');
+        let courses = localStorage.getItem('coursesGerman');
         courses     = JSON.parse(courses);
 
         courses.map((course) => {

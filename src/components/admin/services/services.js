@@ -13,6 +13,7 @@ class Services extends React.Component {
 
         // Binder this till funktionerna
         this.setState                = this.setState.bind(this);
+        this.form                    = React.createRef();
         this.handleNameChange        = this.handleNameChange.bind(this);
         this.handlePriceChange       = this.handlePriceChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -20,10 +21,12 @@ class Services extends React.Component {
         this.handleAltTextChange     = this.handleAltTextChange.bind(this);
         this.handleSubmit            = this.handleSubmit.bind(this);
         this.handleLinkClick         = this.handleLinkClick.bind(this);
+        /*
         this.validateName            = this.validateName.bind(this);
         this.validatePrice           = this.validatePrice.bind(this);
         this.validateDescription     = this.validateDescription.bind(this);
         this.validateAltText         = this.validateAltText.bind(this);
+        */
         this.validateForm            = this.validateForm.bind(this);
         this.upload                  = this.upload.bind(this);
 
@@ -64,7 +67,7 @@ class Services extends React.Component {
     // Rendrering
     render() {
         return (
-            <div id={`${localStorage.getItem('component')}-section`} className="admin-form">
+            <div id="main" className="admin-form">
                 <section id="admin-form">
                     {/* Rubriken anpassas baserat på vilken tjänst som är vald */}
                     {this.props.service == 'tests' ? <h2 className="h2-admin">Tester</h2> : ''}
@@ -75,10 +78,10 @@ class Services extends React.Component {
                         Formuläret innehåller {this.state.errorCountName + this.state.errorCountPrice + 
                             this.state.errorCountDescription + this.state.errorCountImageSize + 
                             this.state.errorCountImageFormat + this.state.errorCountAltText} fel</p>
-                    <form>
+                    <form ref={this.form}>
                         <p>Fält märkta med * är obligatoriska.</p>
                         {/* Tjänstens namn */}
-                        <div className="form-left" onBlur={this.validateName}>
+                        <div className="form-left">
                             <label htmlFor="service-name-input">Namn *</label>
                             <input id="service-name-input" className="focus text-input-main admin-input" 
                                 type="text" aria-required="true" aria-describedby="service-name-error" 
@@ -89,7 +92,7 @@ class Services extends React.Component {
                                 {display: 'block'} : {display: 'none'}}>{this.state.nameEmpty}</p>
                         </div>
                         {/* Tjänstens pris */}
-                        <div className="form-right" onBlur={this.validatePrice}>
+                        <div className="form-right">
                             <label htmlFor="service-price-input">Pris *</label>
                             <input id="service-price-input" className="focus text-input-main admin-input" type="text" 
                                 placeholder="t.ex. 1 000 :-" aria-required="true" aria-describedby="service-price-error" 
@@ -102,8 +105,7 @@ class Services extends React.Component {
                         <label htmlFor="service-description-input">Beskrivning *</label>
                         <textarea id="service-description-input" className="focus admin-input"
                             aria-required="true" aria-describedby="service-description-error" 
-                            autoComplete='on' onChange={this.handleDescriptionChange} 
-                            onBlur={this.validateDescription}></textarea>
+                            autoComplete='on' onChange={this.handleDescriptionChange}></textarea>
                         {/* Här skrivs ett felmeddelande ut om ingen beskrivning har skrivits */}
                         <p id="service-description-error" className="error" role="alert" 
                             style={this.state.descriptionEmpty ? {display: 'block'} : {display: 'none'}}>
@@ -130,7 +132,7 @@ class Services extends React.Component {
                         <label htmlFor="alt-text-input">Alt-text</label>
                         <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
                             aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
-                            autoComplete='on' onBlur={this.validateAltText}></input>
+                            autoComplete='on'></input>
                         <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
                         <button type="reset" className="reset-btn">Rensa</button>
@@ -171,9 +173,9 @@ class Services extends React.Component {
                                 <p>{element.description}</p>
                                 <div>
                                     <p className="edit"><a id={`edit${element.id}`} className="focus" 
-                                        href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
+                                        href="" onClick={this.handleLinkClick}>Redigera</a></p>
                                     <p className="delete"><a id={`delete${element.id}`} className="focus"
-                                        href="#admin-form" onClick={this.handleLinkClick}>Radera</a></p>
+                                        href="" onClick={this.handleLinkClick}>Radera</a></p>
                                 </div>
                             </article>
                         )
@@ -260,7 +262,7 @@ class Services extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             } else {
                 this.setState ({
@@ -277,7 +279,7 @@ class Services extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
 
             } else {
                 this.setState({ 
@@ -349,6 +351,7 @@ class Services extends React.Component {
         }
     }
 
+    /*
     validateName(e) {
         if (!e.target.value) {
             this.setState({
@@ -357,7 +360,7 @@ class Services extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -369,7 +372,7 @@ class Services extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -381,7 +384,7 @@ class Services extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -394,10 +397,11 @@ class Services extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             }
         }
     }
+    */
 
     handleLinkClick(e) {
         e.preventDefault();
@@ -406,11 +410,16 @@ class Services extends React.Component {
         let id;
 
         if (e.target.id.indexOf('edit') >= 0) {
+            document.getElementById('admin-form').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+            
             action = 'edit';
             id     = e.target.id.slice(4);
 
             localStorage.setItem('id', id);
-            localStorage.setItem('action', action);
+            localStorage.setItem('actionServices', action);
 
             const nameInput        = document.getElementById('service-name-input');
             const priceInput       = document.getElementById('service-price-input');
@@ -425,7 +434,7 @@ class Services extends React.Component {
                     descriptionInput.value = service.description;
                     altTextInput.value     = service.altText;  
                     
-                    localStorage.setItem('imageUrl', service.imageUrl);
+                    localStorage.setItem('imageUrlServices', service.imageUrl);
 
                     if (service.language == 'german') {
                         languageInput.value = 'Deutsch';
@@ -437,6 +446,8 @@ class Services extends React.Component {
             })
         
         } else if (e.target.id.indexOf('delete') >= 0) {
+            document.getElementById('admin-form').scrollIntoView({behavior: 'smooth'});
+
             action      = 'delete';
             id          = e.target.id.slice(6);
             let service = this.props.service.slice(0, -1);
@@ -459,9 +470,10 @@ class Services extends React.Component {
         när formuläret skickas */
     handleSubmit(e) {
         e.preventDefault();
-        this.validateForm();
 
-        if (!localStorage.getItem('error')) {
+        if (this.validateForm()) {
+            this.form.current.reset();
+
             // Datum för uppdatering
             let date = new Date().toLocaleDateString('sv-SE', {timeZone: 'CET'});
 
@@ -478,7 +490,7 @@ class Services extends React.Component {
                 language = 'german';
             }
 
-            if (!localStorage.getItem('action')) {
+            if (!localStorage.getItem('actionServices')) {
                 /* Eftersom beskrivningen ska skrivas ut stycke för stycke,
                 delas den upp där det finns blanksteg och lagras som en array */
                 if (this.state.description.indexOf('\n\n') >= 0) {
@@ -523,7 +535,7 @@ class Services extends React.Component {
                 }
             }
 
-            if (localStorage.getItem('action') == 'edit') {
+            if (localStorage.getItem('actionServices') == 'edit') {
                 const nameInput        = document.getElementById('service-name-input');
                 const priceInput       = document.getElementById('service-price-input');
                 const descriptionInput = document.getElementById('service-description-input');
@@ -579,12 +591,12 @@ class Services extends React.Component {
                     this.props.put(localStorage.getItem('id'), body);
                 
                 } else {
-                    if (localStorage.getItem('imageUrl')) {
-                        body.imageUrl = localStorage.getItem('imageUrl');
+                    if (localStorage.getItem('imageUrlServices')) {
+                        body.imageUrl = localStorage.getItem('imageUrlServices');
                     }
 
                     this.props.put(localStorage.getItem('id'), body);
-                    localStorage.removeItem('imageUrl');
+                    localStorage.removeItem('imageUrlServices');
                 }
             }
         }
@@ -608,7 +620,7 @@ class Services extends React.Component {
             })
 
             nameInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -627,7 +639,7 @@ class Services extends React.Component {
             })
 
             priceInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -646,7 +658,7 @@ class Services extends React.Component {
             })
 
             descriptionInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -674,7 +686,7 @@ class Services extends React.Component {
                 })
 
                 imageInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             } else {
                 this.setState ({
@@ -692,7 +704,7 @@ class Services extends React.Component {
                 })
 
                 imageInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
 
             } else {
                 this.setState({ 
@@ -727,7 +739,7 @@ class Services extends React.Component {
                 })
                 
                 altTextInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
 
             } else {
                 this.setState({
@@ -756,7 +768,8 @@ class Services extends React.Component {
                 error: false,
             })
 
-            localStorage.removeItem('error');
+            
+            return true;
     
         } else if (nameInput.value !== '' && priceInput.value !== '' && descriptionInput.value !== ''
             && imageInput.value !== '' && altTextInput.value !== '') {
@@ -772,9 +785,19 @@ class Services extends React.Component {
                         error: false,
                     })
         
-                    localStorage.removeItem('error');
+                    
+                    return true;
+                
+                } else {
+                    return false;
                 }
+            
+            } else {
+                return false;
             }
+        
+        } else {
+            return false;
         }
     }
 

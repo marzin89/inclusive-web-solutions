@@ -7,7 +7,7 @@ import marco from '../../../images/om-oss/marco.png';
 function StaticSwedish() {
     return (
         <section id="about">
-                    <h1 className="h1-about h1-font-size">Om oss</h1>
+                    <h1 id="main" className="h1-about h1-font-size">Om oss</h1>
                     <div id="about-iws">
                         <article>
                             <h2 className="h2-font-size">Historia</h2>

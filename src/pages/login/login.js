@@ -13,8 +13,10 @@ class Login extends React.Component {
         this.setState             = this.setState.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        /*
         this.validateUsername     = this.validateUsername.bind(this);
         this.validatePassword     = this.validatePassword.bind(this);
+        */
         this.validateForm         = this.validateForm.bind(this);
         this.handleSubmit         = this.handleSubmit.bind(this);
 
@@ -34,7 +36,7 @@ class Login extends React.Component {
     // Rendrering
     render() {
         return(
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     <nav className="breadcrumbs" aria-label="Länkstig">
@@ -44,7 +46,7 @@ class Login extends React.Component {
                         </ul>
                     </nav>
                 </div>
-                <h1>Logga in</h1>
+                <h1 id="main">Logga in</h1>
                 {/* Formulär */}
                 <form id="login-form">  
                     <p id="login-text">Fält märkta med * är obligatoriska.</p>
@@ -53,7 +55,7 @@ class Login extends React.Component {
                         Formuläret innehåller {this.state.errorCountUsername + this.state.errorCountPassword} fel
                     </p>
                     <div className="row">
-                        <div className="form-left" onBlur={this.validateUsername}>
+                        <div className="form-left">
                             {/* Användarnamn. Värdet lagras i state vid inmatning. */}
                             <label htmlFor="login-username">Användarnamn *</label>
                             <input id="login-username" className="focus text-input text-input-main" type="text" 
@@ -64,7 +66,7 @@ class Login extends React.Component {
                             <p id="login-username-error" style={this.state.usernameError != '' ? {display: 'block'} : 
                                 {display: 'none'}} className="error" role="alert">{this.state.usernameError}</p>
                         </div>
-                        <div className="form-right" onBlur={this.validatePassword}>
+                        <div className="form-right">
                             {/* Lösenord. Värdet lagras i state vid inmatning. */}
                             <label htmlFor="login-password" className="text">Lösenord *</label>
                             <input id="login-password" className="focus text-input text-input-main" type="password" 
@@ -133,6 +135,7 @@ class Login extends React.Component {
         }
     }
 
+    /*
     validateUsername(e) {
         if (!e.target.value) {
                 this.setState({
@@ -154,6 +157,7 @@ class Login extends React.Component {
             e.target.setAttribute('aria-invalid', true);
         }
     }
+    */
 
     validateForm() {
         const username = document.getElementById('login-username');

@@ -14,8 +14,7 @@ class PostsSwedish extends React.Component {
 
         this.state = {
             posts:        [],
-            error:        false,
-            errorMessage: '',
+            errorMessage: this.props.errorMessage,
         }
 
         this.getPosts();
@@ -70,6 +69,13 @@ class PostsSwedish extends React.Component {
     }
 
     getPosts() {
+        let posts = localStorage.getItem('postsSwedish');
+        posts     = JSON.parse(posts);
+
+        this.setState({
+            posts: posts,
+        })
+
         fetch('https://iws-rest-api.herokuapp.com/posts')
         .then(response => response.json())
         .then(data => {

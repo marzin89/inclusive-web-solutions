@@ -1,7 +1,7 @@
 // Imports
 import React from 'react';
 
-class AccessibilityGerman extends React.Component {
+class StaticGerman extends React.Component {
     constructor(props) {
         super(props);
 
@@ -16,7 +16,7 @@ class AccessibilityGerman extends React.Component {
     render() {
         return (
             <section id="accessibility">
-                <h1 className="h1-font-size">Barrierefreiheit</h1>
+                <h1 id="main" className="h1-font-size">Barrierefreiheit</h1>
                 <p className="body-text regular-font-size line-height">
                     Barrierefreiheit im Internet bedeutet, dass 
                     Websites so konstruiert sind, dass sie
@@ -46,26 +46,18 @@ class AccessibilityGerman extends React.Component {
                         Erlebnisse sagen mehr als Worte. 
                         Hier können Sie selbst eine unzugängliche Website erleben.</p>
                         <button id="stop-btn" style={localStorage.getItem('accessibility-error') ?
-                            {display: 'block'} : {display: 'none'}}
-                            aria-label="Zugänglichkeit der Website wiederherstellen.
-                            Bei Knopfdruck erscheint eine Erklärung under dem Knopf,
-                            der zuvor gedrückt wurde (Kontrast, Responsivität,
-                            Tab-Fokus oder Textgröße/Zeilenabstand)." aria-haspopup="true" 
-                            aria-controls="contrast-explanation
-                            responsivity-explanation tab-focus-explanation font-size-explanation"
-                            aria-expanded="false" onClick={this.handleBtnClick}>Beenden</button>
+                            {display: 'block'} : {display: 'none'}} aria-haspopup="true" 
+                            onClick={this.handleBtnClick}>Beenden</button>
                     <h3 className="h3-accessibility h3-font-size">Kontrast</h3>
                     <p className="regular-font-size line-height">
                         Drücken Sie auf den Knopf, um die
                         Website mit unzureichendem Kontrast zu erleben.</p>
                     {localStorage.getItem('accessibility-error') == 'contrast' ?
                     <button id="contrast" className="focus focus-invisible-btns regular-font-size 
-                        btn active-accessibility-btn" aria-label="Niedrigkontrast-Modus aktivieren" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn active-accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Kontrast</button> :
                     <button id="contrast" className="focus focus-invisible-btns regular-font-size 
-                        btn accessibility-btn" aria-label="Niedrigkontrast-Modus aktivieren" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Kontrast</button>}
                     <p id="contrast-explanation" className="explanation regular-font-size contrast
                         line-height">
@@ -83,12 +75,10 @@ class AccessibilityGerman extends React.Component {
                         die Breite des Browser-Fensters.</p>
                     {localStorage.getItem('accessibility-error') == 'responsiveness' ?
                     <button id="responsiveness" className="focus focus-invisible-btns regular-font-size 
-                        btn active-accessibility-btn" aria-label="Responsivität der Website deaktivieren" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn active-accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Responsivität</button> :
                     <button id="responsiveness" className="focus focus-invisible-btns regular-font-size 
-                        btn accessibility-btn" aria-label="Responsivität der Website deaktivieren" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Responsivität</button>}
                     <p id="responsivity-explanation" className="explanation regular-font-size responsiveness
                         line-height">
@@ -104,12 +94,10 @@ class AccessibilityGerman extends React.Component {
                         benutzen.</p>   
                     {localStorage.getItem('accessibility-error') == 'tab-focus' ?
                     <button id="tab-focus" className="focus focus-invisible-btns regular-font-size 
-                        btn active-accessibility-btn" aria-label="Fokus bei der Navigation mittels der Tabulatortaste 
-                        unsichtbar machen" aria-controls="stop-btn" aria-pressed="false" onClick={this.handleBtnClick}>
+                        btn active-accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Tab-Fokus</button> :
                     <button id="tab-focus" className="focus focus-invisible-btns regular-font-size 
-                        btn accessibility-btn" aria-label="Fokus bei der Navigation mittels der Tabulatortaste 
-                        unsichtbar machen" aria-controls="stop-btn" aria-pressed="false" onClick={this.handleBtnClick}>
+                        btn accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Tab-Fokus</button>}
                     <p id="tab-focus-explanation" className="explanation regular-font-size tab-focus
                         line-height">
@@ -127,12 +115,10 @@ class AccessibilityGerman extends React.Component {
                         Website zu vergrößern (ctrl+). </p>
                     {localStorage.getItem('accessibility-error') == 'font-size' ?
                     <button id="font-size" className="focus focus-invisible-btns regular-font-size 
-                        btn active-accessibility-btn" aria-label="Textgröße und Zeilenabstand verkleinern" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn active-accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Textgröße/Zeilenabstand</button> :
                     <button id="font-size" className="focus focus-invisible-btns regular-font-size 
-                        btn accessibility-btn" aria-label="Textgröße und Zeilenabstand verkleinern" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Textgröße/Zeilenabstand</button>}
                     <p id="font-size-explanation" className="explanation regular-font-size font-size
                         line-height">
@@ -205,7 +191,6 @@ class AccessibilityGerman extends React.Component {
             break;
 
             case 'stop-btn':
-                stopBtn.setAttribute('aria-expanded', true);
                 stopBtn.style.display = 'none';
 
                 link[0].href = './css/styles.css';
@@ -229,4 +214,4 @@ class AccessibilityGerman extends React.Component {
     }
 }
 
-export default AccessibilityGerman;
+export default StaticGerman;

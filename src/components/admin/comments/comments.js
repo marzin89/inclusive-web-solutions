@@ -16,9 +16,7 @@ class Comments extends React.Component {
 
         this.state = {
             comments:        this.props.comments,
-            error:           false,
             errorComments:   this.props.errorComments,
-            confirm:         false,
             confirmComments: this.props.confirmComments,
         }
     }
@@ -26,8 +24,8 @@ class Comments extends React.Component {
     // Rendrering
     render() {
         return (
-            <div id="comment-section" className="admin-output">
-                <h2 className="h2-admin">Kommentarer</h2>
+            <div id="main" className="admin-output">
+                <h2 id="comment-section-heading" className="h2-admin">Kommentarer</h2>
                 {/* Här skrivs övriga felmeddelanden ut (inga poster, serverfel) */}
                 <p className="error" role="alert" style={this.props.errorComments ? 
                     {display: 'block'} : {display: 'none'}}>{this.props.errorComments}
@@ -47,15 +45,15 @@ class Comments extends React.Component {
                             <p className="author">{comment.author}</p>
                             {comment.published ? 
                             <div>
-                                <p className="delete"><Link id={`delete${comment.id}`} className="focus" 
-                                    to={"/admin"} onClick={this.handleLinkClick}>Radera</Link></p> 
+                                <p className="delete"><a id={`delete${comment.id}`} className="focus" 
+                                    href="" onClick={this.handleLinkClick}>Radera</a></p> 
                             </div>
                             :
                             <div>
-                                <p className="edit"><Link id={`publish${comment.id}`} className="focus" 
-                                    to={"/admin"} onClick={this.handleLinkClick}>Publicera</Link></p> 
-                                <p className="delete"><Link id={`delete${comment.id}`} className="focus" 
-                                    to={"/admin"} onClick={this.handleLinkClick}>Radera</Link></p>
+                                <p className="edit"><a id={`publish${comment.id}`} className="focus" 
+                                    href="" onClick={this.handleLinkClick}>Publicera</a></p> 
+                                <p className="delete"><a id={`delete${comment.id}`} className="focus" 
+                                    href="" onClick={this.handleLinkClick}>Radera</a></p>
                             </div>
                             }
                         </article>
@@ -67,6 +65,11 @@ class Comments extends React.Component {
 
     handleLinkClick(e) {
         e.preventDefault();
+
+        document.getElementById('comment-section-heading').scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
         
         let action;
         let id;

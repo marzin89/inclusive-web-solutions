@@ -12,28 +12,28 @@ import { Link } from 'react-router-dom';
 // Inlägg
 class Post extends React.Component {
     // Konstruktor
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         // Binder this till funktionerna
-        this.getTitle               = this.getTitle.bind(this);
         this.getComments            = this.getComments.bind(this);
         this.checkIfPostHasComments = this.checkIfPostHasComments.bind(this);
+        this.addComment             = this.addComment.bind(this);
         this.handleLogout           = this.handleLogout.bind(this);
 
         this.state = {
-            posts:    this.props.posts,
-            comments: [],
+            comments:       [],
+            errorMessage:   '',
+            confirmMessage: '',
         }
 
         this.getComments();
-        this.getTitle();
     }
 
     // Rendrering
     render() {
         return (
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     {localStorage.getItem('language') == 'Deutsch' ?
@@ -67,11 +67,13 @@ class Post extends React.Component {
                     {localStorage.getItem('language') == 'Deutsch' ? <NavbarGerman /> :
                         <NavbarSwedish />}
                     <div id="subpage-right">
-                        {localStorage.getItem('language') == 'Deutsch' ? <PostGerman posts={this.state.posts} /> 
-                            : <PostSwedish posts={this.state.posts} />}              
+                        {localStorage.getItem('language') == 'Deutsch' ? <PostGerman /> 
+                            : <PostSwedish />}              
                         {localStorage.getItem('language') == 'Deutsch' ? 
-                            <CommentFormGerman comments={this.state.comments} /> : 
-                            <CommentFormSwedish comments={this.state.comments} />}
+                            <CommentFormGerman errorMessage={this.state.errorMessage} confirmMessage={this.state.confirmMessage} 
+                                function={this.addComment} /> : 
+                            <CommentFormSwedish errorMessage={this.state.errorMessage} confirmMessage={this.state.confirmMessage} 
+                                function={this.addComment} />}
                         <section id="comment-section">
                             <h2 className="h2-font-size">{localStorage.getItem('language') == 'Deutsch' ? 
                                 'Kommentare' : 'Kommentarer'}</h2> 
@@ -87,44 +89,51 @@ class Post extends React.Component {
     }
 
     componentDidMount() {
-        let title = localStorage.getItem('title');
+        const id  = localStorage.getItem('postId');
+        let posts = [];
+        let title;
+
+        if (localStorage.getItem('language') == 'Deutsch') {
+            posts = JSON.parse(localStorage.getItem('postsGerman'));
+
+        } else {
+            posts = JSON.parse(localStorage.getItem('postsSwedish'));
+        }
+
+        posts.map((post) => {
+            if (post.id == id) {
+                localStorage.setItem('title', post.title);
+                title = post.title;
+            }
+        })
+
         localStorage.setItem('pageSwedish', title);
         localStorage.setItem('pageGerman', title);
         document.title = title;
     }
 
     getComments() {
-    fetch('https://iws-rest-api.herokuapp.com/comments/admin')
-    .then(response => response.json())
-    .then(data => {
-        if (!data.length) {
+        fetch('https://iws-rest-api.herokuapp.com/comments/admin')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.length) {
+                this.setState({
+                    error: true,
+                })
+            
+            } else {
+                // localStorage.setItem('commentArr', JSON.stringify(data)); 
+        
+                this.setState({
+                    error:    false,
+                    comments: data,
+                })
+            }
+        })
+        .catch(() => {
             this.setState({
                 error: true,
             })
-        
-        } else {
-            localStorage.setItem('commentArr', JSON.stringify(data)); 
-    
-            this.setState({
-                error:    false,
-                comments: data,
-            })
-        }
-    })
-    .catch(() => {
-        this.setState({
-            error: true,
-        })
-    })
-    }
-
-    getTitle() {
-        const id = localStorage.getItem('postId');
-
-        this.props.posts.map((post) => {
-            if (post.id == id) {
-                localStorage.setItem('title', post.title);
-            }
         })
     }
 
@@ -138,8 +147,64 @@ class Post extends React.Component {
             }
         })
 
-        console.log(result);
         return result;
+    }
+
+    addComment(body) {
+        if (this.state.comments.length) {
+            let comments = this.state.comments;
+
+            comments.sort((a, b) => {
+                return a.id - b.id;
+            })
+
+            body.id = comments[comments.length - 1].id + 1;
+        
+        } else {
+            body.id = 1;
+        }
+
+        fetch('https://iws-rest-api.herokuapp.com/comments', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then((data) => {
+            let comments = this.state.comments;
+            comments.push(data);
+            comments.reverse();
+
+            this.setState({
+                comments: comments,
+            })
+
+            if (localStorage.getItem('language') == 'Deutsch') {
+                this.setState({
+                    confirmMessage:  'Ihr Kommentar wurde gesendet.',
+                });
+            
+            } else {
+                this.setState({
+                    confirmMessage: 'Din kommentar har skickats.',
+                });
+            }
+        })
+        .catch(() => {
+            if (localStorage.getItem('language') == 'Deutsch') {
+                this.setState({
+                    errorMessage:  'Ein Serverfehler ist aufgetreten. ' +
+                                    'Ihr Kommentar konnte leider nicht gesendet werden' +
+                                    ' Versuchen Sie es später erneut.',
+                })
+
+            } else {
+                this.setState({
+                    errorMessage: 'Ett serverfel har uppstått. ' +
+                                    'Det gick inte att skicka kommentaren. Försök igen senare.',
+                })
+            }
+        })
     }
 
     // Utloggning

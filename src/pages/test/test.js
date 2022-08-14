@@ -10,27 +10,33 @@ import { Link } from 'react-router-dom';
 class Test extends React.Component {
 
     // Konstruktor
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         // Binder this till funktionerna
-        this.getName      = this.getName.bind(this);
-        this.getTest      = this.getTest.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
 
-        this.state = {
-            tests: this.props.tests,
-            test:  [],
+        const id = localStorage.getItem('serviceId');
+        let tests = [];
+
+        if (localStorage.getItem('language') == 'Deutsch') {
+            tests = JSON.parse(localStorage.getItem('testsGerman'));
+
+        } else {
+            tests = JSON.parse(localStorage.getItem('testsSwedish'));
         }
 
-        this.getTest();
-        this.getName();
+        tests.map((test) => {
+            if (test.id == id) {
+                localStorage.setItem('name', test.name);
+            }
+        })
     }
 
     // Rendrering
     render() {
         return (
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     {localStorage.getItem('language') == 'Deutsch' ?
@@ -64,8 +70,8 @@ class Test extends React.Component {
                     {localStorage.getItem('language') == 'Deutsch' ? <NavbarGerman /> :
                         <NavbarSwedish />}
                     <div id="subpage-right">
-                        {localStorage.getItem('language') == 'Deutsch' ? <TestGerman tests={this.state.tests} /> 
-                            : <TestSwedish tests={this.state.tests} />}
+                        {localStorage.getItem('language') == 'Deutsch' ? <TestGerman /> 
+                            : <TestSwedish />}
                     </div>
                 </div>
             </main>
@@ -73,54 +79,29 @@ class Test extends React.Component {
     }
     
     componentDidMount() {
+        // const id  = localStorage.getItem('serviceId');
+        // let tests = [];
         let title = localStorage.getItem('name');
+
+        /*
+        if (localStorage.getItem('language') == 'Deutsch') {
+            tests = JSON.parse(localStorage.getItem('testsGerman'));
+
+        } else {
+            tests = JSON.parse(localStorage.getItem('testsSwedish'));
+        }
+
+        tests.map((test) => {
+            if (test.id == id) {
+                localStorage.setItem('name', test.name);
+                title = test.name;
+            }
+        })
+        */
+
         localStorage.setItem('pageSwedish', title);
         localStorage.setItem('pageGerman', title);
         document.title = title;
-    }
-
-    // Funktionen hämtar alla tester
-  getTest() {
-    const id = localStorage.getItem('serviceId');
-
-    // GET-anrop till webbtjänsten
-    fetch(`https://iws-rest-api.herokuapp.com/tests/id/${id}`)
-
-    // Konverterar svaret från JSON
-    .then(response => response.json())
-
-    // Skriver ut ett felmeddelande om inga tester hittades
-    .then(data => {
-        if (!data.length) {
-            this.setState({
-                error: true,
-            })
-        
-        // Lagrar testerna i state-arrayen
-        } else {
-            this.setState({
-                error: false,
-                test:  data,
-            })
-        }
-    })
-
-    // Skriver ut ett felmeddelande om ett serverfel har uppstått
-    .catch(() => { 
-        this.setState({
-            error: true,
-        })
-    })
-  }
-
-    getName() {
-        const id = localStorage.getItem('serviceId');
-
-        this.props.tests.map((test) => {
-            if (test.id == id) {
-                localStorage.setItem('name', test.name);
-            }
-        })
     }
 
     // Utloggning

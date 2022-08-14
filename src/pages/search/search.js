@@ -22,11 +22,9 @@ class Search extends React.Component {
         this.handleBtnClick       = this.handleBtnClick.bind(this);
         this.toggleResultsSwedish = this.toggleResultsSwedish.bind(this);
         this.toggleResultsGerman  = this.toggleResultsGerman.bind(this);
-        this.handleLinkClick    = this.handleLinkClick.bind(this);
         this.handleLogout       = this.handleLogout.bind(this);
 
         this.state = {
-            signedIn:             this.props.signedIn,
             query:                '',
             results:              [],
             resultsSwedish:       [],
@@ -36,7 +34,6 @@ class Search extends React.Component {
             index:                0,
             activePage:           1,
             page:                 [],
-            error:                false,
             errorSwedish:         '',
             errorGerman:          '',
         }
@@ -55,7 +52,7 @@ class Search extends React.Component {
     // Rendrering
     render() {
         return (
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     {localStorage.getItem('language') == 'Deutsch' ?
@@ -83,12 +80,13 @@ class Search extends React.Component {
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="search">
-                    <h1 className="h1-font-size">Suchergebnisse</h1>
+                    <h1 id="main" className="h1-font-size">Suchergebnisse</h1>
                     <form role="search">
+                        <label htmlFor="search-bar-main">Website durchsuchen</label>
                         <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus 
-                            focus-invisible-input regular-font-size" type="search" aria-label="Website durchsuchen" 
-                            aria-required="true" aria-describedby="number-of-results search-phrase-empty"
-                            autoComplete='on' onChange={this.handleSearchChange}></input>
+                            focus-invisible-input regular-font-size" type="search" aria-required="true" 
+                            aria-describedby="number-of-results search-phrase-empty" autoComplete='on'
+                            onChange={this.handleSearchChange}></input>
                         <button className="search-btn search-btn-mobile btn deutsch focus focus-invisible-input 
                             regular-font-size" type="submit" onClick={this.handleSubmit}>Suchen</button>
                         <p id="number-of-results" className="number-of-results regular-font-size" role="alert" 
@@ -99,18 +97,20 @@ class Search extends React.Component {
                                 {this.state.searchErrorGerman}</p>
                     </form>
                     <div id="results">
-                        <ResultsGerman errorMessage={this.state.errorGerman} />
-                        {this.toggleBtnsGerman()}
+                        <ResultsGerman results={this.state.resultsGerman} errorMessage={this.state.errorGerman} />
+                        {this.state.resultsGerman.length > 5 ? <nav aria-label="Suchergebnisse">
+                            {this.toggleBtnsGerman()}</nav> : null}
                     </div>
                 </section>
                 :
                 <section id="search">
-                    <h1 className="h1-font-size">Sökresultat</h1>
+                    <h1 id="main" className="h1-font-size">Sökresultat</h1>
                     <form role="search">
+                        <label htmlFor="search-bar-main">Sök på webbplatsen</label>
                         <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus 
-                            focus-invisible-input regular-font-size" type="search" aria-label="Sök på webbplatsen" 
-                            aria-required="true" aria-describedby="number-of-results search-phrase-empty"
-                            autoComplete='on' onChange={this.handleSearchChange}></input>
+                            focus-invisible-input regular-font-size" type="search" aria-required="true" 
+                            aria-describedby="number-of-results search-phrase-empty" autoComplete='on' 
+                            onChange={this.handleSearchChange}></input>
                         <button className="search-btn search-btn-mobile btn svenska focus focus-invisible-input regular-font-size" 
                             type="submit" onClick={this.handleSubmit}>Sök</button>
                         <p id="number-of-results" className="number-of-results regular-font-size" role="alert" 
@@ -121,8 +121,9 @@ class Search extends React.Component {
                             {this.state.searchErrorSwedish}</p>
                     </form>
                     <div id="results">
-                        <ResultsSwedish errorMessage={this.state.errorSwedish} />
-                        {this.toggleBtnsSwedish()}
+                        <ResultsSwedish results={this.state.resultsSwedish} errorMessage={this.state.errorSwedish} />
+                        {this.state.resultsSwedish.length > 5 ? <nav aria-label="Sökresultat">
+                            {this.toggleBtnsSwedish()}</nav> : null}
                     </div>
                 </section>
                 }
@@ -236,7 +237,6 @@ class Search extends React.Component {
                 }
 
                 this.setState({
-                    error:                false,
                     resultsSwedish:       resultsSwedish,
                     resultsGerman:        resultsGerman,
                     numberOfPagesSwedish: numberOfPagesSwedish,
@@ -323,20 +323,20 @@ class Search extends React.Component {
                 if (i == 1) {
                     if (localStorage.getItem('activeSearchPageGerman') == 1 || !localStorage.getItem('activeSearchPageGerman')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeSearchPageGerman') != i || !localStorage.getItem('activeSearchPageGerman')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeSearchPageGerman')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }
             }
@@ -353,20 +353,20 @@ class Search extends React.Component {
                 if (i == 1) {
                     if (localStorage.getItem('activeSearchPageSwedish') == 1 || !localStorage.getItem('activeSearchPageSwedish')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeSearchPageSwedish') != i || !localStorage.getItem('activeSearchPageSwedish')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeSearchPageSwedish')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     }
                 }
@@ -438,21 +438,6 @@ class Search extends React.Component {
                 index:      (id - 1) * 5,
                 activePage: id,
             })
-        }
-    }
-
-    handleLinkClick(e) {
-        if (e.target.id.indexOf('test') >= 0) {
-            localStorage.setItem('serviceId', e.target.id.slice(4));
-
-        } else if (e.target.id.indexOf('solution') >= 0) {
-            localStorage.setItem('serviceId', e.target.id.slice(8));
-
-        } else if (e.target.id.indexOf('course') >= 0) {
-            localStorage.setItem('serviceId', e.target.id.slice(6));
-        
-        } else if (e.target.id.indexOf('post') >= 0) {
-            localStorage.setItem('postId', e.target.id.slice(4)); 
         }
     }
 

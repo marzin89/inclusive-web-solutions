@@ -337,6 +337,22 @@ header {
   }
 }
 
+#skip-to-content-wrapper {
+  position: absolute;
+  width: 100%;
+  top: -10000px;
+  left: 0;
+  background-color: #2A7373;
+  padding: 5px 0;
+  text-align: center;
+}
+
+#skip-to-content {
+  font-size: 1.125em;
+  font-weight: bold;
+  color: white;
+}
+
 #logo {
   display: block;
 }
@@ -365,17 +381,30 @@ header {
   background-color: #2A7373;
   padding: 10px;
 }
+#search-mobile form label {
+  position: absolute;
+  bottom: 10000px;
+}
 
 #search-wrapper-desktop {
   display: none;
   overflow: auto;
   padding: 10px 0;
 }
+#search-wrapper-desktop form label {
+  position: absolute;
+  bottom: 10000px;
+}
 @media only screen and (min-width: 1040px) {
   #search-wrapper-desktop {
     display: block;
     width: 100%;
   }
+}
+
+#search form label {
+  position: absolute;
+  bottom: 2000px;
 }
 
 #nav-language-wrapper-desktop {
@@ -590,6 +619,8 @@ h1, .h2-admin {
 
 .h2-error {
   font-size: 1.25em;
+  font-weight: bold;
+  color: #3D5858;
   max-width: 600px;
   margin: 5px auto;
 }
@@ -598,7 +629,7 @@ h1, .h2-admin {
   margin-left: 0;
 }
 
-#h1-services {
+#services h1 {
   max-width: 1280px;
 }
 
@@ -1146,7 +1177,8 @@ footer {
   list-style-type: none;
 }
 #subnav li {
-  height: 35px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   border: 1px solid #2A7373;
 }
 @media only screen and (min-width: 1040px) {

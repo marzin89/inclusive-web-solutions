@@ -15,15 +15,17 @@ class Header extends React.Component {
         super(props);
 
         // Binder this till funktionerna
-        this.setState              = this.setState.bind(this);
-        this.handleSearchIconClick = this.handleSearchIconClick.bind(this);
-        this.handleNavIconClick    = this.handleNavIconClick.bind(this);
-        this.handleCloseNav        = this.handleCloseNav.bind(this);
-        this.handleCloseSearch     = this.handleCloseSearch.bind(this);
-        this.handleLanguageChange  = this.handleLanguageChange.bind(this);
-        this.handlePageTitle       = this.handlePageTitle.bind(this);
-        this.handleSearchChange    = this.handleSearchChange.bind(this)
-        this.validateSearch        = this.validateSearch.bind(this);
+        this.setState               = this.setState.bind(this);
+        this.handleSkipLinkFocus    = this.handleSkipLinkFocus.bind(this);
+        this.handleSkipLinkFocusout = this.handleSkipLinkFocusout.bind(this);
+        this.handleSearchIconClick  = this.handleSearchIconClick.bind(this);
+        this.handleNavIconClick     = this.handleNavIconClick.bind(this);
+        this.handleCloseNav         = this.handleCloseNav.bind(this);
+        this.handleCloseSearch      = this.handleCloseSearch.bind(this);
+        this.handleLanguageChange   = this.handleLanguageChange.bind(this);
+        this.handlePageTitle        = this.handlePageTitle.bind(this);
+        this.handleSearchChange     = this.handleSearchChange.bind(this)
+        this.validateSearch         = this.validateSearch.bind(this);
 
         this.state = {
             signedIn:           this.props.signedIn,
@@ -39,6 +41,11 @@ class Header extends React.Component {
             <header>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <div id="header-wrapper" tabIndex={-1}>
+                    <div id="skip-to-content-wrapper">
+                        <a id="skip-to-content" className="focus focus-invisible regular-font-size" href="#main" 
+                            onFocus={this.handleSkipLinkFocus} onBlur={this.handleSkipLinkFocusout}>
+                                Zum Inhalt springen</a>
+                    </div>
                     {/* Logotyp */}
                     <div id="header-left">
                         <Link id="logo" to={"/"} onClick={this.handlePageTitle} aria-label='Link zur Homepage' 
@@ -50,9 +57,10 @@ class Header extends React.Component {
                     <div id="header-right">
                         {/* Sökruta desktop */}
                         <div id="search-wrapper-desktop">
-                            <form id="search-form-desktop">
+                            <form id="search-form-desktop" role="search">
+                                <label htmlFor="search-bar">Website durchsuchen</label>
                                 <input id="search-bar" className="search-bar text-input input focus focus-invisible-input 
-                                    regular-font-size" type="search" aria-required="true" aria-label="Website durchsuchen"
+                                    regular-font-size" type="search" aria-required="true"
                                     aria-describedby="search-phrase-empty" autoComplete='on' onChange={this.handleSearchChange}></input>
                                 {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                                 <button className="search-btn btn deutsch focus focus-invisible-input regular-font-size" 
@@ -94,9 +102,10 @@ class Header extends React.Component {
                                 onClick={this.handleSearchIconClick}></input> 
                             {/* Sökruta mobil */}
                             <div id="search-mobile">
-                                <form id="search-form-mobile">
-                                    <input id="search-bar" className="search-bar search-bar-mobile text-input input focus focus-invisible-input 
-                                        regular-font-size" type="search" aria-label='Website durchsuchen' aria-required="true"
+                                <form id="search-form-mobile" role="search">
+                                    <label htmlFor="search-bar">Website durchsuchen</label>
+                                    <input id="search-bar" className="search-bar search-bar-mobile text-input input focus 
+                                        focus-invisible-input regular-font-size" type="search" aria-required="true"
                                         autoComplete='on' onChange={this.handleSearchChange}></input>
                                     {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                                     <button className="search-btn search-btn-mobile btn deutsch focus focus-invisible-input 
@@ -136,6 +145,11 @@ class Header extends React.Component {
                 </div>
                 :
                 <div id="header-wrapper" tabIndex={-1}>
+                    <div id="skip-to-content-wrapper">
+                        <a id="skip-to-content" className="focus focus-invisible regular-font-size" href="#main" 
+                            onFocus={this.handleSkipLinkFocus} onBlur={this.handleSkipLinkFocusout}>
+                                Gå till innehållet</a>
+                    </div>
                     {/* Logotyp */}
                     <div id="header-left">
                         <Link id="logo" to={"/"} onClick={this.handlePageTitle} 
@@ -147,10 +161,11 @@ class Header extends React.Component {
                     <div id="header-right">
                         {/* Sökruta desktop */}
                         <div id="search-wrapper-desktop">
-                            <form id="search-form-desktop">
-                                <input id="search-bar" className="search-bar text-input input focus focus-invisible-input regular-font-size" 
-                                    type="search" aria-label='Sök på webbplatsen' aria-required="true"
-                                    autoComplete='on' onChange={this.handleSearchChange}></input>
+                            <form id="search-form-desktop" role="search">
+                                <label htmlFor="search-bar">Sök på webbplatsen</label>
+                                <input id="search-bar" className="search-bar text-input input focus focus-invisible-input 
+                                    regular-font-size" type="search" aria-required="true" autoComplete='on' 
+                                    onChange={this.handleSearchChange}></input>
                                 {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                                 <button className="search-btn btn svenska focus focus-invisible-input regular-font-size" 
                                     type="submit" onClick={this.validateSearch}>Sök</button>
@@ -195,10 +210,11 @@ class Header extends React.Component {
                                 onClick={this.handleSearchIconClick}></input> 
                             {/* Sökruta mobil */}
                             <div id="search-mobile">
-                                <form id="search-form-mobile">
-                                    <input id="search-bar" className="search-bar search-bar-mobile text-input input focus focus-invisible-input 
-                                        regular-font-size" type="search" aria-label='Sök på webbplatsen' aria-required="true" 
-                                        autoComplete='on' onChange={this.handleSearchChange}></input>
+                                <form id="search-form-mobile" role="search">
+                                    <label htmlFor="search-bar">Sök på webbplatsen</label>
+                                    <input id="search-bar" className="search-bar search-bar-mobile text-input input focus 
+                                        focus-invisible-input regular-font-size" type="search" aria-required="true" autoComplete='on' 
+                                        onChange={this.handleSearchChange}></input>
                                     {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                                     <button className="search-btn search-btn-mobile btn svenska focus focus-invisible-input 
                                         regular-font-size" type="submit" onClick={this.validateSearch}>Sök</button>
@@ -255,11 +271,29 @@ class Header extends React.Component {
             document.documentElement.setAttribute('lang', 'sv');
         }
 
+        /*
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 1040) {
                 document.getElementById('main-nav-mobile').style.display = 'none';
             }
         })
+        */
+    }
+
+    handleSkipLinkFocus() {
+        document.getElementById('skip-to-content-wrapper').style.position = 'fixed';
+
+        if (window.innerWidth <= 1040) {
+            document.getElementById('skip-to-content-wrapper').style.top = '70px';
+        
+        } else {
+            document.getElementById('skip-to-content-wrapper').style.top = '125px';
+        }
+    }
+
+    handleSkipLinkFocusout() {
+        document.getElementById('skip-to-content-wrapper').style.position = 'absolute';
+        document.getElementById('skip-to-content-wrapper').style.top = '-10000px';
     }
 
     handleLanguageChange(e) {

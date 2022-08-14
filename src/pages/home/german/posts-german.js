@@ -28,10 +28,9 @@ class PostsGerman extends React.Component {
                 {this.state.posts ? this.renderPosts() : null}
                 <p className="error regular-font-size" role="alert" style={this.state.errorMessage ?
                     {display: 'block'} : {display: 'none'}}>{this.state.errorMessage}</p>
-                <button id="posts-btn" className="focus focus-invisible regular-font-size"
-                    aria-label="Seite Blog öffnen" onClick={() => window.open('/blog', '_self')} 
-                    style={this.state.errorMessage ? {display: 'none'} : {display: 'block'}}>
-                        Alle Posts</button>
+                <button id="posts-btn" role="link" className="focus focus-invisible regular-font-size"
+                    onClick={() => window.open('/blog', '_self')} style={this.state.errorMessage ? 
+                    {display: 'none'} : {display: 'block'}}>Alle Posts</button>
             </section>
         )
     }
@@ -76,6 +75,8 @@ class PostsGerman extends React.Component {
                     
                     }
                 });
+
+                localStorage.setItem('postsGerman', JSON.stringify(filterArr));
 
                 for (let i = 0; i < 3; i++) {
                     if (filterArr[i]) {

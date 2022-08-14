@@ -13,7 +13,6 @@ class TestsGerman extends React.Component {
 
         this.state = {
             tests:        [],
-            error:        false,
             errorMessage: '',
         }
 
@@ -72,7 +71,6 @@ class TestsGerman extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:        true,
                     errorMessage: 'Es wurden keine Tests gefunden.',
                 })
             
@@ -87,8 +85,9 @@ class TestsGerman extends React.Component {
                     }
                 });
 
+                localStorage.setItem('testsGerman', JSON.stringify(testArr));
+
                 this.setState({
-                    error: false,
                     tests: testArr,
                 })
             }
@@ -97,7 +96,6 @@ class TestsGerman extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {
             this.setState({
-                error:        true,
                 errorMessage: 'Ein Serverfehler ist aufgetreten. Es konnten keine Tests abgerufen werden.'
                                 + ' Versuchen Sie es später erneut.',
             })

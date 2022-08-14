@@ -8,15 +8,18 @@ class CommentFormSwedish extends React.Component {
 
         // Binder this till funktionerna
         this.setState                         = this.setState.bind(this);
-        this.getPost                          = this.getPost.bind(this);
+        // this.getPost                          = this.getPost.bind(this);
+        this.form                             = React.createRef();
         this.handleCommentChange              = this.handleCommentChange.bind(this);
         this.handleEmailChange                = this.handleEmailChange.bind(this);
         this.handleSignatureChange            = this.handleSignatureChange.bind(this);
         this.handleConsentChange              = this.handleConsentChange.bind(this);
+        /*
         this.validateComment                  = this.validateComment.bind(this);
         this.validateEmail                    = this.validateEmail.bind(this);
         this.validateSignature                = this.validateSignature.bind(this);
         this.validateConsent                  = this.validateConsent.bind(this);
+        */
         this.validateForm                     = this.validateForm.bind(this);
         this.handleSubmit                     = this.handleSubmit.bind(this);
         this.addComment                       = this.addComment.bind(this);
@@ -41,7 +44,7 @@ class CommentFormSwedish extends React.Component {
             confirmMessage:         '',
         }
 
-        this.getPost();
+        // this.getPost();
     }
 
     render() {
@@ -54,19 +57,19 @@ class CommentFormSwedish extends React.Component {
                     Formuläret innehåller {this.state.errorCountComment + this.state.errorCountEmailEmpty 
                         + this.state.errorCountEmailInvalid + this.state.errorCountSignature + 
                         this.state.errorCountConsent} fel</p>
-                <form>
+                <form ref={this.form}>
                     {/* Kommentar */}
                     <label htmlFor="comment" className="h3-font-size">Kommentar *</label>
                     <textarea id="comment" className="focus focus-invisible-input regular-font-size" name="comment"
                         aria-required="true" aria-describedby="comment-empty" autoComplete='on'
-                        onChange={this.handleCommentChange} onBlur={this.validateComment}></textarea>
+                        onChange={this.handleCommentChange}></textarea>
                     {/* Här skrivs ett felmeddelande om användaren inte har skrivit någon kommentar */}
                     <p id="comment-empty" className="regular-font-size error" role="alert" 
                             style={this.state.commentEmpty ? {display: 'block'} : {display: 'none'}}>
                                 {this.state.commentEmpty}</p>
                     <div className="row">
                         {/* E-post */}
-                        <div className="form-left" onBlur={this.validateEmail}>
+                        <div className="form-left">
                             <label htmlFor="email" className="h3-font-size">E-post *</label>
                             <input id="email" className="focus focus-invisible-input text-input text-input-main regular-font-size" 
                                 name="email" type="email" aria-required="true" aria-describedby="email-empty email-invalid" 
@@ -81,7 +84,7 @@ class CommentFormSwedish extends React.Component {
                                     {this.state.emailInvalid}</p>
                         </div>
                         {/* Signatur */}
-                        <div className="form-right" onBlur={this.validateSignature}>
+                        <div className="form-right">
                             <label htmlFor="signature" className="h3-font-size">Signatur *</label>
                             <input id="signature" className="focus focus-invisible-input text-input text-input-main regular-font-size" 
                                 name="phone" type="text" aria-required="true" aria-describedby="signature-empty"
@@ -94,8 +97,7 @@ class CommentFormSwedish extends React.Component {
                     {/* Samtycke */}
                     <p id="consent-heading" className="h3-font-size">Samtycke *</p>
                     <input id="consent" className="focus focus-invisible-input" type="checkbox" aria-required="true"
-                        aria-describedby="consent-empty" onChange={this.handleConsentChange} 
-                        onBlur={this.validateConsent}></input>  
+                        aria-describedby="consent-empty" onChange={this.handleConsentChange}></input>  
                     <label id="consent-label" htmlFor="consent" className="regular-font-size">
                         Jag samtycker till att mina personuppgifter behandlas i enlighet med IWS 
                         <a className="focus focus-invisible regular-font-size" href=""> integritetspolicy</a> 
@@ -110,11 +112,11 @@ class CommentFormSwedish extends React.Component {
                         <button type="submit" className="submit-btn focus focus-invisible regular-font-size" 
                             onClick={this.handleSubmit}>Skicka</button>
                         <p className="regular-font-size error" role="alert" 
-                            style={this.state.errorMessage != '' ? {display: 'block'} : 
-                            {display: 'none'}}>{this.state.errorMessage}</p>
+                            style={this.props.errorMessage != '' ? {display: 'block'} : 
+                            {display: 'none'}}>{this.props.errorMessage}</p>
                         <p className="regular-font-size confirm" role="alert" 
-                            style={this.state.confirmMessage != '' ? {display: 'block'} : 
-                            {display: 'none'}}>{this.state.confirmMessage}</p>
+                            style={this.props.confirmMessage != '' ? {display: 'block'} : 
+                            {display: 'none'}}>{this.props.confirmMessage}</p>
                     </div>
                 </form>
             </section>
@@ -216,6 +218,7 @@ class CommentFormSwedish extends React.Component {
         }
     }
 
+    /*
     validateComment(e) {
         if (!e.target.value) {
             this.setState({
@@ -223,7 +226,7 @@ class CommentFormSwedish extends React.Component {
                 commentEmpty:      'Du måste skriva en kommentar.',
             })
 
-            localStorage.setItem('error', true);
+            
             e.target.setAttribute('aria-invalid', true);
         }
     }
@@ -239,7 +242,7 @@ class CommentFormSwedish extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             if (e.target.value.indexOf('@') < 1) {
@@ -252,7 +255,7 @@ class CommentFormSwedish extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             }
         }
     }
@@ -266,7 +269,6 @@ class CommentFormSwedish extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true)
         }
     }
 
@@ -278,9 +280,10 @@ class CommentFormSwedish extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
+    */
 
     validateForm() {
         const comment   = document.getElementById('comment');
@@ -296,7 +299,7 @@ class CommentFormSwedish extends React.Component {
             })
 
             comment.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -317,7 +320,7 @@ class CommentFormSwedish extends React.Component {
             })
 
             email.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             if (email.value.indexOf('@') < 1) {
@@ -331,7 +334,7 @@ class CommentFormSwedish extends React.Component {
                 })
 
                 email.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);   
+                   
             
             } else {
                 this.setState({
@@ -353,7 +356,6 @@ class CommentFormSwedish extends React.Component {
             })
 
             signature.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true)
         
         } else {
             this.setState({
@@ -372,7 +374,7 @@ class CommentFormSwedish extends React.Component {
             })
 
             consent.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -391,24 +393,28 @@ class CommentFormSwedish extends React.Component {
                     error: false,
                 })
     
-                localStorage.removeItem('error');
+                
+                return true;
+            
+            } else {
+                return false;
             }
+        
+        } else {
+            return false;
         }
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        this.validateForm();
 
         const comment   = document.getElementById('comment');
         const email     = document.getElementById('email');
         const signature = document.getElementById('signature');
-        const consent   = document.getElementById('consent');
 
-        if (!localStorage.getItem('error')) {
-            let comments = this.props.comments;
+        if (this.validateForm()) {
+            // let comments = this.props.comments;
 
-            let id;
             let content = [];
 
             if (comment.value.indexOf('\n\n') >= 0) {
@@ -418,6 +424,7 @@ class CommentFormSwedish extends React.Component {
                 content.push(comment.value);
             }
 
+            /*
             if (comments.length) {
                 comments.sort((a, b) => {
                     return a.id - b.id;
@@ -428,13 +435,11 @@ class CommentFormSwedish extends React.Component {
             } else {
                 id = 1;
             }
+            */
 
             let date = new Date();
-            let body;
-
-            if (!localStorage.getItem('response')) {
-                body = {
-                    id:         id,
+            let body = {
+                    id:         0,
                     author:     signature.value,
                     email:      email.value,
                     content:    content,
@@ -447,23 +452,8 @@ class CommentFormSwedish extends React.Component {
                     updated:    date.toLocaleString(),
                 }
             
-            } else {
-                body = {
-                    id:         id,
-                    author:     signature.value,
-                    email:      email.value,
-                    content:    content,
-                    postId:     localStorage.getItem('postId'),
-                    postTitle:  localStorage.getItem('title'),
-                    responses:  false,
-                    published:  false,
-                    responseTo: localStorage.getItem('commentId'),
-                    date:       date.toLocaleString(),
-                    updated:    date.toLocaleString(),
-                }
-            }
-            
-            this.addComment(body);
+            this.props.function(body);
+            this.form.current.reset();
         }
     }
 
@@ -477,9 +467,7 @@ class CommentFormSwedish extends React.Component {
         .then(() => {
             this.setState({
                 confirmMessage: 'Din kommentar har skickats.',
-            })
-
-            setTimeout(() => window.location.reload(), 3000);
+            });
         })
         .catch(() => {
             this.setState({
@@ -487,8 +475,6 @@ class CommentFormSwedish extends React.Component {
                                 'Det gick inte att skicka kommentaren. Försök igen senare.',
             })
         })
-
-        localStorage.removeItem('response');
     }
 
     // Funktionen hämtar alla publicerade inlägg

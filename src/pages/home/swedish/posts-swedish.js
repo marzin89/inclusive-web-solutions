@@ -14,7 +14,6 @@ class PostsSwedish extends React.Component {
 
         this.state = {
             posts:        [],
-            error:        false,
             errorMessage: '',
         }
 
@@ -28,10 +27,9 @@ class PostsSwedish extends React.Component {
                 {this.state.posts ? this.renderPosts() : null}
                 <p className="error regular-font-size" role="alert" style={this.state.errorMessage ?
                     {display: 'block'} : {display: 'none'}}>{this.state.errorMessage}</p>
-                <button id="posts-btn" className="focus focus-invisible regular-font-size"
-                    aria-label="Öppnar sidan Blogg" onClick={() => window.open('/blog', '_self')} 
-                    style={this.state.errorMessage ? {display: 'none'} : {display: 'block'}}>
-                        Alla inlägg</button>
+                <button id="posts-btn" role="link" className="focus focus-invisible regular-font-size"
+                    onClick={() => window.open('/blog', '_self')} style={this.state.errorMessage ? 
+                    {display: 'none'} : {display: 'block'}}>Alla inlägg</button>
             </section>
         )
     }
@@ -76,6 +74,8 @@ class PostsSwedish extends React.Component {
                     
                     }
                 });
+
+                localStorage.setItem('postsSwedish', JSON.stringify(filterArr));
 
                 for (let i = 0; i < 3; i++) {
                     if (filterArr[i]) {

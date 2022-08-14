@@ -13,7 +13,6 @@ class CoursesGerman extends React.Component {
 
         this.state = {
             courses:    [],
-            error:        false,
             errorMessage: '',
         }
 
@@ -72,7 +71,6 @@ class CoursesGerman extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:        true,
                     errorMessage: 'Es wurden keine Kurse gefunden.',
                 })
             
@@ -86,8 +84,9 @@ class CoursesGerman extends React.Component {
                     }
                 });
 
+                localStorage.setItem('coursesGerman', JSON.stringify(courseArr));
+
                 this.setState({
-                    error: false,
                     courses: courseArr,
                 })
             }
@@ -96,7 +95,6 @@ class CoursesGerman extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {
             this.setState({
-                error:        true,
                 errorMessage: 'Ein Serverfehler ist aufgetreten. Es konnten keine Kurse abgerufen werden.'
                                 + ' Versuchen Sie es später erneut.',
             })

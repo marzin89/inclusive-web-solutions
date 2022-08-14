@@ -31,10 +31,6 @@ class App extends React.Component {
 
     // Binder this till funktionerna
     this.setState            = this.setState.bind(this);
-    this.getPosts            = this.getPosts.bind(this);
-    this.getSolutions        = this.getSolutions.bind(this);
-    this.getCourses          = this.getCourses.bind(this);
-    this.getTests            = this.getTests.bind(this);
     this.loginCallback       = this.loginCallback.bind(this);
     this.logoutCallback      = this.logoutCallback.bind(this);
     this.languageCallback    = this.languageCallback.bind(this);
@@ -43,19 +39,10 @@ class App extends React.Component {
       signedIn:           sessionStorage.getItem('signedIn'),
       username:           sessionStorage.getItem('user'),
       permission:         localStorage.getItem('permission'),
-      posts:              [],
-      tests:              [],
-      solutions:          [],
-      courses:            [],
       error:              false,
       validationError:    '',
       serverError:        '',
     }
-
-    this.getPosts();
-    this.getTests();
-    this.getSolutions();
-    this.getCourses();
   }
   // Rendrering
   render() {
@@ -92,13 +79,13 @@ class App extends React.Component {
             <Route path="/search" element={<Search signedIn={this.state.signedIn}
               logout={this.logoutCallback} />} />
             <Route path="/post" element={<Post signedIn={this.state.signedIn} 
-              posts={this.state.posts} logout={this.logoutCallback} />} />
+              logout={this.logoutCallback} />} />
             <Route path="/test" element={<Test signedIn={this.state.signedIn} 
-              tests={this.state.tests} logout={this.logoutCallback} />} /> 
+              logout={this.logoutCallback} />} /> 
             <Route path="/solution" element={<Solution signedIn={this.state.signedIn} 
-              solutions={this.state.solutions} logout={this.logoutCallback} />} />
+              logout={this.logoutCallback} />} />
             <Route path="/course" element={<Course signedIn={this.state.signedIn} 
-              courses={this.state.courses} logout={this.logoutCallback} />} /> 
+              logout={this.logoutCallback} />} /> 
             <Route path="*" element={<Home signedIn={this.state.signedIn}
               logout={this.logoutCallback} />} />
           </Routes>
@@ -170,157 +157,6 @@ class App extends React.Component {
       localStorage.removeItem('permission');
       localStorage.removeItem('component');
   }
-
-  // Funktionen hämtar alla publicerade inlägg
-  getPosts() {
-    /* GET-anrop till webbtjänsten */
-    fetch('https://iws-rest-api.herokuapp.com/posts')
-
-    // Konverterar svaret från JSON
-    .then(response => response.json())
-
-    // Skriver ut ett felmeddelande om inga inlägg hittades
-    .then(data => {
-        if (!data.length) {
-            localStorage.setItem('errorPosts', 'Inga inlägg hittades.');
-
-            this.setState({
-                error:      true,
-                errorPosts: 'Inga inlägg hittades.',
-            })
-        
-        // Lagrar inläggen i state-arrayen
-        } else {
-            localStorage.removeItem('errorPosts');
-            localStorage.setItem('posts', JSON.stringify(data));
-
-            this.setState({
-                error: false,
-                posts: data,
-            })
-        }
-    })
-
-    // Skriver ut ett felmeddelande om ett serverfel har uppstått
-    .catch(() => {
-        this.setState({             
-            error: true,
-        })
-    })
-}
-
-  // Funktionen hämtar alla tester
-  getTests() {
-
-    // GET-anrop till webbtjänsten
-    fetch('https://iws-rest-api.herokuapp.com/tests')
-
-    // Konverterar svaret från JSON
-    .then(response => response.json())
-
-    // Skriver ut ett felmeddelande om inga tester hittades
-    .then(data => {
-        if (!data.length) {
-            localStorage.setItem('errorServices', 'Inga tester hittades.');
-
-            this.setState({
-                error: true,
-            })
-        
-        // Lagrar testerna i state-arrayen
-        } else {
-            localStorage.removeItem('errorServices');
-            localStorage.setItem('tests', JSON.stringify(data));
-
-            this.setState({
-                error: false,
-                tests: data,
-            })
-        }
-    })
-
-    // Skriver ut ett felmeddelande om ett serverfel har uppstått
-    .catch(() => { 
-        localStorage.setItem('errorServices', 'Ett serverfel har uppstått. Det gick inte att hämta tester.' 
-        + 'Försök igen lite senare.');
-
-        this.setState({
-            error: true,
-        })
-    })
-  }
-
-  // Funktionen hämtar alla anpassningar
-  getSolutions() {
-
-    // GET-anrop till webbtjänsten
-    fetch('https://iws-rest-api.herokuapp.com/solutions')
-
-    // Konverterar svaret från JSON
-    .then(response => response.json())
-
-    // Skriver ut ett felmeddelande om inga anpassningar hittades
-    .then(data => {
-        if (!data.length) {
-            localStorage.setItem('errorServices', 'Inga utvecklingspaket hittades.');
-
-            this.setState({
-                error: true,
-            })
-        
-        // Lagrar anpassningarna i state-arrayen
-        } else {
-            localStorage.removeItem('errorServices');
-            localStorage.setItem('solutions', JSON.stringify(data));
-
-            this.setState({
-                error:     false,
-                solutions: data,
-            })
-        }
-    })
-
-    // Skriver ut ett felmeddelande om ett serverfel har uppstått
-    .catch(() => { 
-        localStorage.setItem('errorServices', 'Ett serverfel har uppstått. Det gick inte att hämta utvecklingspaket.' 
-        + 'Försök igen lite senare.');
-
-        this.setState({
-            error: true,
-        })
-    })
-}
-
-// Funktionen hämtar alla utbildningar
-getCourses() {
-
-  // GET-anrop till webbtjänsten om användaren har tryckt på Utbildningar
-  fetch('https://iws-rest-api.herokuapp.com/courses')
-
-  // Konverterar svaret från JSON
-  .then(response => response.json())
-
-  // Skriver ut ett felmeddelande om inga utbildningar hittades
-  .then(data => {
-      if (!data.length) {
-          localStorage.setItem('errorCourses', 'Inga utbildningar hittades.');
-
-          this.setState({
-              error: true,
-          })
-      
-      // Lagrar utbildningarna i state-arrayen
-      } else {
-          localStorage.removeItem('errorCourses');
-          localStorage.setItem('courses', JSON.stringify(data));
-
-          this.setState({
-              error:   false,
-              courses: data,
-          })
-      }
-  })
-}
 }
 
 // Exporterar komponenten

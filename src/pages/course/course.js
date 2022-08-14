@@ -10,24 +10,33 @@ import { Link } from 'react-router-dom';
 class Course extends React.Component {
 
     // Konstruktor
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         // Binder this till funktionerna
-        this.getName      = this.getName.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
 
-        this.state = {
-            courses: this.props.courses,
+        const id = localStorage.getItem('serviceId');
+        let courses = [];
+
+        if (localStorage.getItem('language') == 'Deutsch') {
+            courses = JSON.parse(localStorage.getItem('coursesGerman'));
+
+        } else {
+            courses = JSON.parse(localStorage.getItem('coursesSwedish'));
         }
 
-        this.getName();
+        courses.map((course) => {
+            if (course.id == id) {
+                localStorage.setItem('name', course.name);
+            }
+        })
     }
 
     // Rendrering
     render() {
         return (
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     {localStorage.getItem('language') == 'Deutsch' ?
@@ -62,8 +71,8 @@ class Course extends React.Component {
                         <NavbarSwedish />}
                     <div id="subpage-right">
                         {localStorage.getItem('language') == 'Deutsch' ? 
-                            <CourseGerman courses={this.state.courses} /> : 
-                            <CourseSwedish courses={this.state.courses} />}
+                            <CourseGerman /> : 
+                            <CourseSwedish />}
                     </div>
                 </div>  
             </main>
@@ -71,21 +80,29 @@ class Course extends React.Component {
     }
 
     componentDidMount() {
+        // const id  = localStorage.getItem('serviceId');
+        // let courses = [];
         let title = localStorage.getItem('name');
+
+        /*
+        if (localStorage.getItem('language') == 'Deutsch') {
+            courses = JSON.parse(localStorage.getItem('coursesGerman'));
+
+        } else {
+            courses = JSON.parse(localStorage.getItem('coursesSwedish'));
+        }
+
+        courses.map((course) => {
+            if (course.id == id) {
+                localStorage.setItem('name', course.name);
+                title = course.name;
+            }
+        })
+        */
 
         localStorage.setItem('pageSwedish', title);
         localStorage.setItem('pageGerman', title);
         document.title = title;
-    }
-
-    getName() {
-        const id = localStorage.getItem('serviceId');
-
-        this.props.courses.map((course) => {
-            if (course.id == id) {
-                localStorage.setItem('name', course.name);
-            }
-        })
     }
 
     // Utloggning

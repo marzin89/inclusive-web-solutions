@@ -22,7 +22,6 @@ class Blog extends React.Component {
         this.handleLogout       = this.handleLogout.bind(this);
 
         this.state = {
-            signedIn:             this.props.signedIn,
             postsSwedish:         [],
             postsGerman:          [],
             numberOfPagesSwedish: 0,
@@ -30,7 +29,6 @@ class Blog extends React.Component {
             index:                0,
             activePage:           1,
             page:                 [],
-            error:                false,
             errorSwedish:         '',
             errorGerman:          '',
         }
@@ -49,7 +47,7 @@ class Blog extends React.Component {
     // Rendrering
     render() {
         return (
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     {localStorage.getItem('language') == 'Deutsch' ?
@@ -77,17 +75,19 @@ class Blog extends React.Component {
                 </div>
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="blog">
-                    <h1 id="h1-blog" className="h1-font-size">Blog</h1>
+                    <h1 id="main" className="h1-font-size">Blog</h1>
                     <PostsGerman />
-                    {this.toggleBtnsGerman()}
+                    {this.state.postsGerman.length > 5 ? <nav aria-label="Blog-Posts">
+                        {this.toggleBtnsGerman()}</nav> : null}
                     <p className="error regular-font-size" role="alert" style={this.state.errorGerman ?
                         {display: 'block'} : {display: 'none'}}>{this.state.errorGerman}</p>
                 </section>
                 :
                 <section id="blog">
-                    <h1 id="h1-blog" className="h1-font-size">Blogg</h1>
+                    <h1 id="main" className="h1-font-size">Blogg</h1>
                     <PostsSwedish />
-                    {this.toggleBtnsSwedish()}
+                    {this.state.postsSwedish.length > 5 ? <nav aria-label="Blogginlägg">
+                        {this.toggleBtnsSwedish()}</nav> : null}
                     <p className="error regular-font-size" role="alert" style={this.state.errorSwedish ?
                         {display: 'block'} : {display: 'none'}}>{this.state.errorSwedish}</p>
                 </section>}
@@ -120,7 +120,6 @@ class Blog extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:        true,
                     errorSwedish: 'Inga inlägg hittades.',
                     errorGerman:  'Es wurden keine Posts gefunden.',
                 })
@@ -141,6 +140,9 @@ class Blog extends React.Component {
                         postArrGerman.push(post);
                     }
                 });
+
+                localStorage.setItem('postsSwedish', JSON.stringify(postArrSwedish));
+                localStorage.setItem('postsGerman', JSON.stringify(postArrGerman));
 
                 if (postArrSwedish.length && postArrSwedish.length <= 5) {
                     numberOfPagesSwedish = 1;
@@ -167,7 +169,6 @@ class Blog extends React.Component {
                 }
 
                 this.setState({
-                    error:                false,
                     postsSwedish:         postArrSwedish,
                     postsGerman:          postArrGerman,
                     numberOfPagesSwedish: numberOfPagesSwedish,
@@ -176,7 +177,6 @@ class Blog extends React.Component {
 
                 if (!postArrGerman.length) {
                     this.setState({
-                        error:       true,
                         errorGerman: 'Diese Seite ist leider nicht auf Deutsch verfügbar.',
                     })
                 }
@@ -203,20 +203,20 @@ class Blog extends React.Component {
                 if (i == 1) {
                     if (localStorage.getItem('activeBlogPageGerman') == 1 || !localStorage.getItem('activeBlogPageGerman')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeBlogPageGerman') != i || !localStorage.getItem('activeBlogPageGerman')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Seite ${i} öffnen`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeBlogPageGerman')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Seite ${i} öffnen`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }
             }
@@ -233,20 +233,20 @@ class Blog extends React.Component {
                 if (i == 1) {
                     if (localStorage.getItem('activeBlogPageSwedish') == 1 || !localStorage.getItem('activeBlogPageSwedish')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 } else {
                     if (localStorage.getItem('activeBlogPageSwedish') != i || !localStorage.getItem('activeBlogPageSwedish')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn inactive-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="false" onClick={this.handleBtnClick}>{i}</button>);
                     
                     } else if (i == localStorage.getItem('activeBlogPageSwedish')) {
                         buttons.push(<button key={i} id={`btn${i}`} className="focus focus-invisible-btns toggle-btn active-toggle-btn h3-font-size"
-                        aria-label={`Öppnar sida ${i}`} aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
+                        aria-pressed="true" onClick={this.handleBtnClick}>{i}</button>);
                     }
                 }
             }

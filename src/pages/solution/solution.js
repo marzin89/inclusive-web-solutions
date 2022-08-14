@@ -9,24 +9,33 @@ import { Link } from 'react-router-dom';
 // Anpassning
 class Solution extends React.Component {
     // Konstruktor
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         // Binder this till funktionerna
-        this.getName      = this.getName.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
 
-        this.state = {
-            solutions: this.props.solutions,
+        const id = localStorage.getItem('serviceId');
+        let solutions = [];
+
+        if (localStorage.getItem('language') == 'Deutsch') {
+            solutions = JSON.parse(localStorage.getItem('solutionsGerman'));
+
+        } else {
+            solutions = JSON.parse(localStorage.getItem('solutionsSwedish'));
         }
 
-        this.getName();
+        solutions.map((solution) => {
+            if (solution.id == id) {
+                localStorage.setItem('name', solution.name);
+            }
+        })
     }
 
     // Rendrering
     render() {
         return (
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     {localStorage.getItem('language') == 'Deutsch' ?
@@ -61,8 +70,8 @@ class Solution extends React.Component {
                         <NavbarSwedish />}
                     <div id="subpage-right">
                         {localStorage.getItem('language') == 'Deutsch' ? 
-                            <SolutionGerman solutions={this.state.solutions} /> :
-                            <SolutionSwedish solutions={this.state.solutions} />}
+                            <SolutionGerman /> :
+                            <SolutionSwedish />}
                     </div>
                 </div>  
             </main>
@@ -70,21 +79,29 @@ class Solution extends React.Component {
     }
     
     componentDidMount() {
+        // const id  = localStorage.getItem('serviceId');
+        // let solutions = [];
         let title = localStorage.getItem('name');
+
+        /*
+        if (localStorage.getItem('language') == 'Deutsch') {
+            solutions = JSON.parse(localStorage.getItem('solutionsGerman'));
+
+        } else {
+            solutions = JSON.parse(localStorage.getItem('solutionsSwedish'));
+        }
+
+        solutions.map((solution) => {
+            if (solution.id == id) {
+                localStorage.setItem('name', solution.name);
+                title = solution.name;
+            }
+        })
+        */
 
         localStorage.setItem('pageSwedish', title);
         localStorage.setItem('pageGerman', title);
         document.title = title;
-    }
-
-    getName() {
-        const id = localStorage.getItem('serviceId');
-
-        this.props.solutions.map((solution) => {
-            if (solution.id == id) {
-                localStorage.setItem('name', solution.name);
-            }
-        })
     }
 
     // Utloggning

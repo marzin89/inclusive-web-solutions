@@ -92,7 +92,7 @@ class Admin extends React.Component {
     // Rendrering
     render() {
         return (
-            <main id="main">
+            <main>
                 <div className="row">
                     {/* Länkstig */}
                     <nav className="breadcrumbs" aria-label="Länkstig">
@@ -107,7 +107,7 @@ class Admin extends React.Component {
                 <h1>Admin</h1>
                 {/* Huvudmenyns utseende varierar beroende på användarens behörighet */}
                 {this.state.userRole == 'Medarbetare' ?
-                <div className="admin-menu">
+                <nav className="admin-menu" aria-label="Adminmeny">
                     <p>Här kan du administrera 
                     webbplatsens innehåll. Välj kategori
                     med hjälp av knapparna nedan. 
@@ -116,68 +116,44 @@ class Admin extends React.Component {
                     {/* Medarbetare */}
                     <div className="row">
                         {localStorage.getItem('component') == 'tests' ? 
-                        <button id="tests" className="focus btn active-admin-btn admin-btn-left" 
-                            aria-label="Visar formuläret för tester samt befintliga tester" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Tester</button> :
+                        <button id="tests" className="focus btn active-admin-btn admin-btn-left"  
+                            aria-pressed="true" onClick={this.handleBtnClick}>Tester</button> :
                         <button id="tests" className="focus btn admin-btn admin-btn-left" 
-                            aria-label="Visar formuläret för tester samt befintliga tester" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Tester</button>}
+                            aria-pressed="false" onClick={this.handleBtnClick}>Tester</button>}
                         {localStorage.getItem('component') == 'solutions' ?
                         <button id="solutions" className="focus btn active-admin-btn admin-btn-right" 
-                            aria-label="Visar formuläret för utvecklingspaket samt befintliga utvecklingspaket"
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Utveckling</button> :
+                            aria-pressed="true" onClick={this.handleBtnClick}>Utveckling</button> :
                         <button id="solutions" className="focus btn admin-btn admin-btn-right" 
-                            aria-label="Visar formuläret för utvecklingspaket samt befintliga utvecklingspaket"
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Utveckling</button>}
+                            aria-pressed="false" onClick={this.handleBtnClick}>Utveckling</button>}
                     </div>
                     <div className="row">
                         {localStorage.getItem('component') == 'courses' ?
                         <button id="courses" className="focus btn active-admin-btn admin-btn-left" 
-                            aria-label="Visar formuläret för utbildningar samt befintliga utbildningar"
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Utbildningar</button> :
+                            aria-pressed="true" onClick={this.handleBtnClick}>Utbildningar</button> :
                         <button id="courses" className="focus btn admin-btn admin-btn-left" 
-                            aria-label="Visar formuläret för utbildningar samt befintliga utbildningar"
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Utbildningar</button>}
+                            aria-pressed="false" onClick={this.handleBtnClick}>Utbildningar</button>}
                         {localStorage.getItem('component') == 'posts' ?
                         <button id="posts" className="focus btn active-admin-btn admin-btn-right" 
-                            aria-label="Visar formuläret för inlägg samt befintliga inlägg"
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Inlägg</button> :
+                            aria-pressed="true" onClick={this.handleBtnClick}>Inlägg</button> :
                         <button id="posts" className="focus btn admin-btn admin-btn-right" 
-                            aria-label="Visar formuläret för inlägg samt befintliga inlägg"
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Inlägg</button>}
+                            aria-pressed="false" onClick={this.handleBtnClick}>Inlägg</button>}
                     </div>
                     <div className="row">
                         {localStorage.getItem('component') == 'comments' ?
-                        <button id="comments" className="focus btn active-admin-btn admin-btn-left" 
-                            aria-label="Visar befintliga kommentarer" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Kommentarer</button> :
+                        <button id="comments" className="focus btn active-admin-btn admin-btn-left"  
+                            aria-pressed="true" onClick={this.handleBtnClick}>Kommentarer</button> :
                         <button id="comments" className="focus btn admin-btn admin-btn-left" 
-                            aria-label="Visar befintliga kommentarer" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Kommentarer</button>}
+                            aria-pressed="false" onClick={this.handleBtnClick}>Kommentarer</button>}
                         {localStorage.getItem('component') == 'users' ?
                         <button id="users" className="focus btn active-admin-btn admin-btn-right" 
-                            aria-label="Visar formuläret för användare samt befintliga användare" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Användare</button> :
+                            aria-pressed="true" onClick={this.handleBtnClick}>Användare</button> :
                         <button id="users" className="focus btn admin-btn admin-btn-right" 
-                            aria-label="Visar formuläret för användare samt befintliga användare" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Användare</button>}
+                            aria-pressed="false" onClick={this.handleBtnClick}>Användare</button>}
                     </div>
-                </div> 
+                </nav> 
                 :
                 // Gästskribenter
-                <div className="admin-menu">
+                <nav className="admin-menu" aria-label="Adminmeny">
                     <p>Här kan du administrera 
                     webbplatsens innehåll. Välj kategori
                     med hjälp av knapparna nedan. 
@@ -186,14 +162,12 @@ class Admin extends React.Component {
 
                     {localStorage.getItem('component') == 'posts' ?
                         <button id="posts" className="focus btn active-admin-btn admin-btn-contributors 
-                            admin-btn-right" aria-label="Visar formuläret för inlägg samt befintliga inlägg"
-                            aria-pressed="false" onClick={this.handleBtnClick}>
+                            admin-btn-right" aria-pressed="true" onClick={this.handleBtnClick}>
                                 Inlägg</button> :
                         <button id="posts" className="focus btn admin-btn admin-btn-contributors admin-btn-right" 
-                            aria-label="Visar formuläret för inlägg samt befintliga inlägg"
                             aria-pressed="false" onClick={this.handleBtnClick}>
                                 Inlägg</button>}
-                </div>
+                </nav>
                 }
                 {/* Formulär för att lägga till och redigera tjänster, användare, inlägg och kommentarer.
                     Vilket formulär som visas beror på vilket val som gjorts i menyn ovan. 
@@ -238,7 +212,6 @@ class Admin extends React.Component {
         })
 
         localStorage.setItem('component', id);
-        localStorage.removeItem('error');
 
         for (let i = 0; i < buttons.length; i++) {
             if (e.target.id == buttons[i].id) {
@@ -262,6 +235,15 @@ class Admin extends React.Component {
             } else {
                 buttons[i].setAttribute('aria-pressed', false);
             }
+        }
+
+        if (!localStorage.getItem('component')) {
+            this.setState({
+                component: 'tests',
+            })
+
+            buttons[1].setAttribute('aria-pressed', true);
+            buttons[1].className = 'focus btn admin-btn admin-btn-left';
         }
     }
 
@@ -370,7 +352,7 @@ class Admin extends React.Component {
             // Lagrar utbildningarna i state-arrayen
             } else {
                 this.setState({
-                    courses:      data,
+                    courses: data,
                 })
             }
         })
@@ -405,7 +387,7 @@ class Admin extends React.Component {
             // Lagrar inläggen i state-arrayen
             } else {
                 this.setState({
-                    posts:      data,
+                    posts: data,
                 })
             }
         })
@@ -479,7 +461,7 @@ class Admin extends React.Component {
             // Lagrar användarna i state-arrayen
             } else {
                 this.setState({
-                    users:      data,
+                    users: data,
                 })
             }
         })
@@ -515,7 +497,7 @@ class Admin extends React.Component {
             // Lagrar kommentarerna i state-arrayen
             } else {
                 this.setState({
-                    comments:      data,
+                    comments: data,
                 })
             }
         })
@@ -526,7 +508,7 @@ class Admin extends React.Component {
             + 'Försök igen lite senare.');
 
             this.setState({
-                error:         true,
+                error: true,
             })
         })
     }
@@ -547,190 +529,182 @@ class Admin extends React.Component {
     /* Funktionen lägger till tester i databasen. De två efterföljande
         funktionerna har exakt samma struktur och flöde. */
     addTest(body) {
-        if (!localStorage.getItem('error')) {
-            if (this.state.tests.length) {
-                let testArr = this.state.tests;
-                testArr.sort((a, b) => {
-                    return a.id - b.id;
-                })
-
-                body.id = testArr[testArr.length - 1].id + 1;
-
-            } else {
-                body.id = 1;
-            }
-
-
-            fetch('https://iws-rest-api.herokuapp.com/tests/password/tbbA=!vYzT99*,;oGSi8', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json',},
-                body:    JSON.stringify(body),
+        if (this.state.tests.length) {
+            let testArr = this.state.tests;
+            testArr.sort((a, b) => {
+                return a.id - b.id;
             })
-            .then(response => response.json())
-            .then((data) => {
-                this.addSearch(body);
 
-                let testArr = this.state.tests;
-                testArr.push(data);
-                testArr.reverse();
+            body.id = testArr[testArr.length - 1].id + 1;
 
-                this.setState({
-                    tests:        testArr,
-                    confirm:      true,
-                    confirmTests: 'Testet har lagts till.',
-                })
-            })
-            .catch(() => {
-                this.setState({
-                    error:      true,
-                    errorTests: 'Ett serverfel har uppstått. Det gick inte att lägga till testet.' 
-                                    + ' Försök igen lite senare.',
-                })
-            })
+        } else {
+            body.id = 1;
         }
+
+
+        fetch('https://iws-rest-api.herokuapp.com/tests/password/tbbA=!vYzT99*,;oGSi8', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then((data) => {
+            this.addSearch(body);
+
+            let testArr = this.state.tests;
+            testArr.push(data);
+            testArr.reverse();
+
+            this.setState({
+                tests:        testArr,
+                confirm:      true,
+                confirmTests: 'Testet har lagts till.',
+            })
+        })
+        .catch(() => {
+            this.setState({
+                error:      true,
+                errorTests: 'Ett serverfel har uppstått. Det gick inte att lägga till testet.' 
+                                + ' Försök igen lite senare.',
+            })
+        })
     }
 
     addSolution(body) {
-        if (!localStorage.getItem('error')) {
-            if (this.state.solutions.length) {
-                let solutionArr = this.state.solutions;
-                solutionArr.sort((a, b) => {
-                    return a.id - b.id;
-                })
-
-                body.id = solutionArr[solutionArr.length - 1].id + 1;
-
-            } else {
-                body.id = 1;
-            }
-
-            fetch('https://iws-rest-api.herokuapp.com/solutions/password/tbbA=!vYzT99*,;oGSi8', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json',},
-                body:    JSON.stringify(body),
+        if (this.state.solutions.length) {
+            let solutionArr = this.state.solutions;
+            solutionArr.sort((a, b) => {
+                return a.id - b.id;
             })
-            .then(response => response.json())
-            .then((data) => {
-                this.addSearch(body);
 
-                let solutionArr = this.state.solutions;
-                solutionArr.push(data);
-                solutionArr.reverse();
+            body.id = solutionArr[solutionArr.length - 1].id + 1;
 
-                this.setState({
-                    confirm:          true,
-                    confirmSolutions: 'Utvecklingspaketet har lagts till.',
-                    solutions:        solutionArr,
-                })
-            })
-            .catch(() => {
-                this.setState({
-                    error:          true,
-                    errorSolutions: 'Ett serverfel har uppstått. Det gick inte att lägga till utvecklingspaketet.' 
-                                        + ' Försök igen lite senare.'
-                })
-            })
+        } else {
+            body.id = 1;
         }
+
+        fetch('https://iws-rest-api.herokuapp.com/solutions/password/tbbA=!vYzT99*,;oGSi8', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then((data) => {
+            this.addSearch(body);
+
+            let solutionArr = this.state.solutions;
+            solutionArr.push(data);
+            solutionArr.reverse();
+
+            this.setState({
+                confirm:          true,
+                confirmSolutions: 'Utvecklingspaketet har lagts till.',
+                solutions:        solutionArr,
+            })
+        })
+        .catch(() => {
+            this.setState({
+                error:          true,
+                errorSolutions: 'Ett serverfel har uppstått. Det gick inte att lägga till utvecklingspaketet.' 
+                                    + ' Försök igen lite senare.'
+            })
+        })
     }
 
     addCourse(body) {
-        if (!localStorage.getItem('error')) {
-            if (this.state.courses.length) {
-                let courseArr = this.state.courses;
-                courseArr.sort((a, b) => {
-                    return a.id - b.id;
-                })
-
-                body.id = courseArr[courseArr.length - 1].id + 1;
-
-            } else {
-                body.id = 1;
-            }
-
-            fetch('https://iws-rest-api.herokuapp.com/courses/password/tbbA=!vYzT99*,;oGSi8', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json',},
-                body:    JSON.stringify(body),
+        if (this.state.courses.length) {
+            let courseArr = this.state.courses;
+            courseArr.sort((a, b) => {
+                return a.id - b.id;
             })
-            .then(response => response.json())
-            .then((data) => {
-                this.addSearch(body);
 
-                let courseArr = this.state.courses;
-                courseArr.push(data);
-                courseArr.reverse();
+            body.id = courseArr[courseArr.length - 1].id + 1;
 
-                this.setState({
-                    confirm:        true,
-                    confirmCourses: 'Utbildningen har lagts till.',
-                    courses:        courseArr,
-                })
-            })
-            .catch(() => {
-                this.setState({
-                    error:        true,
-                    errorCourses: 'Ett serverfel har uppstått. Det gick inte att lägga till utbildningen.' 
-                                    + ' Försök igen lite senare.'
-                })
-            })
+        } else {
+            body.id = 1;
         }
+
+        fetch('https://iws-rest-api.herokuapp.com/courses/password/tbbA=!vYzT99*,;oGSi8', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then((data) => {
+            this.addSearch(body);
+
+            let courseArr = this.state.courses;
+            courseArr.push(data);
+            courseArr.reverse();
+
+            this.setState({
+                confirm:        true,
+                confirmCourses: 'Utbildningen har lagts till.',
+                courses:        courseArr,
+            })
+        })
+        .catch(() => {
+            this.setState({
+                error:        true,
+                errorCourses: 'Ett serverfel har uppstått. Det gick inte att lägga till utbildningen.' 
+                                + ' Försök igen lite senare.'
+            })
+        })
     }
 
     addPost(body) {
-        if (!localStorage.getItem('error')) {
-            if (this.state.posts.length) {
-                let postArr = this.state.posts;
-                postArr.sort((a, b) => {
-                    return a.id - b.id;
+        if (this.state.posts.length) {
+            let postArr = this.state.posts;
+            postArr.sort((a, b) => {
+                return a.id - b.id;
+            })
+
+            body.id = postArr[postArr.length - 1].id + 1;
+
+        } else {
+            body.id = 1;
+        }
+
+        fetch('https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then((data) => {
+            let postArr = [];
+
+            if (this.state.userRole == 'Medarbetare') {
+                postArr = this.state.posts;
+                postArr.push(data);
+                postArr.reverse();
+
+                this.setState({
+                    posts: postArr,
                 })
-
-                body.id = postArr[postArr.length - 1].id + 1;
-
+            
             } else {
-                body.id = 1;
+                postArr = this.state.userPosts;
+                postArr.push(data);
+                postArr.reverse();
+
+                this.setState({
+                    userPosts: postArr,
+                })
             }
 
-            fetch('https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json',},
-                body:    JSON.stringify(body),
+            this.setState({
+                confirm:      true,
+                confirmPosts: 'Inlägget har lagts till.',
             })
-            .then(response => response.json())
-            .then((data) => {
-                let postArr = [];
-
-                if (this.state.userRole == 'Medarbetare') {
-                    postArr = this.state.posts;
-                    postArr.push(data);
-                    postArr.reverse();
-
-                    this.setState({
-                        posts: postArr,
-                    })
-                
-                } else {
-                    postArr = this.state.userPosts;
-                    postArr.push(data);
-                    postArr.reverse();
-
-                    this.setState({
-                        userPosts: postArr,
-                    })
-                }
-
-                this.setState({
-                    confirm:      true,
-                    confirmPosts: 'Inlägget har lagts till.',
-                })
+        })
+        .catch(() => {
+            this.setState({
+                error:      true,
+                errorPosts: 'Ett serverfel har uppstått. Det gick inte att lägga till inlägget.' 
+                                + ' Försök igen lite senare.'
             })
-            .catch(() => {
-                this.setState({
-                    error:      true,
-                    errorPosts: 'Ett serverfel har uppstått. Det gick inte att lägga till inlägget.' 
-                                    + ' Försök igen lite senare.'
-                })
-            })
-        }
+        })
     }
 
     addUser(body) {
@@ -773,184 +747,176 @@ class Admin extends React.Component {
     }
 
     updateTest(id, body) {
-        if (!localStorage.getItem('error')) {
-            fetch(`https://iws-rest-api.herokuapp.com/tests/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json',},
-                body:    JSON.stringify(body),
-            })
-            .then(response => response.json())
-            .then((data) => {
-                this.updateSearch(body);
+        fetch(`https://iws-rest-api.herokuapp.com/tests/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then((data) => {
+            this.updateSearch(body);
 
-                localStorage.removeItem('action');
+            localStorage.removeItem('actionServices');
 
-                let testArr = this.state.tests;
+            let testArr = this.state.tests;
 
-                for (let i = 0; i < testArr.length; i++) {
-                    if (testArr[i].id == data.id) {
-                        testArr.splice(i, 1, data);
-                    }
+            for (let i = 0; i < testArr.length; i++) {
+                if (testArr[i].id == data.id) {
+                    testArr.splice(i, 1, data);
                 }
+            }
 
-                this.setState({
-                    confirm:      true,
-                    confirmTests: 'Testet har uppdaterats.',
-                    tests:        testArr,
-                })
+            this.setState({
+                confirm:      true,
+                confirmTests: 'Testet har uppdaterats.',
+                tests:        testArr,
             })
-            .catch(() => {
-                localStorage.removeItem('action');
+        })
+        .catch(() => {
+            localStorage.removeItem('actionServices');
 
-                this.setState({
-                    error:      true,
-                    errorTests: 'Ett serverfel har uppstått. Det gick inte att uppdatera testet.' 
-                                    + ' Försök igen lite senare.'
-                })
+            this.setState({
+                error:      true,
+                errorTests: 'Ett serverfel har uppstått. Det gick inte att uppdatera testet.' 
+                                + ' Försök igen lite senare.'
             })
-        }
+        })
     }
 
     updateSolution(id, body) {
-        if (!localStorage.getItem('error')) {
-            fetch(`https://iws-rest-api.herokuapp.com/solutions/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json',},
-                body:    JSON.stringify(body),
-            })
-            .then(response => response.json())
-            .then((data) => {
-                this.updateSearch(body);
+        fetch(`https://iws-rest-api.herokuapp.com/solutions/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then((data) => {
+            this.updateSearch(body);
 
-                localStorage.removeItem('action');
+            localStorage.removeItem('actionServices');
 
-                let solutionArr = this.state.solutions;
-                
-                for (let i = 0; i < solutionArr.length; i++) {
-                    if (solutionArr[i].id == data.id) {
-                        solutionArr.splice(i, 1, data);
-                    }
+            let solutionArr = this.state.solutions;
+            
+            for (let i = 0; i < solutionArr.length; i++) {
+                if (solutionArr[i].id == data.id) {
+                    solutionArr.splice(i, 1, data);
                 }
+            }
 
-                /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
-                    och uppdaterar sedan state-arrayen */
-                this.setState({
-                    confirm:          true,
-                    confirmSolutions: 'Utvecklingspaketet har uppdaterats.',
-                    solutions:        data,
-                })
+            /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
+                och uppdaterar sedan state-arrayen */
+            this.setState({
+                confirm:          true,
+                confirmSolutions: 'Utvecklingspaketet har uppdaterats.',
+                solutions:        data,
             })
-            .catch(() => {
-                localStorage.removeItem('action');
+        })
+        .catch(() => {
+            localStorage.removeItem('actionServices');
 
-                this.setState({
-                    error:          true,
-                    errorSolutions: 'Ett serverfel har uppstått. Det gick inte att uppdatera utvecklingspaketet.' 
-                                        + ' Försök igen lite senare.'
-                })
+            this.setState({
+                error:          true,
+                errorSolutions: 'Ett serverfel har uppstått. Det gick inte att uppdatera utvecklingspaketet.' 
+                                    + ' Försök igen lite senare.'
             })
-        }
+        })
     }
 
     updateCourse(id, body) {
-        if (!localStorage.getItem('error')) {
-            fetch(`https://iws-rest-api.herokuapp.com/courses/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json',},
-                body:    JSON.stringify(body),
-            })
-            .then(response => response.json())
-            .then((data) => {
-                this.updateSearch(body);
+        fetch(`https://iws-rest-api.herokuapp.com/courses/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then((data) => {
+            this.updateSearch(body);
 
-                localStorage.removeItem('action');
+            localStorage.removeItem('actionServices');
 
-                let courseArr = this.state.courses;
+            let courseArr = this.state.courses;
 
-                for (let i = 0; i < courseArr.length; i++) {
-                    if (courseArr[i].id == data.id) {
-                        courseArr.splice(i, 1, data);
-                    }
+            for (let i = 0; i < courseArr.length; i++) {
+                if (courseArr[i].id == data.id) {
+                    courseArr.splice(i, 1, data);
                 }
+            }
 
-                /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
-                    och uppdaterar sedan state-arrayen */
-                this.setState({
-                    courses:        courseArr,
-                    confirm:        true,
-                    confirmCourses: 'Utbildningen har uppdaterats.',
-                })
+            /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
+                och uppdaterar sedan state-arrayen */
+            this.setState({
+                courses:        courseArr,
+                confirm:        true,
+                confirmCourses: 'Utbildningen har uppdaterats.',
             })
-            .catch(() => {
-                localStorage.removeItem('action');
+        })
+        .catch(() => {
+            localStorage.removeItem('actionServices');
 
-                this.setState({
-                    error:        true,
-                    errorCourses: 'Ett serverfel har uppstått. Det gick inte att uppdatera utbildningen.' 
-                                    + ' Försök igen lite senare.'
-                })
+            this.setState({
+                error:        true,
+                errorCourses: 'Ett serverfel har uppstått. Det gick inte att uppdatera utbildningen.' 
+                                + ' Försök igen lite senare.'
             })
-        }
+        })
     }
 
     updatePost(id, body) {
-        if (!localStorage.getItem('error')) {
-            fetch(`https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json',},
-                body:    JSON.stringify(body),
-            })
-            .then(response => response.json())
-            .then((data) => {
-                if (body.published) {
-                    this.updateSearch(body);
+        fetch(`https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then((data) => {
+            if (body.published) {
+                this.updateSearch(body);
+            }
+
+            localStorage.removeItem('actionPosts');
+
+            let postArr = [];
+
+            if (this.state.userRole == 'Medarbetare') {
+                postArr = this.state.posts;
+            
+            } else {
+                postArr = this.state.userPosts;
+            }
+
+            for (let i = 0; i < postArr.length; i++) {
+                if (postArr[i].id == data.id) {
+                    postArr.splice(i, 1, data);
                 }
+            }
 
-                localStorage.removeItem('action');
-
-                let postArr = [];
-
-                if (this.state.userRole == 'Medarbetare') {
-                    postArr = this.state.posts;
-                
-                } else {
-                    postArr = this.state.userPosts;
-                }
-
-                for (let i = 0; i < postArr.length; i++) {
-                    if (postArr[i].id == data.id) {
-                        postArr.splice(i, 1, data);
-                    }
-                }
-
-                if (this.state.userRole == 'Medarbetare') {
-                    this.setState({
-                        posts: postArr,
-                    })
-                
-                } else {
-                    this.setState({
-                        userPosts: postArr,
-                    })
-                }
-
-                /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
-                    och uppdaterar sedan state-arrayen */
+            if (this.state.userRole == 'Medarbetare') {
                 this.setState({
-                    confirm:      true,
-                    confirmPosts: 'Inlägget har uppdaterats.',
+                    posts: postArr,
                 })
-            })
-            .catch(() => {
-                localStorage.removeItem('action');
-
+            
+            } else {
                 this.setState({
-                    error:      true,
-                    errorPosts: 'Ett serverfel har uppstått. Det gick inte att uppdatera inlägget.' 
-                                    + ' Försök igen lite senare.'
+                    userPosts: postArr,
                 })
+            }
+
+            /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
+                och uppdaterar sedan state-arrayen */
+            this.setState({
+                confirm:      true,
+                confirmPosts: 'Inlägget har uppdaterats.',
             })
-        }
+        })
+        .catch(() => {
+            localStorage.removeItem('actionPosts');
+
+            this.setState({
+                error:      true,
+                errorPosts: 'Ett serverfel har uppstått. Det gick inte att uppdatera inlägget.' 
+                                + ' Försök igen lite senare.'
+            })
+        })
     }
 
     updateUser(id, body) {
@@ -961,7 +927,7 @@ class Admin extends React.Component {
         })
         .then(response => response.json())
         .then((data) => {
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionUsers');
 
             let userArr = this.state.users;
 
@@ -980,7 +946,7 @@ class Admin extends React.Component {
             })
         })
         .catch(() => {
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionUsers');
 
             this.setState({
                 error:      true,
@@ -1013,7 +979,7 @@ class Admin extends React.Component {
         .then(() => {
             this.deleteSearch();
 
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionServices');
 
             let testArr = this.state.tests;
 
@@ -1030,7 +996,7 @@ class Admin extends React.Component {
             })
         })
         .catch(() => {
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionServices');
 
             this.setState({
                 error:      true,
@@ -1049,7 +1015,7 @@ class Admin extends React.Component {
         .then(() => {
             this.deleteSearch();
 
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionServices');
 
             let solutionArr = this.state.solutions;
 
@@ -1066,7 +1032,7 @@ class Admin extends React.Component {
             })
         })
         .catch(() => {
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionServices');
 
             this.setState({
                 error:          true,
@@ -1085,7 +1051,7 @@ class Admin extends React.Component {
         .then(() => {
             this.deleteSearch();
 
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionServices');
 
             let courseArr = this.state.courses;
 
@@ -1102,7 +1068,7 @@ class Admin extends React.Component {
             })
         })
         .catch(() => {
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionServices');
 
             this.setState({
                 error:        true,
@@ -1122,7 +1088,7 @@ class Admin extends React.Component {
                 this.deleteSearch();
             }
 
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionPosts');
 
             let postArr = [];
 
@@ -1156,7 +1122,7 @@ class Admin extends React.Component {
             })
         })
         .catch(() => {
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionPosts');
 
             this.setState({
                 error:      true,
@@ -1173,7 +1139,7 @@ class Admin extends React.Component {
         })
         .then(response => response.json())
         .then(() => {
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionUsers');
 
             let userArr = this.state.users;
 
@@ -1190,7 +1156,7 @@ class Admin extends React.Component {
             })
         })
         .catch(() => {
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionUsers');
 
             this.setState({
                 error:      true,
@@ -1206,8 +1172,6 @@ class Admin extends React.Component {
             headers: {'Content-Type': 'application/json',},
         })
         .then(() => {
-            localStorage.removeItem('action');
-
             let commentArr = this.state.comments;
 
             for (let i = 0; i < commentArr; i ++) {
@@ -1223,8 +1187,6 @@ class Admin extends React.Component {
             })
         })
         .catch(() => {
-            localStorage.removeItem('action');
-
             this.setState({
                 error:         true,
                 errorComments: 'Ett serverfel har uppstått. Det gick inte att radera kommentaren.' 
@@ -1255,7 +1217,7 @@ class Admin extends React.Component {
         .then(() => {
             this.addSearch(body);
 
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionPosts');
 
             let postArr = [];
 
@@ -1289,7 +1251,7 @@ class Admin extends React.Component {
             })
         })
         .catch(() => {
-            localStorage.removeItem('action');
+            localStorage.removeItem('actionPosts');
 
             this.setState({
                 error:      true,
@@ -1305,8 +1267,6 @@ class Admin extends React.Component {
             headers: {'Content-Type': 'application/json',},
         })
         .then(() => {
-            localStorage.removeItem('action');
-
             let commentArr = this.state.comments;
             
             for (let i = 0; i < commentArr.length; i++) {
@@ -1322,8 +1282,6 @@ class Admin extends React.Component {
             })
         })
         .catch(() => {
-            localStorage.removeItem('action');
-
             this.setState({
                 error:         true,
                 errorComments: 'Ett serverfel har uppstått. Det gick inte att publicera kommentaren.' 

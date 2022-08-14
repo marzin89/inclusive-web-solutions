@@ -1,7 +1,7 @@
 // Imports
 import React from 'react';
 
-class AccessibilitySwedish extends React.Component {
+class StaticSwedish extends React.Component {
     constructor(props) {
         super(props);
 
@@ -16,7 +16,7 @@ class AccessibilitySwedish extends React.Component {
     render() {
         return (
             <section id="accessibility">
-                <h1 className="h1-font-size">Om webbtillgänglighet</h1>
+                <h1 id="main" className="h1-font-size">Om webbtillgänglighet</h1>
                 <p className="body-text regular-font-size line-height">
                     Webbtillgänglighet innebär att 
                     webbplatser utformas så att de kan 
@@ -49,24 +49,19 @@ class AccessibilitySwedish extends React.Component {
                         Upplevelser säger mer än ord. 
                         Här kan du uppleva en otillgänglig webbplats.</p>
                         <button id="stop-btn" style={localStorage.getItem('accessibility-error') ?
-                            {display: 'block'} : {display: 'none'}}
-                            aria-label="Återställer webbplatsens tillgänglighet.
-                            Vid knapptryck visas en förklaring under den knapp som trycktes
-                            tidigare (Kontrast, Responsivitet, Tabbfokus eller 
-                            Teckenstorlek/radavstånd)." aria-haspopup="true" aria-controls="contrast-explanation
-                            responsivity-explanation tab-focus-explanation font-size-explanation"
-                            aria-expanded="false" onClick={this.handleBtnClick}>Avsluta</button>
+                            {display: 'block'} : {display: 'none'}} aria-haspopup="true"
+                            onClick={this.handleBtnClick}>Avsluta</button>
                     <h3 className="h3-accessibility h3-font-size">Kontrast</h3>
                     <p className="regular-font-size line-height">
                         Tryck på knappen för att uppleva 
                         webbplatsen med låg kontrast.</p>
                     {localStorage.getItem('accessibility-error') == 'contrast' ? 
                     <button id="contrast" className="focus focus-invisible-btns regular-font-size 
-                        btn active-accessibility-btn" aria-label="Aktiverar lågkontrastläget" aria-pressed="false" 
-                        aria-controls="stop-btn" onClick={this.handleBtnClick}>Kontrast</button> :
+                        btn active-accessibility-btn" aria-pressed="false" 
+                        onClick={this.handleBtnClick}>Kontrast</button> :
                     <button id="contrast" className="focus focus-invisible-btns regular-font-size btn 
-                        accessibility-btn" aria-label="Aktiverar lågkontrastläget" aria-pressed="false" 
-                        aria-controls="stop-btn" onClick={this.handleBtnClick}>Kontrast</button>}
+                        accessibility-btn" aria-pressed="false" 
+                        onClick={this.handleBtnClick}>Kontrast</button>}
                     <p id="contrast-explanation" className="explanation regular-font-size contrast
                         line-height">
                         Har du inte nedsatt syn, så kunde du
@@ -81,12 +76,10 @@ class AccessibilitySwedish extends React.Component {
                         du använder en desktop.</p>
                         {localStorage.getItem('accessibility-error') == 'responsiveness' ? 
                         <button id="responsiveness" className="focus focus-invisible-btns regular-font-size 
-                            btn active-accessibility-btn" aria-label="Avaktiverar webbplatsens responsivitet" 
-                            aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                            btn active-accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                                 Responsivitet</button> :
                         <button id="responsiveness" className="focus focus-invisible-btns regular-font-size 
-                            btn accessibility-btn" aria-label="Avaktiverar webbplatsens responsivitet" 
-                            aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                            btn accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                                 Responsivitet</button>}
                     <p id="responsivity-explanation" className="explanation regular-font-size responsiveness
                         line-height">
@@ -99,12 +92,10 @@ class AccessibilitySwedish extends React.Component {
                         Tryck på knappen och försök tabba igenom webbplatsen.</p>
                     {localStorage.getItem('accessibility-error') == 'tab-focus' ?
                     <button id="tab-focus" className="focus focus-invisible-btns regular-font-size 
-                        btn active-accessibility-btn" aria-label="Döljer fokus vid navigering med tabben" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn active-accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Tabbfokus</button> :
                     <button id="tab-focus" className="focus focus-invisible-btns regular-font-size 
-                        btn accessibility-btn" aria-label="Döljer fokus vid navigering med tabben" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Tabbfokus</button>}
                     <p id="tab-focus-explanation" className="explanation regular-font-size tab-focus
                         line-height">
@@ -119,12 +110,10 @@ class AccessibilitySwedish extends React.Component {
                         texten på webbplatsen (ctrl+).</p>
                     {localStorage.getItem('accessibility-error') == 'font-size' ?
                     <button id="font-size" className="focus focus-invisible-btns regular-font-size 
-                        btn active-accessibility-btn" aria-label="Minskar teckenstorleken och radavståndet" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn active-accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Teckenstorlek/radavstånd</button> :
                     <button id="font-size" className="focus focus-invisible-btns regular-font-size 
-                        btn accessibility-btn" aria-label="Minskar teckenstorleken och radavståndet" 
-                        aria-pressed="false" aria-controls="stop-btn" onClick={this.handleBtnClick}>
+                        btn accessibility-btn" aria-pressed="false" onClick={this.handleBtnClick}>
                             Teckenstorlek/radavstånd</button>}
                     <p id="font-size-explanation" className="explanation regular-font-size font-size
                         line-height">
@@ -195,7 +184,6 @@ class AccessibilitySwedish extends React.Component {
             break;
 
             case 'stop-btn':
-                stopBtn.setAttribute('aria-expanded', true);
                 stopBtn.style.display = 'none';
 
                 link[0].href = './css/styles.css';
@@ -219,4 +207,4 @@ class AccessibilitySwedish extends React.Component {
     }
 }
 
-export default AccessibilitySwedish;
+export default StaticSwedish;

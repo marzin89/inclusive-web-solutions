@@ -11,37 +11,29 @@ class ResultsGerman extends React.Component {
         this.handleLinkClick             = this.handleLinkClick.bind(this);
         this.renderResults               = this.renderResults.bind(this);
         this.renderResultsAccessible     = this.renderResultsAccessible.bind(this);
-
-        this.state = {
-            results:      [],
-            error:        false,
-            errorMessage: this.props.errorMessage,
-        }
     }
 
     render() {
         return (
         <div id={localStorage.getItem('activeSearchPageGerman') ? 
             `page${localStorage.getItem('activeSearchPageGerman')}` : `page1`}>
-            {localStorage.getItem('resultsGerman') ? this.renderResults() : null}
-            <p className="error regular-font-size" role="alert" style={this.state.errorMessage ?
-                {display: 'block'} : {display: 'none'}}>{this.state.errorMessage}</p>
+            {this.props.results.length ? this.renderResults() : null}
+            <p className="error regular-font-size" role="alert" style={this.props.errorMessage ?
+                {display: 'block'} : {display: 'none'}}>{this.props.errorMessage}</p>
         </div>
         )
     }
 
     renderResults() {
-        let results = localStorage.getItem('resultsGerman');
-        results     = JSON.parse(results);
-        let page    = [];
-        let render  = []; 
+        let results    = [];
+        let page       = []; 
 
-        if (results.length) {
+        if (this.props.results.length) {
             let lastIndex = Number(localStorage.getItem('searchIndexGerman')) + 5;
 
             for (let i = localStorage.getItem('searchIndexGerman'); i < lastIndex; i++) {
-                if (results[i]) {
-                    page.push(results[i])
+                if (this.props.results[i]) {
+                    results.push(this.props.results[i])
                 
                 } else {
                     break;
@@ -49,18 +41,18 @@ class ResultsGerman extends React.Component {
             }
         }
 
-        this.renderResultsAccessible(render, page);
-        return render;
+        this.renderResultsAccessible(results, page);
+        return page;
     }
 
-    renderResultsAccessible(render, page) {
-        page.forEach((element) => {
-            render.push(
-                <article key={element.id}>
-                    <h2 className="h2-font-size">{element.title}</h2>
-                    <p className="regular-font-size line-height">{element.content.slice(0, 150) + ' ...'}</p>
-                    <p><Link id={element.foreignKey ? element.foreignKey : null} className="find-out-more 
-                        regular-font-size focus focus-invisible" to={`${element.path}`} 
+    renderResultsAccessible(results, page) {
+        results.forEach((result) => {
+            page.push(
+                <article key={result.id}>
+                    <h2 className="h2-font-size">{result.title}</h2>
+                    <p className="regular-font-size line-height">{result.content.slice(0, 150) + ' ...'}</p>
+                    <p><Link id={result.foreignKey ? result.foreignKey : null} className="find-out-more 
+                        regular-font-size focus focus-invisible" to={`${result.path}`} 
                         onClick={this.handleLinkClick}>Mehr</Link></p>
                 </article>
             )

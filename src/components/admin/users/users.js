@@ -6,6 +6,9 @@ import {Link} from 'react-router-dom';
 
 let oldUsername;
 let oldPassword;
+let emailPoints;
+let usernamePoints;
+let passwordPoints;
 
 // Formulär för hantering av användare
 class Users extends React.Component { 
@@ -16,6 +19,7 @@ class Users extends React.Component {
 
         // Binder this till funktionerna
         this.setState                = this.setState.bind(this);
+        this.form                    = React.createRef();
         this.handleFirstNameChange   = this.handleFirstNameChange.bind(this);
         this.handleLastNameChange    = this.handleLastNameChange.bind(this);
         this.handleEmailChange       = this.handleEmailChange.bind(this);
@@ -24,12 +28,14 @@ class Users extends React.Component {
         this.handlePasswordChange    = this.handlePasswordChange.bind(this);
         this.handleUserRoleChange    = this.handleUserRoleChange.bind(this);
         this.handleUserBlockedChange = this.handleUserBlockedChange.bind(this);
+        /*
         this.validateFirstName       = this.validateFirstName.bind(this);
         this.validateLastName        = this.validateLastName.bind(this);
         this.validateEmail           = this.validateEmail.bind(this);
         this.validatePhone           = this.validatePhone.bind(this);
         this.validateUsername        = this.validateUsername.bind(this);
         this.validatePassword        = this.validatePassword.bind(this);
+        */
         this.handleLinkClick         = this.handleLinkClick.bind(this);
         this.handleSubmit            = this.handleSubmit.bind(this);
         this.validateForm            = this.validateForm.bind(this);
@@ -76,7 +82,7 @@ class Users extends React.Component {
     // Rendrering
     render() {
         return (
-            <div id="user-section" className="admin-form">
+            <div id="main" className="admin-form">
                 <section id="admin-form">
                     <h2 className="h2-admin">Användare</h2>
                     <p style={this.state.error ? {display: 'block'} : {display: 'none'}} 
@@ -87,11 +93,11 @@ class Users extends React.Component {
                             this.state.errorCountUsernameEmpty + this.state.errorCountUsernameTaken + 
                             this.state.errorCountPasswordEmpty + this.state.errorCountPasswordTooShort + 
                             this.state.errorCountPasswordInsecure + this.state.errorCountPasswordTaken} fel</p>
-                    <form>
+                    <form ref={this.form}>
                         <p>Fält märkta med * är obligatoriska.</p>
                         <div className="row">
                             {/* Förnamn */}
-                            <div className="form-left" onBlur={this.validateFirstName}>
+                            <div className="form-left">
                                 <label htmlFor="user-first-name-input">Förnamn *</label>
                                 <input id="user-first-name-input" className="focus text-input-main" 
                                     type="text" aria-required="true" aria-describedby="first-name-empty" 
@@ -103,7 +109,7 @@ class Users extends React.Component {
                                         {this.state.firstNameEmpty}</p>
                             </div>
                             {/* Förnamn */}
-                            <div className="form-right" onBlur={this.validateLastName}>
+                            <div className="form-right">
                                 <label htmlFor="user-last-name-input">Efternamn *</label>
                                 <input id="user-last-name-input" className="focus text-input-main" 
                                     type="text" aria-required="true" aria-describedby="last-name-empty" 
@@ -116,7 +122,7 @@ class Users extends React.Component {
                         </div>
                         <div className="row">
                             {/* E-post */}
-                            <div className="form-left" onBlur={this.validateEmail}>
+                            <div className="form-left">
                                 <label htmlFor="user-email-input">E-post *</label>
                                 <input id="user-email-input" className="focus text-input-main" type="email" 
                                     aria-required="true" aria-describedby="email-empty email-invalid" 
@@ -131,7 +137,7 @@ class Users extends React.Component {
                                     {display: 'block'} : {display: 'none'}}>{this.state.emailInvalid}</p>
                             </div>
                             {/* Telefon */}
-                            <div className="form-right" onBlur={this.validatePhone}>
+                            <div className="form-right">
                                 <label htmlFor="user-phone-input">Telefon *</label>
                                 <input id="user-phone-input" className="focus text-input-main" type="tel" 
                                     aria-required="true" aria-describedby="phone-empty" 
@@ -144,7 +150,7 @@ class Users extends React.Component {
                         </div>
                         <div className="row">
                             {/* Användarnamn */}
-                            <div className="form-left" onBlur={this.validateUsername}>
+                            <div className="form-left">
                                 <label htmlFor="username-input">Användarnamn *</label>
                                 <input id="username-input" className="focus text-input-main" type="text" 
                                     aria-required="true" aria-describedby="username-empty username-taken" 
@@ -159,7 +165,7 @@ class Users extends React.Component {
                                     {display: 'block'} : {display: 'none'}}>{this.state.usernameTaken}</p>
                             </div>
                             {/* Lösenord */}
-                            <div className="form-right" onBlur={this.validatePassword}>
+                            <div className="form-right">
                                 <label htmlFor="password-input">Lösenord *</label>
                                 <input id="password-input" className="focus text-input-main" type="password" 
                                     aria-required="true" aria-describedby="password-empty password-too-short
@@ -250,9 +256,9 @@ class Users extends React.Component {
                                     </tr>
                                     <tr>
                                         <td className="edit-users"><a id={`edit${user.id}`} className="focus" 
-                                            href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></td>
+                                            href="" onClick={this.handleLinkClick}>Redigera</a></td>
                                         <td className="delete-users"><a id={`delete${user.id}`} className="focus" 
-                                            href="#admin-form" onClick={this.handleLinkClick}>Radera</a></td>
+                                            href="" onClick={this.handleLinkClick}>Radera</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -370,7 +376,7 @@ class Users extends React.Component {
                 usernameEmpty:           '',
             })
 
-            if (!localStorage.getItem('action')) {
+            if (!localStorage.getItem('actionUsers')) {
                 this.props.users.forEach((user) => {
                     if (user.username == e.target.value) {
 
@@ -382,11 +388,11 @@ class Users extends React.Component {
                         })
     
                         e.target.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 })
             
-            } else if (localStorage.getItem('action') == 'edit') {
+            } else if (localStorage.getItem('actionUsers') == 'edit') {
                 this.props.users.forEach((user) => {
                     if (user.username == e.target.value &&
                         e.target.value !== oldUsername) {
@@ -399,7 +405,7 @@ class Users extends React.Component {
                         })
 
                         e.target.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 })
             }
@@ -434,7 +440,7 @@ class Users extends React.Component {
                 })
     
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);    
+                    
             
             } else {
                 this.setState({
@@ -450,7 +456,7 @@ class Users extends React.Component {
                 })
     
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             } else {
                 this.setState({
@@ -461,7 +467,7 @@ class Users extends React.Component {
     
             let count = 0;
     
-            if (!localStorage.getItem('action')) {
+            if (!localStorage.getItem('actionUsers')) {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == e.target.value) {
     
@@ -473,11 +479,11 @@ class Users extends React.Component {
                         })
         
                         e.target.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 }
             
-            } else if (localStorage.getItem('action') == 'edit') {
+            } else if (localStorage.getItem('actionUsers') == 'edit') {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == e.target.value &&
                         e.target.value !== oldPassword) {
@@ -490,7 +496,7 @@ class Users extends React.Component {
                         })
     
                         e.target.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 }
             }
@@ -499,7 +505,6 @@ class Users extends React.Component {
                 this.setState({
                     errorCountPasswordTaken: 0,
                     passwordTaken:           '',
-                    password:                '',
                 })
             }
         }
@@ -517,6 +522,7 @@ class Users extends React.Component {
         })
     }
 
+    /*
     validateFirstName(e) {
         if (!e.target.value) {
             this.setState({
@@ -525,7 +531,7 @@ class Users extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -537,7 +543,7 @@ class Users extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
     
@@ -552,7 +558,7 @@ class Users extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             if (e.target.value.indexOf('@') < 1) {
@@ -565,7 +571,7 @@ class Users extends React.Component {
                 })
     
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             }
         }
     }
@@ -578,7 +584,7 @@ class Users extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -591,10 +597,10 @@ class Users extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
-            if (!localStorage.getItem('action')) {
+            if (!localStorage.getItem('actionUsers')) {
                 this.props.users.forEach((user) => {
                     if (user.username == e.target.value) {
                         this.setState({
@@ -605,11 +611,11 @@ class Users extends React.Component {
                         })
     
                         e.target.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 })
             
-            } else if (localStorage.getItem('action') == 'edit') {
+            } else if (localStorage.getItem('actionUsers') == 'edit') {
                 this.props.users.forEach((user) => {
                     if (user.username == e.target.value &&
                         e.target.value !== oldUsername) {
@@ -622,7 +628,7 @@ class Users extends React.Component {
                         })
 
                         e.target.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 })
             }   
@@ -640,7 +646,7 @@ class Users extends React.Component {
             })
     
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
@@ -653,7 +659,7 @@ class Users extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             }
 
@@ -665,10 +671,10 @@ class Users extends React.Component {
                 })
     
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             }
 
-            if (!localStorage.getItem('action')) {
+            if (!localStorage.getItem('actionUsers')) {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == e.target.value) {
                         this.setState({
@@ -678,11 +684,11 @@ class Users extends React.Component {
                         })
         
                         e.target.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 }
             
-            } else if (localStorage.getItem('action') == 'edit') {
+            } else if (localStorage.getItem('actionUsers') == 'edit') {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == e.target.value &&
                         e.target.value !== oldPassword) {
@@ -694,20 +700,25 @@ class Users extends React.Component {
                         })
 
                         e.target.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 }
             }
         }
     }
+    */
 
-    validateForm(e) {
+    validateForm() {
         const firstNameInput = document.getElementById('user-first-name-input');
         const lastNameInput  = document.getElementById('user-last-name-input');
         const emailInput     = document.getElementById('user-email-input');
         const phoneInput     = document.getElementById('user-phone-input');
         const usernameInput  = document.getElementById('username-input');
         const passwordInput  = document.getElementById('password-input');
+
+        emailPoints    = 0;
+        usernamePoints = 0;
+        passwordPoints = 0;
 
         if (!firstNameInput.value) {
             this.setState({
@@ -717,7 +728,7 @@ class Users extends React.Component {
             })
 
             firstNameInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -736,7 +747,7 @@ class Users extends React.Component {
             })
 
             lastNameInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -755,7 +766,7 @@ class Users extends React.Component {
             })
 
             emailInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             if (emailInput.value.indexOf('@') < 1) {
@@ -769,7 +780,7 @@ class Users extends React.Component {
                 })
     
                 emailInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             } else {
                 this.setState({
@@ -779,6 +790,7 @@ class Users extends React.Component {
                 })
 
                 emailInput.setAttribute('aria-invalid', false);
+                emailPoints = 1;
             }
         }
 
@@ -790,7 +802,7 @@ class Users extends React.Component {
             })
 
             phoneInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -809,7 +821,7 @@ class Users extends React.Component {
             })
 
             usernameInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -819,11 +831,11 @@ class Users extends React.Component {
 
             let count = 0;
 
-            if (!localStorage.getItem('action')) {
+            if (!localStorage.getItem('actionUsers')) {
                 this.props.users.forEach((user) => {
                     if (user.username == usernameInput.value) {
 
-                        count = 1;
+                        count += 1;
 
                         this.setState({
                             error:                   true,
@@ -832,16 +844,16 @@ class Users extends React.Component {
                         })
     
                         usernameInput.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 })
             
-            } else if (localStorage.getItem('action') == 'edit') {
+            } else if (localStorage.getItem('actionUsers') == 'edit') {
                 this.props.users.forEach((user) => {
                     if (user.username == usernameInput.value &&
                         usernameInput.value !== oldUsername) {
 
-                        count = 1;
+                        count += 1;
 
                         this.setState({
                             error:                   true,
@@ -850,7 +862,7 @@ class Users extends React.Component {
                         })
 
                         usernameInput.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 })
             }   
@@ -860,6 +872,8 @@ class Users extends React.Component {
                     errorCountUsernameTaken: 0,
                     usernameTaken:           '',
                 })
+
+                usernamePoints = 1;
             }
         }
 
@@ -871,7 +885,7 @@ class Users extends React.Component {
             })
     
             passwordInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -889,13 +903,15 @@ class Users extends React.Component {
                 })
 
                 passwordInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             } else {
                 this.setState({
                     errorCountPasswordInsecure: 0,
                     passwordInsecure:           '',
                 })
+
+                passwordPoints = 1;
             }
 
             if (passwordInput.value.length < 10) {
@@ -906,22 +922,24 @@ class Users extends React.Component {
                 })
     
                 passwordInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             } else {
                 this.setState({    
                     errorCountPasswordTooShort: 0,
                     passwordTooShort:           '',
                 })
+
+                passwordPoints += 1;
             }
 
             let count = 0;
 
-            if (!localStorage.getItem('action')) {
+            if (!localStorage.getItem('actionUsers')) {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == passwordInput.value) {
 
-                        count = 1;
+                        count += 1;
 
                         this.setState({
                             error:                   true,
@@ -930,16 +948,16 @@ class Users extends React.Component {
                         })
         
                         passwordInput.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 }
             
-            } else if (localStorage.getItem('action') == 'edit') {
+            } else if (localStorage.getItem('actionUsers') == 'edit') {
                 for (let i = 0; i < this.state.users.length; i++) {
                     if (this.state.users[i].password == passwordInput.value &&
                         passwordInput.value !== oldPassword) {
 
-                        count = 1;
+                        count += 1;
 
                         this.setState({
                             error:                   true,
@@ -948,7 +966,7 @@ class Users extends React.Component {
                         })
 
                         passwordInput.setAttribute('aria-invalid', true);
-                        localStorage.setItem('error', true);
+                        
                     }
                 }
             }
@@ -958,6 +976,22 @@ class Users extends React.Component {
                     errorCountPasswordTaken: 0,
                     passwordTaken:           '',
                 })
+
+                passwordPoints += 1;
+            }
+        }
+
+        if (firstNameInput.value != '' && lastNameInput.value != '' && 
+            emailInput.value != '' && phoneInput.value != '' && usernameInput.value
+            != '' && passwordInput.value != '') {
+
+            const validationResult = emailPoints + usernamePoints + passwordPoints;
+
+            if (validationResult == 5) {
+                return true;
+            
+            } else {
+                return false;
             }
         }
     }
@@ -969,11 +1003,16 @@ class Users extends React.Component {
         let id;
 
         if (e.target.id.indexOf('edit') >= 0) {
+            document.getElementById('admin-form').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
             action = 'edit';
             id     = e.target.id.slice(4);
 
             localStorage.setItem('id', id);
-            localStorage.setItem('action', action);
+            localStorage.setItem('actionUsers', action);
 
             const firstNameInput   = document.getElementById('user-first-name-input');
             const lastNameInput    = document.getElementById('user-last-name-input');
@@ -1007,6 +1046,8 @@ class Users extends React.Component {
             })
         
         } else if (e.target.id.indexOf('delete') >= 0) {
+            document.getElementById('admin-form').scrollIntoView({behavior: 'smooth'});
+
             action = 'delete';
             id     = e.target.id.slice(6);
         
@@ -1019,9 +1060,10 @@ class Users extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.validateForm(e);
 
-        if (!localStorage.getItem('error')) {
+        if (this.validateForm()) {
+            this.form.current.reset();
+            
             let date        = new Date().toLocaleDateString('sv-SE', {timeZone: 'CET'});
             let userRole    = document.getElementById('user-role-input');
             let userBlocked = document.getElementById('user-blocked-input');
@@ -1034,7 +1076,7 @@ class Users extends React.Component {
                 blocked = false;
             }
 
-            if (!localStorage.getItem('action')) {
+            if (!localStorage.getItem('actionUsers')) {
                 const body = {
                     id:        0,
                     firstName: this.state.firstName,
@@ -1051,7 +1093,7 @@ class Users extends React.Component {
                 this.props.post(body);
             }
 
-            if (localStorage.getItem('action') == 'edit') {
+            if (localStorage.getItem('actionUsers') == 'edit') {
                 const firstNameInput = document.getElementById('user-first-name-input');
                 const lastNameInput  = document.getElementById('user-last-name-input');
                 const emailInput     = document.getElementById('user-email-input');

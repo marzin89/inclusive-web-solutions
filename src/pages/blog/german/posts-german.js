@@ -15,7 +15,7 @@ class PostsGerman extends React.Component {
         this.state = {
             posts:        [],
             error:        false,
-            errorMessage: '',
+            errorMessage: this.props.errorMessage,
         }
 
         this.getPosts();

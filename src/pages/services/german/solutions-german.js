@@ -13,7 +13,6 @@ class SolutionsGerman extends React.Component {
 
         this.state = {
             solutions:    [],
-            error:        false,
             errorMessage: '',
         }
 
@@ -72,7 +71,6 @@ class SolutionsGerman extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:        true,
                     errorMessage: 'Es wurden keine Development-pakete gefunden.',
                 })
             
@@ -87,8 +85,9 @@ class SolutionsGerman extends React.Component {
                     }
                 });
 
+                localStorage.setItem('solutionsGerman', JSON.stringify(solutionArr));
+
                 this.setState({
-                    error: false,
                     solutions: solutionArr,
                 })
             }
@@ -97,7 +96,6 @@ class SolutionsGerman extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {
             this.setState({
-                error:        true,
                 errorMessage: 'Ein Serverfehler ist aufgetreten. Es konnten keine Development-Pakete abgerufen werden.' 
                                 + ' Versuchen Sie es später erneut.',
             })

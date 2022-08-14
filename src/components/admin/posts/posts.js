@@ -11,13 +11,16 @@ class Posts extends React.Component {
 
         // Binder this till funktionerna
         this.setState            = this.setState.bind(this);
+        this.form                = React.createRef();
         this.handleTitleChange   = this.handleTitleChange.bind(this);
         this.handleContentChange = this.handleContentChange.bind(this);
         this.handleImageChange   = this.handleImageChange.bind(this);
         this.handleAltTextChange = this.handleAltTextChange.bind(this);
+        /*
         this.validateTitle       = this.validateTitle.bind(this);
         this.validateContent     = this.validateContent.bind(this);
         this.validateAltText     = this.validateAltText.bind(this);
+        */
         this.handleLinkClick     = this.handleLinkClick.bind(this);
         this.handleSubmit        = this.handleSubmit.bind(this);
         this.validateForm        = this.validateForm.bind(this);
@@ -58,7 +61,7 @@ class Posts extends React.Component {
     // Rendrering
     render() {
         return (
-            <div id="post-section" className="admin-form">
+            <div id="main" className="admin-form">
                 <section id="admin-form">
                     <h2 className="h2-admin">Inlägg</h2>
                     <p style={this.state.error ? {display: 'block'} : {display: 'none'}} 
@@ -66,18 +69,17 @@ class Posts extends React.Component {
                         Formuläret innehåller {this.state.errorCountTitle + this.state.errorCountContent + 
                             + this.state.errorCountImageSize + this.state.errorCountImageFormat + 
                             this.state.errorCountAltText} fel</p>
-                    <form>
+                    <form ref={this.form}>
                         <p>Fält märkta med * är obligatoriska.</p>
                         <label htmlFor="post-name-input">Namn *</label>
                         <input id="post-name-input" className="focus" type="text" 
                             aria-required="true" aria-describedby="post-name-error" autoComplete='on'
-                            onChange={this.handleTitleChange} onBlur={this.validateTitle}></input>
+                            onChange={this.handleTitleChange}></input>
                         <p id="post-name-error" className="error" role="alert" style={this.state.titleEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.titleEmpty}</p>
                         <label htmlFor="post-content-input">Text *</label>
                         <textarea id="post-content-input" className="focus" aria-required="true" autoComplete='on' 
-                            aria-describedby="post-content-error" onChange={this.handleContentChange}
-                            onBlur={this.validateContent}></textarea>
+                            aria-describedby="post-content-error" onChange={this.handleContentChange}></textarea>
                         <p id="post-content-error" className="error" role="alert" style={this.state.contentEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.contentEmpty}</p>
                         <label htmlFor="language-switcher-admin">Språk *</label>
@@ -97,7 +99,7 @@ class Posts extends React.Component {
                         <label htmlFor="alt-text-input">Alt-text</label>
                         <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
                             aria-required="false" aria-describedby="alt-text-error" autoComplete='on' 
-                            onChange={this.handleAltTextChange} onBlur={this.validateAltText}>
+                            onChange={this.handleAltTextChange}>
                         </input>
                         <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
@@ -129,18 +131,18 @@ class Posts extends React.Component {
                                     {post.published ? 
                                     <div>
                                         <p className="edit"><a id={`edit${post.id}`} className="focus" 
-                                            href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
+                                            href="" onClick={this.handleLinkClick}>Redigera</a></p>
                                         <p className="delete"><a id={`delete${post.id}`} className="focus" 
-                                            href="#admin-form" onClick={this.handleLinkClick}>Radera</a></p> 
+                                            href="" onClick={this.handleLinkClick}>Radera</a></p> 
                                     </div>
                                     :
                                     <div>
                                         <p className="edit-not-published"><a id={`edit${post.id}`} className="focus" 
-                                            href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
+                                            href="" onClick={this.handleLinkClick}>Redigera</a></p>
                                         <p className="publish-posts"><a id={`publish${post.id}`} className="focus" 
-                                            href="#admin-form" onClick={this.handleLinkClick}>Publicera</a></p> 
+                                            href="" onClick={this.handleLinkClick}>Publicera</a></p> 
                                         <p className="delete-not-published"><a id={`delete${post.id}`} className="focus" 
-                                            href="#admin-form" onClick={this.handleLinkClick}>Radera</a></p>
+                                            href="" onClick={this.handleLinkClick}>Radera</a></p>
                                     </div>
                                     }
                                 </article>
@@ -154,9 +156,9 @@ class Posts extends React.Component {
                                     <p>{post.content}</p> 
                                     <div>
                                         <p className="edit"><a id={`edit${post.id}`} className="focus" 
-                                            href="#admin-form" onClick={this.handleLinkClick}>Redigera</a></p>
+                                            href="" onClick={this.handleLinkClick}>Redigera</a></p>
                                         <p className="delete"><a id={`delete${post.id}`} className="focus" 
-                                            href="#admin-form" onClick={this.handleLinkClick}>Radera</a></p> 
+                                            href="" onClick={this.handleLinkClick}>Radera</a></p> 
                                     </div>
                                 </article>
                             )
@@ -226,7 +228,7 @@ class Posts extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             } else {
                 this.setState ({
@@ -243,7 +245,7 @@ class Posts extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
 
             } else {
                 this.setState({ 
@@ -304,6 +306,7 @@ class Posts extends React.Component {
         }
     }
 
+    /*
     validateTitle(e) {
         if (!e.target.value) {
             this.setState({
@@ -312,7 +315,7 @@ class Posts extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -324,7 +327,7 @@ class Posts extends React.Component {
             })
 
             e.target.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         }
     }
 
@@ -337,10 +340,11 @@ class Posts extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             }
         }
     }
+    */
 
     /* Här valideras uppgifterna. För varje uppgift som saknas,
         skrivs ett felmeddelande ut under inmatningsfältet.
@@ -359,7 +363,7 @@ class Posts extends React.Component {
             })
 
             nameInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -378,7 +382,7 @@ class Posts extends React.Component {
             })
 
             contentInput.setAttribute('aria-invalid', true);
-            localStorage.setItem('error', true);
+            
         
         } else {
             this.setState({
@@ -406,7 +410,7 @@ class Posts extends React.Component {
                 })
 
                 imageInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             } else {
                 this.setState ({
@@ -424,7 +428,7 @@ class Posts extends React.Component {
                 })
 
                 imageInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
 
             } else {
                 this.setState({ 
@@ -459,7 +463,7 @@ class Posts extends React.Component {
                 })
 
                 altTextInput.setAttribute('aria-invalid', true);
-                localStorage.setItem('error', true);
+                
             
             } else {
                 this.setState({
@@ -484,8 +488,8 @@ class Posts extends React.Component {
             this.setState({
                 error: false,
             })
-
-            localStorage.removeItem('error');      
+  
+            return true;    
         
         } else if (nameInput.value !== '' && contentInput.value !== '' && imageInput.value !== ''
             && altTextInput.value !== '') {
@@ -501,9 +505,18 @@ class Posts extends React.Component {
                         error: false,
                     })
         
-                    localStorage.removeItem('error');
+                    return true;
+                
+                } else {
+                    return false;
                 }
+            
+            } else {
+                return false;
             }
+        
+        } else {
+            return false;
         }
     }
 
@@ -602,11 +615,16 @@ class Posts extends React.Component {
         let id;
 
         if (e.target.id.indexOf('edit') >= 0) {
+            document.getElementById('admin-form').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
             action = 'edit';
             id     = e.target.id.slice(4);
 
             localStorage.setItem('id', id);
-            localStorage.setItem('action', action);
+            localStorage.setItem('actionPosts', action);
 
             const nameInput        = document.getElementById('post-name-input');
             const contentInput     = document.getElementById('post-content-input');
@@ -623,7 +641,7 @@ class Posts extends React.Component {
                     contentInput.value     = post.content;
                     altTextInput.value     = post.altText;
 
-                    localStorage.setItem('imageUrl', post.imageUrl);
+                    localStorage.setItem('imageUrlPosts', post.imageUrl);
 
                     if (post.language == 'german') {
                         languageInput.value = 'Deutsch';
@@ -635,6 +653,8 @@ class Posts extends React.Component {
             })
         
         } else if (e.target.id.indexOf('delete') >= 0) {
+            document.getElementById('admin-form').scrollIntoView({behavior: 'smooth'});
+
             action      = 'delete';
             id          = e.target.id.slice(6);
             let published;
@@ -682,9 +702,10 @@ class Posts extends React.Component {
         när formuläret skickas */
     handleSubmit(e) {
         e.preventDefault();
-        this.validateForm();
 
-        if (!localStorage.getItem('error')) {
+        if (this.validateForm()) {
+            this.form.current.reset();
+
             // Datum för uppdatering
             let date = new Date().toLocaleDateString('sv-SE', {timeZone: 'CET'});
 
@@ -701,7 +722,7 @@ class Posts extends React.Component {
                 language = 'german';
             }
 
-            if (!localStorage.getItem('action')) {
+            if (!localStorage.getItem('actionPosts')) {
                 /* Eftersom beskrivningen ska skrivas ut stycke för stycke,
                 delas den upp där det finns blanksteg och lagras som en array */
                 if (this.state.content.indexOf('\n\n') >= 0) {
@@ -746,7 +767,7 @@ class Posts extends React.Component {
                 }
             }  
 
-            if (localStorage.getItem('action') == 'edit') {
+            if (localStorage.getItem('actionPosts') == 'edit') {
                 const nameInput        = document.getElementById('post-name-input');
                 const contentInput     = document.getElementById('post-content-input');
                 const imageInput       = document.getElementById('image-upload-input');
@@ -809,12 +830,11 @@ class Posts extends React.Component {
                     this.props.put(localStorage.getItem('id'), body);
                 
                 } else {
-                    if (localStorage.getItem('imageUrl')) {
-                        body.imageUrl = localStorage.getItem('imageUrl');
+                    if (localStorage.getItem('imageUrlPosts')) {
+                        body.imageUrl = localStorage.getItem('imageUrlPosts');
                     }
 
                     this.props.put(localStorage.getItem('id'), body);
-                    localStorage.removeItem('imageUrl');
                 }
             }
         }

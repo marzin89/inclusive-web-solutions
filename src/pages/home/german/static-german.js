@@ -14,11 +14,9 @@ function StaticGerman() {
                     Barrierefreiheit im Internet aus. Gerne helfen wir Ihrem Unternehmen, 
                     Ihre Website auf einen barrierefreien Stand zu bringen.
                     Unsere Vision ist es, ein barrierefreies Internet zu schaffen.</p>
-                <button id="about-btn" className="focus focus-invisible regular-font-size" 
-                    aria-label="Seite Über uns öffnen" onClick={() => window.open('/about', '_self')}>
-                        Über uns</button>
-                <button id="contact-btn" className="focus focus-invisible regular-font-size"
-                    aria-label="Seite Kontakt öffnen"
+                <button id="about-btn" role="link" className="focus focus-invisible regular-font-size" 
+                    onClick={() => window.open('/about', '_self')}>Über uns</button>
+                <button id="contact-btn" role="link" className="focus focus-invisible regular-font-size"
                     onClick={() => window.open('/contact', '_self')}>Kontakt</button>
             </div>
             <section id="home-services">
@@ -51,8 +49,7 @@ function StaticGerman() {
                     <p><Link className="focus focus-invisible find-out-more regular-font-size"
                         to={"/services"} >Mehr</Link></p>
                 </article>
-                <button id="services-btn" className="focus focus-invisible regular-font-size"
-                    aria-label="Seite Dienstleistungen öffnen" 
+                <button id="services-btn" role="link" className="focus focus-invisible regular-font-size"
                     onClick={() => window.open('/services', '_self')}>Dienstleistungen</button>
             </section>
         </section>

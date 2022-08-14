@@ -10,21 +10,29 @@ class SolutionGerman extends React.Component {
         this.getSolution    = this.getSolution.bind(this);
         this.renderSolution = this.renderSolution.bind(this);
 
+        this.state = {
+            name:        '',
+            price:       '',
+            description: [],
+            imageUrl:    '',
+            altText:     '',
+        }
+
         this.getSolution();
     }
 
     render() {
         return (
             <section id="subpage-content">
-                <h1 className="h1-font-size">{localStorage.getItem('name')}</h1>
+                <h1 id="main" className="h1-font-size">{this.state.name}</h1>
                 {this.renderSolution()}
             </section>
         )
     }
 
     renderSolution() {
-        let content = localStorage.getItem('description');
-        content = JSON.parse(content);
+        let content = this.state.description;
+        // content = JSON.parse(content);
         let content1 = content[0];
         let content2 = [];
         let image;
@@ -37,9 +45,9 @@ class SolutionGerman extends React.Component {
             }
         }
 
-        if (localStorage.getItem('imageUrl')) {
-            image = <img src={localStorage.getItem('imageUrl')} 
-            alt={localStorage.getItem('altText')}></img>;
+        if (this.state.imageUrl) {
+            image = <img src={this.state.imageUrl} 
+            alt={this.state.altText}></img>;
 
         } else {
             image = '';
@@ -50,7 +58,7 @@ class SolutionGerman extends React.Component {
         if (content2.length && image) {
             render = 
                 <div role="article" aria-label="Preis, Beschreibung und Bild">
-                    <p className="price regular-font-size">{localStorage.getItem('price')}</p>
+                    <p className="price regular-font-size">{this.state.price}</p>
                     <p className="body-text regular-font-size line-height">{content1}</p>
                     {image}
                     {content2}
@@ -59,7 +67,7 @@ class SolutionGerman extends React.Component {
         } else if (content2.length && !image) {
             render = 
                 <div role="article" aria-label="Preis und Beschreibung">
-                    <p className="price regular-font-size">{localStorage.getItem('price')}</p>
+                    <p className="price regular-font-size">{this.state.price}</p>
                     <p className="body-text regular-font-size line-height">{content1}</p>
                     {content2}
                 </div>
@@ -67,7 +75,7 @@ class SolutionGerman extends React.Component {
         } else if (!content2.length && image) {
             render = 
                 <div role="article" aria-label="Preis, Beschreibung und Bild">
-                    <p className="price regular-font-size">{localStorage.getItem('price')}</p>
+                    <p className="price regular-font-size">{this.state.price}</p>
                     <p className="body-text regular-font-size line-height">{content1}</p>
                     {image}
                 </div>
@@ -75,7 +83,7 @@ class SolutionGerman extends React.Component {
         } else if (!content2.length && !image) {
             render = 
                 <div role="article" aria-label="Preis und Beschreibung">
-                    <p className="price regular-font-size">{localStorage.getItem('price')}</p>
+                    <p className="price regular-font-size">{this.state.price}</p>
                     <p className="body-text regular-font-size line-height">{content1}</p>
                 </div>
         }
@@ -85,6 +93,20 @@ class SolutionGerman extends React.Component {
 
     // Funktionen hämtar alla publicerade inlägg
     getSolution() {
+        fetch(`https://iws-rest-api.herokuapp.com/solutions/id/${localStorage.getItem('serviceId')}`)
+        .then((response) => response.json()
+        .then((data) => {
+            // localStorage.setItem('title', data[0].title);
+
+            this.setState({
+                name:        data[0].name,
+                price:       data[0].price,
+                description: data[0].description,
+                imageUrl:    data[0].imageUrl,
+                altText:     data[0].altText,
+            })
+        }))
+        /*
         this.props.solutions.map((solution) => {
             if (solution.id == localStorage.getItem('serviceId')) {
                 localStorage.setItem('name', solution.name);
@@ -94,6 +116,7 @@ class SolutionGerman extends React.Component {
                 localStorage.setItem('altText', solution.altText);
             }
         })
+        */
     }
 }
 

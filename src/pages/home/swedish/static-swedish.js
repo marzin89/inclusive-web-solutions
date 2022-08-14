@@ -14,12 +14,10 @@ function StaticSwedish() {
                     Vi hjälper ditt företag att uppnå god tillgänglighet på din webbplats. 
                     Vår vision är en värld där alla, oavsett förutsättningar, 
                     ska kunna ta del av innehåll på webben.</p>
-                <button id="about-btn" className="focus focus-invisible regular-font-size"
-                    aria-label="Öppnar sidan Om oss" 
+                <button id="about-btn" role="link" className="focus focus-invisible regular-font-size" 
                     onClick={() => window.open('/about', '_self')}>Om oss</button>
-                <button id="contact-btn" className="focus focus-invisible regular-font-size"
-                    aria-label="Öppnar sidan Kontakt" onClick={() => window.open('/contact', '_self')}>
-                        Kontakt</button>
+                <button id="contact-btn" role="link" className="focus focus-invisible regular-font-size"
+                    onClick={() => window.open('/contact', '_self')}>Kontakt</button>
             </div>
             <section id="home-services">
                 <h2 className="h2-home h2-font-size">Tjänster</h2>
@@ -49,8 +47,7 @@ function StaticSwedish() {
                     <p><Link className="focus focus-invisible find-out-more regular-font-size"
                         to={"/services"} >Läs mer</Link></p>
                 </article>
-                <button id="services-btn" className="focus focus-invisible regular-font-size"
-                    aria-label="Öppnar sidan Tjänster"
+                <button id="services-btn" role="link" className="focus focus-invisible regular-font-size"
                     onClick={() => window.open('/services', '_self')}>Tjänster</button>
             </section>
         </section>

@@ -13,7 +13,6 @@ class TestsSwedish extends React.Component {
 
         this.state = {
             tests:        [],
-            error:        false,
             errorMessage: '',
         }
 
@@ -72,7 +71,6 @@ class TestsSwedish extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:        true,
                     errorMessage: 'Inga tester hittades.',
                 })
             
@@ -87,8 +85,9 @@ class TestsSwedish extends React.Component {
                     }
                 });
 
+                localStorage.setItem('testsSwedish', JSON.stringify(testArr));
+
                 this.setState({
-                    error: false,
                     tests: testArr,
                 })
             }

@@ -13,7 +13,6 @@ class CoursesSwedish extends React.Component {
 
         this.state = {
             courses:    [],
-            error:        false,
             errorMessage: '',
         }
 
@@ -72,7 +71,6 @@ class CoursesSwedish extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:        true,
                     errorMessage: 'Inga utbildningar hittades.',
                 })
             
@@ -86,8 +84,9 @@ class CoursesSwedish extends React.Component {
                     }
                 });
 
+                localStorage.setItem('coursesSwedish', JSON.stringify(courseArr));
+
                 this.setState({
-                    error: false,
                     courses: courseArr,
                 })
             }
@@ -96,7 +95,6 @@ class CoursesSwedish extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {
             this.setState({
-                error:        true,
                 errorMessage: 'Ett serverfel har uppstått. Det gick inte att hämta tester.' 
                                 + ' Försök igen lite senare.',
             })
