@@ -8,7 +8,7 @@ import Comments from '../../components/admin/comments/comments';
 import { toHaveAccessibleDescription } from '@testing-library/jest-dom/dist/to-have-accessible-description';
 
 const buttons = document.getElementsByClassName('btn');
-let userPosts = [];
+// let userPosts = [];
 
 // Admin
 class Admin extends React.Component {
@@ -1288,16 +1288,6 @@ class Admin extends React.Component {
                                     + ' Försök igen lite senare.'
             })
         })
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        this.checkPasswordLength(e);
-        this.validateForm(e);
-
-        if (!this.state.error) {
-            this.addUser(e);
-        }
     }
 
     // Raderar användarnamn, -roll och status för inloggning vid utloggning

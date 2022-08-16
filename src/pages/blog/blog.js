@@ -76,20 +76,20 @@ class Blog extends React.Component {
                 {localStorage.getItem('language') == 'Deutsch' ?
                 <section id="blog">
                     <h1 id="main" className="h1-font-size">Blog</h1>
-                    <PostsGerman />
-                    {this.state.postsGerman.length > 5 ? <nav aria-label="Blog-Posts">
-                        {this.toggleBtnsGerman()}</nav> : null}
+                    {this.state.postsGerman.length ? <PostsGerman /> : 
                     <p className="error regular-font-size" role="alert" style={this.state.errorGerman ?
-                        {display: 'block'} : {display: 'none'}}>{this.state.errorGerman}</p>
+                        {display: 'block'} : {display: 'none'}}>{this.state.errorGerman}</p>}
+                    {this.state.postsGerman.length > 5 ? <nav aria-label="Blog-Posts">
+                        {this.toggleBtnsGerman()}</nav> : null}                  
                 </section>
                 :
                 <section id="blog">
                     <h1 id="main" className="h1-font-size">Blogg</h1>
-                    <PostsSwedish />
+                    {this.state.postsSwedish.length ? <PostsSwedish /> : 
+                    <p className="error regular-font-size" role="alert" style={this.state.errorSwedish ?
+                        {display: 'block'} : {display: 'none'}}>{this.state.errorSwedish}</p>}
                     {this.state.postsSwedish.length > 5 ? <nav aria-label="Blogginlägg">
                         {this.toggleBtnsSwedish()}</nav> : null}
-                    <p className="error regular-font-size" role="alert" style={this.state.errorSwedish ?
-                        {display: 'block'} : {display: 'none'}}>{this.state.errorSwedish}</p>
                 </section>}
             </main>
         )

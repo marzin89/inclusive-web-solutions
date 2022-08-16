@@ -96,7 +96,7 @@ class SolutionsSwedish extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {
             this.setState({
-                errorMessage: 'Ett serverfel har uppstått. Det gick inte att hämta tester.' 
+                errorMessage: 'Ett serverfel har uppstått. Det gick inte att hämta utvecklingspaket.' 
                                 + ' Försök igen lite senare.',
             })
         })

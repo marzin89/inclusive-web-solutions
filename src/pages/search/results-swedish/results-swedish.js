@@ -17,9 +17,7 @@ class ResultsSwedish extends React.Component {
         return (
         <div id={localStorage.getItem('activeSearchPageSwedish') ? 
             `page${localStorage.getItem('activeSearchPageSwedish')}` : `page1`}>
-            {this.props.results.length ? this.renderResults() : null}
-            <p className="error regular-font-size" role="alert" style={this.props.errorMessage ?
-                {display: 'block'} : {display: 'none'}}>{this.props.errorMessage}</p>
+            {this.renderResults()}
         </div>
         )
     }
@@ -28,17 +26,15 @@ class ResultsSwedish extends React.Component {
         let results    = [];
         let page       = []; 
 
-        if (this.props.results.length) {
-            let lastIndex = Number(localStorage.getItem('searchIndexSwedish')) + 5;
+        let lastIndex = Number(localStorage.getItem('searchIndexSwedish')) + 5;
 
-            for (let i = localStorage.getItem('searchIndexSwedish'); i < lastIndex; i++) {
-                if (this.props.results[i]) {
-                    results.push(this.props.results[i])
-                
-                } else {
-                    break;
-                } 
-            }
+        for (let i = localStorage.getItem('searchIndexSwedish'); i < lastIndex; i++) {
+            if (this.props.results[i]) {
+                results.push(this.props.results[i])
+            
+            } else {
+                break;
+            } 
         }
 
         this.renderResultsAccessible(results, page);

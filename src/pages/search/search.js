@@ -97,7 +97,9 @@ class Search extends React.Component {
                                 {this.state.searchErrorGerman}</p>
                     </form>
                     <div id="results">
-                        <ResultsGerman results={this.state.resultsGerman} errorMessage={this.state.errorGerman} />
+                        {this.state.resultsGerman.length ? <ResultsGerman results={this.state.resultsGerman} />
+                        : <p className="error regular-font-size" role="alert" style={this.state.errorGerman ?
+                            {display: 'block'} : {display: 'none'}}>{this.state.errorGerman}</p>}
                         {this.state.resultsGerman.length > 5 ? <nav aria-label="Suchergebnisse">
                             {this.toggleBtnsGerman()}</nav> : null}
                     </div>
@@ -121,7 +123,9 @@ class Search extends React.Component {
                             {this.state.searchErrorSwedish}</p>
                     </form>
                     <div id="results">
-                        <ResultsSwedish results={this.state.resultsSwedish} errorMessage={this.state.errorSwedish} />
+                        {this.state.resultsSwedish.length ? <ResultsSwedish results={this.state.resultsSwedish} />
+                        : <p className="error regular-font-size" role="alert" style={this.state.errorSwedish ?
+                            {display: 'block'} : {display: 'none'}}>{this.state.errorSwedish}</p>}        
                         {this.state.resultsSwedish.length > 5 ? <nav aria-label="Sökresultat">
                             {this.toggleBtnsSwedish()}</nav> : null}
                     </div>
