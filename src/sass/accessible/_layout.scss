@@ -127,6 +127,11 @@ header {
         label {
             position: absolute;
             bottom: 10000px;
+            color: white;
+
+            @media only screen and (min-width: 1040px) {
+                display: none;
+            }
         }
     }
 }
@@ -138,8 +143,14 @@ header {
 
     form {
         label {
-            position: absolute;
-            bottom: 10000px;
+            display: none;
+
+            @media only screen and (min-width: 1040px) {
+                display: block;
+                position: absolute;
+                bottom: 10000px;
+                color: white
+            }
         }
     }
 

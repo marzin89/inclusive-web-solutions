@@ -651,6 +651,8 @@ class Posts extends React.Component {
                     }
                 }
             })
+
+            nameInput.focus();
         
         } else if (e.target.id.indexOf('delete') >= 0) {
             document.getElementById('admin-form').scrollIntoView({behavior: 'smooth'});
@@ -704,8 +706,6 @@ class Posts extends React.Component {
         e.preventDefault();
 
         if (this.validateForm()) {
-            this.form.current.reset();
-
             // Datum för uppdatering
             let date = new Date().toLocaleDateString('sv-SE', {timeZone: 'CET'});
 
@@ -837,6 +837,8 @@ class Posts extends React.Component {
                     this.props.put(localStorage.getItem('id'), body);
                 }
             }
+
+            this.form.current.reset();
         }
     }
 }

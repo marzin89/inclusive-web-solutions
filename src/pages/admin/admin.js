@@ -808,7 +808,7 @@ class Admin extends React.Component {
             this.setState({
                 confirm:          true,
                 confirmSolutions: 'Utvecklingspaketet har uppdaterats.',
-                solutions:        data,
+                solutions:        solutionArr,
             })
         })
         .catch(() => {
@@ -1247,7 +1247,7 @@ class Admin extends React.Component {
 
             this.setState({
                 confirm:        true,
-                confirmMessage: 'Inlägget har publicerats.',
+                confirmPosts:   'Inlägget har publicerats.',
             })
         })
         .catch(() => {

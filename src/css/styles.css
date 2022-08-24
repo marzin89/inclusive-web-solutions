@@ -384,6 +384,12 @@ header {
 #search-mobile form label {
   position: absolute;
   bottom: 10000px;
+  color: white;
+}
+@media only screen and (min-width: 1040px) {
+  #search-mobile form label {
+    display: none;
+  }
 }
 
 #search-wrapper-desktop {
@@ -392,8 +398,15 @@ header {
   padding: 10px 0;
 }
 #search-wrapper-desktop form label {
-  position: absolute;
-  bottom: 10000px;
+  display: none;
+}
+@media only screen and (min-width: 1040px) {
+  #search-wrapper-desktop form label {
+    display: block;
+    position: absolute;
+    bottom: 10000px;
+    color: white;
+  }
 }
 @media only screen and (min-width: 1040px) {
   #search-wrapper-desktop {

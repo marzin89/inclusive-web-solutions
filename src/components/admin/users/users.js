@@ -1044,6 +1044,8 @@ class Users extends React.Component {
                     oldPassword = user.password;
                 }
             })
+
+            firstNameInput.focus();
         
         } else if (e.target.id.indexOf('delete') >= 0) {
             document.getElementById('admin-form').scrollIntoView({behavior: 'smooth'});
@@ -1062,8 +1064,6 @@ class Users extends React.Component {
         e.preventDefault();
 
         if (this.validateForm()) {
-            this.form.current.reset();
-            
             let date        = new Date().toLocaleDateString('sv-SE', {timeZone: 'CET'});
             let userRole    = document.getElementById('user-role-input');
             let userBlocked = document.getElementById('user-blocked-input');
@@ -1117,6 +1117,8 @@ class Users extends React.Component {
                 this.props.put(localStorage.getItem('id'), body);
             }
         }
+
+        this.form.current.reset();
     }
 }
 

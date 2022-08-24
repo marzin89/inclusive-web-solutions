@@ -97,7 +97,7 @@ class Header extends React.Component {
                         </div>
                         <div id="icon-wrapper" tabIndex={-1}>
                             {/* Sökikon */}
-                            <input type="image" id="search-icon" role="button" className="focus focus-invisible" aria-haspopup="true" 
+                            <input type="image" id="search-icon" className="focus focus-invisible" aria-haspopup="true" 
                                 aria-label='Suchleiste zeigen' aria-expanded="false" src={searchIcon} alt="Such-Icon" 
                                 onClick={this.handleSearchIconClick}></input> 
                             {/* Sökruta mobil */}
@@ -106,7 +106,7 @@ class Header extends React.Component {
                                     <label htmlFor="search-bar">Website durchsuchen</label>
                                     <input id="search-bar" className="search-bar search-bar-mobile text-input input focus 
                                         focus-invisible-input regular-font-size" type="search" aria-required="true"
-                                        autoComplete='on' onChange={this.handleSearchChange}></input>
+                                        aria-describedby="search-phrase-empty" autoComplete='on' onChange={this.handleSearchChange}></input>
                                     {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                                     <button className="search-btn search-btn-mobile btn deutsch focus focus-invisible-input 
                                         regular-font-size" type="submit" onClick={this.validateSearch}>Suchen</button>
@@ -118,7 +118,7 @@ class Header extends React.Component {
                                     {this.state.searchErrorGerman}</p>
                             </div> 
                             {/* Hamburgerikon */}
-                            <input type="image" id="nav-icon" role="button" className="focus focus-invisible" aria-haspopup="true" 
+                            <input type="image" id="nav-icon" className="focus focus-invisible" aria-haspopup="true" 
                                 aria-label='Hauptmenü öffnen' aria-expanded="false" src={navIcon} alt="Hamburger-Icon"
                                 onClick={this.handleNavIconClick}></input>
                             {/* Huvudmeny mobil. Texten är på tyska eller svenska beroende på vilket språk som valts */}
@@ -165,7 +165,7 @@ class Header extends React.Component {
                                 <label htmlFor="search-bar">Sök på webbplatsen</label>
                                 <input id="search-bar" className="search-bar text-input input focus focus-invisible-input 
                                     regular-font-size" type="search" aria-required="true" autoComplete='on' 
-                                    onChange={this.handleSearchChange}></input>
+                                    aria-describedby="search-phrase-empty" onChange={this.handleSearchChange}></input>
                                 {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                                 <button className="search-btn btn svenska focus focus-invisible-input regular-font-size" 
                                     type="submit" onClick={this.validateSearch}>Sök</button>
@@ -205,7 +205,7 @@ class Header extends React.Component {
                         <div id="icon-wrapper" tabIndex={-1}>
                             {/* Sökikon */}
 
-                            <input type="image" id="search-icon" role="button" className="focus focus-invisible" aria-haspopup="true" 
+                            <input type="image" id="search-icon" className="focus focus-invisible" aria-haspopup="true" 
                                 aria-label= 'Visar sökrutan' aria-expanded="false" src={searchIcon} alt="Sökikon" 
                                 onClick={this.handleSearchIconClick}></input> 
                             {/* Sökruta mobil */}
@@ -214,7 +214,7 @@ class Header extends React.Component {
                                     <label htmlFor="search-bar">Sök på webbplatsen</label>
                                     <input id="search-bar" className="search-bar search-bar-mobile text-input input focus 
                                         focus-invisible-input regular-font-size" type="search" aria-required="true" autoComplete='on' 
-                                        onChange={this.handleSearchChange}></input>
+                                        aria-describedby="search-phrase-empty" onChange={this.handleSearchChange}></input>
                                     {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                                     <button className="search-btn search-btn-mobile btn svenska focus focus-invisible-input 
                                         regular-font-size" type="submit" onClick={this.validateSearch}>Sök</button>
@@ -226,7 +226,7 @@ class Header extends React.Component {
                                     {this.state.searchErrorSwedish}</p>
                             </div>
                             {/* Hamburgerikon */}
-                            <input type="image" id="nav-icon" role="button" className="focus focus-invisible" aria-haspopup="true" 
+                            <input type="image" id="nav-icon" className="focus focus-invisible" aria-haspopup="true" 
                                 aria-label='Öppnar huvudmenyn' aria-expanded="false" src={navIcon} alt="Hamburgerikon"
                                 onClick={this.handleNavIconClick}></input> 
                             {/* Huvudmeny mobil. Texten är på tyska eller svenska beroende på vilket språk som valts */}

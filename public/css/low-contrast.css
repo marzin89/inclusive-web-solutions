@@ -369,7 +369,8 @@ header {
 }
 #search-mobile form label {
   position: absolute;
-  top: -10000px;
+  bottom: 10000px;
+  color: white;
 }
 
 #search-wrapper-desktop {
@@ -379,7 +380,8 @@ header {
 }
 #search-wrapper-desktop form label {
   position: absolute;
-  top: -10000px;
+  bottom: 10000px;
+  color: white;
 }
 @media only screen and (min-width: 1040px) {
   #search-wrapper-desktop {

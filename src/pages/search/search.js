@@ -85,14 +85,14 @@ class Search extends React.Component {
                         <label htmlFor="search-bar-main">Website durchsuchen</label>
                         <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus 
                             focus-invisible-input regular-font-size" type="search" aria-required="true" 
-                            aria-describedby="number-of-results search-phrase-empty" autoComplete='on'
+                            aria-describedby="number-of-results search-phrase-empty-main" autoComplete='on'
                             onChange={this.handleSearchChange}></input>
                         <button className="search-btn search-btn-mobile btn deutsch focus focus-invisible-input 
                             regular-font-size" type="submit" onClick={this.handleSubmit}>Suchen</button>
                         <p id="number-of-results" className="number-of-results regular-font-size" role="alert" 
                             style={localStorage.getItem('resultsGerman') ? {display: 'block'} : {display: 'none'}}>
                                 {localStorage.getItem('numberOfResultsGerman') + ' Treffer'}</p>
-                        <p id="search-phrase-empty" className="regular-font-size error" role="alert" 
+                        <p id="search-phrase-empty-main" className="regular-font-size error" role="alert" 
                                 style={this.state.searchErrorGerman ? {display: 'block'} : {display: 'none'}}>
                                 {this.state.searchErrorGerman}</p>
                     </form>
@@ -111,14 +111,14 @@ class Search extends React.Component {
                         <label htmlFor="search-bar-main">Sök på webbplatsen</label>
                         <input id="search-bar-main" className="search-bar search-bar-mobile text-input input focus 
                             focus-invisible-input regular-font-size" type="search" aria-required="true" 
-                            aria-describedby="number-of-results search-phrase-empty" autoComplete='on' 
+                            aria-describedby="number-of-results search-phrase-empty-main" autoComplete='on' 
                             onChange={this.handleSearchChange}></input>
                         <button className="search-btn search-btn-mobile btn svenska focus focus-invisible-input regular-font-size" 
                             type="submit" onClick={this.handleSubmit}>Sök</button>
                         <p id="number-of-results" className="number-of-results regular-font-size" role="alert" 
                             style={localStorage.getItem('resultsSwedish') ? {display: 'block'} : {display: 'none'}}>
                             {localStorage.getItem('numberOfResultsSwedish') + ' träffar'}</p>
-                        <p id="search-phrase-empty" className="regular-font-size error" role="alert" 
+                        <p id="search-phrase-empty-main" className="regular-font-size error" role="alert" 
                             style={this.state.searchErrorSwedish ? {display: 'block'} : {display: 'none'}}>
                             {this.state.searchErrorSwedish}</p>
                     </form>

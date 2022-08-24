@@ -226,7 +226,8 @@ header {
 }
 #search-wrapper-desktop form label {
   position: absolute;
-  top: -10000px;
+  bottom: 10000px;
+  color: white;
 }
 
 #search form label {
