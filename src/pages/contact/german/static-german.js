@@ -136,7 +136,7 @@ class StaticGerman extends React.Component {
                         style={this.state.consentEmpty ? {display: 'block'} : {display: 'none'}}>
                         {this.state.consentEmpty}</p>
                     <div className="row">
-                        <button type="reset" className="reset-btn focus focus-invisible regular-font-size">
+                        <button type="reset" id="reset-btn" className="reset-btn focus focus-invisible regular-font-size">
                             Alle Felder löschen</button>
                         <button type="submit" className="submit-btn focus focus-invisible regular-font-size" 
                             onClick={this.handleSubmit}>Senden</button>
@@ -507,6 +507,10 @@ class StaticGerman extends React.Component {
             })
 
             this.form.current.reset();
+            document.getElementById('reset-btn').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
         }
     }
 }

@@ -63,14 +63,12 @@ class Admin extends React.Component {
             userPosts:          [],
             users:              [],
             comments:           [],
-            error:              false,
             errorTests:         '',
             errorSolutions:     '',
             errorCourses:       '',
             errorPosts:         '',
             errorUsers:         '',
             errorComments:      '',
-            confirm:            false,
             confirmTests:       '',
             confirmSolutions:   '',
             confirmCourses:     '',
@@ -275,14 +273,14 @@ class Admin extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:      true,
                     errorTests: 'Inga tester hittades.',
                 })
             
             // Lagrar testerna i state-arrayen
             } else {
                 this.setState({
-                    tests: data,
+                    errorTests: '',
+                    tests:      data,
                 })
             }
         })
@@ -290,7 +288,6 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => { 
             this.setState({
-                error:      true,
                 errorTests: 'Ett serverfel har uppstått. Det gick inte att hämta tester.' 
                                 + ' Försök igen lite senare.',
             })
@@ -310,14 +307,14 @@ class Admin extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:          true,
                     errorSolutions: 'Inga utvecklingspaket hittades.',
                 })
             
             // Lagrar anpassningarna i state-arrayen
             } else {
                 this.setState({
-                    solutions: data,
+                    errorSolutions: '',
+                    solutions:      data,
                 })
             }
         })
@@ -325,7 +322,6 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => { 
             this.setState({
-                error:          true,
                 errorSolutions: 'Ett serverfel har uppstått. Det gick inte att hämta utvecklingspaket.' 
                                     + ' Försök igen lite senare.',
             })
@@ -345,14 +341,14 @@ class Admin extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:        true,
                     errorCourses: 'Inga utbildningar hittades.',
                 })
             
             // Lagrar utbildningarna i state-arrayen
             } else {
                 this.setState({
-                    courses: data,
+                    errorCourses: '',
+                    courses:      data,
                 })
             }
         })
@@ -360,7 +356,6 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {            
             this.setState({
-                error:        true,
                 errorCourses: 'Ett serverfel har uppstått. Det gick inte att hämta utbildningar.' 
                                 + ' Försök igen lite senare.'
             })
@@ -380,7 +375,6 @@ class Admin extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:      true,
                     errorPosts: 'Inga inlägg hittades.',
                 })
             
@@ -395,7 +389,6 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {
             this.setState({             
-                error:      true,
                 errorPosts: 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
                                 + ' Försök igen lite senare.',
             })
@@ -417,7 +410,6 @@ class Admin extends React.Component {
             .then(data => {
                 if (!data.length) {
                     this.setState({
-                        error:      true,
                         errorPosts: 'Inga inlägg hittades.',
                     })
                 
@@ -432,7 +424,6 @@ class Admin extends React.Component {
             // Skriver ut ett felmeddelande om ett serverfel har uppstått
             .catch(() => {
                 this.setState({
-                    error:      true,
                     errorPosts: 'Ett serverfel har uppstått. Det gick inte att hämta inlägg.' 
                                     + ' Försök igen lite senare.'
                 })
@@ -454,14 +445,14 @@ class Admin extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:      true,
                     errorUsers: 'Inga användare hittades.',
                 })
             
             // Lagrar användarna i state-arrayen
             } else {
                 this.setState({
-                    users: data,
+                    errorUsers: '',
+                    users:      data,
                 })
             }
         })
@@ -469,7 +460,6 @@ class Admin extends React.Component {
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => {
             this.setState({
-                error:      true,
                 errorUsers: 'Ett serverfel har uppstått. Det gick inte att hämta användare.' 
                                 + ' Försök igen lite senare.'
             })
@@ -490,25 +480,23 @@ class Admin extends React.Component {
         .then(data => {
             if (!data.length) {
                 this.setState({
-                    error:         true,
                     errorComments: 'Inga kommentarer hittades.',
                 })
             
             // Lagrar kommentarerna i state-arrayen
             } else {
                 this.setState({
-                    comments: data,
+                    errorComments: '',
+                    comments:      data,
                 })
             }
         })
 
         // Skriver ut ett felmeddelande om ett serverfel har uppstått
         .catch(() => { 
-            localStorage.setItem('errorComments', 'Ett serverfel har uppstått. Det gick inte att hämta kommentarer.' 
-            + 'Försök igen lite senare.');
-
             this.setState({
-                error: true,
+                errorComments: 'Ett serverfel har uppstått. Det gick inte att hämta kommentarer.' 
+                                + 'Försök igen lite senare.',
             })
         })
     }
@@ -557,15 +545,15 @@ class Admin extends React.Component {
 
             this.setState({
                 tests:        testArr,
-                confirm:      true,
+                errorTests:   '',
                 confirmTests: 'Testet har lagts till.',
             })
         })
         .catch(() => {
             this.setState({
-                error:      true,
-                errorTests: 'Ett serverfel har uppstått. Det gick inte att lägga till testet.' 
+                errorTests:   'Ett serverfel har uppstått. Det gick inte att lägga till testet.' 
                                 + ' Försök igen lite senare.',
+                confirmTests: '',
             })
         })
     }
@@ -597,16 +585,16 @@ class Admin extends React.Component {
             solutionArr.reverse();
 
             this.setState({
-                confirm:          true,
+                errorSolutions:   '',
                 confirmSolutions: 'Utvecklingspaketet har lagts till.',
                 solutions:        solutionArr,
             })
         })
         .catch(() => {
             this.setState({
-                error:          true,
-                errorSolutions: 'Ett serverfel har uppstått. Det gick inte att lägga till utvecklingspaketet.' 
-                                    + ' Försök igen lite senare.'
+                errorSolutions:   'Ett serverfel har uppstått. Det gick inte att lägga till utvecklingspaketet.' 
+                                    + ' Försök igen lite senare.',
+                confirmSolutions: '',
             })
         })
     }
@@ -638,16 +626,16 @@ class Admin extends React.Component {
             courseArr.reverse();
 
             this.setState({
-                confirm:        true,
+                errorCourses:   '',
                 confirmCourses: 'Utbildningen har lagts till.',
                 courses:        courseArr,
             })
         })
         .catch(() => {
             this.setState({
-                error:        true,
-                errorCourses: 'Ett serverfel har uppstått. Det gick inte att lägga till utbildningen.' 
-                                + ' Försök igen lite senare.'
+                errorCourses:   'Ett serverfel har uppstått. Det gick inte att lägga till utbildningen.' 
+                                    + ' Försök igen lite senare.',
+                confirmCourses: '',
             })
         })
     }
@@ -694,15 +682,15 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:      true,
+                errorPosts:   '',
                 confirmPosts: 'Inlägget har lagts till.',
             })
         })
         .catch(() => {
             this.setState({
-                error:      true,
-                errorPosts: 'Ett serverfel har uppstått. Det gick inte att lägga till inlägget.' 
-                                + ' Försök igen lite senare.'
+                errorPosts:   'Ett serverfel har uppstått. Det gick inte att lägga till inlägget.' 
+                                + ' Försök igen lite senare.',
+                confirmPosts: '',
             })
         })
     }
@@ -732,16 +720,16 @@ class Admin extends React.Component {
             userArr.reverse();
 
             this.setState({
-                confirm:      true,
+                errorUsers:   '',
                 confirmUsers: 'Användaren har lagts till.',
                 users:        userArr,
             })
         })
         .catch(() => {
             this.setState({
-                error:      true, 
-                errorUsers: 'Ett serverfel har uppstått. Det gick inte att lägga till användaren.' 
-                                + ' Försök igen lite senare.'
+                errorUsers:   'Ett serverfel har uppstått. Det gick inte att lägga till användaren.' 
+                                + ' Försök igen lite senare.',
+                confirmUsers: '',
             })
         })
     }
@@ -767,7 +755,7 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:      true,
+                errorTests:   '',
                 confirmTests: 'Testet har uppdaterats.',
                 tests:        testArr,
             })
@@ -776,9 +764,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionServices');
 
             this.setState({
-                error:      true,
-                errorTests: 'Ett serverfel har uppstått. Det gick inte att uppdatera testet.' 
-                                + ' Försök igen lite senare.'
+                errorTests:   'Ett serverfel har uppstått. Det gick inte att uppdatera testet.' 
+                                + ' Försök igen lite senare.',
+                confirmTests: '',
             })
         })
     }
@@ -806,7 +794,7 @@ class Admin extends React.Component {
             /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
                 och uppdaterar sedan state-arrayen */
             this.setState({
-                confirm:          true,
+                errorSolutions:   '',
                 confirmSolutions: 'Utvecklingspaketet har uppdaterats.',
                 solutions:        solutionArr,
             })
@@ -815,9 +803,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionServices');
 
             this.setState({
-                error:          true,
-                errorSolutions: 'Ett serverfel har uppstått. Det gick inte att uppdatera utvecklingspaketet.' 
-                                    + ' Försök igen lite senare.'
+                errorSolutions:   'Ett serverfel har uppstått. Det gick inte att uppdatera utvecklingspaketet.' 
+                                    + ' Försök igen lite senare.',
+                confirmSolutions: '',
             })
         })
     }
@@ -846,7 +834,7 @@ class Admin extends React.Component {
                 och uppdaterar sedan state-arrayen */
             this.setState({
                 courses:        courseArr,
-                confirm:        true,
+                errorCourses:   '',
                 confirmCourses: 'Utbildningen har uppdaterats.',
             })
         })
@@ -854,9 +842,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionServices');
 
             this.setState({
-                error:        true,
-                errorCourses: 'Ett serverfel har uppstått. Det gick inte att uppdatera utbildningen.' 
-                                + ' Försök igen lite senare.'
+                errorCourses:   'Ett serverfel har uppstått. Det gick inte att uppdatera utbildningen.' 
+                                    + ' Försök igen lite senare.',
+                confirmCourses: '',
             })
         })
     }
@@ -904,7 +892,7 @@ class Admin extends React.Component {
             /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
                 och uppdaterar sedan state-arrayen */
             this.setState({
-                confirm:      true,
+                errorPosts:   '',
                 confirmPosts: 'Inlägget har uppdaterats.',
             })
         })
@@ -912,9 +900,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionPosts');
 
             this.setState({
-                error:      true,
-                errorPosts: 'Ett serverfel har uppstått. Det gick inte att uppdatera inlägget.' 
-                                + ' Försök igen lite senare.'
+                errorPosts:   'Ett serverfel har uppstått. Det gick inte att uppdatera inlägget.' 
+                                + ' Försök igen lite senare.',
+                confirmPosts: '',
             })
         })
     }
@@ -940,7 +928,7 @@ class Admin extends React.Component {
             /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
                 och uppdaterar sedan state-arrayen */
             this.setState({
-                confirm:      true,
+                errorUsers:   '',
                 confirmUsers: 'Användaren har uppdaterats.',
                 users:        userArr,
             })
@@ -949,9 +937,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionUsers');
 
             this.setState({
-                error:      true,
-                errorUsers: 'Ett serverfel har uppstått. Det gick inte att uppdatera användaren.' 
-                                + ' Försök igen lite senare.'
+                errorUsers:   'Ett serverfel har uppstått. Det gick inte att uppdatera användaren.' 
+                                + ' Försök igen lite senare.',
+                confirmUsers: '',
             })
         })
     }
@@ -990,7 +978,7 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:      true,
+                errorTests:   '',
                 confirmTests: 'Testet har raderats.',
                 tests:        testArr,
             })
@@ -999,9 +987,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionServices');
 
             this.setState({
-                error:      true,
-                errorTests: 'Ett serverfel har uppstått. Det gick inte att radera testet.' 
-                                + ' Försök igen lite senare.'
+                errorTests:   'Ett serverfel har uppstått. Det gick inte att radera testet.' 
+                                + ' Försök igen lite senare.',
+                confirmTests: '',
             })
         })
     }
@@ -1026,7 +1014,7 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:          true,
+                errorSolutions:   '',
                 confirmSolutions: 'Utvecklingspaketet har raderats.',
                 solutions:        solutionArr,
             })
@@ -1035,9 +1023,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionServices');
 
             this.setState({
-                error:          true,
-                errorSolutions: 'Ett serverfel har uppstått. Det gick inte att radera utvecklingspaketet. ' 
+                errorSolutions:   'Ett serverfel har uppstått. Det gick inte att radera utvecklingspaketet. ' 
                                     + 'Försök igen lite senare.',
+                confirmSolutions: '',
             })
         })
     }
@@ -1062,7 +1050,7 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:        true,
+                errorCourses:   '',
                 confirmCourses: 'Utbildningen har raderats.',
                 courses:        courseArr,
             })
@@ -1071,9 +1059,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionServices');
 
             this.setState({
-                error:        true,
-                errorCourses: 'Ett serverfel har uppstått. Det gick inte att radera utbildningen.' 
-                                + ' Försök igen lite senare.',
+                errorCourses:   'Ett serverfel har uppstått. Det gick inte att radera utbildningen.' 
+                                    + ' Försök igen lite senare.',
+                confirmCourses: '',
             })
         })
     }
@@ -1117,7 +1105,7 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:      true,
+                errorPosts:   '',
                 confirmPosts: 'Inlägget har raderats.',
             })
         })
@@ -1125,9 +1113,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionPosts');
 
             this.setState({
-                error:      true,
-                errorPosts: 'Ett serverfel har uppstått. Det gick inte att radera inlägget.' 
+                errorPosts:   'Ett serverfel har uppstått. Det gick inte att radera inlägget.' 
                                 + ' Försök igen lite senare.',
+                confirmPosts: '',
             })
         })
     }
@@ -1150,7 +1138,7 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:      true,
+                errorUsers:   '',
                 confirmUsers: 'Användaren har raderats.',
                 users:        userArr,
             })
@@ -1159,9 +1147,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionUsers');
 
             this.setState({
-                error:      true,
-                errorUsers: 'Ett serverfel har uppstått. Det gick inte att radera användaren.' 
-                                + ' Försök igen lite senare.'
+                errorUsers:   'Ett serverfel har uppstått. Det gick inte att radera användaren.' 
+                                + ' Försök igen lite senare.',
+                confirmUsers: '',
             })
         })
     }
@@ -1181,16 +1169,16 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:         true,
+                errorComments:   '',
                 confirmComments: 'Kommentaren har raderats.',
                 comments:        commentArr,
             })
         })
         .catch(() => {
             this.setState({
-                error:         true,
-                errorComments: 'Ett serverfel har uppstått. Det gick inte att radera kommentaren.' 
+                errorComments:   'Ett serverfel har uppstått. Det gick inte att radera kommentaren.' 
                                     + ' Försök igen lite senare.',
+                confirmComments: '',
             })
         })
     }
@@ -1246,7 +1234,7 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:        true,
+                errorPosts:     '',
                 confirmPosts:   'Inlägget har publicerats.',
             })
         })
@@ -1254,9 +1242,9 @@ class Admin extends React.Component {
             localStorage.removeItem('actionPosts');
 
             this.setState({
-                error:      true,
-                errorPosts: 'Ett serverfel har uppstått. Det gick inte att publicera inlägget.' 
+                errorPosts:   'Ett serverfel har uppstått. Det gick inte att publicera inlägget.' 
                                 + ' Försök igen lite senare.',
+                confirmPosts: '',
             })
         })
     }
@@ -1276,16 +1264,16 @@ class Admin extends React.Component {
             }
 
             this.setState({
-                confirm:         true,
+                errorComments:   '',
                 confirmComments: 'Kommentaren har publicerats.',
                 comments:        commentArr,
             })
         })
         .catch(() => {
             this.setState({
-                error:         true,
-                errorComments: 'Ett serverfel har uppstått. Det gick inte att publicera kommentaren.' 
-                                    + ' Försök igen lite senare.'
+                errorComments:   'Ett serverfel har uppstått. Det gick inte att publicera kommentaren.' 
+                                    + ' Försök igen lite senare.',
+                confirmComments: '',
             })
         })
     }

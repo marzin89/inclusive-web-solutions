@@ -103,7 +103,7 @@ class Posts extends React.Component {
                         </input>
                         <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
                             {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
-                        <button type="reset" className="reset-btn">Rensa</button>
+                        <button type="reset" id="reset-btn" className="reset-btn">Rensa</button>
                         <button type="submit" className="submit-btn" onClick={this.handleSubmit}>
                             Skicka</button>
                     </form>
@@ -655,7 +655,10 @@ class Posts extends React.Component {
             nameInput.focus();
         
         } else if (e.target.id.indexOf('delete') >= 0) {
-            document.getElementById('admin-form').scrollIntoView({behavior: 'smooth'});
+            document.getElementById('reset-btn').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
 
             action      = 'delete';
             id          = e.target.id.slice(6);
@@ -839,6 +842,10 @@ class Posts extends React.Component {
             }
 
             this.form.current.reset();
+            document.getElementById('reset-btn').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
         }
     }
 }
