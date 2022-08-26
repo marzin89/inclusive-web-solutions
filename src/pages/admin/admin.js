@@ -219,6 +219,11 @@ class Admin extends React.Component {
                 buttons[i].setAttribute('aria-pressed', false);
             }
         }
+
+        if (e.target.id !== 'tests') {
+            buttons[2].setAttribute('aria-pressed', false);
+            buttons[2].className = 'focus btn admin-btn admin-btn-left';
+        }
     }
 
     componentDidMount() {
@@ -240,8 +245,8 @@ class Admin extends React.Component {
                 component: 'tests',
             })
 
-            buttons[1].setAttribute('aria-pressed', true);
-            buttons[1].className = 'focus btn admin-btn admin-btn-left';
+            buttons[2].setAttribute('aria-pressed', true);
+            buttons[2].className = 'focus btn active-admin-btn admin-btn admin-btn-left';
         }
     }
 
