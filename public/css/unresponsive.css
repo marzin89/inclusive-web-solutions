@@ -343,7 +343,7 @@ main {
   background-color: #FAFAFA;
   overflow: auto;
   width: 1300px;
-  height: 1080px;
+  min-height: 1080px;
   padding-top: 125px;
 }
 
@@ -392,17 +392,25 @@ h1, .h2-admin {
 }
 
 #services h1 {
-  max-width: 1280px;
+  width: 1240px;
+}
+#services section {
+  margin-bottom: 50px;
 }
 
 h2 {
   font-size: 1.5em;
   color: #3D5858;
-  margin-bottom: 5px;
+  margin: 5px 0;
 }
 
 .h2-home {
   font-size: 2em;
+}
+
+.h2-services {
+  width: 1240px;
+  margin: 5px auto;
 }
 
 h3 {
@@ -510,7 +518,8 @@ form {
 }
 
 .test, .solution, .course {
-  width: 600px;
+  width: 47%;
+  max-width: 600px;
   float: left;
   margin: 0 1.5%;
 }
@@ -661,7 +670,8 @@ p {
 }
 
 #about-btn {
-  width: 345px;
+  width: 45%;
+  max-width: 345px;
   height: 35px;
   background-color: #3374BD;
   border: 1px solid #3374BD;
@@ -678,7 +688,8 @@ p {
 }
 
 #contact-btn {
-  width: 345px;
+  width: 45%;
+  max-width: 345px;
   height: 35px;
   background-color: #A34E1C;
   border: 1px solid #A34E1C;
@@ -695,7 +706,8 @@ p {
 }
 
 #services-btn {
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   height: 35px;
   background-color: #3271B8;
   border: 1px solid #3271B8;
@@ -731,7 +743,8 @@ p {
 
 .home-right {
   padding-top: 50px;
-  width: 380px;
+  width: 30%;
+  max-width: 380px;
   float: right;
   padding-left: 10px;
   padding-right: 10px;
@@ -752,7 +765,8 @@ footer {
 .home-left {
   margin: 0 auto;
   padding-top: 50px;
-  width: 920px;
+  width: 70%;
+  max-width: 920px;
   float: left;
   margin-left: 0;
   padding-left: 10px;
@@ -815,11 +829,12 @@ footer {
 #subpage-content {
   margin: 0 auto;
   margin-top: 30px;
-  width: 600px;
+  max-width: 600px;
 }
 
 #subnav {
-  width: 400px;
+  width: 38%;
+  max-width: 400px;
   margin: 0 auto;
   margin-top: 25px;
   float: left;

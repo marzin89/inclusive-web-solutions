@@ -387,18 +387,27 @@ h1, .h2-admin {
 
 #services {
     h1 {
-        max-width: 1280px;
+        max-width: 1240px;
+    }
+    
+    section {
+        margin-bottom: 50px;
     }
 }
 
 h2 {
     font-size: $font-size-h2-accessible;
     color: $heading-color;
-    margin-bottom: 5px;
+    margin: 5px 0;
 }
 
 .h2-home {
     font-size: $font-size-h1-accessible;
+}
+
+.h2-services {
+    max-width: 1240px;
+    margin: 5px auto;
 }
 
 h3 {

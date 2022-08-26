@@ -63,7 +63,7 @@ class PostSwedish extends React.Component {
                     <p className="body-text regular-font-size line-height">{content1}</p>
                     {image}
                     {content2}
-                    <p id="author" className="regular-font-size">{this.state.post[0].author}</p>
+                    <p id="author" className="regular-font-size">{this.state.author}</p>
                 </div>
         
         } else if (content2.length && !image) {

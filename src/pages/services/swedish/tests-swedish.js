@@ -22,7 +22,7 @@ class TestsSwedish extends React.Component {
     render() {
         return (
             <section id="tests">
-                <h2 className="h2-font-size">Tester</h2>
+                <h2 className="h2-font-size h2-services">Tester</h2>
                 <div className="row-services">
                     {this.state.tests.length ? this.renderTests() : null}
                     <p className="error-services regular-font-size" role="alert" 

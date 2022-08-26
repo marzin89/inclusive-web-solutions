@@ -200,7 +200,7 @@ main {
     background-color: $main-color;
     overflow: auto;
     width: 1300px;
-    height: 1080px;
+    min-height: 1080px;
     padding-top: 125px;
 }
 
@@ -253,18 +253,27 @@ h1, .h2-admin {
 
 #services {
     h1 {
-        max-width: 1280px;
+        width: 1240px;
+    }
+    
+    section {
+        margin-bottom: 50px;
     }
 }
 
 h2 {
     font-size: $font-size-h2-accessible;
     color: $heading-color;
-    margin-bottom: 5px;
+    margin: 5px 0;
 }
 
 .h2-home {
     font-size: $font-size-h1-accessible;
+}
+
+.h2-services {
+    width: 1240px;
+    margin: 5px auto;
 }
 
 h3 {
@@ -374,7 +383,8 @@ form {
 }
 
 .test, .solution, .course {
-    width: 600px;
+    width: 47%;
+    max-width: 600px;
     float: left;
     margin: 0 1.5%;
 }
@@ -528,7 +538,8 @@ p {
 }
 
 #about-btn {
-    width: 345px;
+    width: 45%;
+    max-width: 345px;
     height: 35px;
     background-color: $about-btn-color;
     border: 1px solid $about-btn-color;
@@ -545,7 +556,8 @@ p {
 }
 
 #contact-btn {
-    width: 345px;
+    width: 45%;
+    max-width: 345px;
     height: 35px;
     background-color: $contact-btn-color;
     border: 1px solid $contact-btn-color;
@@ -562,7 +574,8 @@ p {
 }
 
 #services-btn {
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     height: 35px;
     background-color: $services-btn-color;
     border: 1px solid $services-btn-color;
@@ -598,7 +611,8 @@ p {
 
 .home-right {
     padding-top: 50px;
-    width: 380px;
+    width: 30%;
+    max-width: 380px;
     float: right;
     padding-left: 10px;
     padding-right: 10px;
@@ -619,7 +633,8 @@ footer {
 .home-left {
     margin: 0 auto;
     padding-top: 50px;
-    width: 920px;
+    width: 70%;
+    max-width: 920px;
     float: left;
     margin-left: 0;
     padding-left: 10px;
@@ -682,11 +697,12 @@ footer {
 #subpage-content {
     margin: 0 auto;
     margin-top: 30px;
-    width: 600px;
+    max-width: 600px;
 }
 
 #subnav {
-    width: 400px;
+    width: 38%;
+    max-width: 400px;
     margin: 0 auto;
     margin-top: 25px;
     float: left;

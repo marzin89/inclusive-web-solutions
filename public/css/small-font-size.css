@@ -605,12 +605,20 @@ h1, .h2-admin {
 }
 
 #services h1 {
-  max-width: 1280px;
+  max-width: 1240px;
+}
+#services section {
+  margin-bottom: 50px;
 }
 
 h2 {
   color: #3D5858;
-  margin-bottom: 5px;
+  margin: 5px 0;
+}
+
+.h2-services {
+  max-width: 1240px;
+  margin: 5px auto;
 }
 
 h3 {
