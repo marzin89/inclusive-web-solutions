@@ -25,7 +25,7 @@
   border: 2px solid #3D5858;
   padding-left: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .text-input-main {
     max-width: 295px;
   }
@@ -42,7 +42,7 @@
   border: 1px solid #BD3E33;
   margin-top: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .reset-btn {
     max-width: 295px;
     float: left;
@@ -64,7 +64,7 @@
   border: 1px solid #2A7373;
   margin-top: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .submit-btn {
     max-width: 295px;
     float: right;
@@ -86,7 +86,7 @@
   font-weight: bold;
   margin-top: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .admin-btn {
     max-width: 295px;
   }
