@@ -657,12 +657,13 @@ class Posts extends React.Component {
         } else if (e.target.id.indexOf('delete') >= 0) {
             document.getElementById('reset-btn').scrollIntoView({
                 behavior: 'smooth',
-                block: 'center'
+                block: 'center',
             });
 
             action      = 'delete';
             id          = e.target.id.slice(6);
             let published;
+            let comments;
 
             this.props.search.map((page) => {
                 if (page.foreignKey) {
@@ -675,12 +676,18 @@ class Posts extends React.Component {
             this.props.posts.map((post) => {
                 if (post.id == id) {
                     published = post.published;
+                    comments  = post.comments;
                 }
             })
 
-            this.props.delete(id, published);
+            this.props.delete(id, published, comments);
 
         } else if (e.target.id.indexOf('publish') >= 0) {
+            document.getElementById('reset-btn').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+            
             action = 'publish';
             id     = e.target.id.slice(7);
 

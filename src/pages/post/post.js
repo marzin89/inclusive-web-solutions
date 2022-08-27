@@ -19,6 +19,7 @@ class Post extends React.Component {
         this.getComments            = this.getComments.bind(this);
         this.checkIfPostHasComments = this.checkIfPostHasComments.bind(this);
         this.addComment             = this.addComment.bind(this);
+        this.updatePost             = this.updatePost.bind(this);
         this.handleLogout           = this.handleLogout.bind(this);
 
         this.state = {
@@ -171,6 +172,9 @@ class Post extends React.Component {
         })
         .then(response => response.json())
         .then((data) => {
+            const id = data.postId;
+            this.updatePost(id);
+
             let comments = this.state.comments;
             comments.push(data);
             comments.reverse();
@@ -204,6 +208,16 @@ class Post extends React.Component {
                                     'Det gick inte att skicka kommentaren. Försök igen senare.',
                 })
             }
+        })
+    }
+
+    updatePost(id) {
+        fetch(`https://iws-rest-api.herokuapp.com/posts/id/${id}/comments/true`, {
+            method:  'PUT',
+            headers: {'Content-Type': 'application/json',},
+        })
+        .catch((err) => {
+            console.log(err);
         })
     }
 

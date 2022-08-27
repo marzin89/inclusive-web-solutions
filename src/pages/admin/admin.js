@@ -46,6 +46,7 @@ class Admin extends React.Component {
         this.deletePost           = this.deletePost.bind(this);
         this.deleteUser           = this.deleteUser.bind(this);
         this.deleteComment        = this.deleteComment.bind(this);
+        this.deletePostComments   = this.deletePostComments.bind(this);
         this.publishComment       = this.publishComment.bind(this);
         this.publishPost          = this.publishPost.bind(this);
         this.handleLogout         = this.handleLogout.bind(this);
@@ -1071,7 +1072,7 @@ class Admin extends React.Component {
         })
     }
 
-    deletePost(id, published) {
+    deletePost(id, published, comments) {
         fetch(`https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
@@ -1079,6 +1080,10 @@ class Admin extends React.Component {
         .then(() => {
             if (published) {
                 this.deleteSearch();
+            }
+
+            if (comments) {
+                this.deletePostComments(id);
             }
 
             localStorage.removeItem('actionPosts');
@@ -1156,6 +1161,30 @@ class Admin extends React.Component {
                                 + ' Försök igen lite senare.',
                 confirmUsers: '',
             })
+        })
+    }
+
+    deletePostComments(id) {
+        fetch(`https://iws-rest-api.herokuapp.com/comments/password/tbbA=!vYzT99*,;oGSi8/postId/${id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json',},
+        })
+        .then((response) => response.json())
+        .then(() => {
+            let commentArr = this.state.comments;
+
+            for (let i = 0; i < commentArr; i ++) {
+                if (commentArr[i].postId == id) {
+                    commentArr.splice(i, 1);
+                }
+            }
+
+            this.setState({
+                comments: commentArr,
+            })
+        })
+        .catch((err) => {
+            console.log(err);
         })
     }
 
