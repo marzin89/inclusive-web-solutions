@@ -230,7 +230,7 @@ body {
 }
 @media only screen and (min-width: 1040px) {
   #page-wrapper {
-    padding-bottom: 160px;
+    padding-bottom: 190px;
   }
 }
 
@@ -290,6 +290,7 @@ header {
 }
 @media only screen and (min-width: 1040px) {
   #header-right {
+    width: 83%;
     height: 105px;
   }
 }
@@ -395,7 +396,7 @@ header {
 #search-icon {
   display: block;
   width: 30px;
-  height: 30px;
+  height: 35px;
   float: left;
   margin-top: 10px;
 }
@@ -403,7 +404,7 @@ header {
 #nav-icon {
   display: block;
   width: 40px;
-  height: 35px;
+  height: 33px;
   float: right;
   margin-top: 10px;
 }
@@ -518,6 +519,7 @@ header {
 }
 
 .navlink {
+  font-weight: bold;
   color: white;
   text-decoration: none;
 }
@@ -773,12 +775,16 @@ textarea {
 }
 
 #image-upload-input {
+  width: 100%;
+  height: 35px;
   font-family: inherit;
   font-size: inherit;
-  color: #3D5858;
+  background-color: #517788;
+  color: white;
   font-weight: bold;
   margin-top: 5px;
   margin-bottom: 10px;
+  padding-top: 5px;
 }
 
 #stop-btn {
@@ -944,8 +950,8 @@ p {
 }
 
 #about-btn {
-  width: 100%;
-  max-width: 145px;
+  width: 48.5%;
+  max-width: 295px;
   height: 35px;
   background-color: #3374BD;
   border: 1px solid #3374BD;
@@ -956,16 +962,10 @@ p {
   margin-right: 5px;
   margin-top: 20px;
 }
-@media only screen and (min-width: 1040px) {
-  #about-btn {
-    width: 45%;
-    max-width: 345px;
-  }
-}
 
 #contact-btn {
-  width: 100%;
-  max-width: 145px;
+  width: 48.5%;
+  max-width: 295px;
   height: 35px;
   background-color: #A34E1C;
   border: 1px solid #A34E1C;
@@ -975,12 +975,6 @@ p {
   font-weight: bold;
   margin-left: 5px;
   margin-top: 20px;
-}
-@media only screen and (min-width: 1040px) {
-  #contact-btn {
-    width: 45%;
-    max-width: 345px;
-  }
 }
 
 #services-btn {
@@ -1043,7 +1037,7 @@ footer {
 }
 @media only screen and (min-width: 1040px) {
   footer {
-    height: 160px;
+    height: 190px;
   }
 }
 
@@ -1108,6 +1102,7 @@ footer {
 }
 
 #contact-information, #email-link {
+  font-weight: bold;
   color: white;
 }
 

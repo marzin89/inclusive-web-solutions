@@ -168,9 +168,8 @@ class Users extends React.Component {
                             <div className="form-right">
                                 <label htmlFor="password-input">Lösenord *</label>
                                 <input id="password-input" className="focus text-input-main" type="password" 
-                                    aria-required="true" aria-describedby="password-empty password-too-short
-                                    password-insecure password-taken" autoComplete='new-password' 
-                                    onChange={this.handlePasswordChange}></input>
+                                    aria-required="true" aria-describedby="password-empty password-too-short password-insecure password-taken" 
+                                    autoComplete='new-password' onChange={this.handlePasswordChange}></input>
                                 {/* Här skrivs ett felmeddelande ut om inget lösenord har angetts */}
                                 <p id="password-empty" className="error empty" role="alert" 
                                     style={this.state.passwordEmpty ? 

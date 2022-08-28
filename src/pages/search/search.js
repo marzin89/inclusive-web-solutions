@@ -38,14 +38,6 @@ class Search extends React.Component {
             errorGerman:          '',
         }
 
-        if (!localStorage.getItem('searchIndexSwedish')) {
-            localStorage.setItem('searchIndexSwedish', 0);
-        }
-
-        if (!localStorage.getItem('searchIndexGerman')) {
-            localStorage.setItem('searchIndexGerman', 0);
-        }
-
         this.search();
     }
 
@@ -178,6 +170,14 @@ class Search extends React.Component {
     }
 
     search() {
+        if (!localStorage.getItem('searchIndexSwedish')) {
+            localStorage.setItem('searchIndexSwedish', 0);
+        }
+
+        if (!localStorage.getItem('searchIndexGerman')) {
+            localStorage.setItem('searchIndexGerman', 0);
+        }
+
         if (localStorage.getItem('query')) {
             fetch('https://iws-rest-api.herokuapp.com/search')
             .then(response => response.json())
@@ -252,6 +252,30 @@ class Search extends React.Component {
                 localStorage.setItem('numberOfResultsSwedish', resultsSwedish.length);
                 localStorage.setItem('numberOfResultsGerman', resultsGerman.length);
 
+                if (localStorage.getItem('searchIndexSwedish') >= 5 &&
+                    localStorage.getItem('numberOfResultsSwedish') < 5) {
+    
+                    localStorage.setItem('searchIndexSwedish', 0);
+                }   
+
+                if (localStorage.getItem('activeSearchPageSwedish') > 1 &&
+                    localStorage.getItem('numberOfResultsSwedish') <= 5) {
+                        
+                    localStorage.setItem('activeSearchPageSwedish', 1);
+                }
+
+                if (localStorage.getItem('searchIndexGerman') >= 5 &&
+                    localStorage.getItem('numberOfResultsGerman') < 5) {
+    
+                    localStorage.setItem('searchIndexGerman', 0);
+                }   
+
+                if (localStorage.getItem('activeSearchPageGerman') > 1 &&
+                    localStorage.getItem('numberOfResultsGerman') <= 5) {
+                        
+                    localStorage.setItem('activeSearchPageGerman', 1);
+                }
+
                 if (!resultsSwedish.length) {
                     this.setState({
                         error:        true,
@@ -265,6 +289,8 @@ class Search extends React.Component {
                         errorGerman: 'Ihre Suche ergab leider keine Treffer.',
                     })
                 }
+
+                document.getElementById('search-bar-main').focus();
             })
             .catch(() => {
                 this.setState({

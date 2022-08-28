@@ -49,7 +49,7 @@ class StaticSwedish extends React.Component {
                         Upplevelser säger mer än ord. 
                         Här kan du uppleva en otillgänglig webbplats.</p>
                         <button id="stop-btn" style={localStorage.getItem('accessibility-error') ?
-                            {display: 'block'} : {display: 'none'}} aria-haspopup="true"
+                            {display: 'block'} : {display: 'none'}} aria-haspopup="true" aria-expanded="false"
                             onClick={this.handleBtnClick}>Avsluta</button>
                     <h3 className="h3-accessibility h3-font-size">Kontrast</h3>
                     <p className="regular-font-size line-height">
@@ -163,7 +163,7 @@ class StaticSwedish extends React.Component {
         }
 
         if (e.target.id !== 'stop-btn') {
-            localStorage.setItem('accessibility-error', e.target.id);     
+            localStorage.setItem('accessibility-error', e.target.id); 
         }
 
         switch(e.target.id) {
@@ -185,6 +185,7 @@ class StaticSwedish extends React.Component {
 
             case 'stop-btn':
                 stopBtn.style.display = 'none';
+                stopBtn.setAttribute('aria-expanded', true); 
 
                 link[0].href = './css/styles.css';
 

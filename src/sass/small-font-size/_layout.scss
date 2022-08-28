@@ -11,7 +11,7 @@ body {
     padding-bottom: 225px;
 
     @media only screen and (min-width: 1040px) {
-        padding-bottom: 160px;
+        padding-bottom: 190px;
     }
 }
 
@@ -67,6 +67,7 @@ header {
     float: right;
 
     @media only screen and (min-width: 1040px) {
+        width: 83%;
         height: 105px;
     }
 }
@@ -177,7 +178,7 @@ header {
 #search-icon {
     display: block;
     width: 30px;
-    height: 30px;
+    height: 35px;
     float: left;
     margin-top: 10px;
 }
@@ -185,7 +186,7 @@ header {
 #nav-icon {
     display: block;
     width: 40px;
-    height: 35px;
+    height: 33px;
     float: right;
     margin-top: 10px;
 }
@@ -297,6 +298,7 @@ header {
 }
 
 .navlink {
+    font-weight: bold;
     color: white;
     text-decoration: none;
 }
@@ -540,12 +542,16 @@ textarea {
 }
 
 #image-upload-input {
+    width: 100%;
+    height: 35px;
     font-family: inherit;
     font-size: inherit;
-    color: $heading-color;
+    background-color: $admin-btn-color;
+    color: white;
     font-weight: bold;
     margin-top: 5px;
     margin-bottom: 10px;
+    padding-top: 5px;
 }
 
 #stop-btn {
@@ -703,8 +709,8 @@ p {
 }
 
 #about-btn {
-    width: 100%;
-    max-width: 145px;
+    width: 48.5%;
+    max-width: 295px;
     height: 35px;
     background-color: $about-btn-color;
     border: 1px solid $about-btn-color;
@@ -713,11 +719,6 @@ p {
     font-weight: bold;
     margin-right: 5px;
     margin-top: 20px;
-
-    @media only screen and (min-width: 1040px) {
-        width: 45%;
-        max-width: 345px;
-    }
 }
 
 #about-btn:focus {
@@ -725,8 +726,8 @@ p {
 }
 
 #contact-btn {
-    width: 100%;
-    max-width: 145px;
+    width: 48.5%;
+    max-width: 295px;
     height: 35px;
     background-color: $contact-btn-color;
     border: 1px solid $contact-btn-color;
@@ -735,11 +736,6 @@ p {
     font-weight: bold;
     margin-left: 5px;
     margin-top: 20px;
-
-    @media only screen and (min-width: 1040px) {
-        width: 45%;
-        max-width: 345px;
-    }
 }
 
 #contact-btn:focus {
@@ -810,7 +806,7 @@ footer {
     overflow: auto;
 
     @media only screen and (min-width: 1040px) {
-        height: 160px;
+        height: 190px;
     }
 }
 
@@ -874,6 +870,7 @@ footer {
 }
 
 #contact-information, #email-link {
+    font-weight: bold;
     color: white;
 }
 

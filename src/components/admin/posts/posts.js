@@ -96,7 +96,7 @@ class Posts extends React.Component {
                             {display: 'block'} : {display: 'none'}}>{this.state.imageTooBig}</p>
                         <p id="image-format-error" className="error" role="alert" style={this.state.imageWrongFormat ?
                             {display: 'block'} : {display: 'none'}}>{this.state.imageWrongFormat}</p>
-                        <label htmlFor="alt-text-input">Alt-text</label>
+                        <label id="alt-text-label" htmlFor="alt-text-input">Alt-text</label>
                         <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
                             aria-required="false" aria-describedby="alt-text-error" autoComplete='on' 
                             onChange={this.handleAltTextChange}>
@@ -219,6 +219,7 @@ class Posts extends React.Component {
             const png  = e.target.value.indexOf('png');
 
             altTextInput.setAttribute('aria-required', true);
+            document.getElementById('alt-text-label').innerHTML = 'Alt-text *';
 
             // Skriver ut ett felmeddelande om bilden är för stor
             if (size > 500000) {
@@ -227,8 +228,7 @@ class Posts extends React.Component {
                     imageTooBig:         'Bilden är för stor.',
                 })
 
-                e.target.setAttribute('aria-invalid', true);
-                
+                e.target.setAttribute('aria-invalid', true); 
             
             } else {
                 this.setState ({
@@ -245,7 +245,6 @@ class Posts extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                
 
             } else {
                 this.setState({ 

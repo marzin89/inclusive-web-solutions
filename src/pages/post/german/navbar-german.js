@@ -40,7 +40,7 @@ class NavbarGerman extends React.Component {
         })
 
         let navbar =
-            <nav id="subnav" aria-label="Posts">
+            <nav id="subnav" aria-label="Unternavigation mit Posts">
                 <ul>
                     <li id="subnav-first-item"><Link className="focus focus-invisible regular-font-size" 
                         to={'/blog'}>Blog</Link></li>

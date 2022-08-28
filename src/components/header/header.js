@@ -1,9 +1,8 @@
 // Imports
 import React from 'react';
-import logoMobil from '../../images/logo/logoMobil.jpg';
-import logoDesktop from '../../images/logo/logoDesktop.jpg';
-import searchIcon from '../../images/sökikon/searchIcon.jpg';
-import navIcon from '../../images/hamburgerikon/navIcon.jpg';
+import logo from '../../images/logo/logo.png';
+import searchIcon from '../../images/sökikon/searchIcon.png';
+import navIcon from '../../images/hamburgerikon/navIcon.png';
 import {Link} from 'react-router-dom';
 import { toHaveDisplayValue } from '@testing-library/jest-dom/dist/matchers';
 
@@ -50,8 +49,8 @@ class Header extends React.Component {
                     <div id="header-left">
                         <Link id="logo" to={"/"} onClick={this.handlePageTitle} aria-label='Link zur Homepage' 
                             className="focus focus-invisible">
-                            <img id="logo-mobile" src={logoMobil} alt="Logo von IWS"></img>
-                            <img id="logo-desktop" src={logoDesktop} alt="Logo von IWS"></img>
+                            <img id="logo-mobile" src={logo} alt="Logo von IWS"></img>
+                            <img id="logo-desktop" src={logo} alt="Logo von IWS"></img>
                         </Link>
                     </div>
                     <div id="header-right">
@@ -154,8 +153,8 @@ class Header extends React.Component {
                     <div id="header-left">
                         <Link id="logo" to={"/"} onClick={this.handlePageTitle} 
                             aria-label='Länk till startsidan' className="focus focus-invisible">
-                            <img id="logo-mobile" src={logoMobil} alt="IWS logotyp"></img>
-                            <img id="logo-desktop" src={logoDesktop} alt="IWS logotyp"></img>
+                            <img id="logo-mobile" src={logo} alt="IWS logotyp"></img>
+                            <img id="logo-desktop" src={logo} alt="IWS logotyp"></img>
                         </Link>
                     </div>
                     <div id="header-right">
@@ -389,6 +388,11 @@ class Header extends React.Component {
             document.getElementById('search-bar').setAttribute('aria-invalid', true);
 
         } else {
+            this.setState({
+                searchErrorGerman:  '',
+                searchErrorSwedish: '',
+            });
+            
             window.open('/search', '_self');
         }
     }

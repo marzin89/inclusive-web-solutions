@@ -46,7 +46,7 @@ class StaticGerman extends React.Component {
                         Erlebnisse sagen mehr als Worte. 
                         Hier können Sie selbst eine unzugängliche Website erleben.</p>
                         <button id="stop-btn" style={localStorage.getItem('accessibility-error') ?
-                            {display: 'block'} : {display: 'none'}} aria-haspopup="true" 
+                            {display: 'block'} : {display: 'none'}} aria-haspopup="true" aria-expanded="false"
                             onClick={this.handleBtnClick}>Beenden</button>
                     <h3 className="h3-accessibility h3-font-size">Kontrast</h3>
                     <p className="regular-font-size line-height">
@@ -192,6 +192,7 @@ class StaticGerman extends React.Component {
 
             case 'stop-btn':
                 stopBtn.style.display = 'none';
+                stopBtn.setAttribute('aria-expanded', true);
 
                 link[0].href = './css/styles.css';
 

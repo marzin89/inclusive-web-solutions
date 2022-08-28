@@ -123,9 +123,10 @@ class App extends React.Component {
         // Lagrar status för inloggning, användarnamn och användarroll
         } else {
             this.setState({
-              signedIn:   true,
-              username:   body.username,
-              permission: data.permission,
+              validationError: '',
+              signedIn:        true,
+              username:        body.username,
+              permission:      data.permission,
             })
 
             /* Lagrar status för inloggning, användarnamn, behörighet och sidans namn 

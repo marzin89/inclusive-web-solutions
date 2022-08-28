@@ -83,7 +83,7 @@ class Services extends React.Component {
                         {/* Tjänstens namn */}
                         <div className="form-left">
                             <label htmlFor="service-name-input">Namn *</label>
-                            <input id="service-name-input" className="focus text-input-main admin-input" 
+                            <input id="service-name-input" className="focus text-input-main admin-input admin-input-required" 
                                 type="text" aria-required="true" aria-describedby="service-name-error" 
                                 autoComplete='on' onChange={this.handleNameChange}>
                             </input>
@@ -93,9 +93,9 @@ class Services extends React.Component {
                         </div>
                         {/* Tjänstens pris */}
                         <div className="form-right">
-                            <label htmlFor="service-price-input">Pris *</label>
-                            <input id="service-price-input" className="focus text-input-main admin-input" type="text" 
-                                placeholder="t.ex. 1 000 :-" aria-required="true" aria-describedby="service-price-error" 
+                            <label id="service-price-label" htmlFor="service-price-input">Pris (t.ex. 1 000 :-) *</label>
+                            <input id="service-price-input" className="focus text-input-main admin-input admin-input-required" 
+                                type="text" aria-required="true" aria-describedby="service-price-error" 
                                 autoComplete='on' onChange={this.handlePriceChange}></input>
                             {/* Här skrivs ett felmeddelande ut om inget pris har angetts */}
                             <p id="service-price-error" className="error" role="alert" style={this.state.priceEmpty ?
@@ -103,7 +103,7 @@ class Services extends React.Component {
                         </div>
                         {/* Beskrivning av tjänsten */}
                         <label htmlFor="service-description-input">Beskrivning *</label>
-                        <textarea id="service-description-input" className="focus admin-input"
+                        <textarea id="service-description-input" className="focus admin-input admin-input-required"
                             aria-required="true" aria-describedby="service-description-error" 
                             autoComplete='on' onChange={this.handleDescriptionChange}></textarea>
                         {/* Här skrivs ett felmeddelande ut om ingen beskrivning har skrivits */}
@@ -129,7 +129,7 @@ class Services extends React.Component {
                         <p id="image-format-error" className="error" role="alert" 
                             style={this.state.imageWrongFormat ? {display: 'block'} : {display: 'none'}}>
                             {this.state.imageWrongFormat}</p>
-                        <label htmlFor="alt-text-input">Alt-text</label>
+                        <label id="alt-text-label" htmlFor="alt-text-input">Alt-text</label>
                         <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
                             aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
                             autoComplete='on'></input>
@@ -253,6 +253,7 @@ class Services extends React.Component {
             const png  = e.target.value.indexOf('png');
 
             altTextInput.setAttribute('aria-required', true);
+            document.getElementById('alt-text-label').innerHTML = 'Alt-text *';
 
             // Skriver ut ett felmeddelande om bilden är för stor
             if (size > 500000) {
@@ -262,7 +263,6 @@ class Services extends React.Component {
                 })
 
                 e.target.setAttribute('aria-invalid', true);
-                
             
             } else {
                 this.setState ({
@@ -278,8 +278,7 @@ class Services extends React.Component {
                     imageWrongFormat:      'Bilden har fel filformat.',
                 })
 
-                e.target.setAttribute('aria-invalid', true);
-                
+                e.target.setAttribute('aria-invalid', true);            
 
             } else {
                 this.setState({ 
@@ -341,13 +340,13 @@ class Services extends React.Component {
     }
 
     changePricePlaceholder(e) {
-        const priceInput = document.getElementById('service-price-input');
+        const priceLabel = document.getElementById('service-price-label');
 
         if (e.target.value == 'Deutsch') {
-            priceInput.placeholder = 'z.B. 1 000 EUR';
+            priceLabel.innerHTML = 'Preis (z.B. 1 000 EUR) *';
         
         } else {
-            priceInput.placeholder = 't.ex. 1 000 :-';
+            priceLabel.innerHTML = 'Pris (t.ex. 1 000 :-) *';
         }
     }
 
@@ -608,6 +607,7 @@ class Services extends React.Component {
                 behavior: 'smooth',
                 block: 'center'
             });
+        
         }
     }
 

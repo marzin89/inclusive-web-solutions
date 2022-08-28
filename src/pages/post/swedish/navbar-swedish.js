@@ -41,7 +41,7 @@ class NavbarSwedish extends React.Component {
         })
 
         let navbar =
-            <nav id="subnav" aria-label="Blogginlägg">
+            <nav id="subnav" aria-label="Undermeny med blogginlägg">
                 <ul>
                     <li id="subnav-first-item"><Link className="focus focus-invisible regular-font-size" 
                         to={'/blog'}>Blogg</Link></li>

@@ -222,8 +222,17 @@ class Admin extends React.Component {
         }
 
         if (e.target.id !== 'tests') {
-            buttons[2].setAttribute('aria-pressed', false);
-            buttons[2].className = 'focus btn admin-btn admin-btn-left';
+            if (this.state.userRole == 'Medarbetare') {
+                buttons[2].setAttribute('aria-pressed', false);
+                buttons[2].className = 'focus btn admin-btn admin-btn-left';
+            }
+        }
+
+        if (e.target.id == 'posts') {
+            if (this.state.userRole == 'Gästskribent') {
+                buttons[2].setAttribute('aria-pressed', false);
+                buttons[2].className = 'focus btn admin-btn admin-btn-contributors admin-btn-right';
+            }
         }
     }
 
@@ -242,12 +251,22 @@ class Admin extends React.Component {
         }
 
         if (!localStorage.getItem('component')) {
-            this.setState({
-                component: 'tests',
-            })
+            if (this.state.userRole == 'Medarbetare') {
+                this.setState({
+                    component: 'tests',
+                })
 
-            buttons[2].setAttribute('aria-pressed', true);
-            buttons[2].className = 'focus btn active-admin-btn admin-btn admin-btn-left';
+                buttons[2].setAttribute('aria-pressed', true);
+                buttons[2].className = 'focus btn active-admin-btn admin-btn admin-btn-left';
+            
+            } else {
+                this.setState({
+                    component: 'posts',
+                })
+
+                buttons[2].setAttribute('aria-pressed', true);
+                buttons[2].className = 'focus btn active-admin-btn admin-btn-contributors admin-btn-right';
+            }
         }
     }
 
