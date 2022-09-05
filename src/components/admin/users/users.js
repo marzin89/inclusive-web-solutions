@@ -42,7 +42,7 @@ class Users extends React.Component {
 
         // Här lagras användaruppgifter, fel- och bekräftelsemeddelanden
         this.state = {
-            users:                      this.props.users,
+            // users:                      this.props.users,
             firstName:                  '',
             lastName:                   '',
             email:                      '',
@@ -52,8 +52,8 @@ class Users extends React.Component {
             userRole:                   '',
             blocked:                    '',
             error:                      false,
-            errorUsers:                 this.props.errorUsers,
-            confirmUsers:               this.props.confirmUsers,
+            // errorUsers:                 this.props.errorUsers,
+            // confirmUsers:               this.props.confirmUsers,
             errorCountFirstName:        0,
             errorCountLastName:         0,
             errorCountEmailEmpty:       0,
@@ -467,8 +467,8 @@ class Users extends React.Component {
             let count = 0;
     
             if (!localStorage.getItem('actionUsers')) {
-                for (let i = 0; i < this.state.users.length; i++) {
-                    if (this.state.users[i].password == e.target.value) {
+                for (let i = 0; i < this.props.users.length; i++) {
+                    if (this.props.users[i].password == e.target.value) {
     
                         count = 1;
                         
@@ -483,8 +483,8 @@ class Users extends React.Component {
                 }
             
             } else if (localStorage.getItem('actionUsers') == 'edit') {
-                for (let i = 0; i < this.state.users.length; i++) {
-                    if (this.state.users[i].password == e.target.value &&
+                for (let i = 0; i < this.props.users.length; i++) {
+                    if (this.props.users[i].password == e.target.value &&
                         e.target.value !== oldPassword) {
                         
                         count = 1;
@@ -935,8 +935,8 @@ class Users extends React.Component {
             let count = 0;
 
             if (!localStorage.getItem('actionUsers')) {
-                for (let i = 0; i < this.state.users.length; i++) {
-                    if (this.state.users[i].password == passwordInput.value) {
+                for (let i = 0; i < this.props.users.length; i++) {
+                    if (this.props.users[i].password == passwordInput.value) {
 
                         count += 1;
 
@@ -952,8 +952,8 @@ class Users extends React.Component {
                 }
             
             } else if (localStorage.getItem('actionUsers') == 'edit') {
-                for (let i = 0; i < this.state.users.length; i++) {
-                    if (this.state.users[i].password == passwordInput.value &&
+                for (let i = 0; i < this.props.users.length; i++) {
+                    if (this.props.users[i].password == passwordInput.value &&
                         passwordInput.value !== oldPassword) {
 
                         count += 1;

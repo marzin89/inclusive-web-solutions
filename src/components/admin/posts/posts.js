@@ -29,11 +29,10 @@ class Posts extends React.Component {
         /* Här lagras befintliga inlägg, användarnamn och -behörighet,
             uppgifter om den tjänst som läggs till/redigeras samt felmeddelanden */
         this.state = {
-            posts:                 this.props.posts,
-            username:              this.props.username,
-            userRole:              this.props.userRole,
+            // posts:                 this.props.posts,
+            // username:              this.props.username,
+            // userRole:              this.props.userRole,
             title:                 '',
-            date:                  '',
             content:               '',
             author:                '',
             image:                 '',
@@ -46,11 +45,9 @@ class Posts extends React.Component {
             errorCountImageSize:   0,
             errorCountImageFormat: 0,
             errorCountAltText:     0,
-            errorPosts:            this.props.errorPosts,
-            confirm:               false,
-            confirmPosts:          this.props.confirmPosts,
+            // errorPosts:            this.props.errorPosts,
+            // confirmPosts:          this.props.confirmPosts,
             titleEmpty:            '',
-            // dateEmpty:             '',
             contentEmpty:          '',
             imageTooBig:           '',
             imageWrongFormat:      '',
@@ -543,70 +540,6 @@ class Posts extends React.Component {
         })
     }
 
-    addPost() {
-        // Datum för uppdatering
-        let date = new Date();
-
-        // Här lagras beskrivningen
-        let content = [];
-        let select = document.getElementById('language-switcher-admin');
-        let language;
-
-        /* Eftersom beskrivningen ska skrivas ut stycke för stycke,
-            delas den upp där det finns blanksteg och lagras som en array */
-        if (this.state.content.indexOf('\n\n') >= 0) {
-            content = this.state.content.split("\n\n")
-        
-        } else {
-            content.push(this.state.content);
-        }
-
-        // Värdena i rullgardinslistan och databasen skiljer sig åt
-        if (select.value == 'Svenska') {
-            language = 'swedish';
-        
-        } else if (select.value == 'Deutsch') {
-            language = 'german';
-        }
-
-        const body = {
-            id:        this.state.length + 1,
-            title:     this.state.title,
-            date:      this.state.date,
-            content:   content,
-            imageUrl:  this.state.imageUrl,
-            altText:   this.state.altText,
-            author:    this.state.username,
-            published: false,
-            comments:  false,
-            language:  language,
-            updated:   date.toLocaleString(), 
-        }
-
-        fetch('https://iws-rest-api.herokuapp.com/posts', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json',},
-            body:    JSON.stringify(body),
-        })
-        .then(response => response.json())
-        .then(data => {
-            let postArr = [];
-            /* Lägger till den nya tjänsten is arrayen (utanför komponenten)
-                och uppdaterar sedan state-arrayen */
-            postArr.unshift(data);
-
-            this.setState({
-                posts: postArr,
-            })
-        })
-        .catch(() => {
-            this.setState({
-                errorMessage: 'Ett serverfel har uppstått. Det gick inte att lägga till inlägget. ' 
-                + 'Försök igen lite senare.',
-            })
-        })
-    }
-
     handleLinkClick(e) {
         e.preventDefault();
         
@@ -800,7 +733,7 @@ class Posts extends React.Component {
                     content.push(contentInput.value);
                 }
 
-                let id      = localStorage.getItem('id');
+                let id = localStorage.getItem('id');
 
                 this.props.search.map((page) => {
                     if (page.foreignKey) {

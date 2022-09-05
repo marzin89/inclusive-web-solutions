@@ -31,16 +31,16 @@ class CourseSwedish extends React.Component {
     }
 
     renderCourse() {
-        let content = this.state.description;
+        // let content = this.state.description;
         // content = JSON.parse(content);
-        let content1 = content[0];
+        let content1 = this.state.description[0];
         let content2 = [];
         let image;
 
-        if (content.length > 1) {
-            for (let i = 1; i <= content.length; i++) {
+        if (this.state.description.length > 1) {
+            for (let i = 1; i <= this.state.description.length; i++) {
                 content2.push(
-                    <p key={i} className="text body-text regular-font-size line-height">{content[i]}</p>
+                    <p key={i} className="text body-text regular-font-size line-height">{this.state.description[i]}</p>
                 )
             }
         }

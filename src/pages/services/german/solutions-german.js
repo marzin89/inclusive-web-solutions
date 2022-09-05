@@ -9,7 +9,7 @@ class SolutionsGerman extends React.Component {
         this.setState                      = this.setState.bind(this);
         this.handleLinkClick               = this.handleLinkClick.bind(this);
         this.renderSolutions               = this.renderSolutions.bind(this);
-        this.renderSolutionsAccessible     = this.renderSolutionsAccessible.bind(this);
+        // this.renderSolutionsAccessible     = this.renderSolutionsAccessible.bind(this);
 
         this.state = {
             solutions:    [],
@@ -35,10 +35,25 @@ class SolutionsGerman extends React.Component {
 
     renderSolutions() {
         let solutions = [];
-        this.renderSolutionsAccessible(solutions);
+
+        this.state.solutions.map((solution) => {
+            solutions.push(
+                <article key={solution.id} className="solution">
+                    <h3 className="h3-font-size">{solution.name}</h3>
+                    <p className="regular-font-size line-height">{solution.description[0]}</p>
+                    {solution.imageUrl ? <img className="service-image" src={solution.imageUrl} 
+                        alt={solution.altText}></img> : null}
+                    <p><Link id={`solution${solution.id}`} className="find-out-more regular-font-size 
+                        focus focus-invisible" to={"/solution"} onClick={this.handleLinkClick}>Mehr</Link></p>
+                </article>
+            )
+        })
+
+        // this.renderSolutionsAccessible(solutions);
         return solutions;
     }
 
+    /*
     renderSolutionsAccessible(solutions) {
         this.state.solutions.map((solution) => {
             solutions.push(
@@ -53,6 +68,7 @@ class SolutionsGerman extends React.Component {
             )
         })
     }
+    */
 
     handleLinkClick(e) {
         localStorage.setItem('serviceId', e.target.id.slice(8)); 

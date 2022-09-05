@@ -10,7 +10,7 @@ class PostsSwedish extends React.Component {
         this.setState                  = this.setState.bind(this);
         this.handleLinkClick           = this.handleLinkClick.bind(this);
         this.renderPosts               = this.renderPosts.bind(this);
-        this.renderPostsAccessible     = this.renderPostsAccessible.bind(this);
+        // this.renderPostsAccessible     = this.renderPostsAccessible.bind(this);
 
         this.state = {
             posts:        [],
@@ -36,10 +36,24 @@ class PostsSwedish extends React.Component {
 
     renderPosts() {
         let posts = [];
-        this.renderPostsAccessible(posts);
+
+        this.state.posts.map((post) => {
+            posts.push(
+                <article key={post.id}>
+                    <h3 className="h3-font-size">{post.title}</h3>
+                    <p className="date small-font-size">{post.date.slice(0, 10)}</p>
+                    <p className="regular-font-size line-height">{post.content[0].slice(0, 150) + ' ...'}</p>
+                    <p><Link id={`post${post.id}`} className="find-out-more regular-font-size 
+                        focus focus-invisible" to={"/post"} onClick={this.handleLinkClick}>Läs mer</Link></p>
+                </article>
+            )
+        })
+
+        // this.renderPostsAccessible(posts);
         return posts;
     }
 
+    /*
     renderPostsAccessible(posts) {
         this.state.posts.map((post) => {
             posts.push(
@@ -53,6 +67,7 @@ class PostsSwedish extends React.Component {
             )
         })
     }
+    */
 
     getPosts() {
         fetch('https://iws-rest-api.herokuapp.com/posts')

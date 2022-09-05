@@ -32,16 +32,16 @@ class PostSwedish extends React.Component {
     }
 
     renderPost() {
-        let content = this.state.content;
+        // let content = this.state.content;
         // content = JSON.parse(content);
-        let content1 = content[0];
+        let content1 = this.state.content[0];
         let content2 = [];
         let image;
 
-        if (content.length > 1) {
-            for (let i = 1; i <= content.length; i++) {
+        if (this.state.content.length > 1) {
+            for (let i = 1; i <= this.state.content.length; i++) {
                 content2.push(
-                    <p key={i} className="body-text regular-font-size line-height">{content[i]}</p>
+                    <p key={i} className="body-text regular-font-size line-height">{this.state.content[i]}</p>
                 )
             }
         }

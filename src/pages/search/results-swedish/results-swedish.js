@@ -10,7 +10,7 @@ class ResultsSwedish extends React.Component {
         this.setState                    = this.setState.bind(this);
         this.handleLinkClick             = this.handleLinkClick.bind(this);
         this.renderResults               = this.renderResults.bind(this);
-        this.renderResultsAccessible     = this.renderResultsAccessible.bind(this);
+        // this.renderResultsAccessible     = this.renderResultsAccessible.bind(this);
     }
 
     render() {
@@ -23,24 +23,31 @@ class ResultsSwedish extends React.Component {
     }
 
     renderResults() {
-        let results    = [];
-        let page       = []; 
-
+        // let results    = [];
+        let page = []; 
         let lastIndex = Number(localStorage.getItem('searchIndexSwedish')) + 5;
 
         for (let i = localStorage.getItem('searchIndexSwedish'); i < lastIndex; i++) {
             if (this.props.results[i]) {
-                results.push(this.props.results[i])
-            
+                page.push(
+                    <article key={this.props.results[i].id}>
+                        <h2 className="h2-font-size">{this.props.results[i].title}</h2>
+                        <p className="regular-font-size line-height">{this.props.results[i].content.slice(0, 150) + ' ...'}</p>
+                        <p><Link id={this.props.results[i].foreignKey ? this.props.results[i].foreignKey : null} className="find-out-more 
+                            regular-font-size focus focus-invisible" to={`${this.props.results[i].path}`} 
+                            onClick={this.handleLinkClick}>Läs mer</Link></p>
+                    </article>
+                )         
             } else {
                 break;
             } 
         }
 
-        this.renderResultsAccessible(results, page);
+        // this.renderResultsAccessible(results, page);
         return page;
     }
 
+    /*
     renderResultsAccessible(results, page) {
         results.forEach((result) => {
             page.push(
@@ -54,6 +61,7 @@ class ResultsSwedish extends React.Component {
             )
         })
     }
+    */
 
     handleLinkClick(e) {
         if (e.target.id.indexOf('test') >= 0) {

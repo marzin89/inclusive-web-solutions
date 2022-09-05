@@ -9,7 +9,7 @@ class CoursesSwedish extends React.Component {
         this.setState                    = this.setState.bind(this);
         this.handleLinkClick             = this.handleLinkClick.bind(this);
         this.renderCourses               = this.renderCourses.bind(this);
-        this.renderCoursesAccessible     = this.renderCoursesAccessible.bind(this);
+        // this.renderCoursesAccessible     = this.renderCoursesAccessible.bind(this);
 
         this.state = {
             courses:    [],
@@ -35,10 +35,25 @@ class CoursesSwedish extends React.Component {
 
     renderCourses() {
         let courses = [];
-        this.renderCoursesAccessible(courses);
+
+        this.state.courses.map((course) => {
+            courses.push(
+                <article key={course.id} className="course">
+                    <h3 className="h3-font-size">{course.name}</h3>
+                    <p className="regular-font-size line-height">{course.description[0]}</p>
+                    {course.imageUrl ? <img className="service-image" src={course.imageUrl} 
+                        alt={course.altText}></img> : null}
+                    <p><Link id={`course${course.id}`} className="find-out-more regular-font-size 
+                        focus focus-invisible" to={"/course"} onClick={this.handleLinkClick}>Läs mer</Link></p>
+                </article>
+            )
+        })
+
+        // this.renderCoursesAccessible(courses);
         return courses;
     }
 
+    /*
     renderCoursesAccessible(courses) {
         this.state.courses.map((course) => {
             courses.push(
@@ -53,7 +68,8 @@ class CoursesSwedish extends React.Component {
             )
         })
     }
-
+    */
+   
     handleLinkClick(e) {
         localStorage.setItem('serviceId', e.target.id.slice(6));
     }

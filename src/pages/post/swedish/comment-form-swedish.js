@@ -22,7 +22,6 @@ class CommentFormSwedish extends React.Component {
         */
         this.validateForm                     = this.validateForm.bind(this);
         this.handleSubmit                     = this.handleSubmit.bind(this);
-        this.addComment                       = this.addComment.bind(this);
 
         this.state = {
             content:                '',
@@ -43,8 +42,6 @@ class CommentFormSwedish extends React.Component {
             consentEmpty:           '',
             confirmMessage:         '',
         }
-
-        // this.getPost();
     }
 
     render() {
@@ -459,47 +456,6 @@ class CommentFormSwedish extends React.Component {
                 block: 'center'
             });
         }
-    }
-
-    addComment(body) {
-        fetch('https://iws-rest-api.herokuapp.com/comments', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json',},
-            body:    JSON.stringify(body),
-        })
-        .then(response => response.json())
-        .then(() => {
-            this.setState({
-                confirmMessage: 'Din kommentar har skickats.',
-            });
-        })
-        .catch(() => {
-            this.setState({
-                errorMessage: 'Ett serverfel har uppstått. ' +
-                                'Det gick inte att skicka kommentaren. Försök igen senare.',
-            })
-        })
-    }
-
-    // Funktionen hämtar alla publicerade inlägg
-    getPost() {
-        let posts = localStorage.getItem('posts');
-        posts     = JSON.parse(posts);
-
-        posts.map((post) => {
-            if (post.id == localStorage.getItem('postId')) {
-                localStorage.setItem('title', post.title);
-                localStorage.setItem('date', post.date);
-                localStorage.setItem('content', JSON.stringify(post.content));
-                localStorage.setItem('imageUrl', post.imageUrl);
-                localStorage.setItem('altText', post.altText);
-                localStorage.setItem('author', post.author);
-                localStorage.setItem('published', post.published);
-                localStorage.setItem('comments', post.comments);
-                localStorage.setItem('postLanguage', post.language);
-                localStorage.setItem('updated', post.updated);
-            }
-        })
     }
 }
 

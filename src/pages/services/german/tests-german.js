@@ -9,7 +9,7 @@ class TestsGerman extends React.Component {
         this.setState                  = this.setState.bind(this);
         this.handleLinkClick           = this.handleLinkClick.bind(this);
         this.renderTests               = this.renderTests.bind(this);
-        this.renderTestsAccessible     = this.renderTestsAccessible.bind(this);
+        // this.renderTestsAccessible     = this.renderTestsAccessible.bind(this);
 
         this.state = {
             tests:        [],
@@ -35,10 +35,25 @@ class TestsGerman extends React.Component {
 
     renderTests() {
         let tests = [];
-        this.renderTestsAccessible(tests);
+
+        this.state.tests.map((test) => {
+            tests.push(
+                <article key={test.id} className="test">
+                    <h3 className="h3-font-size">{test.name}</h3>
+                    <p className="regular-font-size line-height">{test.description[0]}</p>
+                    {test.imageUrl ? <img className="service-image" src={test.imageUrl} 
+                        alt={test.altText}></img> : null}
+                    <p><Link id={`test${test.id}`} className="find-out-more regular-font-size 
+                        focus focus-invisible" to={"/test"} onClick={this.handleLinkClick}>Mehr</Link></p>
+                </article>
+            )
+        })
+
+        // this.renderTestsAccessible(tests);
         return tests;
     }
 
+    /*
     renderTestsAccessible(tests) {
         this.state.tests.map((test) => {
             tests.push(
@@ -53,6 +68,7 @@ class TestsGerman extends React.Component {
             )
         })
     }
+    */
 
     handleLinkClick(e) {
         localStorage.setItem('serviceId', e.target.id.slice(4)); 

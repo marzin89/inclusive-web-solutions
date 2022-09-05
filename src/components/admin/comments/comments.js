@@ -11,29 +11,20 @@ class Comments extends React.Component {
         super(props);
 
         // Binder this till funktionerna
-        this.setState        = this.setState.bind(this);
         this.handleLinkClick = this.handleLinkClick.bind(this);
-
-        this.state = {
-            comments:        this.props.comments,
-            errorComments:   this.props.errorComments,
-            confirmComments: this.props.confirmComments,
-        }
     }
 
     // Rendrering
     render() {
         return (
             <div id="main" className="admin-output">
-                <h2 id="comment-section-heading" className="h2-admin">Kommentarer</h2>
                 {/* Här skrivs övriga felmeddelanden ut (inga poster, serverfel) */}
                 <p className="error" role="alert" style={this.props.errorComments ? 
-                    {display: 'block'} : {display: 'none'}}>{this.props.errorComments}
-                </p>
+                    {display: 'block'} : {display: 'none'}}>{this.props.errorComments}</p>
                 {/* Här skrivs övriga bekräftelsemeddelanden ut (uppdatering, borttagning) */}
                 <p className="confirm" role="alert" style={this.props.confirmComments ? 
-                    {display: 'block'} : {display: 'none'}}>{this.props.confirmComments}
-                </p>
+                    {display: 'block'} : {display: 'none'}}>{this.props.confirmComments}</p>
+                <h2 id="comment-section-heading" className="h2-admin">Kommentarer</h2>
                 {/* Här skrivs alla kommentarer ut (via props) med länkar för 
                     publicering (om kommentaren inte är publicerad) och radering */}
                 {this.props.comments.map((comment) => {

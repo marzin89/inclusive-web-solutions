@@ -9,7 +9,7 @@ class NavbarGerman extends React.Component {
 
         // Binder this till funktionerna
         this.renderNavbar    = this.renderNavbar.bind(this);
-        this.getPost         = this.getPost.bind(this);
+        // this.getPost         = this.getPost.bind(this);
         this.handleLinkClick = this.handleLinkClick.bind(this);
     }
 
@@ -57,6 +57,7 @@ class NavbarGerman extends React.Component {
         let posts = localStorage.getItem('postsGerman');
         posts     = JSON.parse(posts);
 
+        /*
         posts.map((post) => {
             if (post.id == localStorage.getItem('postId')) {
                 localStorage.setItem('title', post.title);
@@ -71,12 +72,12 @@ class NavbarGerman extends React.Component {
                 localStorage.setItem('updated', post.updated);
             }
         })
+        */
     }
 
     handleLinkClick(e) {
-        localStorage.setItem('postId', e.target.id.slice(4));
-        
-        this.getPost();
+        localStorage.setItem('postId', e.target.id.slice(4));   
+        // this.getPost();
         window.location.reload();
     }
 }

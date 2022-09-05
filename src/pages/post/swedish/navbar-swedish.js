@@ -9,7 +9,7 @@ class NavbarSwedish extends React.Component {
 
         // Binder this till funktionerna
         this.renderNavbar    = this.renderNavbar.bind(this);
-        this.getPost         = this.getPost.bind(this);
+        // this.getPost         = this.getPost.bind(this);
         this.handleLinkClick = this.handleLinkClick.bind(this);
     }
 
@@ -53,6 +53,7 @@ class NavbarSwedish extends React.Component {
         return navbar;
     }
 
+    /*
     // Funktionen hämtar alla publicerade inlägg
     getPost() {
         let posts = localStorage.getItem('postsSwedish');
@@ -73,11 +74,11 @@ class NavbarSwedish extends React.Component {
             }
         })
     }
+    */
 
     handleLinkClick(e) {
-        localStorage.setItem('postId', e.target.id.slice(4));
-        
-        this.getPost();
+        localStorage.setItem('postId', e.target.id.slice(4)); 
+        // this.getPost();
         window.location.reload();
     }
 }

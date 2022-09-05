@@ -10,7 +10,7 @@ class PostsSwedish extends React.Component {
         this.setState                  = this.setState.bind(this);
         this.handleLinkClick           = this.handleLinkClick.bind(this);
         this.renderPosts               = this.renderPosts.bind(this);
-        this.renderPostsAccessible     = this.renderPostsAccessible.bind(this);
+        // this.renderPostsAccessible     = this.renderPostsAccessible.bind(this);
 
         this.state = {
             posts:        [],
@@ -32,7 +32,7 @@ class PostsSwedish extends React.Component {
     }
 
     renderPosts() {
-        let posts = [];
+        // let posts = [];
         let page  = []; 
 
         if (this.state.posts.length) {
@@ -40,18 +40,29 @@ class PostsSwedish extends React.Component {
 
             for (let i = localStorage.getItem('blogIndexSwedish'); i < lastIndex; i++) {
                 if (this.state.posts[i]) {
-                    posts.push(this.state.posts[i])
-                
+                    page.push(
+                        <article key={this.state.posts[i].id} className="post">
+                            <h2 className="h2-font-size">{this.state.posts[i].title}</h2>
+                            <p className="date small-font-size">{this.state.posts[i].date.slice(0, 10)}</p>
+                            <p className="regular-font-size line-height">{this.state.posts[i].content[0].slice(0, 150) + ' ...'}</p>
+                            {this.state.posts[i].imageUrl ? <img src={this.state.posts[i].imageUrl} 
+                                alt={this.state.posts[i].altText}></img> : null}
+                            <p><Link id={`post${this.state.posts[i].id}`} className="find-out-more regular-font-size 
+                                focus focus-invisible" href="" to={"/post"} onClick={this.handleLinkClick} >
+                                    Läs mer</Link></p>
+                        </article>
+                    )
                 } else {
                     break;
                 } 
             }
         }
 
-        this.renderPostsAccessible(posts, page);
+        // this.renderPostsAccessible(posts, page);
         return page;
     }
 
+    /*
     renderPostsAccessible(posts, page) {
         posts.forEach((post) => {
             page.push(
@@ -67,6 +78,7 @@ class PostsSwedish extends React.Component {
             )
         })
     }
+    */
 
     getPosts() {
         let posts = localStorage.getItem('postsSwedish');

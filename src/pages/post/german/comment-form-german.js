@@ -8,7 +8,6 @@ class CommentFormGerman extends React.Component {
 
         // Binder this till funktionerna
         this.setState                         = this.setState.bind(this);
-        // this.getPost                          = this.getPost.bind(this);
         this.form                             = React.createRef();
         this.handleCommentChange              = this.handleCommentChange.bind(this);
         this.handleEmailChange                = this.handleEmailChange.bind(this);
@@ -22,7 +21,6 @@ class CommentFormGerman extends React.Component {
         */
         this.validateForm                     = this.validateForm.bind(this);
         this.handleSubmit                     = this.handleSubmit.bind(this);
-        this.addComment                       = this.addComment.bind(this);
 
         this.state = {
             content:                '',
@@ -41,8 +39,6 @@ class CommentFormGerman extends React.Component {
             signatureEmpty:         '',
             consentEmpty:           '',
         }
-
-        // this.getPost();
     }
 
     render() {
@@ -457,50 +453,6 @@ class CommentFormGerman extends React.Component {
                 block: 'center'
             });
         }
-    }
-
-    addComment(body) {
-        fetch('https://iws-rest-api.herokuapp.com/comments', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json',},
-            body:    JSON.stringify(body),
-        })
-        .then(response => response.json())
-        .then(() => {
-            this.setState({
-                confirmMessage:  'Ihr Kommentar wurde gesendet.',
-            });
-        })
-        .catch(() => {
-            this.setState({
-                errorMessage:  'Ein Serverfehler ist aufgetreten. ' +
-                                'Ihr Kommentar konnte leider nicht gesendet werden' +
-                                ' Versuchen Sie es später erneut.',
-            })
-        })
-
-        localStorage.removeItem('response');
-    }
-
-    // Funktionen hämtar alla publicerade inlägg
-    getPost() {
-        let posts = localStorage.getItem('posts');
-        posts     = JSON.parse(posts);
-
-        posts.map((post) => {
-            if (post.id == localStorage.getItem('postId')) {
-                localStorage.setItem('title', post.title);
-                localStorage.setItem('date', post.date);
-                localStorage.setItem('content', JSON.stringify(post.content));
-                localStorage.setItem('imageUrl', post.imageUrl);
-                localStorage.setItem('altText', post.altText);
-                localStorage.setItem('author', post.author);
-                localStorage.setItem('published', post.published);
-                localStorage.setItem('comments', post.comments);
-                localStorage.setItem('postLanguage', post.language);
-                localStorage.setItem('updated', post.updated);
-            }
-        })
     }
 }
 
