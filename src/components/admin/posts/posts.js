@@ -681,7 +681,7 @@ class Posts extends React.Component {
                     content:   content,
                     imageUrl:  '',
                     altText:   this.state.altText,
-                    author:    this.state.username,
+                    author:    this.props.username,
                     published: false,
                     comments:  false,
                     language:  language,
