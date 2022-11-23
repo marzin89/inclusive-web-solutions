@@ -1,16 +1,8 @@
 import { Link } from 'react-router-dom';
 import StaticGerman from './german/static-german';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { userActions } from '../../store/slices/user-slice';
 
-function About(props) {
-    const dispatch = useDispatch();
-
-    function logout() {
-        dispatch(userActions.logout());
-    }
-
+function About() {
     useEffect(() => {
         document.title = 'Über uns';
     });
@@ -27,9 +19,6 @@ function About(props) {
                             regular-font-size" to={"/about"}> Über uns</Link></li>
                     </ul>
                 </nav>
-                {props.isSignedIn ? <p id="logout">
-                    <Link className="focus focus-invisible regular-font-size" to="/about"
-                        onClick={() => logout()}>Logga ut</Link></p> : null}
             </div>
             <StaticGerman />
         </main>
