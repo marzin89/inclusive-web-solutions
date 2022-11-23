@@ -1,7 +1,5 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 
-// Sidfot
 function Footer() {
     const language = useSelector((state) => state.page.language);
 
@@ -38,5 +36,4 @@ function Footer() {
     )
 }
 
-// Exporterar komponenten
 export default Footer;
