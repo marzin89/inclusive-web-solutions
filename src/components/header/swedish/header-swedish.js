@@ -3,9 +3,11 @@ import MainNavSwedish from './main-nav-swedish';
 import SearchMobile from '../search-mobile';
 import SearchDesktop from '../search-desktop';
 import {Link} from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 function HeaderSwedish() {
-
+    const language = useSelector((state) => state.page.language);
+    const dispatch = useDispatch();
     // Konstruktor
     /*
     constructor(props) {
@@ -39,6 +41,17 @@ function HeaderSwedish() {
         e.currentTarget.parentElement.style.top = '-10000px';
     }
 
+    function handleLanguageChange(e) {
+        dispatch(pageActions.setLanguage(e.target.value));
+
+        if (e.target.value == 'Deutsch') {
+            document.documentElement.setAttribute('lang', 'de');
+
+        } else {
+            document.documentElement.setAttribute('lang', 'sv');
+        }
+    }
+
     return (
         <header>
             <div id="header-wrapper" tabIndex={-1}>
@@ -63,7 +76,7 @@ function HeaderSwedish() {
                         {window.innerWidth >= 1040 ? <MainNavSwedish id="main-nav-desktop" /> : null}
                         {/* Rullgardinslista för språkbyte */}
                         <select id="language-switcher" className="focus focus-invisible" 
-                            aria-label='Välj språk' onChange={this.handleLanguageChange}>
+                            aria-label='Välj språk' onChange={(e) => handleLanguageChange(e)}>
                                 <option className="regular-font-size" value="Svenska">Svenska</option>
                                 <option className="regular-font-size" value="Deutsch">Deutsch</option>
                         </select>
@@ -98,25 +111,6 @@ function HeaderSwedish() {
             }
         })
         */
-    }
-
-    handleLanguageChange(e) {
-        this.setState({
-            language: e.target.value,
-        })
-
-        if (e.target.value == 'Deutsch') {
-            localStorage.setItem('language', 'Deutsch');
-            document.documentElement.setAttribute('lang', 'de');
-            document.title = localStorage.getItem('pageGerman');
-
-        } else if (e.target.value == 'Svenska') {
-            localStorage.setItem('language', 'Svenska');
-            document.documentElement.setAttribute('lang', 'sv');
-            document.title = localStorage.getItem('pageSwedish');
-        }
-
-        this.props.function(this.state.language);
     }
 }
 

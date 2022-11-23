@@ -23,6 +23,7 @@ function SearchDesktop(props) {
         } else {
             setErrorMessage('');
             dispatch(pageActions.setQuery(queryRef.current.value));
+            window.open('/search', '_self');
         }
     }
     return (
