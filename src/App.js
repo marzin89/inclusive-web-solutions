@@ -1,4 +1,5 @@
-import Header from './components/header/header';
+import HeaderGerman from './components/header/german/header-german';
+import HeaderSwedish from './components/header/swedish/header-swedish';
 import Footer from './components/footer/footer';
 import Login from './pages/login/login';
 import Admin from './pages/admin/admin';
@@ -22,14 +23,16 @@ import {
   Navigate
 } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Header from './components/header/german/header-german';
 
 function App() {
   const isSignedIn = useSelector((state) => state.user.isSignedIn);
+  const language = useSelector((state) => state.page.language);
 
   return (
     <div id="page-wrapper">
       <Router>
-        <Header signedIn={isSignedIn} function={this.languageCallback} />
+        {language == 'Swedish' ? <HeaderSwedish /> : <HeaderGerman />}
         <Routes>
           <Route path="/login" element={isSignedIn ? 
             <Navigate replace to="/admin" username={this.state.username} 
@@ -69,12 +72,6 @@ function App() {
       </Router>
     </div>
   );
-
-  languageCallback(language) {
-      this.setState({
-          language: language,
-      })
-  }
 
   logoutCallback() {
       this.setState({
