@@ -4,27 +4,12 @@ import SearchMobile from '../search-mobile';
 import SearchDesktop from '../search-desktop';
 import {Link} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { pageActions } from '../../../store/slices/page-slice';
 
 function HeaderGerman() {
     const language = useSelector((state) => state.page.language);
     const dispatch = useDispatch();
-    // Konstruktor
-    /*
-    constructor(props) {
-        super(props);
-
-        // Binder this till funktionerna
-        this.handleSkipLinkFocus    = this.handleSkipLinkFocus.bind(this);
-        this.handleSkipLinkFocusout = this.handleSkipLinkFocusout.bind(this);
-        this.handleLanguageChange   = this.handleLanguageChange.bind(this);
-
-        this.state = {
-            signedIn:           this.props.signedIn,
-            language:           '',
-        }
-    }
-    */
 
     function handleSkipLinkFocus(e) {
         e.currentTarget.parentElement.style.position = 'fixed';
@@ -52,6 +37,25 @@ function HeaderGerman() {
             document.documentElement.setAttribute('lang', 'sv');
         }
     }
+
+    useEffect(() => {
+        const select = document.getElementById('language-switcher');
+
+        if (language == 'Deutsch') {
+            select.value = 'Deutsch';
+        
+        } else {
+            select.value = 'Svenska';
+        }
+
+        /*
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1040) {
+                document.getElementById('main-nav-mobile').style.display = 'none';
+            }
+        })
+        */
+    });
 
     return (
         <header>
@@ -92,27 +96,6 @@ function HeaderGerman() {
             </div>
         </header>
     );
-
-    componentDidMount() {
-        const select = document.getElementById('language-switcher');
-
-        if (localStorage.getItem('language') == 'Deutsch') {
-            select.value = 'Deutsch';
-            document.documentElement.setAttribute('lang', 'de');
-        
-        } else {
-            select.value = 'Svenska';
-            document.documentElement.setAttribute('lang', 'sv');
-        }
-
-        /*
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1040) {
-                document.getElementById('main-nav-mobile').style.display = 'none';
-            }
-        })
-        */
-    }
 }
 
 export default HeaderGerman;
