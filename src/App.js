@@ -14,16 +14,13 @@ import Post from './pages/post/post';
 import Test from './pages/test/test';
 import Solution from './pages/solution/solution';
 import Course from './pages/course/course';
-import React from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  NavLink,
   Navigate
 } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Header from './components/header/german/header-german';
 
 function App() {
   const isSignedIn = useSelector((state) => state.user.isSignedIn);
