@@ -29,7 +29,13 @@ const postSlice = createSlice({
                 german: german,
             };
         },
-    }
+        setErrorMessage(state = initialState, action) {
+            return {
+                ...state,
+                errorMessage: action.payload,
+            };
+        },
+    },
 });
 
 export const postActions = postSlice.actions;
