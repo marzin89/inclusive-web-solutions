@@ -3,7 +3,8 @@ import HeaderSwedish from './components/header/swedish/header-swedish';
 import Footer from './components/footer/footer';
 import Login from './pages/login/login';
 import Admin from './pages/admin/admin';
-import Home from './pages/home/home';
+import HomeSwedish from './pages/home/swedish/home-swedish';
+import HomeGerman from './pages/home/german/home-german';
 import About from './pages/about/about';
 import Contact from './pages/contact/contact';
 import Services from './pages/services/services';
@@ -40,8 +41,8 @@ function App() {
               function={this.logoutCallback} /> : <Navigate replace to="/login" />} />
           <Route path="/" element={<Home signedIn={isSignedIn}
             logout={this.logoutCallback} />} />
-          <Route path="/home" element={<Home signedIn={isSignedIn}
-            logout={this.logoutCallback} />} />
+          <Route path="/home" element={language == 'Swedish' ? <HomeSwedish 
+            isSignedIn={isSignedIn} /> : <HomeGerman />} />
           <Route path="/about" element={<About signedIn={isSignedIn} 
             logout={this.logoutCallback} />} />
           <Route path="/contact" element={<Contact signedIn={isSignedIn}
