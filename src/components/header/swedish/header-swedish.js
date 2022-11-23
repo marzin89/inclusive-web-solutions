@@ -1,6 +1,7 @@
 import logo from '../../images/logo/logo.png';
 import MainNavSwedish from './main-nav-swedish';
 import SearchMobile from '../search-mobile';
+import SearchDesktop from '../search-desktop';
 import {Link} from 'react-router-dom';
 
 function HeaderSwedish() {
@@ -56,19 +57,7 @@ function HeaderSwedish() {
                 </div>
                 <div id="header-right">
                     {/* Sökruta desktop */}
-                    <div id="search-wrapper-desktop">
-                        <form id="search-form-desktop" role="search">
-                            <label htmlFor="search-bar">Sök på webbplatsen</label>
-                            <input id="search-bar" className="search-bar text-input input focus focus-invisible-input 
-                                regular-font-size" type="search" aria-required="true" autoComplete='on' 
-                                aria-describedby="search-phrase-empty" onChange={this.handleSearchChange}></input>
-                            <button className="search-btn btn svenska focus focus-invisible-input regular-font-size" 
-                                type="submit" onClick={this.validateSearch}>Sök</button>
-                        </form>
-                    <p id="search-phrase-empty" className="regular-font-size error-search" role="alert" 
-                        style={this.state.searchErrorSwedish ? {display: 'block'} : {display: 'none'}}>
-                        {this.state.searchErrorSwedish}</p>
-                    </div>
+                    <SearchDesktop language="Swedish" />
                     <div id="nav-language-wrapper-desktop">
                         {/* Huvudmeny desktop */}
                         {window.innerWidth >= 1040 ? <MainNavSwedish id="main-nav-desktop" /> : null}

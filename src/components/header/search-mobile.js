@@ -1,9 +1,12 @@
 import { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import searchIcon from '../../images/sökikon/searchIcon.png';
+import { pageActions } from '../../store/slices/page-slice';
 
 function SearchMobile(props) {
     const [errorMessage, setErrorMessage] = useState('');
     const queryRef = useRef();
+    const dispatch = useDispatch();
 
     function handleSearchIconClick(e) {
         document.getElementById('search-form-mobile').style.display = 'block';
@@ -31,7 +34,7 @@ function SearchMobile(props) {
 
         } else {
             setErrorMessage('');
-            window.open('/search', '_self');
+            dispatch(pageActions.setQuery(queryRef.current.value));
         }
     }
 

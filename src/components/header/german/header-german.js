@@ -1,6 +1,7 @@
 import logo from '../../images/logo/logo.png';
 import MainNavGerman from './main-nav-german';
 import SearchMobile from '../search-mobile';
+import SearchDesktop from '../search-desktop';
 import {Link} from 'react-router-dom';
 
 function HeaderGerman() {
@@ -56,19 +57,7 @@ function HeaderGerman() {
                 </div>
                 <div id="header-right">
                     {/* Sökruta desktop */}
-                    <div id="search-wrapper-desktop">
-                        <form id="search-form-desktop" role="search">
-                            <label htmlFor="search-bar">Website durchsuchen</label>
-                            <input id="search-bar" className="search-bar text-input input focus focus-invisible-input 
-                                regular-font-size" type="search" aria-required="true"
-                                aria-describedby="search-phrase-empty" autoComplete='on' onChange={this.handleSearchChange}></input>
-                            <button className="search-btn btn deutsch focus focus-invisible-input regular-font-size" 
-                                type="submit" onClick={this.validateSearch}>Suchen</button>
-                        </form>
-                        <p id="search-phrase-empty" className="regular-font-size error-search" role="alert" 
-                            style={this.state.searchErrorGerman ? {display: 'block'} : {display: 'none'}}>
-                            {this.state.searchErrorGerman}</p>
-                    </div>
+                    <SearchDesktop language="German" />
                     <div id="nav-language-wrapper-desktop">
                         {/* Huvudmeny desktop */}
                         {window.innerWidth >= 1040 ? <MainNavGerman id="main-nav-desktop" /> : null}
