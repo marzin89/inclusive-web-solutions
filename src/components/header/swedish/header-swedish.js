@@ -1,7 +1,6 @@
 import logo from '../../images/logo/logo.png';
 import searchIcon from '../../images/sökikon/searchIcon.png';
-import navIcon from '../../images/hamburgerikon/navIcon.png';
-import { useState, useEffect, useRef } from 'react';
+import MainNavSwedish from './main-nav-swedish';
 import {Link} from 'react-router-dom';
 
 function HeaderSwedish() {
@@ -66,25 +65,12 @@ function HeaderSwedish() {
         localStorage.setItem('query', e.target.value);
     }
 
-    // Funktionen uppdaterar aria-expanded för sökikonen
-    handleSearchIconClick() {
+    function handleSearchIconClick(e) {
         document.getElementById('search-mobile').style.display = 'block';
-        document.getElementById('search-icon').setAttribute('aria-expanded', true);
+        e.target.setAttribute('aria-expanded', true);
     }
 
-    // Funktionen uppdaterar aria-expanded för hamburgerikonen
-    handleNavIconClick() {
-        document.getElementById('main-nav-mobile').style.display = 'block';
-        document.getElementById('nav-icon').setAttribute('aria-expanded', true);
-    }
-
-    handleCloseNav(e) {
-        e.preventDefault();
-        document.getElementById('main-nav-mobile').style.display = 'none';
-        document.getElementById('nav-icon').setAttribute('aria-expanded', false);
-    }
-
-    handleCloseSearch(e) {
+    function handleCloseSearch(e) {
         e.preventDefault();
         document.getElementById('search-mobile').style.display = 'none';
         document.getElementById('search-icon').setAttribute('aria-expanded', false);
@@ -123,25 +109,7 @@ function HeaderSwedish() {
                     </div>
                     <div id="nav-language-wrapper-desktop">
                         {/* Huvudmeny desktop */}
-                        <nav id="main-nav-desktop" aria-label='Huvudmeny'>
-                            <ul>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/"} >Start</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/about"} >Om oss</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/contact"} >Kontakt</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/services"} >Tjänster</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/blog"} >Blogg</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/accessibility"} >Om webbtillgänglighet</Link></li>
-                                {sessionStorage.getItem('signedIn') ? 
-                                    <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                        to={"/admin"} >Admin</Link></li> : null}
-                            </ul>
-                        </nav>
+                        {window.innerWidth >= 1040 ? <MainNavSwedish id="main-nav-desktop" /> : null}
                         {/* Rullgardinslista för språkbyte */}
                         <select id="language-switcher" className="focus focus-invisible" 
                             aria-label='Välj språk' onChange={this.handleLanguageChange}>
@@ -152,9 +120,10 @@ function HeaderSwedish() {
                     <div id="icon-wrapper" tabIndex={-1}>
                         {/* Sökikon */}
 
-                        <input type="image" id="search-icon" className="focus focus-invisible" aria-haspopup="true" 
-                            aria-label= 'Visar sökrutan' aria-expanded="false" src={searchIcon} alt="Sökikon" 
-                            onClick={this.handleSearchIconClick}></input> 
+                        <input type="image" id="search-icon" className="focus focus-invisible" 
+                            aria-haspopup="true" aria-label= 'Visar sökrutan' aria-expanded="false" 
+                            src={searchIcon} alt="Sökikon" onClick={(e) => handleSearchIconClick(e)}>
+                        </input> 
                         {/* Sökruta mobil */}
                         <div id="search-mobile">
                             <form id="search-form-mobile" role="search">
@@ -162,42 +131,17 @@ function HeaderSwedish() {
                                 <input id="search-bar" className="search-bar search-bar-mobile text-input input focus 
                                     focus-invisible-input regular-font-size" type="search" aria-required="true" autoComplete='on' 
                                     aria-describedby="search-phrase-empty" onChange={this.handleSearchChange}></input>
-                                {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                                 <button className="search-btn search-btn-mobile btn svenska focus focus-invisible-input 
                                     regular-font-size" type="submit" onClick={this.validateSearch}>Sök</button>
                                 <a id="close-search-bar-link" className="navlink focus focus-invisible regular-font-size" 
-                                    href="" aria-label='Döljer sökrutan' onClick={this.handleCloseSearch}>X</a>
+                                    href="" aria-label='Döljer sökrutan' onClick={(e) => handleCloseSearch(e)}>X</a>
                             </form>
                             <p id="search-phrase-empty" className="regular-font-size error-search" role="alert" 
                                 style={this.state.searchErrorSwedish ? {display: 'block'} : {display: 'none'}}>
                                 {this.state.searchErrorSwedish}</p>
                         </div>
-                        {/* Hamburgerikon */}
-                        <input type="image" id="nav-icon" className="focus focus-invisible" aria-haspopup="true" 
-                            aria-label='Öppnar huvudmenyn' aria-expanded="false" src={navIcon} alt="Hamburgerikon"
-                            onClick={this.handleNavIconClick}></input> 
-                        {/* Huvudmeny mobil. Texten är på tyska eller svenska beroende på vilket språk som valts */}
-                        <nav id="main-nav-mobile" aria-label='Huvudmeny'>      
-                            <ul>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/"} >Start</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/about"} >Om oss</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/contact"} >Kontakt</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/services"} >Tjänster</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/blog"} >Blogg</Link></li>
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/accessibility"} >Om webbtillgänglighet</Link></li>
-                                    {sessionStorage.getItem('signedIn') ? 
-                                <li className="svenska"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/admin"}  href="#">Admin</Link></li> : null}
-                                <li id="close-menu" className="svenska"><a id="close-menu-link" className="navlink focus 
-                                    focus-invisible regular-font-size" href="#" onClick={this.handleCloseNav}>Stäng</a></li>
-                            </ul>
-                        </nav>
+                        {/* Huvudmeny mobil */}
+                        {window.innerWidth < 1040 ? <MainNavSwedish id="main-nav-mobile" /> : null}
                     </div> 
                 </div>
             </div>

@@ -1,7 +1,6 @@
 import logo from '../../images/logo/logo.png';
 import searchIcon from '../../images/sökikon/searchIcon.png';
-import navIcon from '../../images/hamburgerikon/navIcon.png';
-import { useState, useEffect, useRef } from 'react';
+import MainNavGerman from './main-nav-german';
 import {Link} from 'react-router-dom';
 
 function HeaderGerman() {
@@ -49,6 +48,17 @@ function HeaderGerman() {
         e.currentTarget.parentElement.style.top = '-10000px';
     }
 
+    function handleSearchIconClick(e) {
+        document.getElementById('search-mobile').style.display = 'block';
+        e.target.setAttribute('aria-expanded', true);
+    }
+
+    function handleCloseSearch(e) {
+        e.preventDefault();
+        document.getElementById('search-mobile').style.display = 'none';
+        document.getElementById('search-icon').setAttribute('aria-expanded', false);
+    }
+
     return (
         <header>
             <div id="header-wrapper" tabIndex={-1}>
@@ -73,7 +83,6 @@ function HeaderGerman() {
                             <input id="search-bar" className="search-bar text-input input focus focus-invisible-input 
                                 regular-font-size" type="search" aria-required="true"
                                 aria-describedby="search-phrase-empty" autoComplete='on' onChange={this.handleSearchChange}></input>
-                            {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                             <button className="search-btn btn deutsch focus focus-invisible-input regular-font-size" 
                                 type="submit" onClick={this.validateSearch}>Suchen</button>
                         </form>
@@ -82,23 +91,8 @@ function HeaderGerman() {
                             {this.state.searchErrorGerman}</p>
                     </div>
                     <div id="nav-language-wrapper-desktop">
-                        {/* Huvudmeny desktop. Texten är på tyska eller svenska beroende på vilket språk som valts */}
-                        <nav id="main-nav-desktop" aria-label='Hauptmenü'>
-                            <ul>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/"} >Home</Link></li>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/about"} >Über uns</Link></li>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/contact"} >Kontakt</Link></li>                                   
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/services"} >Dienstleistungen</Link></li>    
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/blog"} >Blog</Link></li>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" 
-                                    to={"/accessibility"} >Barrierefreiheit</Link></li>
-                            </ul>
-                        </nav>
+                        {/* Huvudmeny desktop */}
+                        {window.innerWidth >= 1040 ? <MainNavGerman id="main-nav-desktop" /> : null}
                         {/* Rullgardinslista för språkbyte */}
                         <select id="language-switcher" className="focus focus-invisible" 
                             aria-label='Sprache wechseln' onChange={this.handleLanguageChange}>
@@ -108,9 +102,10 @@ function HeaderGerman() {
                     </div>
                     <div id="icon-wrapper" tabIndex={-1}>
                         {/* Sökikon */}
-                        <input type="image" id="search-icon" className="focus focus-invisible" aria-haspopup="true" 
-                            aria-label='Suchleiste zeigen' aria-expanded="false" src={searchIcon} alt="Such-Icon" 
-                            onClick={this.handleSearchIconClick}></input> 
+                        <input type="image" id="search-icon" className="focus focus-invisible" 
+                            aria-haspopup="true" aria-label='Suchleiste zeigen' aria-expanded="false" 
+                            src={searchIcon} alt="Such-Icon" onClick={(e) => handleSearchIconClick(e)}>
+                        </input> 
                         {/* Sökruta mobil */}
                         <div id="search-mobile">
                             <form id="search-form-mobile" role="search">
@@ -118,39 +113,17 @@ function HeaderGerman() {
                                 <input id="search-bar" className="search-bar search-bar-mobile text-input input focus 
                                     focus-invisible-input regular-font-size" type="search" aria-required="true"
                                     aria-describedby="search-phrase-empty" autoComplete='on' onChange={this.handleSearchChange}></input>
-                                {/* Texten är på tyska eller svenska beroende på vilket språk som valts */}
                                 <button className="search-btn search-btn-mobile btn deutsch focus focus-invisible-input 
                                     regular-font-size" type="submit" onClick={this.validateSearch}>Suchen</button>
                                 <a id="close-search-bar-link" className="navlink focus focus-invisible-input regular-font-size" 
-                                    href="" aria-label='Suchleiste schließen' onClick={this.handleCloseSearch}>X</a>
+                                    href="" aria-label='Suchleiste schließen' onClick={(e) => handleCloseSearch(e)}>X</a>
                             </form>
                             <p id="search-phrase-empty" className="regular-font-size error-search" role="alert" 
                                 style={this.state.searchErrorGerman ? {display: 'block'} : {display: 'none'}}>
                                 {this.state.searchErrorGerman}</p>
                         </div> 
-                        {/* Hamburgerikon */}
-                        <input type="image" id="nav-icon" className="focus focus-invisible" aria-haspopup="true" 
-                            aria-label='Hauptmenü öffnen' aria-expanded="false" src={navIcon} alt="Hamburger-Icon"
-                            onClick={this.handleNavIconClick}></input>
-                        {/* Huvudmeny mobil. Texten är på tyska eller svenska beroende på vilket språk som valts */}
-                        <nav id="main-nav-mobile" aria-label='Hauptmenü'>
-                            <ul>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/"} 
-                                    >Home</Link></li>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/about"} 
-                                    >Über uns</Link></li>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/contact"} 
-                                    >Kontakt</Link></li>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/services"} 
-                                    >Dienstleistungen</Link></li>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/blog"} 
-                                    >Blog</Link></li>
-                                <li className="deutsch"><Link className="navlink focus focus-invisible regular-font-size" to={"/accessibility"} 
-                                    >Barrierefreiheit</Link></li>
-                                <li id="close-menu" className="deutsch"><a id="close-menu-link" className="navlink focus 
-                                    focus-invisible regular-font-size" href="#" onClick={this.handleCloseNav}>Schließen</a></li>
-                            </ul>
-                        </nav>
+                        {/* Huvudmeny mobil */}
+                        {window.innerWidth < 1040 ? <MainNavGerman id="main-nav-mobile" /> : null}
                     </div> 
                 </div>
             </div>
