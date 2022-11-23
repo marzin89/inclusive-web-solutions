@@ -21,11 +21,45 @@ import {
   Route,
   Navigate
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { postActions } from './store/slices/post-slice';
 
 function App() {
   const isSignedIn = useSelector((state) => state.user.isSignedIn);
   const language = useSelector((state) => state.page.language);
+  const dispatch = useDispatch();
+
+  function getPosts() {
+    fetch('https://iws-rest-api.herokuapp.com/posts')
+    .then(response => response.json())
+    .then(data => {
+      if (!data.length) {
+        if (language == 'Swedish') {
+          dispatch(postActions.setErrorMessage('Inga inlägg hittades.'));
+          
+        } else {
+          dispatch(postActions.setErrorMessage('Es wurden keine Posts gefunden.'));
+        }
+      } else {
+          dispatch(postActions.setPosts(data));
+      }
+    })
+    .catch(() => {
+      if (language == 'Swedish') {
+        dispatch(postActions.setErrorMessage('Ett serverfel har uppstått.' 
+          + 'Det gick inte att hämta inlägg. Försök igen lite senare.'));
+        
+      } else {
+        dispatch(postActions.setErrorMessage('Ein Serverfehler ist aufgetreten.'
+          + 'Es konnten keine Posts abgerufen werden. Versuchen Sie es später erneut.'));
+      }
+    });
+  }
+
+  useEffect(() => {
+    getPosts();
+  })
 
   return (
     <div id="page-wrapper">
