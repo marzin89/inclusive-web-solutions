@@ -7,6 +7,7 @@ const postSlice = createSlice({
         german: [],
         posts: [],
         post: [],
+        errorMessage: '',
     },
     reducers: {
         setPosts(state = initialState, action) {
