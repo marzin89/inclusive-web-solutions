@@ -1,6 +1,6 @@
 import logo from '../../images/logo/logo.png';
-import searchIcon from '../../images/sökikon/searchIcon.png';
 import MainNavSwedish from './main-nav-swedish';
+import SearchMobile from '../search-mobile';
 import {Link} from 'react-router-dom';
 
 function HeaderSwedish() {
@@ -11,23 +11,13 @@ function HeaderSwedish() {
         super(props);
 
         // Binder this till funktionerna
-        this.setState               = this.setState.bind(this);
         this.handleSkipLinkFocus    = this.handleSkipLinkFocus.bind(this);
         this.handleSkipLinkFocusout = this.handleSkipLinkFocusout.bind(this);
-        this.handleSearchIconClick  = this.handleSearchIconClick.bind(this);
-        this.handleNavIconClick     = this.handleNavIconClick.bind(this);
-        this.handleCloseNav         = this.handleCloseNav.bind(this);
-        this.handleCloseSearch      = this.handleCloseSearch.bind(this);
         this.handleLanguageChange   = this.handleLanguageChange.bind(this);
-        this.handleSearchChange     = this.handleSearchChange.bind(this)
-        this.validateSearch         = this.validateSearch.bind(this);
 
         this.state = {
             signedIn:           this.props.signedIn,
             language:           '',
-            query:              '',
-            searchErrorSwedish: '',
-            searchErrorGerman:  '',
         }
     }
     */
@@ -46,34 +36,6 @@ function HeaderSwedish() {
     function handleSkipLinkFocusout(e) {
         e.currentTarget.parentElement.style.position = 'absolute';
         e.currentTarget.parentElement.style.top = '-10000px';
-    }
-
-    handleSearchChange(e) {
-        this.setState({
-            query:        e.target.value,
-        })
-
-        if (e.target.value) {
-            this.setState({
-                searchErrorSwedish: '',
-                searchErrorGerman:  '',
-            })
-
-            e.target.setAttribute('aria-invalid', false);
-        }
-
-        localStorage.setItem('query', e.target.value);
-    }
-
-    function handleSearchIconClick(e) {
-        document.getElementById('search-mobile').style.display = 'block';
-        e.target.setAttribute('aria-expanded', true);
-    }
-
-    function handleCloseSearch(e) {
-        e.preventDefault();
-        document.getElementById('search-mobile').style.display = 'none';
-        document.getElementById('search-icon').setAttribute('aria-expanded', false);
     }
 
     return (
@@ -118,28 +80,8 @@ function HeaderSwedish() {
                         </select>
                     </div>
                     <div id="icon-wrapper" tabIndex={-1}>
-                        {/* Sökikon */}
-
-                        <input type="image" id="search-icon" className="focus focus-invisible" 
-                            aria-haspopup="true" aria-label= 'Visar sökrutan' aria-expanded="false" 
-                            src={searchIcon} alt="Sökikon" onClick={(e) => handleSearchIconClick(e)}>
-                        </input> 
-                        {/* Sökruta mobil */}
-                        <div id="search-mobile">
-                            <form id="search-form-mobile" role="search">
-                                <label htmlFor="search-bar">Sök på webbplatsen</label>
-                                <input id="search-bar" className="search-bar search-bar-mobile text-input input focus 
-                                    focus-invisible-input regular-font-size" type="search" aria-required="true" autoComplete='on' 
-                                    aria-describedby="search-phrase-empty" onChange={this.handleSearchChange}></input>
-                                <button className="search-btn search-btn-mobile btn svenska focus focus-invisible-input 
-                                    regular-font-size" type="submit" onClick={this.validateSearch}>Sök</button>
-                                <a id="close-search-bar-link" className="navlink focus focus-invisible regular-font-size" 
-                                    href="" aria-label='Döljer sökrutan' onClick={(e) => handleCloseSearch(e)}>X</a>
-                            </form>
-                            <p id="search-phrase-empty" className="regular-font-size error-search" role="alert" 
-                                style={this.state.searchErrorSwedish ? {display: 'block'} : {display: 'none'}}>
-                                {this.state.searchErrorSwedish}</p>
-                        </div>
+                        {/* Sökikon och sökruta mobil */}
+                        <SearchMobile language="Swedish" />
                         {/* Huvudmeny mobil */}
                         {window.innerWidth < 1040 ? <MainNavSwedish id="main-nav-mobile" /> : null}
                     </div> 
@@ -187,34 +129,6 @@ function HeaderSwedish() {
 
         this.props.function(this.state.language);
     }
-
-    validateSearch(e) {
-        e.preventDefault();
-
-        if (!this.state.query) {
-            if (localStorage.getItem('language') == 'Deutsch') {
-                this.setState({
-                    searchErrorGerman: 'Bitte geben Sie ein Suchwort ein.',
-                })
-            
-            } else {
-                this.setState({
-                    searchErrorSwedish: 'Du måste skriva ett sökord.',
-                })
-            }
-
-            document.getElementById('search-bar').setAttribute('aria-invalid', true);
-
-        } else {
-            this.setState({
-                searchErrorGerman:  '',
-                searchErrorSwedish: '',
-            });
-            
-            window.open('/search', '_self');
-        }
-    }
 }
 
-// Exporterar komponenten
-export default Header;
+export default HeaderSwedish;
