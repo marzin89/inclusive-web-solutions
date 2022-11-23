@@ -1,10 +1,12 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
+import pageSlice from './slices/page-slice';
 import testSlice from './slices/test-slice';
 import userSlice from './slices/user-slice';
 
 const rootReducer = combineReducers({
+    page: pageSlice.reducer,
     test: testSlice.reducer,
     user: userSlice.reducer,
     /*
