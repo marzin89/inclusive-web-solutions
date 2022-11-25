@@ -5,6 +5,8 @@ import Login from './pages/login/login';
 import Admin from './pages/admin/admin';
 import HomeSwedish from './pages/home/swedish/home-swedish';
 import HomeGerman from './pages/home/german/home-german';
+import AboutSwedish from './pages/about/swedish/about-swedish';
+import AboutGerman from './pages/about/german/about-german';
 import About from './pages/about/about';
 import Contact from './pages/contact/contact';
 import Services from './pages/services/services';
@@ -77,8 +79,8 @@ function App() {
             logout={this.logoutCallback} />} />
           <Route path="/home" element={language == 'Swedish' ? <HomeSwedish 
             isSignedIn={isSignedIn} /> : <HomeGerman />} />
-          <Route path="/about" element={<About signedIn={isSignedIn} 
-            logout={this.logoutCallback} />} />
+          <Route path="/about" element={language == 'Swedish' ? <AboutSwedish
+            isSignedIn={isSignedIn} /> : <AboutGerman />} />
           <Route path="/contact" element={<Contact signedIn={isSignedIn}
             logout={this.logoutCallback} />} />
           <Route path="/services" element={<Services signedIn={isSignedIn}
