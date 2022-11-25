@@ -9,7 +9,8 @@ import AboutSwedish from './pages/about/swedish/about-swedish';
 import AboutGerman from './pages/about/german/about-german';
 import ContactSwedish from './pages/contact/swedish/contact-swedish';
 import ContactGerman from './pages/contact/german/contact-german';
-import Services from './pages/services/services';
+import ServicesSwedish from './pages/services/swedish/services-swedish';
+import ServicesGerman from './pages/services/german/services-german';
 import Blog from './pages/blog/blog';
 import Accessibility from './pages/accessibility/accessibility';
 import Search from './pages/search/search';
@@ -83,8 +84,8 @@ function App() {
             isSignedIn={isSignedIn} /> : <AboutGerman />} />
           <Route path="/contact" element={language == 'Swedish' ? <ContactSwedish
             isSignedIn={isSignedIn} /> : <ContactGerman />} />
-          <Route path="/services" element={<Services signedIn={isSignedIn}
-            logout={this.logoutCallback} />} />
+          <Route path="/services" element={language == 'Swedish' ? <ServicesSwedish
+            isSignedIn={isSignedIn} /> : <ServicesGerman />} />
           <Route path="/blog" element={<Blog signedIn={isSignedIn}
             logout={this.logoutCallback} />} />
           <Route path="/accessibility" element={<Accessibility signedIn={isSignedIn}
