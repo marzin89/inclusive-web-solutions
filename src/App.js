@@ -7,8 +7,8 @@ import HomeSwedish from './pages/home/swedish/home-swedish';
 import HomeGerman from './pages/home/german/home-german';
 import AboutSwedish from './pages/about/swedish/about-swedish';
 import AboutGerman from './pages/about/german/about-german';
-import About from './pages/about/about';
-import Contact from './pages/contact/contact';
+import ContactSwedish from './pages/contact/swedish/contact-swedish';
+import ContactGerman from './pages/contact/german/contact-german';
 import Services from './pages/services/services';
 import Blog from './pages/blog/blog';
 import Accessibility from './pages/accessibility/accessibility';
@@ -81,8 +81,8 @@ function App() {
             isSignedIn={isSignedIn} /> : <HomeGerman />} />
           <Route path="/about" element={language == 'Swedish' ? <AboutSwedish
             isSignedIn={isSignedIn} /> : <AboutGerman />} />
-          <Route path="/contact" element={<Contact signedIn={isSignedIn}
-            logout={this.logoutCallback} />} />
+          <Route path="/contact" element={language == 'Swedish' ? <ContactSwedish
+            isSignedIn={isSignedIn} /> : <ContactGerman />} />
           <Route path="/services" element={<Services signedIn={isSignedIn}
             logout={this.logoutCallback} />} />
           <Route path="/blog" element={<Blog signedIn={isSignedIn}
