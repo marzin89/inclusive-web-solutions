@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import StaticSwedish from './static-swedish';
+import FormSwedish from './form-swedish';
 import { userActions } from '../../../store/slices/user-slice';
 
 function ContactSwedish(props) {
@@ -32,7 +32,7 @@ function ContactSwedish(props) {
                     <Link className="focus focus-invisible regular-font-size" to={"/contact"} 
                         onClick={(e) => logout(e)}>Logga ut</Link></p> : null}
             </div>
-            <StaticSwedish />
+            <FormSwedish />
         </main>
     );
 }

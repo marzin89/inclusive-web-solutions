@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import StaticGerman from './static-german';
+import FormGerman from './form-german';
 
 function ContactGerman() {
     useEffect(() => {
@@ -20,7 +20,7 @@ function ContactGerman() {
                     </ul>
                 </nav>
             </div>
-            <StaticGerman />
+            <FormGerman />
         </main>
     );
 }
