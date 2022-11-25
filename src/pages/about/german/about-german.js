@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import StaticGerman from './german/static-german';
 import { useEffect } from 'react';
 
-function About() {
+function AboutGerman() {
     useEffect(() => {
         document.title = 'Über uns';
     });
@@ -25,4 +25,4 @@ function About() {
     );
 }
 
-export default About;
+export default AboutGerman;
