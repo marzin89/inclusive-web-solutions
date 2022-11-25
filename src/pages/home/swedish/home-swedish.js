@@ -8,7 +8,8 @@ import { userActions } from '../../store/slices/user-slice';
 function HomeSwedish(props) {
     const dispatch = useDispatch();
 
-    function logout() {
+    function logout(e) {
+        e.preventDefault();
         dispatch(userActions.logout());
     }
 
@@ -21,7 +22,7 @@ function HomeSwedish(props) {
             <div className="row">
                 {props.isSignedIn ? <p id="logout">
                     <Link className="focus focus-invisible regular-font-size" to={"/home"} 
-                        onClick={() => logout()}>Logga ut</Link></p> : null}
+                        onClick={() => logout(e)}>Logga ut</Link></p> : null}
             </div>
             <div className="row">
                 <StaticSwedish />
