@@ -107,17 +107,6 @@ function App() {
       </Router>
     </div>
   );
-
-  logoutCallback() {
-      this.setState({
-        signedIn: false,
-      })
-
-      sessionStorage.removeItem('signedIn');
-      sessionStorage.removeItem('user');
-      localStorage.removeItem('permission');
-      localStorage.removeItem('component');
-  }
 }
 
 export default App;
