@@ -26,6 +26,9 @@ import {
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { testActions } from './store/slices/test-slice';
+import { solutionActions } from './store/slices/solution-slice';
+import { courseActions } from './store/slices/course-slice';
 import { postActions } from './store/slices/post-slice';
 
 function App() {
@@ -45,7 +48,7 @@ function App() {
           dispatch(postActions.setErrorMessage('Es wurden keine Posts gefunden.'));
         }
       } else {
-          dispatch(postActions.setPosts(data));
+        dispatch(postActions.setPosts(data));
       }
     })
     .catch(() => {
@@ -60,8 +63,37 @@ function App() {
     });
   }
 
+  function getTests() {
+    fetch('https://iws-rest-api.herokuapp.com/tests')
+    .then(response => response.json())
+    .then(data => {
+      if (!data.length) {
+        if (language == 'Swedish') {
+          dispatch(testActions.setErrorMessage('Inga tester hittades.'));
+        
+        } else {
+          dispatch(testActions.setErrorMessage('Es wurden keine Tests gefunden.'));
+        }
+
+      } else {
+        dispatch(testActions.setTests(data));
+      }
+    })
+    .catch(() => {
+      if (language == 'Swedish') {
+        dispatch(testActions.setErrorMessage('Ett serverfel har uppstått.' 
+          + 'Det gick inte att hämta tester. Försök igen lite senare.'));
+      
+      } else {
+        dispatch(testActions.setErrorMessage('Ein Serverfehler ist aufgetreten.' 
+          + 'Es konnten keine Tests abgerufen werden. Versuchen Sie es später erneut.'));
+      }
+    });
+  }
+
   useEffect(() => {
     getPosts();
+    getTests();
   })
 
   return (
