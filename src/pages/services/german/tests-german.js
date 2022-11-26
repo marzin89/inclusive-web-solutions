@@ -1,123 +1,37 @@
-// Imports
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { testActions } from '../../../store/slices/test-slice';
 
-class TestsGerman extends React.Component {
-    constructor(props) {
-        super(props);
+function TestsGerman() {
+    const tests = useSelector((state) => state.test.swedish);
+    const errorMessage = useSelector((state) => state.test.errorMessage);
+    const dispatch = useDispatch();
 
-        this.setState                  = this.setState.bind(this);
-        this.handleLinkClick           = this.handleLinkClick.bind(this);
-        this.renderTests               = this.renderTests.bind(this);
-        // this.renderTestsAccessible     = this.renderTestsAccessible.bind(this);
-
-        this.state = {
-            tests:        [],
-            errorMessage: '',
-        }
-
-        this.getTests();
+    function handleLinkClick(e) {
+        dispatch(testActions.setTest(e.target.id.slice(4)));
     }
 
-    render() {
-        return (
-            <section id="tests">
-                <h2 className="h2-font-size h2-services">Tests</h2>
-                <div className="row-services">
-                    {this.state.tests.length ? this.renderTests() : null}
-                    <p className="error-services regular-font-size" role="alert" 
-                        style={this.state.errorMessage ? {display: 'block'} : {display: 'none'}}>
-                            {this.state.errorMessage}</p>
-                </div>
-            </section>    
-        )
-    }
-
-    renderTests() {
-        let tests = [];
-
-        this.state.tests.map((test) => {
-            tests.push(
-                <article key={test.id} className="test">
-                    <h3 className="h3-font-size">{test.name}</h3>
-                    <p className="regular-font-size line-height">{test.description[0]}</p>
-                    {test.imageUrl ? <img className="service-image" src={test.imageUrl} 
-                        alt={test.altText}></img> : null}
-                    <p><Link id={`test${test.id}`} className="find-out-more regular-font-size 
-                        focus focus-invisible" to={"/test"} onClick={this.handleLinkClick}>Mehr</Link></p>
-                </article>
-            )
-        })
-
-        // this.renderTestsAccessible(tests);
-        return tests;
-    }
-
-    /*
-    renderTestsAccessible(tests) {
-        this.state.tests.map((test) => {
-            tests.push(
-                <article key={test.id} className="test">
-                    <h3 className="h3-font-size">{test.name}</h3>
-                    <p className="regular-font-size line-height">{test.description[0]}</p>
-                    {test.imageUrl ? <img className="service-image" src={test.imageUrl} 
-                        alt={test.altText}></img> : null}
-                    <p><Link id={`test${test.id}`} className="find-out-more regular-font-size 
-                        focus focus-invisible" to={"/test"} onClick={this.handleLinkClick}>Mehr</Link></p>
-                </article>
-            )
-        })
-    }
-    */
-
-    handleLinkClick(e) {
-        localStorage.setItem('serviceId', e.target.id.slice(4)); 
-    }
-
-    // Funktionen hämtar alla tester
-    getTests() {
-
-        // GET-anrop till webbtjänsten om användaren har tryckt på Tester
-        fetch('https://iws-rest-api.herokuapp.com/tests')
-
-        // Konverterar svaret från JSON
-        .then(response => response.json())
-
-        // Skriver ut ett felmeddelande om inga tester hittades
-        .then(data => {
-            if (!data.length) {
-                this.setState({
-                    errorMessage: 'Es wurden keine Tests gefunden.',
-                })
-            
-            // Lagrar testerna i state-arrayen
-            } else {
-                let testArr   = [];
-
-                data.forEach((test) => {
-                    if (test.language == 'german') {
-                        testArr.push(test);
-                    
-                    }
-                });
-
-                localStorage.setItem('testsGerman', JSON.stringify(testArr));
-
-                this.setState({
-                    tests: testArr,
-                })
-            }
-        })
-
-        // Skriver ut ett felmeddelande om ett serverfel har uppstått
-        .catch(() => {
-            this.setState({
-                errorMessage: 'Ein Serverfehler ist aufgetreten. Es konnten keine Tests abgerufen werden.'
-                                + ' Versuchen Sie es später erneut.',
-            })
-        })
-    }
+    return (
+        <section id="tests">
+            <h2 className="h2-font-size h2-services">Tests</h2>
+            <div className="row-services">
+                {tests.length ? tests.map((test) => {
+                    return (
+                        <article key={test.id} className="test">
+                            <h3 className="h3-font-size">{test.name}</h3>
+                            <p className="regular-font-size line-height">{test.description[0]}</p>
+                            {test.imageUrl ? <img className="service-image" src={test.imageUrl} 
+                                alt={test.altText}></img> : null}
+                            <p><Link id={`test${test.id}`} className="find-out-more regular-font-size 
+                                focus focus-invisible" to={"/test"} onClick={(e) => handleLinkClick(e)}>
+                                    Mehr</Link></p>
+                        </article>
+                    )
+                }) : <p className="error-services regular-font-size" role="alert">
+                        {errorMessage}</p>}
+            </div>
+        </section>    
+    );
 }
 
-// Exporterar komponenten
 export default TestsGerman;
