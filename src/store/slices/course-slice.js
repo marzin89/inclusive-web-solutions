@@ -7,6 +7,7 @@ const courseSlice = createSlice({
         german: [],
         courses: [],
         course:  [],
+        errorMessage: '',
     },
     reducers: {
         setCourses(state, action) {
@@ -26,6 +27,12 @@ const courseSlice = createSlice({
                 ...state,
                 swedish: swedish,
                 german: german,
+            };
+        },
+        setErrorMessage(state, action) {
+            return {
+                ...state,
+                errorMessage: action.payload,
             };
         },
     }
