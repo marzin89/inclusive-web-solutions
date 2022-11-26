@@ -10,7 +10,7 @@ const postSlice = createSlice({
         errorMessage: '',
     },
     reducers: {
-        setPosts(state = initialState, action) {
+        setPosts(state, action) {
             let swedish = [];
             let german = [];
 
@@ -29,7 +29,7 @@ const postSlice = createSlice({
                 german: german,
             };
         },
-        setErrorMessage(state = initialState, action) {
+        setErrorMessage(state, action) {
             return {
                 ...state,
                 errorMessage: action.payload,

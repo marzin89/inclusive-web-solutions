@@ -8,19 +8,19 @@ const pageSlice = createSlice({
         accessibility: 'standard',
     },
     reducers: {
-        setLanguage(state = initialState, action) {
+        setLanguage(state, action) {
             return {
                 ...state,
                 language: action.payload,
             };
         },
-        setQuery(state = initialState, action) {
+        setQuery(state, action) {
             return {
                 ...state,
                 query: action.payload,
             };
         },
-        setAccessibility(state = initialState, action) {
+        setAccessibility(state, action) {
             return {
                 ...state,
                 accessibility: action.payload,

@@ -3,14 +3,29 @@ import { createSlice } from '@reduxjs/toolkit';
 const testSlice = createSlice({
     name: 'test',
     initialState: {
+        swedish: [],
+        german: [],
         tests: [],
         test:  [],
     },
     reducers: {
-        getAllTests(state, action) {
+        setTests(state, action) {
+            let swedish = [];
+            let german = [];
+
+            action.payload.map((test) => {
+                if (test.language == 'swedish') {
+                    swedish.push(test);
+                
+                } else {
+                    german.push(test);
+                }}
+            );
+
             return {
                 ...state,
-                tests: action.payload,
+                swedish: swedish,
+                german: german,
             };
         },
     }

@@ -8,7 +8,7 @@ const userSlice = createSlice({
         userRole:   '',
     },
     reducers: {
-        login(state = initialState, action) {
+        login(state, action) {
             return {
                 ...state,
                 isSignedIn: true,
@@ -16,7 +16,7 @@ const userSlice = createSlice({
                 userRole: action.payload.userRole,
             };
         },
-        logout(state = initialState) {
+        logout(state) {
             return {
                 ...state,
                 isSignedIn: false,
