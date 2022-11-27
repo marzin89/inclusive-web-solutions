@@ -5,9 +5,6 @@ import CoursesSwedish from './swedish/courses-swedish';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../../store/slices/user-slice';
-import { testActions } from '../../../store/slices/test-slice';
-import { solutionActions } from '../../../store/slices/solution-slice';
-import { courseActions } from '../../../store/slices/solution-slice';
 
 function ServicesSwedish(props) {
     const dispatch = useDispatch();

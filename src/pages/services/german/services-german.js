@@ -3,10 +3,6 @@ import TestsGerman from './german/tests-german';
 import SolutionsGerman from './german/solutions-german';
 import CoursesGerman from './german/courses-german';
 import { useEffect } from 'react';
-import { userActions } from '../../../store/slices/user-slice';
-import { testActions } from '../../../store/slices/test-slice';
-import { solutionActions } from '../../../store/slices/solution-slice';
-import { courseActions } from '../../../store/slices/solution-slice';
 
 function ServicesGerman() {
     useEffect(() => {
