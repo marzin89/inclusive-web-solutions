@@ -11,6 +11,8 @@ const postSlice = createSlice({
         post: [],
         pageSwedish: [],
         pageGerman: [],
+        numberOfPagesSwedish: 0,
+        numberOfPagesGerman: 0,
         activeBlogPageSwedish: 0,
         activeBlogPageGerman: 0,
         blogIndexSwedish: 0,
@@ -23,6 +25,22 @@ const postSlice = createSlice({
             let german = [];
             let featuredSwedish = [];
             let featuredGerman = [];
+            let numberOfPagesSwedish;
+            let numberOfPagesGerman;
+
+            if (swedish.length > 5) {
+                numberOfPagesSwedish = Math.ceil(swedish.length / 5);
+            
+            } else {
+                numberOfPagesSwedish = 1;
+            }
+
+            if (german.length > 5) {
+                numberOfPagesGerman = Math.ceil(german.length / 5);
+            
+            } else {
+                numberOfPagesGerman = 1;
+            }
 
             action.payload.map((post, index) => {
                 if (post.language == 'swedish') {
@@ -45,6 +63,8 @@ const postSlice = createSlice({
 
             return {
                 ...state,
+                numberOfPagesSwedish: numberOfPagesSwedish,
+                numberOfPagesGerman: numberOfPagesGerman,
                 featuredSwedish: featuredSwedish,
                 featuredGerman: featuredGerman,
                 swedish: swedish,
