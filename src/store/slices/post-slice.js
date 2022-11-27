@@ -9,6 +9,12 @@ const postSlice = createSlice({
         german: [],
         posts: [],
         post: [],
+        pageSwedish: [],
+        pageGerman: [],
+        activeBlogPageSwedish: 0,
+        activeBlogPageGerman: 0,
+        blogIndexSwedish: 0,
+        blogIndexGerman: 0,
         errorMessage: '',
     },
     reducers: {
@@ -43,6 +49,54 @@ const postSlice = createSlice({
                 featuredGerman: featuredGerman,
                 swedish: swedish,
                 german: german,
+            };
+        },
+        toggleSwedish(state, action) {
+            let index;
+            let page = [];
+
+            if (action.payload == 1) {
+                index = 0;
+            
+            } else {
+                index = (action.payload - 1) * 5;
+            }
+
+            for (let i = index; i < (index + 5); i++) {
+                if (state.swedish[i]) {
+                    page.push(state.swedish[i]);
+                }
+            }
+
+            return {
+                ...state,
+                pageSwedish: page,
+                activeBlogPageSwedish: action.payload,
+                blogIndexSwedish: index,
+            };
+        },
+        toggleGerman(state, action) {
+            let index;
+            let page = [];
+
+            if (action.payload == 1) {
+                index = 0;
+            
+            } else {
+                index = (action.payload - 1) * 5;
+            }
+
+            for (let i = index; i < (index + 5); i++) {
+                if (state.german[i]) {
+                    page.push(state.german[i]);
+                }
+            }
+
+            return {
+                ...state,
+                pageGerman: page,
+                activeBlogPageGerman: action.payload,
+                blogIndexGerman: index,
             };
         },
         setErrorMessage(state, action) {
