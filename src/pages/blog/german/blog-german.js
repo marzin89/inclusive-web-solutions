@@ -1,12 +1,32 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import PostsGerman from './german/posts-german';
-import { postActions } from '../../../store/slices/post-slice';
+import { useSelector } from 'react-redux';
+import PostsGerman from './posts-german';
+import ToggleBtnGerman from './toggle-btn-german';
 
 function BlogGerman() {
     const posts = useSelector((state) => state.post.german);
     const errorMessage = useSelector((state) => state.post.errorMessage);
+    const numberOfPages = useSelector((state) => state.post.numberOfPagesGerman);
+    const activePage = useSelector((state) => state.post.activeBlogPageGerman);
+    const buttons = [];
+
+    if (numberOfPages > 1) {
+        for (let i = 0; i < numberOfPages; i++) {
+            if (i == activePage) {
+                buttons.push(
+                    <ToggleBtnGerman activePage={activePage} className="focus focus-invisible-btns 
+                        toggle-btn active-toggle-btn h3-font-size" aria-pressed="true" />
+                );
+            
+            } else {
+                buttons.push(
+                    <ToggleBtnGerman activePage={activePage} className="focus focus-invisible-btns 
+                        toggle-btn inactive-toggle-btn h3-font-size" aria-pressed="false" />
+                );
+            }
+        }
+    }
 
     useEffect(() => {
         document.title = 'Blog';
@@ -29,8 +49,8 @@ function BlogGerman() {
                 <h1 id="main" className="h1-font-size">Blog</h1>
                 {posts.length ? <PostsGerman /> : <p className="error regular-font-size" 
                     role="alert">{errorMessage}</p>}
-                {posts.length > 5 ? <nav aria-label="Blog-Posts">
-                    {this.toggleBtnsGerman()}</nav> : null}                  
+                {numberOfPages > 1 ? <nav aria-label="Blog-Posts">
+                    {buttons}</nav> : null}                  
             </section>
         </main>
     );
