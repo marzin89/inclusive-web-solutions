@@ -11,9 +11,9 @@ import ContactSwedish from './pages/contact/swedish/contact-swedish';
 import ContactGerman from './pages/contact/german/contact-german';
 import ServicesSwedish from './pages/services/swedish/services-swedish';
 import ServicesGerman from './pages/services/german/services-german';
-import BlogSwedish from './pages/blog/swedish/blog-swedish';
-import BlogGerman from './pages/blog/german/blog-german';
-import Accessibility from './pages/accessibility/accessibility';
+import Blog from './pages/blog/blog';
+import AccessibilitySwedish from './pages/accessibility/swedish/accessibility-swedish';
+import AccessibilityGerman from './pages/accessibility/german/accessibility-german';
 import Search from './pages/search/search';
 import Post from './pages/post/post';
 import Test from './pages/test/test';
@@ -137,8 +137,8 @@ function App() {
           <Route path="/admin" element={isSignedIn ? 
             <Admin username={this.state.username} userRole={this.state.permission} 
               function={this.logoutCallback} /> : <Navigate replace to="/login" />} />
-          <Route path="/" element={language == 'Swedish' ? <HomeSwedish 
-            isSignedIn={isSignedIn} /> : <HomeGerman />} />
+          <Route path="/" element={<Home signedIn={isSignedIn}
+            logout={this.logoutCallback} />} />
           <Route path="/home" element={language == 'Swedish' ? <HomeSwedish 
             isSignedIn={isSignedIn} /> : <HomeGerman />} />
           <Route path="/about" element={language == 'Swedish' ? <AboutSwedish
@@ -147,10 +147,10 @@ function App() {
             isSignedIn={isSignedIn} /> : <ContactGerman />} />
           <Route path="/services" element={language == 'Swedish' ? <ServicesSwedish
             isSignedIn={isSignedIn} /> : <ServicesGerman />} />
-          <Route path="/blog" element={language == 'Swedish' ? <BlogSwedish 
-            isSignedIn={isSignedIn} /> : <BlogGerman />} />
-          <Route path="/accessibility" element={<Accessibility signedIn={isSignedIn}
+          <Route path="/blog" element={<Blog signedIn={isSignedIn}
             logout={this.logoutCallback} />} />
+          <Route path="/accessibility" element={language == 'Swedish' ? <AccessibilitySwedish
+            isSignedIn={isSignedIn} /> : <AccessibilityGerman />} />
           <Route path="/search" element={<Search signedIn={isSignedIn}
             logout={this.logoutCallback} />} />
           <Route path="/post" element={<Post signedIn={isSignedIn} 
@@ -161,8 +161,8 @@ function App() {
             logout={this.logoutCallback} />} />
           <Route path="/course" element={<Course signedIn={isSignedIn} 
             logout={this.logoutCallback} />} /> 
-          <Route path="*" element={language == 'Swedish' ? <HomeSwedish 
-            isSignedIn={isSignedIn} /> : <HomeGerman />} />
+          <Route path="*" element={<Home signedIn={isSignedIn}
+            logout={this.logoutCallback} />} />
         </Routes>
         <Footer />
       </Router>
