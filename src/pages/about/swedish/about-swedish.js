@@ -30,7 +30,7 @@ function AboutSwedish(props) {
                 </nav>
                 {props.isSignedIn ? <p id="logout">
                     <Link className="focus focus-invisible regular-font-size" to="/about"
-                        onClick={() => logout(e)}>Logga ut</Link></p> : null}
+                        onClick={(e) => logout(e)}>Logga ut</Link></p> : null}
             </div>
             <StaticSwedish />
         </main>

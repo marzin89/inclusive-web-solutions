@@ -22,7 +22,7 @@ function HomeSwedish(props) {
             <div className="row">
                 {props.isSignedIn ? <p id="logout">
                     <Link className="focus focus-invisible regular-font-size" to={"/home"} 
-                        onClick={() => logout(e)}>Logga ut</Link></p> : null}
+                        onClick={(e) => logout(e)}>Logga ut</Link></p> : null}
             </div>
             <div className="row">
                 <StaticSwedish />
