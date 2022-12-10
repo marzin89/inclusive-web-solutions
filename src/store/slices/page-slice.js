@@ -6,6 +6,7 @@ const pageSlice = createSlice({
         language: 'Swedish',
         query: '',
         accessibility: 'standard',
+        previous: '',
     },
     reducers: {
         setLanguage(state, action) {
@@ -23,6 +24,7 @@ const pageSlice = createSlice({
         setAccessibility(state, action) {
             return {
                 ...state,
+                previous: state.accessibility,
                 accessibility: action.payload,
             };
         },
