@@ -11,7 +11,8 @@ import ContactSwedish from './pages/contact/swedish/contact-swedish';
 import ContactGerman from './pages/contact/german/contact-german';
 import ServicesSwedish from './pages/services/swedish/services-swedish';
 import ServicesGerman from './pages/services/german/services-german';
-import Blog from './pages/blog/blog';
+import BlogSwedish from './pages/blog/swedish/blog-swedish';
+import BlogGerman from './pages/blog/german/blog-german';
 import AccessibilitySwedish from './pages/accessibility/swedish/accessibility-swedish';
 import AccessibilityGerman from './pages/accessibility/german/accessibility-german';
 import Search from './pages/search/search';
@@ -31,6 +32,7 @@ import { testActions } from './store/slices/test-slice';
 import { solutionActions } from './store/slices/solution-slice';
 import { courseActions } from './store/slices/course-slice';
 import { postActions } from './store/slices/post-slice';
+import { is } from 'immer/dist/internal';
 
 function App() {
   const isSignedIn = useSelector((state) => state.user.isSignedIn);
@@ -147,8 +149,8 @@ function App() {
             isSignedIn={isSignedIn} /> : <ContactGerman />} />
           <Route path="/services" element={language == 'Swedish' ? <ServicesSwedish
             isSignedIn={isSignedIn} /> : <ServicesGerman />} />
-          <Route path="/blog" element={<Blog signedIn={isSignedIn}
-            logout={this.logoutCallback} />} />
+          <Route path="/blog" element={language == 'Swedish' ? <BlogSwedish
+            isSignedIn={isSignedIn} /> : <BlogGerman />} />
           <Route path="/accessibility" element={language == 'Swedish' ? <AccessibilitySwedish
             isSignedIn={isSignedIn} /> : <AccessibilityGerman />} />
           <Route path="/search" element={<Search signedIn={isSignedIn}

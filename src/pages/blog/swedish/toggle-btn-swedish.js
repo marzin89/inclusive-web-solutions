@@ -1,7 +1,8 @@
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { postActions } from '../../../store/slices/post-slice';
 
 function ToggleBtnSwedish(props) {
+    const activePage = useSelector((state) => state.post.activeBlogPageSwedish);
     const dispatch = useDispatch();
 
     function handleLinkClick(e) {
@@ -11,9 +12,11 @@ function ToggleBtnSwedish(props) {
     }
 
     return (
-        <button key={props.activePage} id={`btn${props.activePage}`} 
-            className={props.className} aria-pressed={props.aria-pressed}
-                onClick={(e) => handleLinkClick(e)}></button>
+        <button key={activePage} id={`btn${activePage}`} 
+            className={ `focus focus-invisible-btns toggle-btn ${props.index == 
+                activePage - 1 ? 'active-toggle-btn' : 'inactive-toggle-btn'} h3-font-size`}
+                    aria-pressed={props.index == activePage - 1 ? true : false}
+                        onClick={(e) => handleLinkClick(e)}></button>
     );
     
     /*

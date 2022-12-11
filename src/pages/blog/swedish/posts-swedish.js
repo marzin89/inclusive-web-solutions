@@ -8,7 +8,8 @@ function PostsSwedish() {
     const dispatch = useDispatch();
 
     function handleLinkClick(e) {
-        dispatch(postActions.setPost(e.target.id.slice(4)));
+        const id = e.target.slice(4);
+        dispatch(postActions.setPost(id));
     }
 
     return (

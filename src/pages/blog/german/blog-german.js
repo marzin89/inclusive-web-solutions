@@ -1,31 +1,22 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import PostsGerman from './posts-german';
+import PostsGerman from './german/posts-german';
 import ToggleBtnGerman from './toggle-btn-german';
 
 function BlogGerman() {
     const posts = useSelector((state) => state.post.german);
-    const errorMessage = useSelector((state) => state.post.errorMessage);
     const numberOfPages = useSelector((state) => state.post.numberOfPagesGerman);
-    const activePage = useSelector((state) => state.post.activeBlogPageGerman);
-    const buttons = [];
+    const errorMessage = useSelector((state) => state.post.errorMessage);
 
-    if (numberOfPages > 1) {
+    function renderToggleBtns() {
+        const toggleBtns = [];
+
         for (let i = 0; i < numberOfPages; i++) {
-            if (i == activePage) {
-                buttons.push(
-                    <ToggleBtnGerman activePage={activePage} className="focus focus-invisible-btns 
-                        toggle-btn active-toggle-btn h3-font-size" aria-pressed="true" />
-                );
-            
-            } else {
-                buttons.push(
-                    <ToggleBtnGerman activePage={activePage} className="focus focus-invisible-btns 
-                        toggle-btn inactive-toggle-btn h3-font-size" aria-pressed="false" />
-                );
-            }
+            toggleBtns.push(<ToggleBtnGerman index={i} />);
         }
+
+        return toggleBtns;
     }
 
     useEffect(() => {
@@ -49,12 +40,12 @@ function BlogGerman() {
                 <h1 id="main" className="h1-font-size">Blog</h1>
                 {posts.length ? <PostsGerman /> : <p className="error regular-font-size" 
                     role="alert">{errorMessage}</p>}
-                {numberOfPages > 1 ? <nav aria-label="Blog-Posts">
-                    {buttons}</nav> : null}                  
+                {numberOfPages > 1 ? <nav aria-label="Blog-Posts">{renderToggleBtns()}</nav> : null}                  
             </section>
         </main>
     );
 
+    /*
     toggleBtnsGerman() {
         let buttons = [];
 
@@ -179,6 +170,7 @@ function BlogGerman() {
             })
         }
     }
+    */
 }
 
 export default BlogGerman;
