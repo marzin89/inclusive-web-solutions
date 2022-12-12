@@ -8,7 +8,7 @@ function ToggleBtnGerman(props) {
     function handleLinkClick(e) {
         e.preventDefault();
         const id = e.target.innerHTML;
-        dispatch(postActions.togglePostsGerman(id));
+        dispatch(postActions.toggleGerman(id));
     }
 
     return (

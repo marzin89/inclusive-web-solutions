@@ -8,7 +8,7 @@ function ToggleBtnSwedish(props) {
     function handleLinkClick(e) {
         e.preventDefault();
         const id = e.target.innerHTML;
-        dispatch(postActions.togglePostsSwedish(id));
+        dispatch(postActions.toggleSwedish(id));
     }
 
     return (
