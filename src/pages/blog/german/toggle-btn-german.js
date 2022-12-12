@@ -12,11 +12,11 @@ function ToggleBtnGerman(props) {
     }
 
     return (
-        <button key={activePage} id={`btn${activePage}`} 
-            className={ `focus focus-invisible-btns toggle-btn ${props.index == 
-                activePage - 1 ? 'active-toggle-btn' : 'inactive-toggle-btn'} h3-font-size`}
-                    aria-pressed={props.index == activePage - 1 ? true : false}
-                        onClick={(e) => handleLinkClick(e)}></button>
+        <button key={props.index + 1} id={`btn${props.index + 1}`} 
+            className={ `focus focus-invisible-btns toggle-btn ${props.index + 1 == 
+                activePage ? 'active-toggle-btn' : 'inactive-toggle-btn'} h3-font-size`}
+                    aria-pressed={props.index + 1 == activePage ? true : false}
+                        onClick={(e) => handleLinkClick(e)}>{props.index + 1}</button>
     );
     
     /*
