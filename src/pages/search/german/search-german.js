@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SearchFormGerman from './search-form-german';
-import ResultsGerman from './results-german/results-german';
+import SearchResultsGerman from './search-results-german';
 
 function SearchGerman() {
     const results = useSelector((state) => state.page.searchResultsGerman);
@@ -11,41 +11,6 @@ function SearchGerman() {
     useEffect(() => {
         document.title = 'Suchergebnisse';
     });
-    // Konstruktor
-    /*
-    constructor(props) {
-        super(props);
-
-        // Binder this till funktionerna
-        this.setState             = this.setState.bind(this);
-        this.search               = this.search.bind(this);
-        this.handleSubmit         = this.handleSubmit.bind(this);
-        this.handleSearchChange   = this.handleSearchChange.bind(this);
-        this.validateSearch       = this.validateSearch.bind(this);
-        this.toggleBtnsSwedish    = this.toggleBtnsSwedish.bind(this);
-        this.toggleBtnsGerman     = this.toggleBtnsGerman.bind(this);
-        this.handleBtnClick       = this.handleBtnClick.bind(this);
-        this.toggleResultsSwedish = this.toggleResultsSwedish.bind(this);
-        this.toggleResultsGerman  = this.toggleResultsGerman.bind(this);
-        this.handleLogout       = this.handleLogout.bind(this);
-
-        this.state = {
-            query:                '',
-            results:              [],
-            resultsSwedish:       [],
-            resultsGerman:        [],
-            numberOfPagesSwedish: 0,
-            numberOfPagesGerman:  0,
-            index:                0,
-            activePage:           1,
-            page:                 [],
-            errorSwedish:         '',
-            errorGerman:          '',
-        }
-
-        this.search();
-    }
-    */
 
     return (
         <main>
@@ -64,7 +29,7 @@ function SearchGerman() {
             <section id="search">
                 <h1 id="main" className="h1-font-size">Suchergebnisse</h1>
                 <div id="results">
-                    {results.length ? <ResultsGerman /> : <p className="error 
+                    {results.length ? <SearchResultsGerman /> : <p className="error 
                         regular-font-size" role="alert">{errorMessage}</p>}
                     {results.length > 5 ? <nav aria-label="Suchergebnisse">
                         {this.toggleBtnsGerman()}</nav> : null}

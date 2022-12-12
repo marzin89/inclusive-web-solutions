@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import SearchFormSwedish from './search-form-swedish';
-import ResultsSwedish from './results-swedish/results-swedish';
+import SearchResultsSwedish from './search-results-swedish';
 import { userActions } from '../../../store/slices/user-slice';
 
 function SearchSwedish(props) {
@@ -18,42 +18,6 @@ function SearchSwedish(props) {
     useEffect(() => {
         document.title = 'Sökresultat';
     });
-    
-    // Konstruktor
-    /*
-    constructor(props) {
-        super(props);
-
-        // Binder this till funktionerna
-        this.setState             = this.setState.bind(this);
-        this.search               = this.search.bind(this);
-        this.handleSubmit         = this.handleSubmit.bind(this);
-        this.handleSearchChange   = this.handleSearchChange.bind(this);
-        this.validateSearch       = this.validateSearch.bind(this);
-        this.toggleBtnsSwedish    = this.toggleBtnsSwedish.bind(this);
-        this.toggleBtnsGerman     = this.toggleBtnsGerman.bind(this);
-        this.handleBtnClick       = this.handleBtnClick.bind(this);
-        this.toggleResultsSwedish = this.toggleResultsSwedish.bind(this);
-        this.toggleResultsGerman  = this.toggleResultsGerman.bind(this);
-        this.handleLogout       = this.handleLogout.bind(this);
-
-        this.state = {
-            query:                '',
-            results:              [],
-            resultsSwedish:       [],
-            resultsGerman:        [],
-            numberOfPagesSwedish: 0,
-            numberOfPagesGerman:  0,
-            index:                0,
-            activePage:           1,
-            page:                 [],
-            errorSwedish:         '',
-            errorGerman:          '',
-        }
-
-        this.search();
-    }
-    */
 
     return (
         <main>
@@ -75,7 +39,7 @@ function SearchSwedish(props) {
                 <h1 id="main" className="h1-font-size">Sökresultat</h1>
                 <SearchFormSwedish />
                 <div id="results">
-                    {results.length ? <ResultsSwedish /> : <p className="error 
+                    {results.length ? <SearchResultsSwedish /> : <p className="error 
                         regular-font-size" role="alert">{errorMessage}</p>}        
                     {results.length > 5 ? <nav aria-label="Sökresultat">
                         {this.toggleBtnsSwedish()}</nav> : null}
