@@ -75,8 +75,8 @@ function SearchSwedish(props) {
                 <h1 id="main" className="h1-font-size">Sökresultat</h1>
                 <SearchFormSwedish />
                 <div id="results">
-                    {results.length ? <ResultsSwedish results={results} /> : 
-                        <p className="error regular-font-size" role="alert">{errorMessage}</p>}        
+                    {results.length ? <ResultsSwedish /> : <p className="error 
+                        regular-font-size" role="alert">{errorMessage}</p>}        
                     {results.length > 5 ? <nav aria-label="Sökresultat">
                         {this.toggleBtnsSwedish()}</nav> : null}
                 </div>

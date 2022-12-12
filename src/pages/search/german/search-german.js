@@ -64,8 +64,8 @@ function SearchGerman() {
             <section id="search">
                 <h1 id="main" className="h1-font-size">Suchergebnisse</h1>
                 <div id="results">
-                    {results.length ? <ResultsGerman results={results} /> : 
-                        <p className="error regular-font-size" role="alert">{errorMessage}</p>}
+                    {results.length ? <ResultsGerman /> : <p className="error 
+                        regular-font-size" role="alert">{errorMessage}</p>}
                     {results.length > 5 ? <nav aria-label="Suchergebnisse">
                         {this.toggleBtnsGerman()}</nav> : null}
                 </div>
