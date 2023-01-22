@@ -52,7 +52,7 @@ function StaticSwedish() {
             break;
 
             case 'stop-btn':
-                stopBtn.setAttribute('aria-expanded', true); 
+                // stopBtn.setAttribute('aria-expanded', true); 
 
                 link[0].href = './css/styles.css';
                 /*
