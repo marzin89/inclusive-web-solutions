@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import navIcon from '../../images/hamburgerikon/navIcon.png';
+import navIcon from '../../../images/hamburgerikon/navIcon.png';
 
 function MainNavGerman(props) {
     const navRef = useRef();

@@ -1,4 +1,4 @@
-import logo from '../../images/logo/logo.png';
+import logo from '../../../images/logo/logo.png';
 import MainNavGerman from './main-nav-german';
 import SearchMobile from '../search-mobile';
 import SearchDesktop from '../search-desktop';

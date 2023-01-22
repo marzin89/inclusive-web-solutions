@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import navIcon from '../../images/hamburgerikon/navIcon.png';
+import navIcon from '../../../images/hamburgerikon/navIcon.png';
 
 function MainNavSwedish(props) {
     const isSignedIn = useSelector((state) => state.user.isSignedIn);
