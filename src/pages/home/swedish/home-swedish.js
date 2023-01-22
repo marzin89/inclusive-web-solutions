@@ -3,7 +3,7 @@ import StaticSwedish from './static-swedish';
 import PostsSwedish from './posts-swedish';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { userActions } from '../../store/slices/user-slice';
+import { userActions } from '../../../store/slices/user-slice';
 
 function HomeSwedish(props) {
     const dispatch = useDispatch();
