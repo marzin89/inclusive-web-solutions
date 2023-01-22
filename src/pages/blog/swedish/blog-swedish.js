@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PostsSwedish from './swedish/posts-swedish';
+import PostsSwedish from './posts-swedish';
 import ToggleBtnSwedish from './toggle-btn-swedish';
 import { userActions } from '../../../store/slices/user-slice';
-import { render } from '@testing-library/react';
 
 function BlogSwedish(props) {
     const posts = useSelector((state) => state.post.swedish);

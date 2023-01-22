@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import PostsGerman from './german/posts-german';
+import PostsGerman from './posts-german';
 import ToggleBtnGerman from './toggle-btn-german';
 
 function BlogGerman() {
