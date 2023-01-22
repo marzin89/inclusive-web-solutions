@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import TestsGerman from './german/tests-german';
-import SolutionsGerman from './german/solutions-german';
-import CoursesGerman from './german/courses-german';
+import TestsGerman from './tests-german';
+import SolutionsGerman from './solutions-german';
+import CoursesGerman from './courses-german';
 import { useEffect } from 'react';
 
 function ServicesGerman() {

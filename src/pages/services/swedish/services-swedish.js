@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import TestsSwedish from './swedish/tests-swedish';
-import SolutionsSwedish from './swedish/solutions-swedish';
-import CoursesSwedish from './swedish/courses-swedish';
+import TestsSwedish from './tests-swedish';
+import SolutionsSwedish from './solutions-swedish';
+import CoursesSwedish from './courses-swedish';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../../store/slices/user-slice';
