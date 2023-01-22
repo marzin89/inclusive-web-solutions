@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import StaticSwedish from './swedish/static-swedish';
+import StaticSwedish from './static-swedish';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../../store/slices/user-slice';
