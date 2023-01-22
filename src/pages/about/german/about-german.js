@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import StaticGerman from './german/static-german';
+import StaticGerman from './static-german';
 import { useEffect } from 'react';
 
 function AboutGerman() {

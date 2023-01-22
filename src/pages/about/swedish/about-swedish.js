@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import StaticSwedish from './swedish/static-swedish';
+import StaticSwedish from './static-swedish';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { userActions } from '../../store/slices/user-slice';
+import { userActions } from '../../../store/slices/user-slice';
 
 function AboutSwedish(props) {
     const dispatch = useDispatch();
@@ -30,7 +30,7 @@ function AboutSwedish(props) {
                 </nav>
                 {props.isSignedIn ? <p id="logout">
                     <Link className="focus focus-invisible regular-font-size" to="/about"
-                        onClick={(e) => logout(e)}>Logga ut</Link></p> : null}
+                        onClick={() => logout(e)}>Logga ut</Link></p> : null}
             </div>
             <StaticSwedish />
         </main>
