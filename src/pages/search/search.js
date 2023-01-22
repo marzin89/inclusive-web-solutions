@@ -1,8 +1,8 @@
 // Imports
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ResultsSwedish from './results-swedish/results-swedish';
-import ResultsGerman from './results-german/results-german';
+import ResultsSwedish from './swedish/results-swedish';
+import ResultsGerman from './german/results-german';
 
 // Sökresultat
 class Search extends React.Component {
