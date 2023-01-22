@@ -32,7 +32,6 @@ import { testActions } from './store/slices/test-slice';
 import { solutionActions } from './store/slices/solution-slice';
 import { courseActions } from './store/slices/course-slice';
 import { postActions } from './store/slices/post-slice';
-import { is } from 'immer/dist/internal';
 
 function App() {
   const isSignedIn = useSelector((state) => state.user.isSignedIn);
@@ -133,38 +132,25 @@ function App() {
         {language == 'Swedish' ? <HeaderSwedish /> : <HeaderGerman />}
         <Routes>
           <Route path="/login" element={isSignedIn ? 
-            <Navigate replace to="/admin" username={this.state.username} 
-              userRole={this.state.permission} function={this.logoutCallback} /> 
-              : <Login />} />
+            <Navigate replace to="/admin" username={this.state.username} userRole={this.state.permission} 
+              function={this.logoutCallback} /> : <Login />} />
           <Route path="/admin" element={isSignedIn ? 
-            <Admin username={this.state.username} userRole={this.state.permission} 
-              function={this.logoutCallback} /> : <Navigate replace to="/login" />} />
-          <Route path="/" element={<Home signedIn={isSignedIn}
-            logout={this.logoutCallback} />} />
-          <Route path="/home" element={language == 'Swedish' ? <HomeSwedish 
-            isSignedIn={isSignedIn} /> : <HomeGerman />} />
-          <Route path="/about" element={language == 'Swedish' ? <AboutSwedish
-            isSignedIn={isSignedIn} /> : <AboutGerman />} />
-          <Route path="/contact" element={language == 'Swedish' ? <ContactSwedish
-            isSignedIn={isSignedIn} /> : <ContactGerman />} />
-          <Route path="/services" element={language == 'Swedish' ? <ServicesSwedish
-            isSignedIn={isSignedIn} /> : <ServicesGerman />} />
-          <Route path="/blog" element={language == 'Swedish' ? <BlogSwedish
-            isSignedIn={isSignedIn} /> : <BlogGerman />} />
-          <Route path="/accessibility" element={language == 'Swedish' ? <AccessibilitySwedish
-            isSignedIn={isSignedIn} /> : <AccessibilityGerman />} />
-          <Route path="/search" element={<Search signedIn={isSignedIn}
-            logout={this.logoutCallback} />} />
-          <Route path="/post" element={<Post signedIn={isSignedIn} 
-            logout={this.logoutCallback} />} />
-          <Route path="/test" element={<Test signedIn={isSignedIn} 
-            logout={this.logoutCallback} />} /> 
-          <Route path="/solution" element={<Solution signedIn={isSignedIn} 
-            logout={this.logoutCallback} />} />
-          <Route path="/course" element={<Course signedIn={isSignedIn} 
-            logout={this.logoutCallback} />} /> 
-          <Route path="*" element={<Home signedIn={isSignedIn}
-            logout={this.logoutCallback} />} />
+            <Admin username={this.state.username} userRole={this.state.permission} function={this.logoutCallback} /> 
+              : <Navigate replace to="/login" />} />
+          <Route path="/" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />
+          <Route path="/home" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />
+          <Route path="/about" element={language == 'Swedish' ? <AboutSwedish isSignedIn={isSignedIn} /> : <AboutGerman />} />
+          <Route path="/contact" element={language == 'Swedish' ? <ContactSwedish isSignedIn={isSignedIn} /> : <ContactGerman />} />
+          <Route path="/services" element={language == 'Swedish' ? <ServicesSwedish isSignedIn={isSignedIn} /> : <ServicesGerman />} />
+          <Route path="/blog" element={language == 'Swedish' ? <BlogSwedish isSignedIn={isSignedIn} /> : <BlogGerman />} />
+          <Route path="/accessibility" element={language == 'Swedish' ? <AccessibilitySwedish isSignedIn={isSignedIn} /> 
+            : <AccessibilityGerman />} />
+          <Route path="/search" element={<Search signedIn={isSignedIn} logout={this.logoutCallback} />} />
+          <Route path="/post" element={<Post signedIn={isSignedIn} logout={this.logoutCallback} />} />
+          <Route path="/test" element={<Test signedIn={isSignedIn} logout={this.logoutCallback} />} /> 
+          <Route path="/solution" element={<Solution signedIn={isSignedIn} logout={this.logoutCallback} />} />
+          <Route path="/course" element={<Course signedIn={isSignedIn} logout={this.logoutCallback} />} /> 
+          <Route path="*" element={<Home signedIn={isSignedIn} logout={this.logoutCallback} />} />
         </Routes>
         <Footer />
       </Router>
