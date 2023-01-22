@@ -46,10 +46,10 @@ const pageSlice = createSlice({
             let numberOfPagesGerman;
 
             action.payload.foreach((page) => {
-                if (page.title.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-                    page.content.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+                if (page.title.toLowerCase().indexOf(state.query.toLowerCase()) >= 0 ||
+                    page.content.toLowerCase().indexOf(state.query.toLowerCase()) >= 0) {
 
-                    if (language == 'Swedish') {
+                    if (state.language == 'Swedish') {
                         resultsSwedish.push(page);
                     
                     } else {
