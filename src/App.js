@@ -39,7 +39,7 @@ function App() {
   const dispatch = useDispatch();
 
   function getPosts() {
-    fetch('https://iws-rest-api.herokuapp.com/posts')
+    fetch('http://localhost:8080/posts')
     .then(response => response.json())
     .then(data => {
       if (!data.length) {
@@ -66,7 +66,7 @@ function App() {
   }
 
   function getTests() {
-    fetch('https://iws-rest-api.herokuapp.com/tests')
+    fetch('http://localhost:8080/tests')
     .then(response => response.json())
     .then(data => {
       if (!data.length) {
@@ -94,7 +94,7 @@ function App() {
   }
 
   function getSolutions() {
-    fetch('https://iws-rest-api.herokuapp.com/solutions')
+    fetch('http://localhost:8080/solutions')
     .then(response => response.json())
     .then(data => {
       if (!data.length) {
