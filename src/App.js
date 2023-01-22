@@ -132,10 +132,9 @@ function App() {
         {language == 'Swedish' ? <HeaderSwedish /> : <HeaderGerman />}
         <Routes>
           <Route path="/login" element={isSignedIn ? 
-            <Navigate replace to="/admin" username={this.state.username} userRole={this.state.permission} 
-              function={this.logoutCallback} /> : <Login />} />
+            <Navigate replace to="/admin" username={this.state.username} userRole={this.state.permission} /> : <Login />} />
           <Route path="/admin" element={isSignedIn ? 
-            <Admin username={this.state.username} userRole={this.state.permission} function={this.logoutCallback} /> 
+            <Admin username={this.state.username} userRole={this.state.permission} /> 
               : <Navigate replace to="/login" />} />
           <Route path="/" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />
           <Route path="/home" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />
@@ -145,12 +144,12 @@ function App() {
           <Route path="/blog" element={language == 'Swedish' ? <BlogSwedish isSignedIn={isSignedIn} /> : <BlogGerman />} />
           <Route path="/accessibility" element={language == 'Swedish' ? <AccessibilitySwedish isSignedIn={isSignedIn} /> 
             : <AccessibilityGerman />} />
-          <Route path="/search" element={<Search signedIn={isSignedIn} logout={this.logoutCallback} />} />
-          <Route path="/post" element={<Post signedIn={isSignedIn} logout={this.logoutCallback} />} />
-          <Route path="/test" element={<Test signedIn={isSignedIn} logout={this.logoutCallback} />} /> 
-          <Route path="/solution" element={<Solution signedIn={isSignedIn} logout={this.logoutCallback} />} />
-          <Route path="/course" element={<Course signedIn={isSignedIn} logout={this.logoutCallback} />} /> 
-          <Route path="*" element={<Home signedIn={isSignedIn} logout={this.logoutCallback} />} />
+          <Route path="/search" element={<Search signedIn={isSignedIn} />} />
+          <Route path="/post" element={<Post signedIn={isSignedIn} />} />
+          <Route path="/test" element={<Test signedIn={isSignedIn} />} /> 
+          <Route path="/solution" element={<Solution signedIn={isSignedIn} />} />
+          <Route path="/course" element={<Course signedIn={isSignedIn} />} /> 
+          <Route path="*" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />} />
         </Routes>
         <Footer />
       </Router>
