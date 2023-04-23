@@ -1,5 +1,6 @@
 @charset "UTF-8";
-/* Imporerar partials */ /* Återställer webbläsarens standardvärden */
+/* Imporerar partials */
+/* Återställer webbläsarens standardvärden */
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +14,8 @@
 /* Inmatningsfält */
 /* Knappar */
 /* Navigering */
-/* Komponenter */ /* Inmatningsfält i formulär (Logga in, Admin, Kontakt) */
+/* Komponenter */
+/* Inmatningsfält i formulär (Logga in, Admin, Kontakt) */
 .text-input-main {
   display: block;
   margin-bottom: 5px;
@@ -24,7 +26,7 @@
   border: 2px solid #3D5858;
   padding-left: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .text-input-main {
     max-width: 295px;
   }
@@ -42,7 +44,7 @@
   border: 1px solid #BD3E33;
   margin-top: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .reset-btn {
     max-width: 295px;
     float: left;
@@ -65,7 +67,7 @@
   border: 1px solid #2A7373;
   margin-top: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .submit-btn {
     max-width: 295px;
     float: right;
@@ -87,14 +89,30 @@
   font-weight: bold;
   margin-top: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .admin-btn {
     max-width: 295px;
   }
 }
 
+.active-admin-btn {
+  width: 100%;
+  height: 35px;
+  background-color: white;
+  border: 2px solid #517788;
+  color: #517788;
+  font-size: inherit;
+  font-weight: bold;
+  margin-top: 10px;
+}
+@media only screen and (min-width: 1040px) {
+  .active-admin-btn {
+    max-width: 295px;
+  }
+}
+
 .admin-btn:focus {
-  outline: 3px solid black;
+  border: 3px solid black;
 }
 
 /* Inmatningsfält för meddelanden, inlägg, beskrivningar och kommentarer */
@@ -186,18 +204,30 @@ textarea {
   margin-top: 10px;
 }
 
+.active-accessibility-btn {
+  width: 100%;
+  max-width: 600px;
+  height: 35px;
+  background-color: white;
+  border: 2px solid #517788;
+  color: #517788;
+  font-size: inherit;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
 .accessibility-btn:focus {
   border: 3px solid black;
 }
 
-.toggle-btn {
+.inactive-toggle-btn {
   width: 50px;
   height: 50px;
   color: #517788;
   background-color: white;
   border: 2px solid #517788;
   font-family: inherit;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin: 0 5px;
 }
@@ -209,7 +239,7 @@ textarea {
   background-color: #517788;
   border: 1px solid #517788;
   font-family: inherit;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin: 0 5px;
 }
@@ -228,11 +258,11 @@ body {
   display: block;
   position: relative;
   min-height: 100vh;
-  padding-bottom: 200px;
+  padding-bottom: 225px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   #page-wrapper {
-    padding-bottom: 120px;
+    padding-bottom: 190px;
   }
 }
 
@@ -243,10 +273,26 @@ header {
   background-color: #2A7373;
   padding: 10px;
   overflow: auto;
+  z-index: 1;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   header {
     height: 125px;
+  }
+}
+
+@media only screen and (min-width: 1040px) {
+  #header-mobile {
+    display: none;
+  }
+}
+
+#header-desktop {
+  display: none;
+}
+@media only screen and (min-width: 1040px) {
+  #header-desktop {
+    display: block;
   }
 }
 
@@ -258,12 +304,13 @@ header {
 
 #header-left {
   width: 25%;
-  max-width: 170px;
+  max-width: 80px;
   height: 50px;
   float: left;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   #header-left {
+    max-width: 170px;
     height: 105px;
   }
 }
@@ -273,25 +320,45 @@ header {
   height: 50px;
   float: right;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   #header-right {
+    width: 83%;
     height: 105px;
   }
 }
 
 #icon-wrapper {
-  width: 100px;
+  width: 85px;
   float: right;
   overflow: auto;
-  margin-top: -35px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   #icon-wrapper {
     display: none;
   }
 }
 
-@media only screen and (min-width: 961px) {
+#skip-to-content-wrapper {
+  position: absolute;
+  width: 100%;
+  top: -10000px;
+  left: 0;
+  background-color: #2A7373;
+  padding: 5px 0;
+  text-align: center;
+}
+
+#skip-to-content {
+  font-size: 1.125em;
+  font-weight: bold;
+  color: white;
+}
+
+#logo {
+  display: block;
+}
+
+@media only screen and (min-width: 1040px) {
   #logo-mobile {
     display: none;
   }
@@ -300,7 +367,7 @@ header {
 #logo-desktop {
   display: none;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   #logo-desktop {
     display: block;
   }
@@ -308,10 +375,6 @@ header {
 
 #search-mobile {
   display: none;
-}
-
-#search-mobile:target {
-  display: block;
   width: 100%;
   position: fixed;
   top: 70px;
@@ -319,21 +382,53 @@ header {
   background-color: #2A7373;
   padding: 10px;
 }
+#search-mobile form label {
+  position: absolute;
+  bottom: 10000px;
+  color: white;
+}
+@media only screen and (min-width: 1040px) {
+  #search-mobile form label {
+    display: none;
+  }
+}
 
 #search-wrapper-desktop {
   display: none;
   overflow: auto;
   padding: 10px 0;
 }
-@media only screen and (min-width: 961px) {
+#search-wrapper-desktop form label {
+  display: none;
+}
+@media only screen and (min-width: 1040px) {
+  #search-wrapper-desktop form label {
+    display: block;
+    position: absolute;
+    bottom: 10000px;
+    color: white;
+  }
+}
+@media only screen and (min-width: 1040px) {
   #search-wrapper-desktop {
     display: block;
     width: 100%;
   }
 }
 
+#search form label {
+  position: absolute;
+  bottom: 2000px;
+}
+
 #nav-language-wrapper-desktop {
+  float: left;
   overflow: auto;
+}
+@media only screen and (min-width: 1040px) {
+  #nav-language-wrapper-desktop {
+    float: none;
+  }
 }
 
 #search-form-desktop {
@@ -342,14 +437,23 @@ header {
 }
 
 #search-icon {
-  width: 35px;
+  display: block;
+  width: 30px;
+  height: 35px;
   float: left;
+  margin-top: 10px;
 }
 
 #nav-icon {
   display: block;
   width: 40px;
+  height: 33px;
   float: right;
+  margin-top: 10px;
+}
+
+#nav-icon:focus {
+  border: 3px solid black;
 }
 
 .bar {
@@ -391,11 +495,11 @@ header {
   margin-left: 5px;
 }
 
-#search-bar-mobile {
+.search-bar-mobile {
   width: 56.25%;
 }
 
-#search-btn-mobile {
+.search-btn-mobile {
   width: 34.375%;
 }
 
@@ -408,17 +512,16 @@ header {
   font-size: inherit;
   height: 35px;
   padding-left: 10px;
-  width: 31.25%;
-  min-width: 100px;
-  max-width: 100px;
+  width: 100px;
   background-color: white;
   border: 2px solid #2A7373;
-  margin-top: 5px;
+  margin-top: 10px;
+  margin-left: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   #language-switcher {
     float: right;
-    margin-top: -30px;
+    margin-left: 0;
   }
 }
 
@@ -443,26 +546,27 @@ header {
   padding: 5px 0;
 }
 
-#main-nav-mobile:target {
-  display: block;
-}
-
 #main-nav-desktop {
+  display: none;
+  width: 85%;
   padding-top: 10px;
-  padding-left: 30px;
+}
+@media only screen and (min-width: 1040px) {
+  #main-nav-desktop {
+    display: block;
+    float: left;
+  }
 }
 #main-nav-desktop ul {
   list-style-type: none;
 }
 #main-nav-desktop ul li {
   display: inline-block;
-  padding: 5px 15px;
-}
-#main-nav-desktop #close-link {
-  display: none;
+  padding: 5px 1.5%;
 }
 
 .navlink {
+  font-weight: bold;
   color: white;
   text-decoration: none;
 }
@@ -484,8 +588,9 @@ main {
   padding-left: 10px;
   padding-right: 10px;
   background-color: #FAFAFA;
+  overflow: auto;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   main {
     max-width: 1300px;
     min-height: 1080px;
@@ -514,8 +619,20 @@ main {
 }
 
 h1, .h2-admin {
-  font-size: 2.375em;
+  font-size: 2em;
   margin-top: 5px;
+  color: #3D5858;
+  max-width: 600px;
+  margin: 5px auto;
+}
+
+.h2-search {
+  font-size: 1.25em;
+}
+
+.h2-error {
+  font-size: 1.25em;
+  font-weight: bold;
   color: #3D5858;
   max-width: 600px;
   margin: 5px auto;
@@ -525,22 +642,30 @@ h1, .h2-admin {
   margin-left: 0;
 }
 
-#h1-services {
-  max-width: 1280px;
+#services h1 {
+  max-width: 1240px;
+}
+#services section {
+  margin-bottom: 50px;
 }
 
 h2 {
-  font-size: 1.875em;
+  font-size: 1.5em;
   color: #3D5858;
-  margin-bottom: 5px;
+  margin: 5px 0;
 }
 
 .h2-home {
-  font-size: 2.375em;
+  font-size: 2em;
+}
+
+.h2-services {
+  max-width: 1240px;
+  margin: 5px auto;
 }
 
 h3 {
-  font-size: 1.5em;
+  font-size: 1.25em;
   margin-bottom: 5px;
   color: #3D5858;
 }
@@ -557,7 +682,7 @@ table {
 }
 
 caption {
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin-bottom: 5px;
   color: #3D5858;
@@ -606,7 +731,7 @@ article div {
   margin-bottom: 5px;
 }
 
-.author {
+.author, #author {
   color: #3D5858;
   font-weight: bold;
   text-align: right;
@@ -617,7 +742,7 @@ form, .admin-output {
   margin: 0 auto;
   overflow-x: scroll;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   form, .admin-output {
     overflow: auto;
   }
@@ -634,7 +759,7 @@ form, .admin-output {
 .form-left {
   margin-bottom: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .form-left {
     width: 50%;
     float: left;
@@ -645,7 +770,7 @@ form, .admin-output {
 .form-right {
   margin-bottom: 10px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .form-right {
     width: 50%;
     float: right;
@@ -660,18 +785,20 @@ form, .admin-output {
 .row-services {
   width: 100%;
   overflow: auto;
+  display: table;
 }
 
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .test, .solution, .course {
     width: 47%;
     max-width: 600px;
     float: left;
+    margin: 0 1.5%;
   }
 }
 
-label {
-  font-size: 1.5em;
+label, #consent-heading {
+  font-size: 1.25em;
   color: #3D5858;
   font-weight: bold;
 }
@@ -686,7 +813,7 @@ select {
 }
 
 textarea {
-  height: 150px;
+  height: 300px;
 }
 
 #language-switcher-admin {
@@ -695,12 +822,16 @@ textarea {
 }
 
 #image-upload-input {
+  width: 100%;
+  height: 35px;
   font-family: inherit;
   font-size: inherit;
-  color: #3D5858;
+  background-color: #517788;
+  color: white;
   font-weight: bold;
   margin-top: 5px;
   margin-bottom: 10px;
+  padding-top: 5px;
 }
 
 #stop-btn {
@@ -716,26 +847,19 @@ textarea {
   display: none;
 }
 
-#stop-btn:focus {
-  border: 3px solid black;
-}
-
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .admin-btn-left {
     margin-right: 5px;
   }
+
   .admin-btn-right {
     margin-left: 5px;
   }
 }
 .error {
-  display: none;
-  color: #3D5858;
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-.confirm {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   display: none;
   color: #3D5858;
   font-size: 1.125em;
@@ -743,8 +867,68 @@ textarea {
   margin-top: 5px;
 }
 
-button:focus {
-  border: 3px solid black;
+.error-search {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  display: none;
+  color: white;
+  font-size: 1.125em;
+  font-weight: bold;
+}
+
+.error-services {
+  width: 100%;
+  max-width: 600px;
+  display: none;
+  color: #3D5858;
+  font-size: 1.125em;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.confirm {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: none;
+  color: #3D5858;
+  font-size: 1.125em;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.number-of-results {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: none;
+  color: #3D5858;
+  font-size: 1.125em;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.respond {
+  text-align: right;
+}
+
+.respond-link {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  color: #3D5858;
+  font-size: 1.125em;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button {
+  padding-bottom: 2px;
 }
 
 #login-text {
@@ -760,7 +944,7 @@ p {
   max-width: 600px;
   margin: 0 auto;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .admin-menu {
     margin-top: 10px;
   }
@@ -783,7 +967,7 @@ p {
   max-width: 700px;
 }
 
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   #about-employees-wrapper {
     display: flex;
   }
@@ -805,8 +989,8 @@ p {
 }
 
 #about-btn {
-  width: 100%;
-  max-width: 145px;
+  width: 48.5%;
+  max-width: 295px;
   height: 35px;
   background-color: #3374BD;
   border: 1px solid #3374BD;
@@ -817,20 +1001,14 @@ p {
   margin-right: 5px;
   margin-top: 20px;
 }
-@media only screen and (min-width: 961px) {
-  #about-btn {
-    width: 45%;
-    max-width: 345px;
-  }
-}
 
 #about-btn:focus {
   border: 3px solid black;
 }
 
 #contact-btn {
-  width: 100%;
-  max-width: 145px;
+  width: 48.5%;
+  max-width: 295px;
   height: 35px;
   background-color: #A34E1C;
   border: 1px solid #A34E1C;
@@ -840,12 +1018,6 @@ p {
   font-weight: bold;
   margin-left: 5px;
   margin-top: 20px;
-}
-@media only screen and (min-width: 961px) {
-  #contact-btn {
-    width: 45%;
-    max-width: 345px;
-  }
 }
 
 #contact-btn:focus {
@@ -891,7 +1063,7 @@ p {
 .home-right {
   padding-top: 50px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .home-right {
     width: 30%;
     max-width: 380px;
@@ -901,7 +1073,7 @@ p {
   }
 }
 
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   #alt-text-input {
     max-width: 600px;
   }
@@ -909,17 +1081,18 @@ p {
 
 footer {
   width: 100%;
-  height: 200px;
+  height: 225px;
   background-color: #2A7373;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   padding: 30px 10px;
+  overflow: auto;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   footer {
-    height: 120px;
+    height: 190px;
   }
 }
 
@@ -927,7 +1100,7 @@ footer {
   margin: 0 auto;
   padding-top: 50px;
 }
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .home-left {
     width: 70%;
     float: left;
@@ -946,13 +1119,13 @@ footer {
   padding-top: 50px;
 }
 
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   #home-services-wrapper {
     display: flex;
   }
 }
 
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .tests {
     width: 45%;
     max-width: 415px;
@@ -961,7 +1134,7 @@ footer {
   }
 }
 
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .solutions {
     width: 45%;
     max-width: 415px;
@@ -970,7 +1143,7 @@ footer {
   }
 }
 
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1040px) {
   .courses {
     width: 45%;
     max-width: 415px;
@@ -984,6 +1157,7 @@ footer {
 }
 
 #contact-information, #email-link {
+  font-weight: bold;
   color: white;
 }
 
@@ -992,9 +1166,72 @@ footer {
   font-weight: bold;
 }
 
-#accessibility, #blog {
+#accessibility, #blog, #contact {
   max-width: 600px;
   margin: 0 auto;
+}
+
+#subpage {
+  max-width: 1050px;
+  overflow: auto;
+}
+
+#subpage-content {
+  margin: 0 auto;
+  margin-top: 30px;
+  max-width: 600px;
+}
+
+#subnav {
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 25px;
+}
+#subnav ul {
+  list-style-type: none;
+}
+#subnav li {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 1px solid #2A7373;
+}
+@media only screen and (min-width: 1040px) {
+  #subnav {
+    width: 38%;
+    max-width: 400px;
+    float: left;
+  }
+}
+
+#subnav-first-item {
+  padding-left: 10px;
+}
+#subnav-first-item a {
+  color: #3D5858;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.subnav-link {
+  color: #3D5858;
+  font-weight: bold;
+  padding-left: 30px;
+  text-decoration: none;
+}
+
+#open-subpage {
+  background-color: #2A7373;
+}
+
+.open-subpage-link {
+  color: white;
+}
+
+@media only screen and (min-width: 1040px) {
+  #subpage-right {
+    width: 57%;
+    float: right;
+  }
 }
 
 .explanation {
@@ -1005,7 +1242,7 @@ footer {
   width: 20px;
   height: 20px;
   margin-right: 5px;
-  margin-top: 15px;
+  outline: 2px solid #3D5858;
 }
 
 #consent:focus {
@@ -1029,26 +1266,85 @@ footer {
   border: 3px solid black;
 }
 
-@media only screen and (min-width: 961px) {
+.body-text {
+  margin-bottom: 20px;
+}
+
+.h3-accessibility {
+  margin-top: 20px;
+}
+
+#comment-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#comment-section {
+  margin-top: 50px;
+}
+
+#results {
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.email-about {
+  color: black;
+}
+
+@media only screen and (min-width: 1040px) {
+  .test, .solution, .course {
+    display: table-cell;
+  }
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+#close-search-bar-link {
+  font-size: 1.125em;
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+@media only screen and (min-width: 1040px) {
   #footer-inner-wrap {
     width: 513px;
     margin: 0 auto;
     overflow: auto;
   }
+
   #privacy-policy {
-    width: 30%;
+    width: 40%;
     float: left;
   }
+
   #copyright {
-    width: 30%;
-    float: left;
+    width: 60%;
+    float: right;
   }
 }
 #scroll-to-top-btn {
   display: block;
   width: 45px;
-  margin-bottom: 30px;
   float: right;
 }
 
-/*# sourceMappingURL=styles.css.map */
+#post-name-input {
+  width: 100%;
+  display: block;
+  margin-bottom: 5px;
+  width: 100%;
+  height: 35px;
+  font-family: inherit;
+  font-size: inherit;
+  border: 2px solid #3D5858;
+  padding-left: 10px;
+}
+
+#post-name-input:focus {
+  border: 3px solid black;
+}

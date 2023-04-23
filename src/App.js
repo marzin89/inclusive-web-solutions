@@ -40,17 +40,15 @@ function App() {
 
   function getPosts() {
     fetch('http://localhost:8080/posts')
-    .then(response => response.json())
-    .then(data => {
-      if (!data.length) {
-        if (language == 'Swedish') {
-          dispatch(postActions.setErrorMessage('Inga inlägg hittades.'));
-          
-        } else {
-          dispatch(postActions.setErrorMessage('Es wurden keine Posts gefunden.'));
-        }
-      } else {
+    .then((response) => {
+      if (response.status == 200) {
+        const data = response.json();
+        dispatch(postActions.setErrorMessage(''));
         dispatch(postActions.setPosts(data));
+      
+      } else {
+        dispatch(postActions.setErrorMessage(language == 'Swedish' ? 'Inga inlägg hittades.' : 
+          'Es wurden keine Posts gefunden.'));
       }
     })
     .catch(() => {
@@ -67,18 +65,15 @@ function App() {
 
   function getTests() {
     fetch('http://localhost:8080/tests')
-    .then(response => response.json())
-    .then(data => {
-      if (!data.length) {
-        if (language == 'Swedish') {
-          dispatch(testActions.setErrorMessage('Inga tester hittades.'));
-        
-        } else {
-          dispatch(testActions.setErrorMessage('Es wurden keine Tests gefunden.'));
-        }
-
-      } else {
+    .then(response => {
+      if (response.status == 200) {
+        const data = response.json();
         dispatch(testActions.setTests(data));
+        dispatch(testActions.setErrorMessage(''));
+      
+      } else {
+        dispatch(testActions.setErrorMessage(language == 'Swedish' ? 'Inga tester hittades.' : 
+          'Es wurden keine Tests gefunden.'));
       }
     })
     .catch(() => {
@@ -95,18 +90,15 @@ function App() {
 
   function getSolutions() {
     fetch('http://localhost:8080/solutions')
-    .then(response => response.json())
-    .then(data => {
-      if (!data.length) {
-        if (language == 'Swedish') {
-          dispatch(solutionActions.setErrorMessage('Inga utvecklingspaket hittades.'));
-
-        } else {
-          dispatch(solutionActions.setErrorMessage('Es wurden keine Development-pakete gefunden.'));
-        }
-
-      } else {
+    .then(response => {
+      if (response.status == 200) {
+        const data = response.json();
+        dispatch(solutionActions.setErrorMessage(''));
         dispatch(solutionActions.setSolutions(data));
+      
+      } else {
+        dispatch(solutionActions.setErrorMessage(language == 'Swedish' ? 'Inga utvecklingspaket hittades.' :
+        'Es wurden keine Development-pakete gefunden.'));
       }
     })
     .catch(() => {

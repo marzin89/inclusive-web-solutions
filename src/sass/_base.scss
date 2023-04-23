@@ -1,0 +1,39 @@
+/* Variabler */
+/* Färger */
+$header-footer-color: #2A7373;
+$heading-color: #3D5858;
+$admin-btn-color: #517788;
+$main-color: #FAFAFA;
+$about-btn-color: #3374BD;
+$services-btn-color: #3271B8;
+$contact-btn-color:#A34E1C;
+$reset-btn-color: #BD3E33;
+
+/* Text */
+$font: 'Segoe UI', sans-serif;
+$font-size-h1-accessible: 2.375em;
+$font-size-h2-accessible: 1.875em;
+$font-size-h3-accessible: 1.5em;
+$font-size-main-accessible: 1.125em;
+$font-size-date-accessible: 1em;
+$line-height-accessible: 1.875em;
+
+/* Mixins */
+/* Inmatningsfält */
+@mixin input {
+    font-family: inherit;
+    font-size: inherit;
+    height: 35px;
+    padding-left: 10px;
+}
+
+/* Knappar */
+@mixin button {
+    font-family: inherit;
+    font-size: inherit;
+    height: 35px;
+    font-weight: bold;
+}
+
+/* Navigering */
+
