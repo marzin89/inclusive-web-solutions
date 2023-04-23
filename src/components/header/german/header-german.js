@@ -28,7 +28,9 @@ function HeaderGerman() {
     }
 
     function handleLanguageChange(e) {
-        dispatch(pageActions.setLanguage(e.target.value));
+        const value = e.target.value == 'Svenska' ? 'Swedish' : 'Deutsch';
+        dispatch(pageActions.setLanguage(value));
+        console.log(value);
 
         if (e.target.value == 'Deutsch') {
             document.documentElement.setAttribute('lang', 'de');

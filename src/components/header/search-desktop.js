@@ -11,13 +11,8 @@ function SearchDesktop(props) {
         e.preventDefault();
 
         if (!queryRef.current.value) {
-            if (props.language == 'Deutsch') {
-                setErrorMessage('Bitte geben Sie ein Suchwort ein.');
-            
-            } else {
-                setErrorMessage('Du måste skriva ett sökord.');
-            }
-
+            setErrorMessage(props.language == 'Swedish' ? 'Du måste skriva ett sökord.' :
+                'Bitte geben Sie ein Suchwort ein.');
             document.getElementById('search-bar').setAttribute('aria-invalid', true);
 
         } else {
