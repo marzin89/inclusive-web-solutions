@@ -7,6 +7,7 @@ import ToggleBtnGerman from './toggle-btn-german';
 
 function SearchGerman() {
     const results = useSelector((state) => state.page.searchResultsGerman);
+    const numberOfPages = useSelector((state) => state.page.numberOfPages);
     const errorMessage = useSelector((state) => state.page.errorMessage);
 
     function renderToggleBtns() {

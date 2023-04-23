@@ -8,6 +8,7 @@ import { userActions } from '../../../store/slices/user-slice';
 
 function SearchSwedish(props) {
     const results = useSelector((state) => state.page.searchResultsSwedish);
+    const numberOfPages = useSelector((state) => state.page.numberOfPages);
     const errorMessage = useSelector((state) => state.page.errorMessage);
     const dispatch = useDispatch();
 
