@@ -20,93 +20,58 @@ function FormGerman() {
 
     /* Här valideras uppgifterna. För varje uppgift som saknas,
         skrivs ett felmeddelande ut under inmatningsfältet. */
-        function validateForm() {
-            if (!firstNameRef.current.value) {
-                setFirstNameError('Bitte geben Sie Ihren Vornamen ein.');
-                setErrorCount(1);
-            
-            } else {
-                setFirstNameError('');
-                setErrorCount(0);
-            }
-    
-            if (!lastNameRef.current.value) {
-                setLastNameError('Bitte geben Sie Ihren Nachnamen ein.');
-                setErrorCount((prev) => prev + 1);
-            
-            } else {
-                setLastNameError('');
+    function validateForm() {
+        setFirstNameError(firstNameRef.current.value ? '' : 'Bitte geben Sie Ihren Vornamen ein.');
+        setErrorCount(firstNameRef.current.value ? 0 : 1);
+        setLastNameError(lastNameRef.current.value ? '' : 'Bitte geben Sie Ihren Nachnamen ein.');
+        setErrorCount((prev) => lastNameRef.current.value ? prev : prev + 1);
+
+        if (!emailRef.current.value) {
+            setEmailError('Bitte geben Sie Ihre E-Mail-Adresse ein.');
+            setErrorCount((prev) => prev + 1);
+        
+        } else if (!emailRef.current.value.indexOf('@') < 1) {
+            setEmailError('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+            setErrorCount((prev) => prev + 1);
                 
-                if (errorCount > 0) {
-                    setErrorCount((prev) => prev - 1);
-                }
-            }
-    
-            if (!emailRef.current.value) {
-                setEmailError('Bitte geben Sie Ihre E-Mail-Adresse ein.');
-                setErrorCount((prev) => prev + 1);
-            
-            } else if (!emailRef.current.value.indexOf('@') < 1) {
-                setEmailError('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
-                setErrorCount((prev) => prev + 1);
-                    
-            } else {
-                setEmailError('');
-    
-                if (errorCount > 0) {
-                    setErrorCount((prev) => prev - 1);
-                }
-            }
-    
-            if (!messageRef.current.value) {
-                setMessageError('Bitte schreiben Sie eine Mitteilung.');
-                setErrorCount((prev) => prev + 1);            
-            
-            } else {
-                setMessageError('');
-    
-                if (errorCount > 0) {
-                    setErrorCount((prev) => prev - 1);
-                }
-            }
-    
-            if (!consentRef.current.checked) {
-                setConsentError('Bitte stimmen Sie der Bearbeitung Ihrer personenbezogenen Daten zu.');
-                setErrorCount((prev) => prev + 1);
-            
-            } else {
-                setConsentError('');
-                
-                if (errorCount > 0) {
-                    setErrorCount((prev) => prev - 1);
-                }
+        } else {
+            setEmailError('');
+
+            if (errorCount > 0) {
+                setErrorCount((prev) => prev - 1);
             }
         }
+
+        setMessageError(messageRef.current.value ? '' : 'Bitte schreiben Sie eine Mitteilung.');
+        setErrorCount((prev) => messageRef.current.value ? prev : prev + 1);
+        setConsentError(consentRef.current.checked ? '' : 'Bitte stimmen Sie der Bearbeitung Ihrer personenbezogenen Daten zu.');
+        setErrorCount((prev) => consentRef.current.checked ? prev : prev + 1);
+    }
     
-        function handleSubmit(e) {
-            e.preventDefault();
-            validateForm();
-    
-            if (!errorCount) {
-                emailjs.sendForm('service_005r77b', 'contact_form', formRef.current, '7V3K7ahJFB30PLvxy')
-                .then(result => {
-                    setConfirmMessage('Vielen Dank für Ihre Mitteilung. Wir melden uns sobald wie möglich bei Ihnen.');
-                    console.log(result.text);
-    
-                }, (error) => {
-                    setErrorMessage('Ein Fehler ist aufgetreten. ' +
-                        'Ihre Mitteilung konnte leider nicht gesendet werden. ' +
-                        'Versuchen Sie es später erneut.');
-                    console.log(error.text);
-                })
-    
-                formRef.current.reset();
-                document.getElementById('reset-btn').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }
+    function handleSubmit(e) {
+        e.preventDefault();
+        validateForm();
+
+        if (!errorCount) {
+            emailjs.sendForm('service_005r77b', 'contact_form', formRef.current, '7V3K7ahJFB30PLvxy')
+            .then(result => {
+                setConfirmMessage('Vielen Dank für Ihre Mitteilung. Wir melden uns sobald wie möglich bei Ihnen.');
+                console.log(result.text);
+
+            }, (error) => {
+                setErrorMessage('Ein Fehler ist aufgetreten. ' +
+                    'Ihre Mitteilung konnte leider nicht gesendet werden. ' +
+                    'Versuchen Sie es später erneut.');
+                console.log(error.text);
+            })
+
+            formRef.current.reset();
+            document.getElementById('reset-btn').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
         }
+    }
 
     return (
         <section id="contact">

@@ -21,26 +21,10 @@ function FormSwedish() {
     /* Här valideras uppgifterna. För varje uppgift som saknas,
         skrivs ett felmeddelande ut under inmatningsfältet. */
     function validateForm() {
-        if (!firstNameRef.current.value) {
-            setFirstNameError('Du måste ange ditt förnamn.');
-            setErrorCount(1);
-        
-        } else {
-            setFirstNameError('');
-            setErrorCount(0);
-        }
-
-        if (!lastNameRef.current.value) {
-            setLastNameError('Du måste ange ditt efternamn.');
-            setErrorCount((prev) => prev + 1);
-        
-        } else {
-            setLastNameError('');
-            
-            if (errorCount > 0) {
-                setErrorCount((prev) => prev - 1);
-            }
-        }
+        setFirstNameError(firstNameRef.current.value ? '' : 'Du måste ange ditt förnamn.');
+        setErrorCount(firstNameRef.current.value ? 0 : 1);
+        setLastNameError(lastNameRef.current.value ? '' : 'Du måste ange ditt efternamn.');
+        setErrorCount((prev) => lastNameRef.current.value ? prev : prev + 1);
 
         if (!emailRef.current.value) {
             setEmailError('Du måste ange din e-postadress.');
@@ -58,29 +42,10 @@ function FormSwedish() {
             }
         }
 
-        if (!messageRef.current.value) {
-            setMessageError('Du måste skriva ett meddelande.');
-            setErrorCount((prev) => prev + 1);            
-        
-        } else {
-            setMessageError('');
-
-            if (errorCount > 0) {
-                setErrorCount((prev) => prev - 1);
-            }
-        }
-
-        if (!consentRef.current.checked) {
-            setConsentError('Du måste samtycka till att IWS behandlar dina personuppgifter.');
-            setErrorCount((prev) => prev + 1);
-        
-        } else {
-            setConsentError('');
-            
-            if (errorCount > 0) {
-                setErrorCount((prev) => prev - 1);
-            }
-        }
+        setMessageError(messageRef.current.value ? '' : 'Du måste skriva ett meddelande.');
+        setErrorCount((prev) => messageRef.current.value ? prev : prev + 1);
+        setConsentError(consentRef.current.checked ? '' : 'Du måste samtycka till att IWS behandlar dina personuppgifter.');
+        setErrorCount((prev) => consentRef.current.checked ? prev : prev + 1);
     }
 
     function handleSubmit(e) {
