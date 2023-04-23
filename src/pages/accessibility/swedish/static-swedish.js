@@ -9,15 +9,8 @@ function StaticSwedish() {
     function handleBtnClick(e) {
         const id = e.target.id;
         e.preventDefault();
-
-        if (id == 'stop-btn') {
-            dispatch(pageActions.setAccessibility('standard'));
-        
-        } else {
-            dispatch(pageActions.setAccessibility(id));
-        }
-
-        const link         = document.querySelectorAll('link');
+        dispatch(pageActions.setAccessibility(id == 'stop-btn' ? 'standard' : id));
+        const link = document.querySelectorAll('link');
         // const stopBtn      = document.getElementById('stop-btn');
         // const explanations = document.getElementsByClassName('explanation');
         // const buttons      = document.getElementsByClassName('btn');
