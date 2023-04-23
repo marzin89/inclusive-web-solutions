@@ -1,14 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { pageActions } from '../../../store/slices/page-slice';
 
-function ToggleBtnSwedish(props) {
-    const activePage = useSelector((state) => state.page.activeSearchPageSwedish);
+function ToggleBtnGerman(props) {
+    const activePage = useSelector((state) => state.page.activeSearchPageGerman);
     const dispatch = useDispatch();
 
     function handleLinkClick(e) {
         e.preventDefault();
         const id = e.target.innerHTML;
-        dispatch(pageActions.toggleSwedish(id));
+        dispatch(pageActions.toggleGerman(id));
     }
 
     return (
@@ -20,4 +20,4 @@ function ToggleBtnSwedish(props) {
     );
 }
 
-export default ToggleBtnSwedish;
+export default ToggleBtnGerman;

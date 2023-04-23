@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import SearchFormSwedish from './search-form-swedish';
 import SearchResultsSwedish from './search-results-swedish';
+import ToggleBtnSwedish from './toggle-btn-swedish';
 import { userActions } from '../../../store/slices/user-slice';
 
 function SearchSwedish(props) {
@@ -13,6 +14,16 @@ function SearchSwedish(props) {
     function logout(e) {
         e.preventDefault();
         dispatch(userActions.logout());
+    }
+    
+    function renderToggleBtns() {
+        const toggleBtns = [];
+
+        for (let i = 0; i < numberOfPages; i++) {
+            toggleBtns.push(<ToggleBtnSwedish index={i} />);
+        }
+
+        return toggleBtns;
     }
 
     useEffect(() => {
@@ -42,12 +53,13 @@ function SearchSwedish(props) {
                     {results.length ? <SearchResultsSwedish /> : <p className="error 
                         regular-font-size" role="alert">{errorMessage}</p>}        
                     {results.length > 5 ? <nav aria-label="Sökresultat">
-                        {this.toggleBtnsSwedish()}</nav> : null}
+                        {renderToggleBtns()}</nav> : null}
                 </div>
             </section>
         </main>
     );
 
+    /*
     toggleBtnsGerman() {
         let buttons = [];
 
@@ -173,6 +185,7 @@ function SearchSwedish(props) {
             })
         }
     }
+    */
 }
 
 export default SearchSwedish;

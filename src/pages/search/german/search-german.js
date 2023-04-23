@@ -3,10 +3,21 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SearchFormGerman from './search-form-german';
 import SearchResultsGerman from './search-results-german';
+import ToggleBtnGerman from './toggle-btn-german';
 
 function SearchGerman() {
     const results = useSelector((state) => state.page.searchResultsGerman);
     const errorMessage = useSelector((state) => state.page.errorMessage);
+
+    function renderToggleBtns() {
+        const toggleBtns = [];
+
+        for (let i = 0; i < numberOfPages; i++) {
+            toggleBtns.push(<ToggleBtnGerman index={i} />);
+        }
+
+        return toggleBtns;
+    }
 
     useEffect(() => {
         document.title = 'Suchergebnisse';
@@ -32,12 +43,13 @@ function SearchGerman() {
                     {results.length ? <SearchResultsGerman /> : <p className="error 
                         regular-font-size" role="alert">{errorMessage}</p>}
                     {results.length > 5 ? <nav aria-label="Suchergebnisse">
-                        {this.toggleBtnsGerman()}</nav> : null}
+                        {renderToggleBtns()}</nav> : null}
                 </div>
             </section>
         </main>
     );
 
+    /*
     toggleBtnsGerman() {
         let buttons = [];
 
@@ -163,6 +175,7 @@ function SearchGerman() {
             })
         }
     }
+    */
 }
 
 export default SearchGerman;
