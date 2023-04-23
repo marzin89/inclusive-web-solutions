@@ -40,13 +40,7 @@ function HeaderSwedish() {
 
     useEffect(() => {
         const select = document.getElementById('language-switcher');
-
-        if (language == 'Deutsch') {
-            select.value = 'Deutsch';
-        
-        } else {
-            select.value = 'Svenska';
-        }
+        select.value = language == 'Swedish' ? 'Svenska' : 'Deutsch'
 
         /*
         window.addEventListener('resize', () => {
