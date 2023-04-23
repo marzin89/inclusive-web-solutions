@@ -13,26 +13,10 @@ function Login() {
     const dispatch = useDispatch();
 
     function validateForm() {
-        if (!usernameRef.current.value) {
-            setErrorCount((prev) => prev + 1);
-            setUsernameError('Du måste ange ditt användarnamn.');
-
-        } else {
-            setErrorCount(0);
-            setUsernameError('');
-        }
-
-        if (!passwordRef.current.value) {
-            setErrorCount((prev) => prev + 1);
-            setPasswordError('Du måste ange ditt lösenord.');
-        
-        } else {
-            if (errorCount >= 1) {
-                setErrorCount((prev) => prev - 1);
-            }
-            
-            setPasswordError('');
-        }
+        setUsernameError(usernameRef.current.value ? '' : 'Du måste ange ditt användarnamn.');
+        setErrorCount(usernameRef.current.value ? 0 : 1);
+        setPasswordError(passwordRef.current.value ? '' : 'Du måste ange ditt lösenord.');
+        setErrorCount((prev) => passwordRef.current.value ? prev : prev + 1);
     }
 
     function handleSubmit(e) {
@@ -51,25 +35,20 @@ function Login() {
 
     function login(body) {
         fetch('https://iws-rest-api.herokuapp.com/login', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json',},
-          body:    JSON.stringify(body),
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
         })
-        .then(response => response.json())
-        .then(data => {
-            if (!data.userExists) {
-                setErrorMessage('Fel användarnamn eller lösenord.');
-    
-            } else {
-                setErrorMessage('');
-                dispatch(userActions.login(data));
-            }
+        .then(response => {
+            setErrorMessage(response.status == 404 ? 'Fel användarnamn eller lösenord.' : '');
+            const data = response.json();
+            dispatch(userActions.login(data));
         })
         .catch(() => {
             setErrorMessage('Ett serverfel har uppstått. Det gick inte att logga in.' 
                 + 'Försök igen lite senare.');
         })
-      }
+    }
 
     useEffect(() => {
         document.title = 'Logga in';
@@ -98,7 +77,7 @@ function Login() {
                         <label htmlFor="login-username">Användarnamn *</label>
                         <input id="login-username" className="focus text-input text-input-main" 
                             type="text" aria-required="true" aria-describedby="login-username-error" 
-                            autoComplete="username" ref={usernameRef}></input>
+                                autoComplete="username" ref={usernameRef}></input>
                         {/* Felmeddelandet visas om användaren inte har angett ett användarnamn */}
                         {usernameError ? <p id="login-username-error" className="error" 
                             role="alert" aria-invalid="true">{usernameError}</p> : null}
@@ -108,7 +87,7 @@ function Login() {
                         <label htmlFor="login-password" className="text">Lösenord *</label>
                         <input id="login-password" className="focus text-input text-input-main" 
                             type="password" aria-required="true" aria-describedby="login-password-error" 
-                            autoComplete="new-password" ref={passwordRef}>
+                                autoComplete="new-password" ref={passwordRef}>
                         </input>
                         {/* Felmeddelandet visas om användaren inte har angett ett lösenord */}
                         {passwordError ? <p id="login-password-error" className="error" role="alert"
