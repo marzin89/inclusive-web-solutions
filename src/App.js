@@ -15,7 +15,8 @@ import BlogSwedish from './pages/blog/swedish/blog-swedish';
 import BlogGerman from './pages/blog/german/blog-german';
 import AccessibilitySwedish from './pages/accessibility/swedish/accessibility-swedish';
 import AccessibilityGerman from './pages/accessibility/german/accessibility-german';
-import Search from './pages/search/search';
+import SearchSwedish from './pages/search/swedish/search-swedish';
+import SearchGerman from './pages/search/german/search-german';
 import Post from './pages/post/post';
 import Test from './pages/test/test';
 import Solution from './pages/solution/solution';
@@ -136,12 +137,12 @@ function App() {
           <Route path="/blog" element={language == 'Swedish' ? <BlogSwedish isSignedIn={isSignedIn} /> : <BlogGerman />} />
           <Route path="/accessibility" element={language == 'Swedish' ? <AccessibilitySwedish isSignedIn={isSignedIn} /> 
             : <AccessibilityGerman />} />
-          <Route path="/search" element={<Search signedIn={isSignedIn} />} />
+          <Route path="/search" element={language == 'Swedish' ? <SearchSwedish signedIn={isSignedIn} /> : <SearchGerman />} />
           <Route path="/post" element={<Post signedIn={isSignedIn} />} />
           <Route path="/test" element={<Test signedIn={isSignedIn} />} /> 
           <Route path="/solution" element={<Solution signedIn={isSignedIn} />} />
           <Route path="/course" element={<Course signedIn={isSignedIn} />} /> 
-          <Route path="*" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />} />
+          <Route path="*" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />
         </Routes>
         <Footer />
       </Router>
