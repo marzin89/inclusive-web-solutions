@@ -1,4 +1,3 @@
-// Imports
 import React from 'react';
 import PostGerman from './german/post-german';
 import PostSwedish from './swedish/post-swedish';
@@ -8,12 +7,12 @@ import CommentFormSwedish from './swedish/comment-form-swedish';
 import CommentFormGerman from './german/comment-form-german';
 import Comments from './comments';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-// Inlägg
 class Post extends React.Component {
-    // Konstruktor
-    constructor() {
-        super();
+    // const post = useSelector((state) => state.post.post);
+    constructor(props) {
+        super(props);
 
         // Binder this till funktionerna
         this.getComments            = this.getComments.bind(this);
@@ -31,13 +30,12 @@ class Post extends React.Component {
         this.getComments();
     }
 
-    // Rendrering
     render() {
         return (
             <main>
                 <div className="row">
                     {/* Länkstig */}
-                    {localStorage.getItem('language') == 'Deutsch' ?
+                    {props.language == 'Deutsch' ?
                     <nav className="breadcrumbs" aria-label="Brotkrümelnavigation">
                         <ul>
                             <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus focus-invisible 
@@ -45,7 +43,7 @@ class Post extends React.Component {
                             <li><Link className="inactive-breadcrumb focus focus-invisible regular-font-size" 
                                 to={"/blog"}> Blog</Link>/</li>
                             <li><Link className="active-breadcrumb focus focus-invisible regular-font-size" 
-                                to={"/post"}> {localStorage.getItem('title')}</Link></li>
+                                to={"/post"}> {/*post.title*/}</Link></li>
                         </ul>
                     </nav>
                     :
