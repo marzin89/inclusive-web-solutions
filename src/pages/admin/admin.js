@@ -121,38 +121,38 @@ function Admin() {
                 <div className="row">
                     {component == 'tests' ? 
                     <button id="tests" className="focus btn active-admin-btn admin-btn-left"  
-                        aria-pressed="true" onClick={this.handleBtnClick}>Tester</button> :
+                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Tester</button> :
                     <button id="tests" className="focus btn admin-btn admin-btn-left" 
-                        aria-pressed="false" onClick={this.handleBtnClick}>Tester</button>}
+                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Tester</button>}
                     {component == 'solutions' ?
                     <button id="solutions" className="focus btn active-admin-btn admin-btn-right" 
-                        aria-pressed="true" onClick={this.handleBtnClick}>Utveckling</button> :
+                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Utveckling</button> :
                     <button id="solutions" className="focus btn admin-btn admin-btn-right" 
-                        aria-pressed="false" onClick={this.handleBtnClick}>Utveckling</button>}
+                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Utveckling</button>}
                 </div>
                 <div className="row">
                     {component == 'courses' ?
                     <button id="courses" className="focus btn active-admin-btn admin-btn-left" 
-                        aria-pressed="true" onClick={this.handleBtnClick}>Utbildningar</button> :
+                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Utbildningar</button> :
                     <button id="courses" className="focus btn admin-btn admin-btn-left" 
-                        aria-pressed="false" onClick={this.handleBtnClick}>Utbildningar</button>}
+                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Utbildningar</button>}
                     {localStorage.getItem('component') == 'posts' ?
                     <button id="posts" className="focus btn active-admin-btn admin-btn-right" 
-                        aria-pressed="true" onClick={this.handleBtnClick}>Inlägg</button> :
+                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Inlägg</button> :
                     <button id="posts" className="focus btn admin-btn admin-btn-right" 
-                        aria-pressed="false" onClick={this.handleBtnClick}>Inlägg</button>}
+                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Inlägg</button>}
                 </div>
                 <div className="row">
                     {component == 'comments' ?
                     <button id="comments" className="focus btn active-admin-btn admin-btn-left"  
-                        aria-pressed="true" onClick={this.handleBtnClick}>Kommentarer</button> :
+                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Kommentarer</button> :
                     <button id="comments" className="focus btn admin-btn admin-btn-left" 
-                        aria-pressed="false" onClick={this.handleBtnClick}>Kommentarer</button>}
+                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Kommentarer</button>}
                     {component == 'users' ?
                     <button id="users" className="focus btn active-admin-btn admin-btn-right" 
-                        aria-pressed="true" onClick={this.handleBtnClick}>Användare</button> :
+                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Användare</button> :
                     <button id="users" className="focus btn admin-btn admin-btn-right" 
-                        aria-pressed="false" onClick={this.handleBtnClick}>Användare</button>}
+                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Användare</button>}
                     {/* Gästskribenter */}
                     <p>Här kan du administrera 
                 webbplatsens innehåll. Välj kategori
@@ -174,28 +174,28 @@ function Admin() {
                 Vilket formulär som visas beror på vilket val som gjorts i menyn ovan. 
                 Data i form av poster och eventuella felmeddelanden skickas med i props. */}
             
-            {this.state.component == 'tests' && this.state.userRole  == 'Medarbetare' ? 
+            {component == 'tests' && this.state.userRole  == 'Medarbetare' ? 
                 <Services service="tests" data={this.state.tests} search={this.state.search} 
                 errorTests={this.state.errorTests} confirmTests={this.state.confirmTests}
                 post={this.addTest} delete={this.deleteTest} put={this.updateTest} /> : null}
-            {this.state.component == 'solutions' && this.state.userRole == 'Medarbetare' ? 
+            {component == 'solutions' && this.state.userRole == 'Medarbetare' ? 
                 <Services service="solutions" data={this.state.solutions} search={this.state.search}
                 errorSolutions={this.state.errorSolutions} confirmSolutions={this.state.confirmSolutions}
                 post={this.addSolution} delete={this.deleteSolution} put={this.updateSolution} /> : null}
-            {this.state.component == 'courses' && this.state.userRole == 'Medarbetare' ? 
+            {component == 'courses' && this.state.userRole == 'Medarbetare' ? 
                 <Services service="courses" data={this.state.courses} search={this.state.search} 
                 errorCourses={this.state.errorCourses} confirmCourses={this.state.confirmCourses}
                 post={this.addCourse} delete={this.deleteCourse} put={this.updateCourse} /> : null}
-            {this.state.component == 'posts' ? <Posts posts={this.state.userRole == 'Medarbetare' ? 
+            {component == 'posts' ? <Posts posts={this.state.userRole == 'Medarbetare' ? 
                 this.state.posts : this.state.userPosts} search={this.state.search} 
                 username={this.state.username} userRole={this.state.userRole} 
                 errorPosts={this.state.errorPosts} confirmPosts={this.state.confirmPosts} post={this.addPost} 
                 delete={this.deletePost} publish={this.publishPost} put={this.updatePost} /> : null}
-            {this.state.component == 'users' && this.state.userRole == 'Medarbetare' ? <Users 
+            {component == 'users' && this.state.userRole == 'Medarbetare' ? <Users 
                 users={this.state.users} post={this.addUser} delete={this.deleteUser} 
                 errorUsers={this.state.errorUsers} put={this.updateUser} 
                 confirmUsers={this.state.confirmUsers}/> : null}
-            {this.state.component == 'comments' && this.state.userRole == 'Medarbetare' ? 
+            {component == 'comments' && this.state.userRole == 'Medarbetare' ? 
                 <Comments comments={this.state.comments} publish={this.publishComment} 
                 delete={this.deleteComment} errorComments={this.state.errorComments} 
                 confirmComments={this.state.confirmComments}/> : null}
@@ -205,7 +205,7 @@ function Admin() {
     // Funktionen anpassar gränssnittet (via state) samt knapparnas utseende och aria-pressed 
     function handleBtnClick(e) {
         dispatch(pageActions.setAdminComponent(e.target.id));
-
+        /*
         for (let i = 0; i < buttons.length; i++) {
             if (e.target.id == buttons[i].id) {
                 buttons[i].setAttribute('aria-pressed', true);
@@ -214,6 +214,7 @@ function Admin() {
                 buttons[i].setAttribute('aria-pressed', false);
             }
         }
+        */
 
         if (e.target.id !== 'tests') {
             if (this.state.userRole == 'Medarbetare') {

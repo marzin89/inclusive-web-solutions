@@ -125,9 +125,9 @@ function App() {
         {language == 'Swedish' ? <HeaderSwedish /> : <HeaderGerman />}
         <Routes>
           <Route path="/login" element={isSignedIn ? 
-            <Navigate replace to="/admin" username={this.state.username} userRole={this.state.permission} /> : <Login />} />
+            <Navigate replace to="/admin" /> : <Login />} />
           <Route path="/admin" element={isSignedIn ? 
-            <Admin username={this.state.username} userRole={this.state.permission} /> 
+            <Admin /> 
               : <Navigate replace to="/login" />} />
           <Route path="/" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />
           <Route path="/home" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />

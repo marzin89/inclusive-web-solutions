@@ -1,22 +1,27 @@
-// Imports
-import { isLabelWithInternallyDisabledControl } from '@testing-library/user-event/dist/utils';
-import React, { useState } from 'react';
-import { findDOMNode } from 'react-dom';
-import {Link} from 'react-router-dom';
+import { useState, useRef } from 'react';
 
-// Formulär för hantering av tjänster
-class Services extends React.Component {
+function Services(props) {
+    const formRef                                 = createRef();
+    const [name, setName]                         = useState('');
+    const [price, setPrice]                       = useState('');
+    const [description, setDescription]           = useState('');
+    const [imageUrl, setImageUrl]                 = useState('');
+    const [altText, setAltText]                   = useState('');
+    const [language, setLanguage]                 = useState('');
+    const [hasName, setHasName]                   = useState(true);
+    const [hasPrice, setHasPrice]                 = useState(true);
+    const [hasDescription, setHasDescription]     = useState(true);
+    const [isValidSize, setIsValidSize]           = useState(true);
+    const [isValidFormat, setIsValidFormat]       = useState(true);
+    const [hasAltText, setHasAltText]             = useState(true);
+    const [errorCount, setErrorCount]             = useState(0);
 
-    // Konstruktor
     constructor(props) {
         super(props);
 
         // Binder this till funktionerna
         this.setState                = this.setState.bind(this);
         this.form                    = React.createRef();
-        this.handleNameChange        = this.handleNameChange.bind(this);
-        this.handlePriceChange       = this.handlePriceChange.bind(this);
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleImageChange       = this.handleImageChange.bind(this);
         this.handleAltTextChange     = this.handleAltTextChange.bind(this);
         this.handleSubmit            = this.handleSubmit.bind(this);
@@ -64,182 +69,150 @@ class Services extends React.Component {
         }
     }
 
-    // Rendrering
-    render() {
-        return (
-            <div id="main" className="admin-form">
-                <section id="admin-form">
-                    {/* Rubriken anpassas baserat på vilken tjänst som är vald */}
-                    {this.props.service == 'tests' ? <h2 className="h2-admin">Tester</h2> : ''}
-                    {this.props.service == 'solutions' ? <h2 className="h2-admin">Utveckling</h2> : ''}
-                    {this.props.service == 'courses' ? <h2 className="h2-admin">Utbildningar</h2> : ''}
-                    <p style={this.state.error ? {display: 'block'} : {display: 'none'}} 
-                        className="text h2-error h3-font-size" role="alert">
-                        Formuläret innehåller {this.state.errorCountName + this.state.errorCountPrice + 
-                            this.state.errorCountDescription + this.state.errorCountImageSize + 
-                            this.state.errorCountImageFormat + this.state.errorCountAltText} fel</p>
-                    <form ref={this.form}>
-                        <p>Fält märkta med * är obligatoriska.</p>
-                        {/* Tjänstens namn */}
-                        <div className="form-left">
-                            <label htmlFor="service-name-input">Namn *</label>
-                            <input id="service-name-input" className="focus text-input-main admin-input admin-input-required" 
-                                type="text" aria-required="true" aria-describedby="service-name-error" 
-                                autoComplete='on' onChange={this.handleNameChange}>
-                            </input>
-                            {/* Här skrivs ett felmeddelande ut om inget namn har angetts */}
-                            <p id="service-name-error" className="error" role="alert" style={this.state.nameEmpty ?
-                                {display: 'block'} : {display: 'none'}}>{this.state.nameEmpty}</p>
-                        </div>
-                        {/* Tjänstens pris */}
-                        <div className="form-right">
-                            <label id="service-price-label" htmlFor="service-price-input">Pris (t.ex. 1 000 :-) *</label>
-                            <input id="service-price-input" className="focus text-input-main admin-input admin-input-required" 
-                                type="text" aria-required="true" aria-describedby="service-price-error" 
-                                autoComplete='on' onChange={this.handlePriceChange}></input>
-                            {/* Här skrivs ett felmeddelande ut om inget pris har angetts */}
-                            <p id="service-price-error" className="error" role="alert" style={this.state.priceEmpty ?
-                                {display: 'block'} : {display: 'none'}}>{this.state.priceEmpty}</p>
-                        </div>
-                        {/* Beskrivning av tjänsten */}
-                        <label htmlFor="service-description-input">Beskrivning *</label>
-                        <textarea id="service-description-input" className="focus admin-input admin-input-required"
-                            aria-required="true" aria-describedby="service-description-error" 
-                            autoComplete='on' onChange={this.handleDescriptionChange}></textarea>
-                        {/* Här skrivs ett felmeddelande ut om ingen beskrivning har skrivits */}
-                        <p id="service-description-error" className="error" role="alert" 
-                            style={this.state.descriptionEmpty ? {display: 'block'} : {display: 'none'}}>
-                            {this.state.descriptionEmpty}</p>
-                        {/* Val av språk */}
-                        <label htmlFor="language-switcher-admin">Språk *</label>
-                        <select id="language-switcher-admin" className="focus text-input-main admin-input" 
-                            aria-required="true" onChange={this.changePricePlaceholder}>
-                            <option value="Svenska">Svenska</option>
-                            <option value="Deutsch">Deutsch</option>
-                        </select>
-                        {/* Bilduppladdning */}
-                        <label htmlFor="image-upload-input">Ladda upp en bild</label>
-                        <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
-                        <input id="image-upload-input" className="focus admin-input" type="file" 
-                            aria-required="false" aria-describedby="image-size-error image-format-error" 
-                            onChange={this.handleImageChange}></input>
-                        {/* Här skrivs felmeddelanden ut om bilden är för stor och/eller har fel filformat */}
-                        <p id="image-size-error" className="error" role="alert" style={this.state.imageTooBig ?
-                            {display: 'block'} : {display: 'none'}}>{this.state.imageTooBig}</p>
-                        <p id="image-format-error" className="error" role="alert" 
-                            style={this.state.imageWrongFormat ? {display: 'block'} : {display: 'none'}}>
-                            {this.state.imageWrongFormat}</p>
-                        <label id="alt-text-label" htmlFor="alt-text-input">Alt-text</label>
-                        <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
-                            aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
-                            autoComplete='on'></input>
-                        <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
-                            {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
-                        <button type="reset" id="reset-btn" className="reset-btn">Rensa</button>
-                        <button type="submit" className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
-                    </form>
-                    {/* Här skrivs övriga felmeddelanden ut (inga poster, serverfel) */}
-                    <p className="error" role="alert" style={this.props.errorTests ? 
-                        {display: 'block'} : {display: 'none'}}>{this.props.errorTests}
-                    </p>
-                    <p className="error" role="alert" style={this.props.errorSolutions ? 
-                        {display: 'block'} : {display: 'none'}}>{this.props.errorSolutions}
-                    </p>
-                    <p className="error" role="alert" style={this.props.errorCourses ? 
-                        {display: 'block'} : {display: 'none'}}>{this.props.errorCourses}
-                    </p>
-                    {/* Här skrivs övriga bekräftelsemeddelanden ut (uppdatering, borttagning) */}
-                    <p className="confirm" role="alert" style={this.props.confirmTests ? 
-                        {display: 'block'} : {display: 'none'}}>{this.props.confirmTests}
-                    </p>
-                    <p className="confirm" role="alert" style={this.props.confirmSolutions ? 
-                        {display: 'block'} : {display: 'none'}}>{this.props.confirmSolutions}
-                    </p>
-                    <p className="confirm" role="alert" style={this.props.confirmCourses ? 
-                        {display: 'block'} : {display: 'none'}}>{this.props.confirmCourses}
-                    </p>
-                </section>
+    return (
+        <div id="main" className="admin-form">
+            <section id="admin-form">
+                {/* Rubriken anpassas baserat på vilken tjänst som är vald */}
+                {this.props.service == 'tests' ? <h2 className="h2-admin">Tester</h2> : ''}
+                {this.props.service == 'solutions' ? <h2 className="h2-admin">Utveckling</h2> : ''}
+                {this.props.service == 'courses' ? <h2 className="h2-admin">Utbildningar</h2> : ''}
+                {errorCount ? <p className="text h2-error h3-font-size" role="alert">
+                    Formuläret innehåller {errorCount} fel</p> : null}
+                <form ref={formRef}>
+                    <p>Fält märkta med * är obligatoriska.</p>
+                    {/* Tjänstens namn */}
+                    <div className="form-left">
+                        <label htmlFor="service-name-input">Namn *</label>
+                        <input id="service-name-input" className="focus text-input-main admin-input admin-input-required" 
+                            type="text" aria-required="true" aria-describedby="service-name-error" 
+                            autoComplete='on' onChange={(e) => handleNameChange(e.target.value)}>
+                        </input>
+                        {/* Här skrivs ett felmeddelande ut om inget namn har angetts */}
+                        <p id="service-name-error" className="error" role="alert" style={this.state.nameEmpty ?
+                            {display: 'block'} : {display: 'none'}}>{this.state.nameEmpty}</p>
+                    </div>
+                    {/* Tjänstens pris */}
+                    <div className="form-right">
+                        <label id="service-price-label" htmlFor="service-price-input">Pris (t.ex. 1 000 :-) *</label>
+                        <input id="service-price-input" className="focus text-input-main admin-input admin-input-required" 
+                            type="text" aria-required="true" aria-describedby="service-price-error" 
+                            autoComplete='on' onChange={(e) => handlePriceChange(e)}></input>
+                        {/* Här skrivs ett felmeddelande ut om inget pris har angetts */}
+                        <p id="service-price-error" className="error" role="alert" style={this.state.priceEmpty ?
+                            {display: 'block'} : {display: 'none'}}>{this.state.priceEmpty}</p>
+                    </div>
+                    {/* Beskrivning av tjänsten */}
+                    <label htmlFor="service-description-input">Beskrivning *</label>
+                    <textarea id="service-description-input" className="focus admin-input admin-input-required"
+                        aria-required="true" aria-describedby="service-description-error" 
+                        autoComplete='on' onChange={(e) => handleDescriptionChange(e)}></textarea>
+                    {/* Här skrivs ett felmeddelande ut om ingen beskrivning har skrivits */}
+                    <p id="service-description-error" className="error" role="alert" 
+                        style={this.state.descriptionEmpty ? {display: 'block'} : {display: 'none'}}>
+                        {this.state.descriptionEmpty}</p>
+                    {/* Val av språk */}
+                    <label htmlFor="language-switcher-admin">Språk *</label>
+                    <select id="language-switcher-admin" className="focus text-input-main admin-input" 
+                        aria-required="true" onChange={this.changePricePlaceholder}>
+                        <option value="Svenska">Svenska</option>
+                        <option value="Deutsch">Deutsch</option>
+                    </select>
+                    {/* Bilduppladdning */}
+                    <label htmlFor="image-upload-input">Ladda upp en bild</label>
+                    <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
+                    <input id="image-upload-input" className="focus admin-input" type="file" 
+                        aria-required="false" aria-describedby="image-size-error image-format-error" 
+                        onChange={this.handleImageChange}></input>
+                    {/* Här skrivs felmeddelanden ut om bilden är för stor och/eller har fel filformat */}
+                    <p id="image-size-error" className="error" role="alert" style={this.state.imageTooBig ?
+                        {display: 'block'} : {display: 'none'}}>{this.state.imageTooBig}</p>
+                    <p id="image-format-error" className="error" role="alert" 
+                        style={this.state.imageWrongFormat ? {display: 'block'} : {display: 'none'}}>
+                        {this.state.imageWrongFormat}</p>
+                    <label id="alt-text-label" htmlFor="alt-text-input">Alt-text</label>
+                    <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
+                        aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
+                        autoComplete='on'></input>
+                    <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
+                        {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
+                    <button type="reset" id="reset-btn" className="reset-btn">Rensa</button>
+                    <button type="submit" className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
+                </form>
+                {/* Här skrivs övriga felmeddelanden ut (inga poster, serverfel) */}
+                <p className="error" role="alert" style={this.props.errorTests ? 
+                    {display: 'block'} : {display: 'none'}}>{this.props.errorTests}
+                </p>
+                <p className="error" role="alert" style={this.props.errorSolutions ? 
+                    {display: 'block'} : {display: 'none'}}>{this.props.errorSolutions}
+                </p>
+                <p className="error" role="alert" style={this.props.errorCourses ? 
+                    {display: 'block'} : {display: 'none'}}>{this.props.errorCourses}
+                </p>
+                {/* Här skrivs övriga bekräftelsemeddelanden ut (uppdatering, borttagning) */}
+                <p className="confirm" role="alert" style={this.props.confirmTests ? 
+                    {display: 'block'} : {display: 'none'}}>{this.props.confirmTests}
+                </p>
+                <p className="confirm" role="alert" style={this.props.confirmSolutions ? 
+                    {display: 'block'} : {display: 'none'}}>{this.props.confirmSolutions}
+                </p>
+                <p className="confirm" role="alert" style={this.props.confirmCourses ? 
+                    {display: 'block'} : {display: 'none'}}>{this.props.confirmCourses}
+                </p>
+            </section>
 
-                {/* Här skrivs alla tjänster inom respektive kategori ut (via props) med länkar för
-                    redigering och radering */}
-                <div className="admin-output">
-                    {this.props.data.map((element) => {
-                        return (
-                            <article key={element.id}>
-                                <h3>{element.name}</h3>
-                                {element.language == 'swedish' ?
-                                <p className="price">Pris: {element.price}</p> :
-                                <p className="price">Preis: {element.price}</p>}
-                                <p>{element.description}</p>
-                                <div>
-                                    <p className="edit"><a id={`edit${element.id}`} className="focus" 
-                                        href="" onClick={this.handleLinkClick}>Redigera</a></p>
-                                    <p className="delete"><a id={`delete${element.id}`} className="focus"
-                                        href="" onClick={this.handleLinkClick}>Radera</a></p>
-                                </div>
-                            </article>
-                        )
-                    })}
-                </div>
+            {/* Här skrivs alla tjänster inom respektive kategori ut (via props) med länkar för
+                redigering och radering */}
+            <div className="admin-output">
+                {this.props.data.map((element) => {
+                    return (
+                        <article key={element.id}>
+                            <h3>{element.name}</h3>
+                            {element.language == 'swedish' ?
+                            <p className="price">Pris: {element.price}</p> :
+                            <p className="price">Preis: {element.price}</p>}
+                            <p>{element.description}</p>
+                            <div>
+                                <p className="edit"><a id={`edit${element.id}`} className="focus" 
+                                    href="" onClick={this.handleLinkClick}>Redigera</a></p>
+                                <p className="delete"><a id={`delete${element.id}`} className="focus"
+                                    href="" onClick={this.handleLinkClick}>Radera</a></p>
+                            </div>
+                        </article>
+                    )
+                })}
             </div>
-        )
+        </div>
+    )
+
+    function handleNameChange(e) {
+        const isValid = e.target.value != false;
+        setHasName(isValid);
+        setName(e.target.value);
+        setErrorCount(prev => isValid ? prev : prev + 1);
+        e.target.setAttribute('aria-invalid', e.target.value != false);
     }
 
-    /* Dessa funktioner lagrar namn, pris, beskrivning, sökväg
-        och språk i state när användaren skriver */
-    handleNameChange(e) {
-        this.setState({
-            error: false,
-            name:  e.target.value,
-        })
+    function handlePriceChange(e) {
+        const isValid = e.target.value != false;
+        setHasPrice(isValid);
+        setPrice(e.target.value);
+        setErrorCount(prev => isValid ? prev : prev + 1);
+        e.target.setAttribute('aria-invalid', e.target.value != false);
 
-        if (e.target.value) {
-            this.setState({
-                errorCountName: 0,
-                nameEmpty:      '',
-            })
-
-            e.target.setAttribute('aria-invalid', false);
-        }
     }
 
-    handlePriceChange(e) {
-        this.setState({
-            error: false,
-            price: e.target.value,
-        })
-
-        if (e.target.value) {
-            this.setState({
-                errorCountPrice: 0,
-                priceEmpty:      '',
-            })
-
-            e.target.setAttribute('aria-invalid', false);     
-        }
+    function handleDescriptionChange(e) {
+        const isValid = e.target.value != false;
+        setHasDescription(isValid);
+        setDescription(e.target.value);
+        setErrorCount(prev => isValid ? prev : prev + 1);
+        e.target.setAttribute('aria-invalid', e.target.value != false);
     }
 
-    handleDescriptionChange(e) {
-        this.setState({
-            error:       false,
-            description: e.target.value,
-        })
-
-        if (e.target.value) {
-            this.setState({
-                errorCountDescription: 0,
-                descriptionEmpty:      '',
-            })
-
-            e.target.setAttribute('aria-invalid', false);   
-        }
-    }
-
-    /* Funktionen kontrollerar den uppladdade bildens storlek och filformat.
-        Om användaren inte har laddat upp någon bild, lagras en tom sträng */
-    handleImageChange(e) {
+    function handleImageChange(e) {
         const altTextInput = document.getElementById('alt-text-input');
-
+        let isValid = false;
+        setImageUrl(e.target.value);
         this.setState({
             error:    false,
             image:    e.target.files[0],
@@ -247,13 +220,21 @@ class Services extends React.Component {
         })
 
         if (e.target.value) {
+            const isValidSize = e.target.files[0].size < 500000;
+            const isValidFormat = e.target.files[0].type.includes('image');
+
+            /*
             const size = e.target.files[0].size;
             const jpg  = e.target.value.indexOf('jpg');
             const jpeg = e.target.value.indexOf('jpeg');
             const png  = e.target.value.indexOf('png');
+            */
 
             altTextInput.setAttribute('aria-required', true);
             document.getElementById('alt-text-label').innerHTML = 'Alt-text *';
+            
+            setIsValidSize(isValidSize);
+            setIsValidFormat(isValidFormat);
 
             // Skriver ut ett felmeddelande om bilden är för stor
             if (size > 500000) {
