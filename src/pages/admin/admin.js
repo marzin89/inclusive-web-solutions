@@ -5,15 +5,16 @@ import Services from '../../components/admin/services/services';
 import Posts from '../../components/admin/posts/posts';
 import Users from '../../components/admin/users/users';
 import Comments from '../../components/admin/comments/comments';
-import { toHaveAccessibleDescription } from '@testing-library/jest-dom/dist/to-have-accessible-description';
+import { useSelector } from 'react-redux';
 
 const buttons = document.getElementsByClassName('btn');
 // let userPosts = [];
 
 // Admin
-class Admin extends React.Component {
+function Admin() {
 
     // Konstruktor med props
+    /*
     constructor(props) {
         super(props);
 
@@ -53,8 +54,8 @@ class Admin extends React.Component {
 
         this.state = {
             reRender:           false,
-            username:           this.props.username,
-            userRole:           this.props.userRole,
+            username:           useSelector((state) => state.user.username),
+            userRole:           useSelector((state) => state.user.userRole),
             component:          localStorage.getItem('component'),
             search:             [],
             tests:              [],
@@ -87,122 +88,120 @@ class Admin extends React.Component {
         this.getUsers();
         this.getComments();
     }
+    */
 
-    // Rendrering
-    render() {
-        return (
-            <main>
-                <div className="row">
-                    {/* Länkstig */}
-                    <nav className="breadcrumbs" aria-label="Länkstig">
-                        <ul>
-                            <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus" to={"/"}>
-                                Start</Link>/</li>
-                            <li><Link className="active-breadcrumb focus" to={"/admin"}> Admin</Link></li>
-                        </ul>
-                    </nav>
-                    <p id="logout"><Link className="focus" to={"/login"} onClick={this.handleLogout}>Logga ut</Link></p>
-                </div>
-                <h1>Admin</h1>
-                {/* Huvudmenyns utseende varierar beroende på användarens behörighet */}
-                {this.state.userRole == 'Medarbetare' ?
-                <nav className="admin-menu" aria-label="Adminmeny">
-                    <p>Här kan du administrera 
-                    webbplatsens innehåll. Välj kategori
-                    med hjälp av knapparna nedan. 
-                    Gränssnittet anpassas efter den valda 
-                    kategorin.</p>
-                    {/* Medarbetare */}
-                    <div className="row">
-                        {localStorage.getItem('component') == 'tests' ? 
-                        <button id="tests" className="focus btn active-admin-btn admin-btn-left"  
-                            aria-pressed="true" onClick={this.handleBtnClick}>Tester</button> :
-                        <button id="tests" className="focus btn admin-btn admin-btn-left" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>Tester</button>}
-                        {localStorage.getItem('component') == 'solutions' ?
-                        <button id="solutions" className="focus btn active-admin-btn admin-btn-right" 
-                            aria-pressed="true" onClick={this.handleBtnClick}>Utveckling</button> :
-                        <button id="solutions" className="focus btn admin-btn admin-btn-right" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>Utveckling</button>}
-                    </div>
-                    <div className="row">
-                        {localStorage.getItem('component') == 'courses' ?
-                        <button id="courses" className="focus btn active-admin-btn admin-btn-left" 
-                            aria-pressed="true" onClick={this.handleBtnClick}>Utbildningar</button> :
-                        <button id="courses" className="focus btn admin-btn admin-btn-left" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>Utbildningar</button>}
-                        {localStorage.getItem('component') == 'posts' ?
-                        <button id="posts" className="focus btn active-admin-btn admin-btn-right" 
-                            aria-pressed="true" onClick={this.handleBtnClick}>Inlägg</button> :
-                        <button id="posts" className="focus btn admin-btn admin-btn-right" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>Inlägg</button>}
-                    </div>
-                    <div className="row">
-                        {localStorage.getItem('component') == 'comments' ?
-                        <button id="comments" className="focus btn active-admin-btn admin-btn-left"  
-                            aria-pressed="true" onClick={this.handleBtnClick}>Kommentarer</button> :
-                        <button id="comments" className="focus btn admin-btn admin-btn-left" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>Kommentarer</button>}
-                        {localStorage.getItem('component') == 'users' ?
-                        <button id="users" className="focus btn active-admin-btn admin-btn-right" 
-                            aria-pressed="true" onClick={this.handleBtnClick}>Användare</button> :
-                        <button id="users" className="focus btn admin-btn admin-btn-right" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>Användare</button>}
-                    </div>
-                </nav> 
-                :
-                // Gästskribenter
-                <nav className="admin-menu" aria-label="Adminmeny">
-                    <p>Här kan du administrera 
-                    webbplatsens innehåll. Välj kategori
-                    med hjälp av knapparna nedan. 
-                    Gränssnittet anpassas efter den valda 
-                    kategorin.</p>
-
-                    {localStorage.getItem('component') == 'posts' ?
-                        <button id="posts" className="focus btn active-admin-btn admin-btn-contributors 
-                            admin-btn-right" aria-pressed="true" onClick={this.handleBtnClick}>
-                                Inlägg</button> :
-                        <button id="posts" className="focus btn admin-btn admin-btn-contributors admin-btn-right" 
-                            aria-pressed="false" onClick={this.handleBtnClick}>
-                                Inlägg</button>}
+    return (
+        <main>
+            <div className="row">
+                {/* Länkstig */}
+                <nav className="breadcrumbs" aria-label="Länkstig">
+                    <ul>
+                        <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus" to={"/"}>
+                            Start</Link>/</li>
+                        <li><Link className="active-breadcrumb focus" to={"/admin"}> Admin</Link></li>
+                    </ul>
                 </nav>
-                }
-                {/* Formulär för att lägga till och redigera tjänster, användare, inlägg och kommentarer.
-                    Vilket formulär som visas beror på vilket val som gjorts i menyn ovan. 
-                    Data i form av poster och eventuella felmeddelanden skickas med i props. */}
-                
-                {this.state.component == 'tests' && this.state.userRole  == 'Medarbetare' ? 
-                    <Services service="tests" data={this.state.tests} search={this.state.search} 
-                    errorTests={this.state.errorTests} confirmTests={this.state.confirmTests}
-                    post={this.addTest} delete={this.deleteTest} put={this.updateTest} /> : null}
-                {this.state.component == 'solutions' && this.state.userRole == 'Medarbetare' ? 
-                    <Services service="solutions" data={this.state.solutions} search={this.state.search}
-                    errorSolutions={this.state.errorSolutions} confirmSolutions={this.state.confirmSolutions}
-                    post={this.addSolution} delete={this.deleteSolution} put={this.updateSolution} /> : null}
-                {this.state.component == 'courses' && this.state.userRole == 'Medarbetare' ? 
-                    <Services service="courses" data={this.state.courses} search={this.state.search} 
-                    errorCourses={this.state.errorCourses} confirmCourses={this.state.confirmCourses}
-                    post={this.addCourse} delete={this.deleteCourse} put={this.updateCourse} /> : null}
-                {this.state.component == 'posts' ? <Posts posts={this.state.userRole == 'Medarbetare' ? 
-                    this.state.posts : this.state.userPosts} search={this.state.search} 
-                    username={this.state.username} userRole={this.state.userRole} 
-                    errorPosts={this.state.errorPosts} confirmPosts={this.state.confirmPosts} post={this.addPost} 
-                    delete={this.deletePost} publish={this.publishPost} put={this.updatePost} /> : null}
-                {this.state.component == 'users' && this.state.userRole == 'Medarbetare' ? <Users 
-                    users={this.state.users} post={this.addUser} delete={this.deleteUser} 
-                    errorUsers={this.state.errorUsers} put={this.updateUser} 
-                    confirmUsers={this.state.confirmUsers}/> : null}
-                {this.state.component == 'comments' && this.state.userRole == 'Medarbetare' ? 
-                    <Comments comments={this.state.comments} publish={this.publishComment} 
-                    delete={this.deleteComment} errorComments={this.state.errorComments} 
-                    confirmComments={this.state.confirmComments}/> : null}
-            </main>
-        )
-    }
+                <p id="logout"><Link className="focus" to={"/login"} onClick={this.handleLogout}>Logga ut</Link></p>
+            </div>
+            <h1>Admin</h1>
+            {/* Huvudmenyns utseende varierar beroende på användarens behörighet */}
+            {this.state.userRole == 'Medarbetare' ?
+            <nav className="admin-menu" aria-label="Adminmeny">
+                <p>Här kan du administrera 
+                webbplatsens innehåll. Välj kategori
+                med hjälp av knapparna nedan. 
+                Gränssnittet anpassas efter den valda 
+                kategorin.</p>
+                {/* Medarbetare */}
+                <div className="row">
+                    {localStorage.getItem('component') == 'tests' ? 
+                    <button id="tests" className="focus btn active-admin-btn admin-btn-left"  
+                        aria-pressed="true" onClick={this.handleBtnClick}>Tester</button> :
+                    <button id="tests" className="focus btn admin-btn admin-btn-left" 
+                        aria-pressed="false" onClick={this.handleBtnClick}>Tester</button>}
+                    {localStorage.getItem('component') == 'solutions' ?
+                    <button id="solutions" className="focus btn active-admin-btn admin-btn-right" 
+                        aria-pressed="true" onClick={this.handleBtnClick}>Utveckling</button> :
+                    <button id="solutions" className="focus btn admin-btn admin-btn-right" 
+                        aria-pressed="false" onClick={this.handleBtnClick}>Utveckling</button>}
+                </div>
+                <div className="row">
+                    {localStorage.getItem('component') == 'courses' ?
+                    <button id="courses" className="focus btn active-admin-btn admin-btn-left" 
+                        aria-pressed="true" onClick={this.handleBtnClick}>Utbildningar</button> :
+                    <button id="courses" className="focus btn admin-btn admin-btn-left" 
+                        aria-pressed="false" onClick={this.handleBtnClick}>Utbildningar</button>}
+                    {localStorage.getItem('component') == 'posts' ?
+                    <button id="posts" className="focus btn active-admin-btn admin-btn-right" 
+                        aria-pressed="true" onClick={this.handleBtnClick}>Inlägg</button> :
+                    <button id="posts" className="focus btn admin-btn admin-btn-right" 
+                        aria-pressed="false" onClick={this.handleBtnClick}>Inlägg</button>}
+                </div>
+                <div className="row">
+                    {localStorage.getItem('component') == 'comments' ?
+                    <button id="comments" className="focus btn active-admin-btn admin-btn-left"  
+                        aria-pressed="true" onClick={this.handleBtnClick}>Kommentarer</button> :
+                    <button id="comments" className="focus btn admin-btn admin-btn-left" 
+                        aria-pressed="false" onClick={this.handleBtnClick}>Kommentarer</button>}
+                    {localStorage.getItem('component') == 'users' ?
+                    <button id="users" className="focus btn active-admin-btn admin-btn-right" 
+                        aria-pressed="true" onClick={this.handleBtnClick}>Användare</button> :
+                    <button id="users" className="focus btn admin-btn admin-btn-right" 
+                        aria-pressed="false" onClick={this.handleBtnClick}>Användare</button>}
+                </div>
+            </nav> 
+            :
+            // Gästskribenter
+            <nav className="admin-menu" aria-label="Adminmeny">
+                <p>Här kan du administrera 
+                webbplatsens innehåll. Välj kategori
+                med hjälp av knapparna nedan. 
+                Gränssnittet anpassas efter den valda 
+                kategorin.</p>
+
+                {localStorage.getItem('component') == 'posts' ?
+                    <button id="posts" className="focus btn active-admin-btn admin-btn-contributors 
+                        admin-btn-right" aria-pressed="true" onClick={this.handleBtnClick}>
+                            Inlägg</button> :
+                    <button id="posts" className="focus btn admin-btn admin-btn-contributors admin-btn-right" 
+                        aria-pressed="false" onClick={this.handleBtnClick}>
+                            Inlägg</button>}
+            </nav>
+            }
+            {/* Formulär för att lägga till och redigera tjänster, användare, inlägg och kommentarer.
+                Vilket formulär som visas beror på vilket val som gjorts i menyn ovan. 
+                Data i form av poster och eventuella felmeddelanden skickas med i props. */}
+            
+            {this.state.component == 'tests' && this.state.userRole  == 'Medarbetare' ? 
+                <Services service="tests" data={this.state.tests} search={this.state.search} 
+                errorTests={this.state.errorTests} confirmTests={this.state.confirmTests}
+                post={this.addTest} delete={this.deleteTest} put={this.updateTest} /> : null}
+            {this.state.component == 'solutions' && this.state.userRole == 'Medarbetare' ? 
+                <Services service="solutions" data={this.state.solutions} search={this.state.search}
+                errorSolutions={this.state.errorSolutions} confirmSolutions={this.state.confirmSolutions}
+                post={this.addSolution} delete={this.deleteSolution} put={this.updateSolution} /> : null}
+            {this.state.component == 'courses' && this.state.userRole == 'Medarbetare' ? 
+                <Services service="courses" data={this.state.courses} search={this.state.search} 
+                errorCourses={this.state.errorCourses} confirmCourses={this.state.confirmCourses}
+                post={this.addCourse} delete={this.deleteCourse} put={this.updateCourse} /> : null}
+            {this.state.component == 'posts' ? <Posts posts={this.state.userRole == 'Medarbetare' ? 
+                this.state.posts : this.state.userPosts} search={this.state.search} 
+                username={this.state.username} userRole={this.state.userRole} 
+                errorPosts={this.state.errorPosts} confirmPosts={this.state.confirmPosts} post={this.addPost} 
+                delete={this.deletePost} publish={this.publishPost} put={this.updatePost} /> : null}
+            {this.state.component == 'users' && this.state.userRole == 'Medarbetare' ? <Users 
+                users={this.state.users} post={this.addUser} delete={this.deleteUser} 
+                errorUsers={this.state.errorUsers} put={this.updateUser} 
+                confirmUsers={this.state.confirmUsers}/> : null}
+            {this.state.component == 'comments' && this.state.userRole == 'Medarbetare' ? 
+                <Comments comments={this.state.comments} publish={this.publishComment} 
+                delete={this.deleteComment} errorComments={this.state.errorComments} 
+                confirmComments={this.state.confirmComments}/> : null}
+        </main>
+    )
 
     // Funktionen anpassar gränssnittet (via state) samt knapparnas utseende och aria-pressed 
-    handleBtnClick(e) {
+    function handleBtnClick(e) {
         const id = e.target.id;
 
         this.setState({
@@ -236,6 +235,7 @@ class Admin extends React.Component {
         }
     }
 
+    /*
     componentDidMount() {
         localStorage.setItem('pageSwedish', 'Admin');
         localStorage.setItem('pageGerman', 'Admin');
@@ -269,8 +269,9 @@ class Admin extends React.Component {
             }
         }
     }
+    */
 
-    getSearch() {
+    function getSearch() {
         fetch('https://iws-rest-api.herokuapp.com/search')
         .then(response => response.json())
         .then((data) => {
@@ -286,7 +287,7 @@ class Admin extends React.Component {
     }
 
     // Funktionen hämtar alla tester
-    getTests() {
+    function getTests() {
 
         // GET-anrop till webbtjänsten om användaren har tryckt på Tester
         fetch('https://iws-rest-api.herokuapp.com/tests/admin')
@@ -320,7 +321,7 @@ class Admin extends React.Component {
     }
 
     // Funktionen hämtar alla anpassningar
-    getSolutions() {
+    function getSolutions() {
 
         // GET-anrop till webbtjänsten om användaren har tryckt på Anpassningar
         fetch('https://iws-rest-api.herokuapp.com/solutions/admin')
@@ -354,7 +355,7 @@ class Admin extends React.Component {
     }
 
     // Funktionen hämtar alla utbildningar
-    getCourses() {
+    function getCourses() {
 
         // GET-anrop till webbtjänsten om användaren har tryckt på Utbildningar
         fetch('https://iws-rest-api.herokuapp.com/courses/admin')
@@ -388,7 +389,7 @@ class Admin extends React.Component {
     }
 
     // Funktionen hämtar alla inlägg
-    getAllPosts() {
+    function getAllPosts() {
         /* GET-anrop till webbtjänsten om användaren har tryckt på Inlägg och 
             har full behörighet */
         fetch('https://iws-rest-api.herokuapp.com/posts/admin')
@@ -421,7 +422,7 @@ class Admin extends React.Component {
     }
 
     // Funktionen hämtar gästskribentens inlägg
-    getContributorPosts() {
+    function getContributorPosts() {
         if (this.state.userRole == 'Gästskribent') {
 
             /* GET-anrop till webbtjänsten om användaren har tryckt på Inlägg och 
@@ -457,7 +458,7 @@ class Admin extends React.Component {
     }
 
     // Funktionen hämtar alla användare
-    getUsers() {
+    function getUsers() {
 
         /* GET-anrop till webbtjänsten om användaren har tryckt på Användare och 
             har full behörighet */
@@ -492,7 +493,7 @@ class Admin extends React.Component {
     }
 
     // Funktionen hämtar alla kommentarer
-    getComments() {
+    function getComments() {
 
         /* GET-anrop till webbtjänsten om användaren har tryckt på Kommentarer och 
             har full behörighet */
@@ -526,7 +527,7 @@ class Admin extends React.Component {
         })
     }
 
-    addSearch(body) {
+    function addSearch(body) {
         if (this.state.search.length) {
             body.foreignKey = body.path.slice(1) + body.id;
             body.id = this.state.search[this.state.search.length - 1].id + 1;
@@ -541,7 +542,7 @@ class Admin extends React.Component {
 
     /* Funktionen lägger till tester i databasen. De två efterföljande
         funktionerna har exakt samma struktur och flöde. */
-    addTest(body) {
+    function addTest(body) {
         if (this.state.tests.length) {
             let testArr = this.state.tests;
             testArr.sort((a, b) => {
@@ -583,7 +584,7 @@ class Admin extends React.Component {
         })
     }
 
-    addSolution(body) {
+    function addSolution(body) {
         if (this.state.solutions.length) {
             let solutionArr = this.state.solutions;
             solutionArr.sort((a, b) => {
@@ -624,7 +625,7 @@ class Admin extends React.Component {
         })
     }
 
-    addCourse(body) {
+    function addCourse(body) {
         if (this.state.courses.length) {
             let courseArr = this.state.courses;
             courseArr.sort((a, b) => {
@@ -665,7 +666,7 @@ class Admin extends React.Component {
         })
     }
 
-    addPost(body) {
+    function addPost(body) {
         if (this.state.posts.length) {
             let postArr = this.state.posts;
             postArr.sort((a, b) => {
@@ -720,7 +721,7 @@ class Admin extends React.Component {
         })
     }
 
-    addUser(body) {
+    function addUser(body) {
         if (this.state.users.length) {
             let userArr = this.state.users;
             userArr.sort((a, b) => {
@@ -759,7 +760,7 @@ class Admin extends React.Component {
         })
     }
 
-    updateTest(id, body) {
+    function updateTest(id, body) {
         fetch(`https://iws-rest-api.herokuapp.com/tests/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',},
@@ -796,7 +797,7 @@ class Admin extends React.Component {
         })
     }
 
-    updateSolution(id, body) {
+    function updateSolution(id, body) {
         fetch(`https://iws-rest-api.herokuapp.com/solutions/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',},
@@ -835,7 +836,7 @@ class Admin extends React.Component {
         })
     }
 
-    updateCourse(id, body) {
+    function updateCourse(id, body) {
         fetch(`https://iws-rest-api.herokuapp.com/courses/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',},
@@ -874,7 +875,7 @@ class Admin extends React.Component {
         })
     }
 
-    updatePost(id, body) {
+    function updatePost(id, body) {
         fetch(`https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',},
@@ -932,7 +933,7 @@ class Admin extends React.Component {
         })
     }
 
-    updateUser(id, body) {
+    function updateUser(id, body) {
         fetch(`https://iws-rest-api.herokuapp.com/users/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',},
@@ -969,7 +970,7 @@ class Admin extends React.Component {
         })
     }
 
-    updateSearch(body) {
+    function updateSearch(body) {
         fetch(`https://iws-rest-api.herokuapp.com/search/password/tbbA=!vYzT99*,;oGSi8/id/${localStorage.getItem('searchId')}`, {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
@@ -984,7 +985,7 @@ class Admin extends React.Component {
         })
     }
 
-    deleteTest(id) {
+    function deleteTest(id) {
         fetch(`https://iws-rest-api.herokuapp.com/tests/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
@@ -1019,7 +1020,7 @@ class Admin extends React.Component {
         })
     }
 
-    deleteSolution(id) {
+    function deleteSolution(id) {
         fetch(`https://iws-rest-api.herokuapp.com/solutions/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
@@ -1055,7 +1056,7 @@ class Admin extends React.Component {
         })
     }
 
-    deleteCourse(id) {
+    function deleteCourse(id) {
         fetch(`https://iws-rest-api.herokuapp.com/courses/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
@@ -1091,7 +1092,7 @@ class Admin extends React.Component {
         })
     }
 
-    deletePost(id, published, comments) {
+    function deletePost(id, published, comments) {
         fetch(`https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
@@ -1149,7 +1150,7 @@ class Admin extends React.Component {
         })
     }
 
-    deleteUser(id) {
+    function deleteUser(id) {
         fetch(`https://iws-rest-api.herokuapp.com/users/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
@@ -1183,7 +1184,7 @@ class Admin extends React.Component {
         })
     }
 
-    deletePostComments(id) {
+    function deletePostComments(id) {
         fetch(`https://iws-rest-api.herokuapp.com/comments/password/tbbA=!vYzT99*,;oGSi8/postId/${id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json',},
@@ -1207,7 +1208,7 @@ class Admin extends React.Component {
         })
     }
 
-    deleteComment(id) {
+    function deleteComment(id) {
         fetch(`https://iws-rest-api.herokuapp.com/comments/password/tbbA=!vYzT99*,;oGSi8/id/${id}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
@@ -1236,7 +1237,7 @@ class Admin extends React.Component {
         })
     }
 
-    deleteSearch() {
+    function deleteSearch() {
         fetch(`https://iws-rest-api.herokuapp.com/search/password/tbbA=!vYzT99*,;oGSi8/id/${localStorage.getItem('searchId')}`, {
             method:  'DELETE',
             headers: {'Content-Type': 'application/json',},
@@ -1250,7 +1251,7 @@ class Admin extends React.Component {
         })
     }
 
-    publishPost(id, body) {
+    function publishPost(id, body) {
         fetch(`https://iws-rest-api.herokuapp.com/posts/password/tbbA=!vYzT99*,;oGSi8/id/${id}/publish`, {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
@@ -1302,7 +1303,7 @@ class Admin extends React.Component {
         })
     }
 
-    publishComment(id) {
+    function publishComment(id) {
         fetch(`https://iws-rest-api.herokuapp.com/comments/password/tbbA=!vYzT99*,;oGSi8/id/${id}/publish`, {
             method:  'PUT',
             headers: {'Content-Type': 'application/json',},
@@ -1332,7 +1333,7 @@ class Admin extends React.Component {
     }
 
     // Raderar användarnamn, -roll och status för inloggning vid utloggning
-    handleLogout() {
+    function handleLogout() {
         /* Tar bort status för inloggning, användarnamn, behörighet samt
             samt vilka komponenter som visas ur localStorage */
         sessionStorage.removeItem('signedIn');
