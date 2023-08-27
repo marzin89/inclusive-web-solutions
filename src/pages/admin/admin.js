@@ -6,6 +6,7 @@ import Posts from '../../components/admin/posts/posts';
 import Users from '../../components/admin/users/users';
 import Comments from '../../components/admin/comments/comments';
 import { useSelector, useDispatch } from 'react-redux';
+import userActions from '../../store/slices/user-slice';
 import pageActions from '../../store/slices/page-slice';
 
 const buttons = document.getElementsByClassName('btn');
@@ -105,11 +106,11 @@ function Admin() {
                         <li><Link className="active-breadcrumb focus" to={"/admin"}> Admin</Link></li>
                     </ul>
                 </nav>
-                <p id="logout"><Link className="focus" to={"/login"} onClick={this.handleLogout}>Logga ut</Link></p>
+                <p id="logout"><Link className="focus" to={"/login"} onClick={(e) => logout(e)}>Logga ut</Link></p>
             </div>
             <h1>Admin</h1>
             {/* Huvudmenyns utseende varierar beroende på användarens behörighet */}
-            {userRole == 'Medarbetare' ?
+            {/*userRole == 'Medarbetare' ?*/
             <nav className="admin-menu" aria-label="Adminmeny">
                 <p>Här kan du administrera 
                 webbplatsens innehåll. Välj kategori
@@ -118,19 +119,19 @@ function Admin() {
                 kategorin.</p>
                 {/* Medarbetare */}
                 <div className="row">
-                    {localStorage.getItem('component') == 'tests' ? 
+                    {component == 'tests' ? 
                     <button id="tests" className="focus btn active-admin-btn admin-btn-left"  
                         aria-pressed="true" onClick={this.handleBtnClick}>Tester</button> :
                     <button id="tests" className="focus btn admin-btn admin-btn-left" 
                         aria-pressed="false" onClick={this.handleBtnClick}>Tester</button>}
-                    {localStorage.getItem('component') == 'solutions' ?
+                    {component == 'solutions' ?
                     <button id="solutions" className="focus btn active-admin-btn admin-btn-right" 
                         aria-pressed="true" onClick={this.handleBtnClick}>Utveckling</button> :
                     <button id="solutions" className="focus btn admin-btn admin-btn-right" 
                         aria-pressed="false" onClick={this.handleBtnClick}>Utveckling</button>}
                 </div>
                 <div className="row">
-                    {localStorage.getItem('component') == 'courses' ?
+                    {component == 'courses' ?
                     <button id="courses" className="focus btn active-admin-btn admin-btn-left" 
                         aria-pressed="true" onClick={this.handleBtnClick}>Utbildningar</button> :
                     <button id="courses" className="focus btn admin-btn admin-btn-left" 
@@ -142,35 +143,32 @@ function Admin() {
                         aria-pressed="false" onClick={this.handleBtnClick}>Inlägg</button>}
                 </div>
                 <div className="row">
-                    {localStorage.getItem('component') == 'comments' ?
+                    {component == 'comments' ?
                     <button id="comments" className="focus btn active-admin-btn admin-btn-left"  
                         aria-pressed="true" onClick={this.handleBtnClick}>Kommentarer</button> :
                     <button id="comments" className="focus btn admin-btn admin-btn-left" 
                         aria-pressed="false" onClick={this.handleBtnClick}>Kommentarer</button>}
-                    {localStorage.getItem('component') == 'users' ?
+                    {component == 'users' ?
                     <button id="users" className="focus btn active-admin-btn admin-btn-right" 
                         aria-pressed="true" onClick={this.handleBtnClick}>Användare</button> :
                     <button id="users" className="focus btn admin-btn admin-btn-right" 
                         aria-pressed="false" onClick={this.handleBtnClick}>Användare</button>}
-                </div>
-            </nav> 
-            :
-            // Gästskribenter
-            <nav className="admin-menu" aria-label="Adminmeny">
-                <p>Här kan du administrera 
+                    {/* Gästskribenter */}
+                    <p>Här kan du administrera 
                 webbplatsens innehåll. Välj kategori
                 med hjälp av knapparna nedan. 
                 Gränssnittet anpassas efter den valda 
                 kategorin.</p>
 
-                {localStorage.getItem('component') == 'posts' ?
+                {component == 'posts' ?
                     <button id="posts" className="focus btn active-admin-btn admin-btn-contributors 
                         admin-btn-right" aria-pressed="true" onClick={this.handleBtnClick}>
                             Inlägg</button> :
                     <button id="posts" className="focus btn admin-btn admin-btn-contributors admin-btn-right" 
                         aria-pressed="false" onClick={this.handleBtnClick}>
                             Inlägg</button>}
-            </nav>
+                </div>
+            </nav> 
             }
             {/* Formulär för att lägga till och redigera tjänster, användare, inlägg och kommentarer.
                 Vilket formulär som visas beror på vilket val som gjorts i menyn ovan. 
@@ -1329,14 +1327,9 @@ function Admin() {
         })
     }
 
-    // Raderar användarnamn, -roll och status för inloggning vid utloggning
-    function handleLogout() {
-        /* Tar bort status för inloggning, användarnamn, behörighet samt
-            samt vilka komponenter som visas ur localStorage */
-        sessionStorage.removeItem('signedIn');
-
-        // Skickar användaren till Logga in
-        this.props.function();
+    function logout(e) {
+        e.preventDefault();
+        dispatch(userActions.logout());
     }
 }
 
