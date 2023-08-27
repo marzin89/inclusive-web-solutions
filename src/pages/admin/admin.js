@@ -5,14 +5,18 @@ import Services from '../../components/admin/services/services';
 import Posts from '../../components/admin/posts/posts';
 import Users from '../../components/admin/users/users';
 import Comments from '../../components/admin/comments/comments';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import pageActions from '../../store/slices/page-slice';
 
 const buttons = document.getElementsByClassName('btn');
 // let userPosts = [];
 
 // Admin
 function Admin() {
-
+    const username  = useSelector((state) => state.user.username);
+    const userRole  = useSelector((state) => state.user.userRole);
+    const component = useSelector((state) => state.page.adminComponent);
+    const dispatch  = useDispatch();
     // Konstruktor med props
     /*
     constructor(props) {
@@ -105,7 +109,7 @@ function Admin() {
             </div>
             <h1>Admin</h1>
             {/* Huvudmenyns utseende varierar beroende på användarens behörighet */}
-            {this.state.userRole == 'Medarbetare' ?
+            {userRole == 'Medarbetare' ?
             <nav className="admin-menu" aria-label="Adminmeny">
                 <p>Här kan du administrera 
                 webbplatsens innehåll. Välj kategori
@@ -202,14 +206,7 @@ function Admin() {
 
     // Funktionen anpassar gränssnittet (via state) samt knapparnas utseende och aria-pressed 
     function handleBtnClick(e) {
-        const id = e.target.id;
-
-        this.setState({
-            reRender:  true,
-            component: id,
-        })
-
-        localStorage.setItem('component', id);
+        dispatch(pageActions.setAdminComponent(e.target.id));
 
         for (let i = 0; i < buttons.length; i++) {
             if (e.target.id == buttons[i].id) {
