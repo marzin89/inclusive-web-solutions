@@ -10,6 +10,7 @@ function Services(props) {
     const altTextLabelRef                     = useRef();
     const altTextRef                          = useRef();
     const languageRef                         = useRef();
+    const resetBtnRef                         = useRef();
     const [hasName, setHasName]               = useState(true);
     const [hasPrice, setHasPrice]             = useState(true);
     const [hasDescription, setHasDescription] = useState(true);
@@ -17,31 +18,8 @@ function Services(props) {
     const [isValidFormat, setIsValidFormat]   = useState(true);
     const [hasAltText, setHasAltText]         = useState(true);
     const [errorCount, setErrorCount]         = useState(0);
-    const [crudAction, setCrudAction]         = useState('');
-
-    constructor(props) {
-        super(props);
-        this.handleSubmit            = this.handleSubmit.bind(this);
-        this.handleLinkClick         = this.handleLinkClick.bind(this);
-        this.validateForm            = this.validateForm.bind(this);
-        this.upload                  = this.upload.bind(this);
-        this.state = {
-            language:         '',
-            error:            false,
-            errorCountName:        0,
-            errorCountPrice:       0,
-            errorCountDescription: 0,
-            errorCountImageSize:   0,
-            errorCountImageFormat: 0,
-            errorCountAltText:     0,
-            nameEmpty:        '',
-            priceEmpty:       '',
-            descriptionEmpty: '',
-            imageTooBig:      '',
-            imageWrongFormat: '',
-            altTextEmpty:     '',
-        }
-    }
+    const [crudAction, setCrudAction]         = useState('post');
+    const [id, setId]                         = useState('');
 
     return (
         <div id="main" className="admin-form">
@@ -51,7 +29,7 @@ function Services(props) {
                 {this.props.service == 'courses' ? <h2 className="h2-admin">Utbildningar</h2> : ''}
                 {errorCount ? <p className="text h2-error h3-font-size" role="alert">
                     Formuläret innehåller {errorCount} fel</p> : null}
-                <form ref={formRef}>
+                <form ref={formRef} onSubmit={() => handleSubmit()}>
                     <p>Fält märkta med * är obligatoriska.</p>
                     <div className="form-left">
                         <label htmlFor="service-name-input">Namn *</label>
@@ -97,8 +75,8 @@ function Services(props) {
                         autoComplete='on' ref={altTextRef}></input>
                     {!hasAltText ? <p id="alt-text-error" className="error" role="alert">
                         Du måste skriva en alt-text.</p> : null}
-                    <button type="reset" id="reset-btn" className="reset-btn">Rensa</button>
-                    <button type="submit" className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
+                    <button type="reset" id="reset-btn" className="reset-btn" ref={resetBtnRef}>Rensa</button>
+                    <button type="submit" className="submit-btn">Skicka</button>
                 </form>
                 {props.errorMessage ? <p className="error" role="alert">{props.errorMessage}</p> : null}
                 {props.confirmMessage ? <p className="confirm" role="alert">{props.confirmMessage}</p> : null}
@@ -113,10 +91,10 @@ function Services(props) {
                             <p className="price">Preis: {element.price}</p>}
                             <p>{element.description}</p>
                             <div>
-                                <p className="edit"><a id={`edit${element.id}`} className="focus" 
-                                    href="" onClick={() => setCrudAction('edit')}>Redigera</a></p>
-                                <p className="delete"><a id={`delete${element.id}`} className="focus"
-                                    href="" onClick={() => setCrudAction('delete')}>Radera</a></p>
+                                <p className="edit"><a id={element.id} className="focus" 
+                                    href="" onClick={(e) => handleLinkClick(e)}>Redigera</a></p>
+                                <p className="delete"><a id={element.id} className="focus"
+                                    href="" onClick={(e) => handleLinkClick(e)}>Radera</a></p>
                             </div>
                         </article>
                     )
@@ -175,7 +153,7 @@ function Services(props) {
         setErrorCount(prev => isValid ? prev : prev + 1);
 
         altTextRef.current.setAttribute('aria-invalid', !isValid);
-        imageInput.setAttribute('aria-required', isRequired);
+        imageRef.current.setAttribute('aria-required', isRequired);
         imageRef.current.setAttribute('aria-required', isRequired);
     }
 
@@ -184,464 +162,100 @@ function Services(props) {
             'Preis (z.B. 1 000 EUR) *' : 'Pris (t.ex. 1 000 :-) *'
     }
 
-    /*
-    validateName(e) {
-        if (!e.target.value) {
-            this.setState({
-                errorCountName: 1,
-                nameEmpty:      'Du måste ange ett namn.',
-            })
-
-            e.target.setAttribute('aria-invalid', true);
-            
-        }
+    function scrollComponent(ref) {
+        ref.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
     }
 
-    validatePrice(e) {
-        if (!e.target.value) {
-            this.setState({
-                errorCountPrice: 1,
-                priceEmpty:      'Du måste ange ett pris.',
-            })
+    function populateForm(id) {
+        const service = props.data.find((element) => element.id == id);
 
-            e.target.setAttribute('aria-invalid', true);
-            
+        if (service) {
+            nameRef.current.value        = service.name;
+            priceRef.current.value       = service.price;
+            descriptionRef.current.value = service.description;
+            altTextRef.current.value     = service.altText;  
+            languageRef.current.value    = service.language == 'german' ? 'Deutsch' : 'Svenska';
         }
+        
+        nameRef.focus();
     }
-
-    validateDescription(e) {
-        if (!e.target.value) {
-            this.setState({
-                errorCountDescription: 1,
-                descriptionEmpty:      'Du måste skriva en beskrivning.',
-            })
-
-            e.target.setAttribute('aria-invalid', true);
-            
-        }
-    }
-
-    validateAltText(e) {
-        if (this.state.imageUrl) {
-            if (!e.target.value) {
-                this.setState({
-                    errorCountAltText: 1,
-                    altTextEmpty:      'Du måste skriva en alt-text.',
-                })
-
-                e.target.setAttribute('aria-invalid', true);
-                
-            }
-        }
-    }
-    */
 
     function handleLinkClick(e) {
         e.preventDefault();
+        setCrudAction(e.target.className);
+        scrollComponent(e.target.className == 'edit' ? formRef : resetBtnRef);
+        setId(e.target.id);
+
+        if (e.target.className == 'edit') {
+            populateForm(e.target.id);
         
-        let action;
-        let id;
-
-        if (e.target.id.indexOf('edit') >= 0) {
-            document.getElementById('admin-form').scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
-            
-            action = 'edit';
-            id     = e.target.id.slice(4);
-
-            localStorage.setItem('id', id);
-            localStorage.setItem('actionServices', action);
-
-            const nameInput        = document.getElementById('service-name-input');
-            const priceInput       = document.getElementById('service-price-input');
-            const descriptionInput = document.getElementById('service-description-input');
-            const languageInput    = document.getElementById('language-switcher-admin');
-            const altTextInput     = document.getElementById('alt-text-input');
-
-            this.props.data.map((service) => {
-                if (service.id == id) {
-                    nameInput.value        = service.name;
-                    priceInput.value       = service.price;
-                    descriptionInput.value = service.description;
-                    altTextInput.value     = service.altText;  
-                    
-                    localStorage.setItem('imageUrlServices', service.imageUrl);
-
-                    if (service.language == 'german') {
-                        languageInput.value = 'Deutsch';
-
-                    } else {
-                        languageInput.value = 'Svenska';
-                    }
-                }
-            })
-            
-            nameInput.focus();
-        
-        } else if (e.target.id.indexOf('delete') >= 0) {
-            document.getElementById('reset-btn').scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
-
-            action      = 'delete';
-            id          = e.target.id.slice(6);
-            let service = this.props.service.slice(0, -1);
-
-            this.props.search.map((page) => {
-                if (page.foreignKey) {
-                    if (page.foreignKey.indexOf(service) >= 0 && page.foreignKey.indexOf(id) >= 0) {
-                        localStorage.setItem('searchId', page.foreignKey);
-                    }
-                }
-            })
-        }
-
-        if (action == 'delete') {
-            this.props.delete(id);
+        } else {  
+            localStorage.setItem('searchId', getForeignKey());
+            props.delete(id);
         }
     }
 
-    /* Denna funktion validerar uppgifterna och lägger till tjänster
-        när formuläret skickas */
-    handleSubmit(e) {
-        e.preventDefault();
+    function getForeignKey() {
+        let service = this.props.service.slice(0, -1);
+        const foreignKey = props.search.find((page) => page.foreignKey.indexOf(id) >= 0);
+        return foreignKey;
+    }
 
-        if (this.validateForm()) {
-            // Datum för uppdatering
-            let date = new Date().toLocaleDateString('sv-SE', {timeZone: 'CET'});
+    function handleSubmit() {
+        if (isValid()) {
+            let date            = new Date().toLocaleDateString('sv-SE', {timeZone: 'CET'});
+            const hasLineBreaks = descriptionRef.current.value.indexOf("\n\n") > 0;
+            let description     = hasLineBreaks ? descriptionRef.current.value.split("\n\n") : 
+                descriptionRef.current.value;
+            const language      = languageRef.current.value == 'Svenska' ? 'swedish' : 'german';
+            let path            = `/${this.props.service.slice(0, -1)}`;
+            let folder          = this.props.service;
+            let imageUrl;
+            let publicId;
 
-            // Här lagras beskrivningen
-            let description = [];
-            let select = document.getElementById('language-switcher-admin');
-            let language;
+            if (imageRef.current.files[0]) {
+                let name      = imageInput.files[0].name.slice(0, imageInput.files[0].name.indexOf('.'));
+                let extension = imageInput.files[0].name.slice(imageInput.files[0].name.indexOf('.'));            
+                publicId      = name;
+                imageUrl      = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/${folder}/${publicId}${extension}`;
+                body.imageUrl = imageUrl;               
+                this.upload(imageInput.files[0], name);
+            }
 
-            // Värdena i rullgardinslistan och databasen skiljer sig åt
-            if (select.value == 'Svenska') {
-                language = 'swedish';
+            const body = {
+                name:        nameRef.current.value,
+                price:       priceRef.current.value,
+                description: description,
+                imageUrl:    imageUrl,
+                altText:     altTextRef.current.value,
+                language:    language,
+                path:        path,
+                updated:     date, 
+            }
+
+            if (crudAction == 'post') {
+                props.post(body);
             
-            } else if (select.value == 'Deutsch') {
-                language = 'german';
+            } else {
+                localStorage.setItem('searchId', getForeignKey());
+                props.put(id, body)
             }
 
-            if (!localStorage.getItem('actionServices')) {
-                /* Eftersom beskrivningen ska skrivas ut stycke för stycke,
-                delas den upp där det finns blanksteg och lagras som en array */
-                if (this.state.description.indexOf('\n\n') >= 0) {
-                    description = this.state.description.split("\n\n")
-                
-                } else {
-                    description.push(this.state.description);
-                }
-
-                const imageInput = document.getElementById('image-upload-input');
-
-                let path = `/${this.props.service.slice(0, -1)}`;
-
-                const body = {
-                    id:          0,
-                    name:        this.state.name,
-                    price:       this.state.price,
-                    description: description,
-                    imageUrl:    '',
-                    altText:     this.state.altText,
-                    language:    language,
-                    path:        path,
-                    updated:     date, 
-                }
-
-                let imageUrl;
-                let folder = this.props.service;
-                let publicId;
-
-                if (imageInput.value) {
-                    let name      = imageInput.files[0].name.slice(0, imageInput.files[0].name.indexOf('.'));
-                    let extension = imageInput.files[0].name.slice(imageInput.files[0].name.indexOf('.'));            
-                    publicId      = name;
-                    imageUrl      = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/${folder}/${publicId}${extension}`;
-                    body.imageUrl = imageUrl;
-
-                    this.upload(imageInput.files[0], name);
-                    this.props.post(body);
-                
-                } else {
-                    this.props.post(body);
-                }
-            }
-
-            if (localStorage.getItem('actionServices') == 'edit') {
-                const nameInput        = document.getElementById('service-name-input');
-                const priceInput       = document.getElementById('service-price-input');
-                const descriptionInput = document.getElementById('service-description-input');
-                const imageInput       = document.getElementById('image-upload-input');
-                const altTextInput     = document.getElementById('alt-text-input');
-
-                /* Eftersom beskrivningen ska skrivas ut stycke för stycke,
-                delas den upp där det finns blanksteg och lagras som en array */
-                if (descriptionInput.value.indexOf('\n\n') >= 0) {
-                    description = descriptionInput.value.split("\n\n")
-                
-                } else {
-                    description.push(descriptionInput.value);
-                }
-
-                let id      = localStorage.getItem('id');
-                let service = this.props.service.slice(0, -1);
-
-                this.props.search.map((page) => {
-                    if (page.foreignKey) {
-                        if (page.foreignKey.indexOf(service) >= 0 && page.foreignKey.indexOf(id) >= 0) {
-                            localStorage.setItem('searchId', page.foreignKey);
-                        }
-                    }
-                })
-
-                let path = `/${this.props.service.slice(0, -1)}`;
-
-                const body = {
-                    id:          localStorage.getItem('id'),
-                    name:        nameInput.value,
-                    price:       priceInput.value,
-                    description: description,
-                    imageUrl:    '',
-                    altText:     altTextInput.value,
-                    language:    language,
-                    path:        path,
-                    updated:     date, 
-                }
-
-                let url;
-                let folder = this.props.service;
-                let publicId;
-
-                if (imageInput.files[0]) {
-                    let name      = imageInput.files[0].name.slice(0, imageInput.files[0].name.indexOf('.'));
-                    let extension = imageInput.files[0].name.slice(imageInput.files[0].name.indexOf('.'));            
-                    publicId      = name;
-                    url           = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/${folder}/${publicId}${extension}`;
-                    body.imageUrl = url;
-                    
-                    this.upload(imageInput.files[0], name);
-                    this.props.put(localStorage.getItem('id'), body);
-                
-                } else {
-                    if (localStorage.getItem('imageUrlServices')) {
-                        body.imageUrl = localStorage.getItem('imageUrlServices');
-                    }
-
-                    this.props.put(localStorage.getItem('id'), body);
-                    localStorage.removeItem('imageUrlServices');
-                }
-            }
-
-            this.form.current.reset();
-            document.getElementById('reset-btn').scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
-        
+            formRef.current.reset();
+            scrollComponent(resetBtnRef);
         }
     }
 
-    /* Här valideras uppgifterna. För varje uppgift som saknas,
-        skrivs ett felmeddelande ut under inmatningsfältet.
-        För bilder kontrolleras även storleken och filformatet. */
-    validateForm() {
-        const nameInput        = document.getElementById('service-name-input');
-        const priceInput       = document.getElementById('service-price-input');
-        const descriptionInput = document.getElementById('service-description-input');
-        const imageInput       = document.getElementById('image-upload-input')
-        const altTextInput     = document.getElementById('alt-text-input');
-
-        if (!nameInput.value) {
-            this.setState({
-                error:          true,
-                errorCountName: 1,
-                nameEmpty:      'Du måste ange ett namn.',
-            })
-
-            nameInput.setAttribute('aria-invalid', true);
-            
-        
-        } else {
-            this.setState({
-                errorCountName: 0,
-                nameEmpty:      '',
-            })
-
-            nameInput.setAttribute('aria-invalid', false);
-        }
-
-        if (!priceInput.value) {
-            this.setState({
-                error:           true,
-                errorCountPrice: 1,
-                priceEmpty:      'Du måste ange ett pris.',
-            })
-
-            priceInput.setAttribute('aria-invalid', true);
-            
-        
-        } else {
-            this.setState({
-                errorCountPrice: 0,
-                priceEmpty:      '',
-            })
-
-            priceInput.setAttribute('aria-invalid', false);
-        }
-
-        if (!descriptionInput.value) {
-            this.setState({
-                error:                 true,
-                errorCountDescription: 1,
-                descriptionEmpty:      'Du måste skriva en beskrivning.',
-            })
-
-            descriptionInput.setAttribute('aria-invalid', true);
-            
-        
-        } else {
-            this.setState({
-                errorCountDescription: 0,
-                descriptionEmpty:      '',
-            })
-
-            descriptionInput.setAttribute('aria-invalid', false);
-        }
-
-        if (imageInput.value) {
-            const size = imageInput.files[0].size;
-            const jpg  = imageInput.value.indexOf('jpg');
-            const jpeg = imageInput.value.indexOf('jpeg');
-            const png  = imageInput.value.indexOf('png');
-
-            altTextInput.setAttribute('aria-required', true);
-
-            // Skriver ut ett felmeddelande om bilden är för stor
-            if (size > 500000) {
-                this.setState({
-                    error:               true,
-                    errorCountImageSize: 1,
-                    imageTooBig:         'Bilden är för stor.',
-                })
-
-                imageInput.setAttribute('aria-invalid', true);
-                
-            
-            } else {
-                this.setState ({
-                    errorCountImageSize: 0,
-                    imageTooBig:         '',
-                })
-            }
-
-            // Skriver ut ett felmeddelande om bilden har fel filformat
-            if (jpg < 0 && jpeg < 0 && png < 0) {
-                this.setState({
-                    error:                 true,
-                    errorCountImageFormat: 1,
-                    imageWrongFormat:      'Bilden har fel filformat.',
-                })
-
-                imageInput.setAttribute('aria-invalid', true);
-                
-
-            } else {
-                this.setState({ 
-                    errorCountImageFormat: 0,
-                    imageWrongFormat:      '',
-                })
-            }
-
-            // Om bilden inte är för stor och har rätt filformat, lagras sökvägen
-            if (size <= 500000) {
-                this.setState({
-                    errorCountImageSize: 0,
-                    imageTooBig:         '',
-                })
-
-                if (jpg >= 0 || jpeg >= 0 || png >= 0) {
-                    this.setState({
-                        error:                 false,
-                        errorCountImageFormat: 0,
-                        imageWrongFormat:      '',
-                    })
-    
-                    imageInput.setAttribute('aria-invalid', false);
-                }
-            }
-
-            if (!altTextInput.value) {
-                this.setState({
-                    error:             true,
-                    errorCountAltText: 1,
-                    altTextEmpty:      'Du måste skriva en alt-text.',
-                })
-                
-                altTextInput.setAttribute('aria-invalid', true);
-                
-
-            } else {
-                this.setState({
-                    errorCountAltText: 0,
-                    altTextEmpty:      '',
-                })
-
-                altTextInput.setAttribute('aria-invalid', false);
-            }
-        
-        } else {
-            this.setState({
-                errorCountImageSize:   0,
-                errorCountImageFormat: 0,
-                imageTooBig:      '',
-                imageWrongFormat: '',
-            })
-
-            altTextInput.setAttribute('aria-required', false);
-        }
-
-        if (nameInput.value !== '' && priceInput.value !== '' && descriptionInput.value !== ''
-            && !imageInput.value) {
-
-            this.setState({
-                error: false,
-            })
-
-            
-            return true;
-    
-        } else if (nameInput.value !== '' && priceInput.value !== '' && descriptionInput.value !== ''
-            && imageInput.value !== '' && altTextInput.value !== '') {
-
-            const size = imageInput.files[0].size;
-            const jpg  = imageInput.value.indexOf('jpg');
-            const jpeg = imageInput.value.indexOf('jpeg');
-            const png  = imageInput.value.indexOf('png');
-
-            if (size <= 500000) {
-                if (jpg >= 0 || jpeg >= 0 || png >= 0) {
-                    this.setState({
-                        error: false,
-                    })
-        
-                    
-                    return true;
-                
-                } else {
-                    return false;
-                }
-            
-            } else {
-                return false;
-            }
-        
-        } else {
-            return false;
-        }
+    function isValid() {
+        handleNameChange();
+        handlePriceChange();
+        handleDescriptionChange();
+        handleImageChange();
+        handleAltTextChange();       
+        return errorCount == 0;
     }
 
     upload(image, name) {
@@ -670,5 +284,4 @@ function Services(props) {
     }
 }
 
-// Exporterar komponenten
 export default Services;
