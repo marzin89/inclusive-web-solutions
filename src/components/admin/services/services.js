@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 
 function Services(props) {
     const formRef                             = useRef();
+    const imageRef                            = useRef();
     const altTextRef                          = useRef();
     const altTextLabelRef                     = useRef();
     const [name, setName]                     = useState('');
@@ -21,34 +22,11 @@ function Services(props) {
 
     constructor(props) {
         super(props);
-
-        // Binder this till funktionerna
-        this.setState                = this.setState.bind(this);
-        this.form                    = React.createRef();
-        this.handleImageChange       = this.handleImageChange.bind(this);
-        this.handleAltTextChange     = this.handleAltTextChange.bind(this);
         this.handleSubmit            = this.handleSubmit.bind(this);
         this.handleLinkClick         = this.handleLinkClick.bind(this);
-        /*
-        this.validateName            = this.validateName.bind(this);
-        this.validatePrice           = this.validatePrice.bind(this);
-        this.validateDescription     = this.validateDescription.bind(this);
-        this.validateAltText         = this.validateAltText.bind(this);
-        */
         this.validateForm            = this.validateForm.bind(this);
         this.upload                  = this.upload.bind(this);
-
-        /* Här lagras befintliga tjänster, uppgifter om den tjänst som 
-            läggs till/redigeras samt felmeddelanden */
         this.state = {
-            // service:          this.props.service,
-            // data:             this.props.data,
-            // search:           this.props.search,         
-            name:             '',
-            price:            '',
-            description:      '',
-            imageUrl:         '',
-            altText:          '',
             language:         '',
             error:            false,
             errorCountName:        0,
@@ -57,12 +35,6 @@ function Services(props) {
             errorCountImageSize:   0,
             errorCountImageFormat: 0,
             errorCountAltText:     0,
-            // errorTests:       this.props.errorTests,
-            // errorSolutions:   this.props.errorSolutions,
-            // errorCourses:     this.props.errorCourses,
-            // confirmTests:     this.props.confirmTests,
-            // confirmSolutions: this.props.confirmSolutions,
-            // confirmCourses:   this.props.confirmCourses,
             nameEmpty:        '',
             priceEmpty:       '',
             descriptionEmpty: '',
@@ -125,7 +97,7 @@ function Services(props) {
                     <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
                     <input id="image-upload-input" className="focus admin-input" type="file" 
                         aria-required="false" aria-describedby="image-size-error image-format-error" 
-                        onChange={(e) => handleImageChange(e)}></input>
+                        ref={imageRef} onChange={(e) => handleImageChange(e)}></input>
                     {/* Här skrivs felmeddelanden ut om bilden är för stor och/eller har fel filformat */}
                     {!isValidSize ? <p id="image-size-error" className="error" role="alert">
                         Bilden är för stor.</p> : null}
@@ -133,10 +105,10 @@ function Services(props) {
                         Bilden har fel filformat.</p> : null}
                     <label id="alt-text-label" htmlFor="alt-text-input" ref={altTextLabelRef}>Alt-text</label>
                     <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
-                        aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
+                        aria-required="false" aria-describedby="alt-text-error" onChange={(e) => handleAltTextChange(e)}
                         autoComplete='on' ref={altTextRef}></input>
-                    <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
-                        {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
+                    {!hasAltText ? <p id="alt-text-error" className="error" role="alert">
+                        Du måste skriva en alt-text.</p> : null}
                     <button type="reset" id="reset-btn" className="reset-btn">Rensa</button>
                     <button type="submit" className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
                 </form>
@@ -232,26 +204,25 @@ function Services(props) {
         setErrorCount(prev => isValid ? prev : prev + 1);
     }
 
-    handleAltTextChange(e) {
-        const imageInput = document.getElementById('image-upload-input');
+    function handleAltTextChange(e) {
+        let isValid = true;
+        const isRequired = image != false;
 
-        this.setState({
-            error:   false,
-            altText: e.target.value,
-        })
+        if (isRequired) {
+            isValid = isRequired && e.target.value != false;
+
+        }
+
+        setHasAltText(isValid);
+        setErrorCount(prev => isValid ? prev : prev + 1);
+        e.target.setAttribute('aria-invalid', !isValid);
+        imageInput.setAttribute('aria-required', isRequired);
 
         if (e.target.value) {
-            this.setState({
-                errorCountAltText: 0,
-                altTextEmpty:      '',
-            })
+            setAltText(e.target.value);
+        } 
 
-            e.target.setAttribute('aria-invalid', false);
-            imageInput.setAttribute('aria-required', true);
-        
-        } else {
-            imageInput.setAttribute('aria-required', false);
-        }
+        imageRef.current.setAttribute('aria-required', isRequired);
     }
 
     changePricePlaceholder(e) {
