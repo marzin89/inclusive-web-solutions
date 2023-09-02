@@ -17,6 +17,7 @@ function Services(props) {
     const [isValidFormat, setIsValidFormat]   = useState(true);
     const [hasAltText, setHasAltText]         = useState(true);
     const [errorCount, setErrorCount]         = useState(0);
+    const [crudAction, setCrudAction]         = useState('');
 
     constructor(props) {
         super(props);
@@ -102,9 +103,6 @@ function Services(props) {
                 {props.errorMessage ? <p className="error" role="alert">{props.errorMessage}</p> : null}
                 {props.confirmMessage ? <p className="confirm" role="alert">{props.confirmMessage}</p> : null}
             </section>
-
-            {/* Här skrivs alla tjänster inom respektive kategori ut (via props) med länkar för
-                redigering och radering */}
             <div className="admin-output">
                 {this.props.data.map((element) => {
                     return (
@@ -116,9 +114,9 @@ function Services(props) {
                             <p>{element.description}</p>
                             <div>
                                 <p className="edit"><a id={`edit${element.id}`} className="focus" 
-                                    href="" onClick={this.handleLinkClick}>Redigera</a></p>
+                                    href="" onClick={() => setCrudAction('edit')}>Redigera</a></p>
                                 <p className="delete"><a id={`delete${element.id}`} className="focus"
-                                    href="" onClick={this.handleLinkClick}>Radera</a></p>
+                                    href="" onClick={() => setCrudAction('delete')}>Radera</a></p>
                             </div>
                         </article>
                     )
@@ -238,7 +236,7 @@ function Services(props) {
     }
     */
 
-    handleLinkClick(e) {
+    function handleLinkClick(e) {
         e.preventDefault();
         
         let action;
