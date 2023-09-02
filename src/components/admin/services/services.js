@@ -48,7 +48,6 @@ function Services(props) {
     return (
         <div id="main" className="admin-form">
             <section id="admin-form">
-                {/* Rubriken anpassas baserat på vilken tjänst som är vald */}
                 {this.props.service == 'tests' ? <h2 className="h2-admin">Tester</h2> : ''}
                 {this.props.service == 'solutions' ? <h2 className="h2-admin">Utveckling</h2> : ''}
                 {this.props.service == 'courses' ? <h2 className="h2-admin">Utbildningar</h2> : ''}
@@ -56,18 +55,15 @@ function Services(props) {
                     Formuläret innehåller {errorCount} fel</p> : null}
                 <form ref={formRef}>
                     <p>Fält märkta med * är obligatoriska.</p>
-                    {/* Tjänstens namn */}
                     <div className="form-left">
                         <label htmlFor="service-name-input">Namn *</label>
                         <input id="service-name-input" className="focus text-input-main admin-input admin-input-required" 
                             type="text" aria-required="true" aria-describedby="service-name-error" 
                             autoComplete='on' onChange={(e) => handleNameChange(e.target.value)}>
                         </input>
-                        {/* Här skrivs ett felmeddelande ut om inget namn har angetts */}
-                        <p id="service-name-error" className="error" role="alert" style={this.state.nameEmpty ?
-                            {display: 'block'} : {display: 'none'}}>{this.state.nameEmpty}</p>
+                        {!hasName ? <p id="service-name-error" className="error" role="alert">
+                            Du måste ange ett namn.</p> : null}
                     </div>
-                    {/* Tjänstens pris */}
                     <div className="form-right">
                         <label id="service-price-label" htmlFor="service-price-input">Pris (t.ex. 1 000 :-) *</label>
                         <input id="service-price-input" className="focus text-input-main admin-input admin-input-required" 
@@ -76,29 +72,23 @@ function Services(props) {
                         {!hasPrice ? <p id="service-price-error" className="error" role="alert">
                             Du måste ange ett pris.</p> : null}
                     </div>
-                    {/* Beskrivning av tjänsten */}
                     <label htmlFor="service-description-input">Beskrivning *</label>
                     <textarea id="service-description-input" className="focus admin-input admin-input-required"
                         aria-required="true" aria-describedby="service-description-error" 
                         autoComplete='on' onChange={(e) => handleDescriptionChange(e)}></textarea>
-                    {/* Här skrivs ett felmeddelande ut om ingen beskrivning har skrivits */}
-                    <p id="service-description-error" className="error" role="alert" 
-                        style={this.state.descriptionEmpty ? {display: 'block'} : {display: 'none'}}>
-                        {this.state.descriptionEmpty}</p>
-                    {/* Val av språk */}
+                    {!hasDescription ? <p id="service-description-error" className="error" role="alert">
+                        Du måste skriva en beskrivning.</p> : null}
                     <label htmlFor="language-switcher-admin">Språk *</label>
                     <select id="language-switcher-admin" className="focus text-input-main admin-input" 
                         aria-required="true" onChange={(e) => changePricePlaceholder(e)}>
                         <option value="Svenska">Svenska</option>
                         <option value="Deutsch">Deutsch</option>
                     </select>
-                    {/* Bilduppladdning */}
                     <label htmlFor="image-upload-input">Ladda upp en bild</label>
                     <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
                     <input id="image-upload-input" className="focus admin-input" type="file" 
                         aria-required="false" aria-describedby="image-size-error image-format-error" 
                         ref={imageRef} onChange={(e) => handleImageChange(e)}></input>
-                    {/* Här skrivs felmeddelanden ut om bilden är för stor och/eller har fel filformat */}
                     {!isValidSize ? <p id="image-size-error" className="error" role="alert">
                         Bilden är för stor.</p> : null}
                     {!isValidFormat ? <p id="image-format-error" className="error" role="alert">
@@ -112,26 +102,8 @@ function Services(props) {
                     <button type="reset" id="reset-btn" className="reset-btn">Rensa</button>
                     <button type="submit" className="submit-btn" onClick={this.handleSubmit}>Skicka</button>
                 </form>
-                {/* Här skrivs övriga felmeddelanden ut (inga poster, serverfel) */}
-                <p className="error" role="alert" style={this.props.errorTests ? 
-                    {display: 'block'} : {display: 'none'}}>{this.props.errorTests}
-                </p>
-                <p className="error" role="alert" style={this.props.errorSolutions ? 
-                    {display: 'block'} : {display: 'none'}}>{this.props.errorSolutions}
-                </p>
-                <p className="error" role="alert" style={this.props.errorCourses ? 
-                    {display: 'block'} : {display: 'none'}}>{this.props.errorCourses}
-                </p>
-                {/* Här skrivs övriga bekräftelsemeddelanden ut (uppdatering, borttagning) */}
-                <p className="confirm" role="alert" style={this.props.confirmTests ? 
-                    {display: 'block'} : {display: 'none'}}>{this.props.confirmTests}
-                </p>
-                <p className="confirm" role="alert" style={this.props.confirmSolutions ? 
-                    {display: 'block'} : {display: 'none'}}>{this.props.confirmSolutions}
-                </p>
-                <p className="confirm" role="alert" style={this.props.confirmCourses ? 
-                    {display: 'block'} : {display: 'none'}}>{this.props.confirmCourses}
-                </p>
+                {props.errorMessage ? <p className="error" role="alert">{props.errorMessage}</p> : null}
+                {props.confirmMessage ? <p className="confirm" role="alert">{props.confirmMessage}</p> : null}
             </section>
 
             {/* Här skrivs alla tjänster inom respektive kategori ut (via props) med länkar för
