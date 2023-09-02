@@ -176,15 +176,15 @@ function Admin() {
             
             {component == 'tests' && this.state.userRole  == 'Medarbetare' ? 
                 <Services service="tests" data={this.state.tests} search={this.state.search} 
-                errorTests={this.state.errorTests} confirmTests={this.state.confirmTests}
+                errorMessage={errorServices} confirmMessage={confirmServices}
                 post={this.addTest} delete={this.deleteTest} put={this.updateTest} /> : null}
             {component == 'solutions' && this.state.userRole == 'Medarbetare' ? 
                 <Services service="solutions" data={this.state.solutions} search={this.state.search}
-                errorSolutions={this.state.errorSolutions} confirmSolutions={this.state.confirmSolutions}
+                errorMessage={errorServices} confirmMessage={confirmServices}
                 post={this.addSolution} delete={this.deleteSolution} put={this.updateSolution} /> : null}
             {component == 'courses' && this.state.userRole == 'Medarbetare' ? 
                 <Services service="courses" data={this.state.courses} search={this.state.search} 
-                errorCourses={this.state.errorCourses} confirmCourses={this.state.confirmCourses}
+                errorMessage={errorServices} confirmMessage={confirmServices}
                 post={this.addCourse} delete={this.deleteCourse} put={this.updateCourse} /> : null}
             {component == 'posts' ? <Posts posts={this.state.userRole == 'Medarbetare' ? 
                 this.state.posts : this.state.userPosts} search={this.state.search} 
