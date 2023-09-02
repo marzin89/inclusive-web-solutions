@@ -1,20 +1,23 @@
 import { useState, useRef } from 'react';
 
 function Services(props) {
-    const formRef                                 = createRef();
-    const [name, setName]                         = useState('');
-    const [price, setPrice]                       = useState('');
-    const [description, setDescription]           = useState('');
-    const [imageUrl, setImageUrl]                 = useState('');
-    const [altText, setAltText]                   = useState('');
-    const [language, setLanguage]                 = useState('');
-    const [hasName, setHasName]                   = useState(true);
-    const [hasPrice, setHasPrice]                 = useState(true);
-    const [hasDescription, setHasDescription]     = useState(true);
-    const [isValidSize, setIsValidSize]           = useState(true);
-    const [isValidFormat, setIsValidFormat]       = useState(true);
-    const [hasAltText, setHasAltText]             = useState(true);
-    const [errorCount, setErrorCount]             = useState(0);
+    const formRef                             = useRef();
+    const altTextRef                          = useRef();
+    const altTextLabelRef                     = useRef();
+    const [name, setName]                     = useState('');
+    const [price, setPrice]                   = useState('');
+    const [description, setDescription]       = useState('');
+    const [image, setImage]                   = useState('');
+    const [imageUrl, setImageUrl]             = useState('');
+    const [altText, setAltText]               = useState('');
+    const [language, setLanguage]             = useState('');
+    const [hasName, setHasName]               = useState(true);
+    const [hasPrice, setHasPrice]             = useState(true);
+    const [hasDescription, setHasDescription] = useState(true);
+    const [isValidSize, setIsValidSize]       = useState(true);
+    const [isValidFormat, setIsValidFormat]   = useState(true);
+    const [hasAltText, setHasAltText]         = useState(true);
+    const [errorCount, setErrorCount]         = useState(0);
 
     constructor(props) {
         super(props);
@@ -122,17 +125,16 @@ function Services(props) {
                     <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
                     <input id="image-upload-input" className="focus admin-input" type="file" 
                         aria-required="false" aria-describedby="image-size-error image-format-error" 
-                        onChange={this.handleImageChange}></input>
+                        onChange={(e) => handleImageChange(e)}></input>
                     {/* Här skrivs felmeddelanden ut om bilden är för stor och/eller har fel filformat */}
-                    <p id="image-size-error" className="error" role="alert" style={this.state.imageTooBig ?
-                        {display: 'block'} : {display: 'none'}}>{this.state.imageTooBig}</p>
-                    <p id="image-format-error" className="error" role="alert" 
-                        style={this.state.imageWrongFormat ? {display: 'block'} : {display: 'none'}}>
-                        {this.state.imageWrongFormat}</p>
-                    <label id="alt-text-label" htmlFor="alt-text-input">Alt-text</label>
+                    {!isValidSize ? <p id="image-size-error" className="error" role="alert">
+                        Bilden är för stor.</p> : null}
+                    {!isValidFormat ? <p id="image-format-error" className="error" role="alert">
+                        Bilden har fel filformat.</p> : null}
+                    <label id="alt-text-label" htmlFor="alt-text-input" ref={altTextLabelRef}>Alt-text</label>
                     <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
                         aria-required="false" aria-describedby="alt-text-error" onChange={this.handleAltTextChange}
-                        autoComplete='on'></input>
+                        autoComplete='on' ref={altTextRef}></input>
                     <p id="alt-text-error" className="error" role="alert" style={this.state.altTextEmpty ?
                         {display: 'block'} : {display: 'none'}}>{this.state.altTextEmpty}</p>
                     <button type="reset" id="reset-btn" className="reset-btn">Rensa</button>
@@ -198,7 +200,6 @@ function Services(props) {
         setPrice(e.target.value);
         setErrorCount(prev => isValid ? prev : prev + 1);
         e.target.setAttribute('aria-invalid', e.target.value != false);
-
     }
 
     function handleDescriptionChange(e) {
@@ -210,92 +211,25 @@ function Services(props) {
     }
 
     function handleImageChange(e) {
-        const altTextInput = document.getElementById('alt-text-input');
-        let isValid = false;
-        setImageUrl(e.target.value);
-        this.setState({
-            error:    false,
-            image:    e.target.files[0],
-            imageUrl: e.target.value,
-        })
+        if (!e.target.value) return;
 
-        if (e.target.value) {
-            const isValidSize = e.target.files[0].size < 500000;
-            const isValidFormat = e.target.files[0].type.includes('image');
+        const isValidSize   = e.target.files[0].size < 500000;
+        const isValidFormat = e.target.files[0].type.includes('image');
+        const isValid       = isValidSize && isValidFormat;
 
-            /*
-            const size = e.target.files[0].size;
-            const jpg  = e.target.value.indexOf('jpg');
-            const jpeg = e.target.value.indexOf('jpeg');
-            const png  = e.target.value.indexOf('png');
-            */
+        setIsValidSize(isValidSize);
+        setIsValidFormat(isValidFormat);
 
-            altTextInput.setAttribute('aria-required', true);
-            document.getElementById('alt-text-label').innerHTML = 'Alt-text *';
-            
-            setIsValidSize(isValidSize);
-            setIsValidFormat(isValidFormat);
-
-            // Skriver ut ett felmeddelande om bilden är för stor
-            if (size > 500000) {
-                this.setState({
-                    errorCountImageSize: 1,
-                    imageTooBig:         'Bilden är för stor.',
-                })
-
-                e.target.setAttribute('aria-invalid', true);
-            
-            } else {
-                this.setState ({
-                    errorCountImageSize: 0,
-                    imageTooBig:         '',
-                })
-            }
-
-            // Skriver ut ett felmeddelande om bilden har fel filformat
-            if (jpg < 0 && jpeg < 0 && png < 0) {
-                this.setState({
-                    errorCountImageFormat: 1,
-                    imageWrongFormat:      'Bilden har fel filformat.',
-                })
-
-                e.target.setAttribute('aria-invalid', true);            
-
-            } else {
-                this.setState({ 
-                    errorCountImageFormat: 0,
-                    imageWrongFormat:      '',
-                })
-            }
-
-            // Om bilden inte är för stor och har rätt filformat, lagras sökvägen
-            if (size <= 500000 && jpg >= 0 || jpeg >= 0 && png >= 0) {
-                this.setState({
-                    errorCountImageSize: 0,
-                    imageTooBig:         '',
-                })
-
-                if (jpg >= 0 || jpeg >= 0 && png >= 0) {
-                    this.setState({
-                        errorCountImageFormat: 0,
-                        imageWrongFormat:      '',
-                    })
-    
-                    e.target.setAttribute('aria-invalid', false);
-                }
-            }
-
-        } else {
-            this.setState({
-                errorCountImageSize:   0,
-                errorCountImageFormat: 0,
-                imageTooBig:           '',
-                imageWrongFormat:      '',
-            })
-
-            e.target.setAttribute('aria-invalid', false);
-            altTextInput.setAttribute('aria-required', false);
+        if (isValid) {
+            setImage(e.target.files[0]);
+            setImageUrl(e.target.value);
         }
+
+        altTextRef.current.style.setAttribute('aria-required', true);
+        altTextLabelRef.current.innerHTML = 'Alt-text *';
+        e.target.setAttribute('aria-invalid', !isValid);
+
+        setErrorCount(prev => isValid ? prev : prev + 1);
     }
 
     handleAltTextChange(e) {
