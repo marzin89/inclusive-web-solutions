@@ -2,17 +2,14 @@ import { useState, useRef } from 'react';
 
 function Services(props) {
     const formRef                             = useRef();
+    const nameRef                             = useRef();
     const priceLabelRef                       = useRef();
+    const priceRef                            = useRef();
+    const descriptionRef                      = useRef();
     const imageRef                            = useRef();
-    const altTextRef                          = useRef();
     const altTextLabelRef                     = useRef();
-    const [name, setName]                     = useState('');
-    const [price, setPrice]                   = useState('');
-    const [description, setDescription]       = useState('');
-    const [image, setImage]                   = useState('');
-    const [imageUrl, setImageUrl]             = useState('');
-    const [altText, setAltText]               = useState('');
-    const [language, setLanguage]             = useState('');
+    const altTextRef                          = useRef();
+    const languageRef                         = useRef();
     const [hasName, setHasName]               = useState(true);
     const [hasPrice, setHasPrice]             = useState(true);
     const [hasDescription, setHasDescription] = useState(true);
@@ -59,7 +56,7 @@ function Services(props) {
                         <label htmlFor="service-name-input">Namn *</label>
                         <input id="service-name-input" className="focus text-input-main admin-input admin-input-required" 
                             type="text" aria-required="true" aria-describedby="service-name-error" 
-                            autoComplete='on' onChange={(e) => handleNameChange(e.target.value)}>
+                            autoComplete='on' onChange={() => handleNameChange()}>
                         </input>
                         {!hasName ? <p id="service-name-error" className="error" role="alert">
                             Du måste ange ett namn.</p> : null}
@@ -68,19 +65,19 @@ function Services(props) {
                         <label id="service-price-label" htmlFor="service-price-input">Pris (t.ex. 1 000 :-) *</label>
                         <input id="service-price-input" className="focus text-input-main admin-input admin-input-required" 
                             type="text" aria-required="true" aria-describedby="service-price-error" 
-                            autoComplete='on' ref={priceLabelRef} onChange={(e) => handlePriceChange(e)}></input>
+                            autoComplete='on' ref={priceLabelRef} onChange={() => handlePriceChange()}></input>
                         {!hasPrice ? <p id="service-price-error" className="error" role="alert">
                             Du måste ange ett pris.</p> : null}
                     </div>
                     <label htmlFor="service-description-input">Beskrivning *</label>
                     <textarea id="service-description-input" className="focus admin-input admin-input-required"
                         aria-required="true" aria-describedby="service-description-error" 
-                        autoComplete='on' onChange={(e) => handleDescriptionChange(e)}></textarea>
+                        autoComplete='on' onChange={() => handleDescriptionChange()}></textarea>
                     {!hasDescription ? <p id="service-description-error" className="error" role="alert">
                         Du måste skriva en beskrivning.</p> : null}
                     <label htmlFor="language-switcher-admin">Språk *</label>
                     <select id="language-switcher-admin" className="focus text-input-main admin-input" 
-                        aria-required="true" onChange={(e) => changePricePlaceholder(e)}>
+                        aria-required="true" ref={languageRef} onChange={() => changePricePlaceholder()}>
                         <option value="Svenska">Svenska</option>
                         <option value="Deutsch">Deutsch</option>
                     </select>
@@ -88,14 +85,14 @@ function Services(props) {
                     <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
                     <input id="image-upload-input" className="focus admin-input" type="file" 
                         aria-required="false" aria-describedby="image-size-error image-format-error" 
-                        ref={imageRef} onChange={(e) => handleImageChange(e)}></input>
+                        ref={imageRef} onChange={() => handleImageChange()}></input>
                     {!isValidSize ? <p id="image-size-error" className="error" role="alert">
                         Bilden är för stor.</p> : null}
                     {!isValidFormat ? <p id="image-format-error" className="error" role="alert">
                         Bilden har fel filformat.</p> : null}
                     <label id="alt-text-label" htmlFor="alt-text-input" ref={altTextLabelRef}>Alt-text</label>
                     <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
-                        aria-required="false" aria-describedby="alt-text-error" onChange={(e) => handleAltTextChange(e)}
+                        aria-required="false" aria-describedby="alt-text-error" onChange={() => handleAltTextChange()}
                         autoComplete='on' ref={altTextRef}></input>
                     {!hasAltText ? <p id="alt-text-error" className="error" role="alert">
                         Du måste skriva en alt-text.</p> : null}
@@ -130,76 +127,63 @@ function Services(props) {
         </div>
     )
 
-    function handleNameChange(e) {
-        const isValid = e.target.value != false;
+    function handleNameChange() {
+        const isValid = nameRef.current.value != false;
         setHasName(isValid);
-        setName(e.target.value);
         setErrorCount(prev => isValid ? prev : prev + 1);
-        e.target.setAttribute('aria-invalid', e.target.value != false);
+        nameRef.current.setAttribute('aria-invalid', !isValid);
     }
 
-    function handlePriceChange(e) {
-        const isValid = e.target.value != false;
+    function handlePriceChange() {
+        const isValid = priceRef.current.value != false;
         setHasPrice(isValid);
-        setPrice(e.target.value);
         setErrorCount(prev => isValid ? prev : prev + 1);
-        e.target.setAttribute('aria-invalid', e.target.value != false);
+        priceRef.current.setAttribute('aria-invalid', !isValid);
     }
 
-    function handleDescriptionChange(e) {
-        const isValid = e.target.value != false;
+    function handleDescriptionChange() {
+        const isValid = descriptionRef.current.value != false;
         setHasDescription(isValid);
-        setDescription(e.target.value);
         setErrorCount(prev => isValid ? prev : prev + 1);
-        e.target.setAttribute('aria-invalid', e.target.value != false);
+        descriptionRef.current.setAttribute('aria-invalid', !isValid);
     }
 
-    function handleImageChange(e) {
-        if (!e.target.value) return;
+    function handleImageChange() {
+        if (!imageRef.current.value) return;
 
-        const isValidSize   = e.target.files[0].size < 500000;
-        const isValidFormat = e.target.files[0].type.includes('image');
+        const isValidSize   = imageRef.current.files[0].size < 500000;
+        const isValidFormat = imageRef.current.files[0].type.includes('image');
         const isValid       = isValidSize && isValidFormat;
 
         setIsValidSize(isValidSize);
         setIsValidFormat(isValidFormat);
 
-        if (isValid) {
-            setImage(e.target.files[0]);
-            setImageUrl(e.target.value);
-        }
-
         altTextRef.current.style.setAttribute('aria-required', true);
         altTextLabelRef.current.innerHTML = 'Alt-text *';
-        e.target.setAttribute('aria-invalid', !isValid);
+        imageRef.current.setAttribute('aria-invalid', !isValid);
 
         setErrorCount(prev => isValid ? prev : prev + 1);
     }
 
-    function handleAltTextChange(e) {
+    function handleAltTextChange() {
         let isValid = true;
-        const isRequired = image != false;
+        const isRequired = imageRef.current.value != false;
 
         if (isRequired) {
-            isValid = isRequired && e.target.value != false;
-
+            isValid = isRequired && altTextRef.current.value != false;
         }
 
         setHasAltText(isValid);
         setErrorCount(prev => isValid ? prev : prev + 1);
-        e.target.setAttribute('aria-invalid', !isValid);
+
+        altTextRef.current.setAttribute('aria-invalid', !isValid);
         imageInput.setAttribute('aria-required', isRequired);
-
-        if (e.target.value) {
-            setAltText(e.target.value);
-        } 
-
         imageRef.current.setAttribute('aria-required', isRequired);
     }
 
-    function changePricePlaceholder(e) {
-        priceLabelRef.current.placeholder = e.target.value == 'Deutsch' ? 'Preis (z.B. 1 000 EUR) *'
-        : 'Pris (t.ex. 1 000 :-) *'
+    function changePricePlaceholder() {
+        priceLabelRef.current.placeholder = languageRef.current.value == 'Deutsch' ? 
+            'Preis (z.B. 1 000 EUR) *' : 'Pris (t.ex. 1 000 :-) *'
     }
 
     /*
