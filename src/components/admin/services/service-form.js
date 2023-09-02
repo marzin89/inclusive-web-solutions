@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
-import Service from './service';
 
-function Services(props) {
+function ServiceForm(props) {
     const formRef                             = useRef();
     const nameRef                             = useRef();
     const priceLabelRef                       = useRef();
@@ -21,74 +20,6 @@ function Services(props) {
     const [errorCount, setErrorCount]         = useState(0);
     const [crudAction, setCrudAction]         = useState('post');
     const [id, setId]                         = useState('');
-
-    return (
-        <div id="main" className="admin-form">
-            <h2 className="h2-admin">{props.service}</h2>
-            <section id="admin-form">
-                {errorCount ? <p className="text h2-error h3-font-size" role="alert">
-                    Formuläret innehåller {errorCount} fel</p> : null}
-                <form ref={formRef} onSubmit={() => handleSubmit()}>
-                    <p>Fält märkta med * är obligatoriska.</p>
-                    <div className="form-left">
-                        <label htmlFor="service-name-input">Namn *</label>
-                        <input id="service-name-input" className="focus text-input-main admin-input admin-input-required" 
-                            type="text" aria-required="true" aria-describedby="service-name-error" 
-                            autoComplete='on' onChange={() => handleNameChange()}>
-                        </input>
-                        {!hasName ? <p id="service-name-error" className="error" role="alert">
-                            Du måste ange ett namn.</p> : null}
-                    </div>
-                    <div className="form-right">
-                        <label id="service-price-label" htmlFor="service-price-input">Pris (t.ex. 1 000 :-) *</label>
-                        <input id="service-price-input" className="focus text-input-main admin-input admin-input-required" 
-                            type="text" aria-required="true" aria-describedby="service-price-error" 
-                            autoComplete='on' ref={priceLabelRef} onChange={() => handlePriceChange()}></input>
-                        {!hasPrice ? <p id="service-price-error" className="error" role="alert">
-                            Du måste ange ett pris.</p> : null}
-                    </div>
-                    <label htmlFor="service-description-input">Beskrivning *</label>
-                    <textarea id="service-description-input" className="focus admin-input admin-input-required"
-                        aria-required="true" aria-describedby="service-description-error" 
-                        autoComplete='on' onChange={() => handleDescriptionChange()}></textarea>
-                    {!hasDescription ? <p id="service-description-error" className="error" role="alert">
-                        Du måste skriva en beskrivning.</p> : null}
-                    <label htmlFor="language-switcher-admin">Språk *</label>
-                    <select id="language-switcher-admin" className="focus text-input-main admin-input" 
-                        aria-required="true" ref={languageRef} onChange={() => changePricePlaceholder()}>
-                        <option value="Svenska">Svenska</option>
-                        <option value="Deutsch">Deutsch</option>
-                    </select>
-                    <label htmlFor="image-upload-input">Ladda upp en bild</label>
-                    <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
-                    <input id="image-upload-input" className="focus admin-input" type="file" 
-                        aria-required="false" aria-describedby="image-size-error image-format-error" 
-                        ref={imageRef} onChange={() => handleImageChange()}></input>
-                    {!isValidSize ? <p id="image-size-error" className="error" role="alert">
-                        Bilden är för stor.</p> : null}
-                    {!isValidFormat ? <p id="image-format-error" className="error" role="alert">
-                        Bilden har fel filformat.</p> : null}
-                    <label id="alt-text-label" htmlFor="alt-text-input" ref={altTextLabelRef}>Alt-text</label>
-                    <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
-                        aria-required="false" aria-describedby="alt-text-error" onChange={() => handleAltTextChange()}
-                        autoComplete='on' ref={altTextRef}></input>
-                    {!hasAltText ? <p id="alt-text-error" className="error" role="alert">
-                        Du måste skriva en alt-text.</p> : null}
-                    <button type="reset" id="reset-btn" className="reset-btn" ref={resetBtnRef}>Rensa</button>
-                    <button type="submit" className="submit-btn">Skicka</button>
-                </form>
-                {props.errorMessage ? <p className="error" role="alert">{props.errorMessage}</p> : null}
-                {props.confirmMessage ? <p className="confirm" role="alert">{props.confirmMessage}</p> : null}
-            </section>
-            <div className="admin-output">
-                {this.props.data.map((element) => {
-                    return (
-                        <Service service={element} function={handleLinkClick} />
-                    );
-                })}
-            </div>
-        </div>
-    )
 
     function handleNameChange() {
         const isValid = nameRef.current.value != false;
@@ -204,12 +135,12 @@ function Services(props) {
             let publicId;
 
             if (imageRef.current.files[0]) {
-                let name      = imageRef.current.files[0].name.slice(0, imageRef.current.files[0].name.indexOf('.'));
-                let extension = imageRef.current.files[0].name.slice(imageRef.current.files[0].name.indexOf('.'));            
+                let name      = imageInput.files[0].name.slice(0, imageInput.files[0].name.indexOf('.'));
+                let extension = imageInput.files[0].name.slice(imageInput.files[0].name.indexOf('.'));            
                 publicId      = name;
                 imageUrl      = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/${folder}/${publicId}${extension}`;
                 body.imageUrl = imageUrl;               
-                this.upload(imageRef.current.files[0], name);
+                this.upload(imageInput.files[0], name);
             }
 
             const body = {
@@ -245,30 +176,63 @@ function Services(props) {
         return errorCount == 0;
     }
 
-    function upload(image, name) {
-        const data = new FormData()
-        data.append('file', image)
-        data.append('upload_preset', 'iws_upload')
-        data.append('cloud_name', 'inclusivewebsolutions')
-        data.append('folder', props.service)
-        data.append('public_id', name)
-
-        fetch('https://api.cloudinary.com/v1_1/inclusivewebsolutions/image/upload', {
-            method: 'POST',
-            body:   data,
-        })
-        .then(response => response.json())
-        .then(data => {
-            /*
-            this.setState({
-                imageUrl: data.url.replace('http', 'https'),
-            })
-            */
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
+    return (
+        <section id="admin-form">
+            {errorCount ? <p className="text h2-error h3-font-size" role="alert">
+                Formuläret innehåller {errorCount} fel</p> : null}
+            <form ref={formRef} onSubmit={() => handleSubmit()}>
+                <p>Fält märkta med * är obligatoriska.</p>
+                <div className="form-left">
+                    <label htmlFor="service-name-input">Namn *</label>
+                    <input id="service-name-input" className="focus text-input-main admin-input admin-input-required" 
+                        type="text" aria-required="true" aria-describedby="service-name-error" 
+                        autoComplete='on' onChange={() => handleNameChange()}>
+                    </input>
+                    {!hasName ? <p id="service-name-error" className="error" role="alert">
+                        Du måste ange ett namn.</p> : null}
+                </div>
+                <div className="form-right">
+                    <label id="service-price-label" htmlFor="service-price-input">Pris (t.ex. 1 000 :-) *</label>
+                    <input id="service-price-input" className="focus text-input-main admin-input admin-input-required" 
+                        type="text" aria-required="true" aria-describedby="service-price-error" 
+                        autoComplete='on' ref={priceLabelRef} onChange={() => handlePriceChange()}></input>
+                    {!hasPrice ? <p id="service-price-error" className="error" role="alert">
+                        Du måste ange ett pris.</p> : null}
+                </div>
+                <label htmlFor="service-description-input">Beskrivning *</label>
+                <textarea id="service-description-input" className="focus admin-input admin-input-required"
+                    aria-required="true" aria-describedby="service-description-error" 
+                    autoComplete='on' onChange={() => handleDescriptionChange()}></textarea>
+                {!hasDescription ? <p id="service-description-error" className="error" role="alert">
+                    Du måste skriva en beskrivning.</p> : null}
+                <label htmlFor="language-switcher-admin">Språk *</label>
+                <select id="language-switcher-admin" className="focus text-input-main admin-input" 
+                    aria-required="true" ref={languageRef} onChange={() => changePricePlaceholder()}>
+                    <option value="Svenska">Svenska</option>
+                    <option value="Deutsch">Deutsch</option>
+                </select>
+                <label htmlFor="image-upload-input">Ladda upp en bild</label>
+                <p>Max 500 kB. Endast JPG/JPEG eller PNG.</p>
+                <input id="image-upload-input" className="focus admin-input" type="file" 
+                    aria-required="false" aria-describedby="image-size-error image-format-error" 
+                    ref={imageRef} onChange={() => handleImageChange()}></input>
+                {!isValidSize ? <p id="image-size-error" className="error" role="alert">
+                    Bilden är för stor.</p> : null}
+                {!isValidFormat ? <p id="image-format-error" className="error" role="alert">
+                    Bilden har fel filformat.</p> : null}
+                <label id="alt-text-label" htmlFor="alt-text-input" ref={altTextLabelRef}>Alt-text</label>
+                <input id="alt-text-input" className="focus text-input-main admin-input" type="text" 
+                    aria-required="false" aria-describedby="alt-text-error" onChange={() => handleAltTextChange()}
+                    autoComplete='on' ref={altTextRef}></input>
+                {!hasAltText ? <p id="alt-text-error" className="error" role="alert">
+                    Du måste skriva en alt-text.</p> : null}
+                <button type="reset" id="reset-btn" className="reset-btn" ref={resetBtnRef}>Rensa</button>
+                <button type="submit" className="submit-btn">Skicka</button>
+            </form>
+            {props.errorMessage ? <p className="error" role="alert">{props.errorMessage}</p> : null}
+            {props.confirmMessage ? <p className="confirm" role="alert">{props.confirmMessage}</p> : null}
+        </section>
+    );
 }
 
-export default Services;
+export default ServiceForm;
