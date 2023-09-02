@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 
 function Services(props) {
     const formRef                             = useRef();
+    const priceLabelRef                       = useRef();
     const imageRef                            = useRef();
     const altTextRef                          = useRef();
     const altTextLabelRef                     = useRef();
@@ -71,10 +72,9 @@ function Services(props) {
                         <label id="service-price-label" htmlFor="service-price-input">Pris (t.ex. 1 000 :-) *</label>
                         <input id="service-price-input" className="focus text-input-main admin-input admin-input-required" 
                             type="text" aria-required="true" aria-describedby="service-price-error" 
-                            autoComplete='on' onChange={(e) => handlePriceChange(e)}></input>
-                        {/* Här skrivs ett felmeddelande ut om inget pris har angetts */}
-                        <p id="service-price-error" className="error" role="alert" style={this.state.priceEmpty ?
-                            {display: 'block'} : {display: 'none'}}>{this.state.priceEmpty}</p>
+                            autoComplete='on' ref={priceLabelRef} onChange={(e) => handlePriceChange(e)}></input>
+                        {!hasPrice ? <p id="service-price-error" className="error" role="alert">
+                            Du måste ange ett pris.</p> : null}
                     </div>
                     {/* Beskrivning av tjänsten */}
                     <label htmlFor="service-description-input">Beskrivning *</label>
@@ -88,7 +88,7 @@ function Services(props) {
                     {/* Val av språk */}
                     <label htmlFor="language-switcher-admin">Språk *</label>
                     <select id="language-switcher-admin" className="focus text-input-main admin-input" 
-                        aria-required="true" onChange={this.changePricePlaceholder}>
+                        aria-required="true" onChange={(e) => changePricePlaceholder(e)}>
                         <option value="Svenska">Svenska</option>
                         <option value="Deutsch">Deutsch</option>
                     </select>
@@ -225,15 +225,9 @@ function Services(props) {
         imageRef.current.setAttribute('aria-required', isRequired);
     }
 
-    changePricePlaceholder(e) {
-        const priceLabel = document.getElementById('service-price-label');
-
-        if (e.target.value == 'Deutsch') {
-            priceLabel.innerHTML = 'Preis (z.B. 1 000 EUR) *';
-        
-        } else {
-            priceLabel.innerHTML = 'Pris (t.ex. 1 000 :-) *';
-        }
+    function changePricePlaceholder(e) {
+        priceLabelRef.current.placeholder = e.target.value == 'Deutsch' ? 'Preis (z.B. 1 000 EUR) *'
+        : 'Pris (t.ex. 1 000 :-) *'
     }
 
     /*
