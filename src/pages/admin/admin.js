@@ -1,4 +1,3 @@
-// Imports
 import React from 'react';
 import {Link} from 'react-router-dom';
 import Services from '../../components/admin/services/services';
@@ -9,92 +8,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import userActions from '../../store/slices/user-slice';
 import pageActions from '../../store/slices/page-slice';
 
-const buttons = document.getElementsByClassName('btn');
-// let userPosts = [];
-
-// Admin
 function Admin() {
     const username    = useSelector((state) => state.user.username);
     const userRole    = useSelector((state) => state.user.userRole);
     const component   = useSelector((state) => state.page.adminComponent);
     const serviceName = useSelector((state) => state.page.serviceName);
     const dispatch    = useDispatch();
-    // Konstruktor med props
-    /*
-    constructor(props) {
-        super(props);
-
-        // Binder this till funktionerna
-        this.setState             = this.setState.bind(this);
-        this.handleBtnClick       = this.handleBtnClick.bind(this);
-        this.getSearch            = this.getSearch.bind(this);
-        this.addSearch            = this.addSearch.bind(this);
-        this.updateSearch         = this.updateSearch.bind(this);
-        this.deleteSearch         = this.deleteSearch.bind(this);
-        this.getTests             = this.getTests.bind(this);
-        this.getSolutions         = this.getSolutions.bind(this);
-        this.getCourses           = this.getCourses.bind(this);
-        this.getAllPosts          = this.getAllPosts.bind(this);
-        this.getContributorPosts  = this.getContributorPosts.bind(this);
-        this.getComments          = this.getComments.bind(this);
-        this.addTest              = this.addTest.bind(this);
-        this.addSolution          = this.addSolution.bind(this);
-        this.addCourse            = this.addCourse.bind(this);
-        this.addPost              = this.addPost.bind(this);
-        this.addUser              = this.addUser.bind(this);
-        this.updateTest           = this.updateTest.bind(this);
-        this.updateSolution       = this.updateSolution.bind(this);
-        this.updateCourse         = this.updateCourse.bind(this);
-        this.updatePost           = this.updatePost.bind(this);
-        this.updateUser           = this.updateUser.bind(this);
-        this.deleteTest           = this.deleteTest.bind(this);
-        this.deleteSolution       = this.deleteSolution.bind(this);
-        this.deleteCourse         = this.deleteCourse.bind(this);
-        this.deletePost           = this.deletePost.bind(this);
-        this.deleteUser           = this.deleteUser.bind(this);
-        this.deleteComment        = this.deleteComment.bind(this);
-        this.deletePostComments   = this.deletePostComments.bind(this);
-        this.publishComment       = this.publishComment.bind(this);
-        this.publishPost          = this.publishPost.bind(this);
-        this.handleLogout         = this.handleLogout.bind(this);
-
-        this.state = {
-            reRender:           false,
-            username:           useSelector((state) => state.user.username),
-            userRole:           useSelector((state) => state.user.userRole),
-            component:          localStorage.getItem('component'),
-            search:             [],
-            tests:              [],
-            solutions:          [],
-            courses:            [],
-            posts:              [],
-            userPosts:          [],
-            users:              [],
-            comments:           [],
-            errorTests:         '',
-            errorSolutions:     '',
-            errorCourses:       '',
-            errorPosts:         '',
-            errorUsers:         '',
-            errorComments:      '',
-            confirmTests:       '',
-            confirmSolutions:   '',
-            confirmCourses:     '',
-            confirmPosts:       '',
-            confirmUsers:       '',
-            confirmComments:    '',
-        }
-
-        this.getSearch();
-        this.getTests();
-        this.getSolutions();
-        this.getCourses();
-        this.getAllPosts();
-        this.getContributorPosts();
-        this.getUsers();
-        this.getComments();
-    }
-    */
 
     return (
         <main>
@@ -116,59 +35,33 @@ function Admin() {
                 med hjälp av knapparna nedan. 
                 Gränssnittet anpassas efter den valda 
                 kategorin.</p>
-                {/* Medarbetare */}
-                <div className="row">
-                    {component == 'tests' ? 
-                    <button id="tests" className="focus btn active-admin-btn admin-btn-left"  
-                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Tester</button> :
-                    <button id="tests" className="focus btn admin-btn admin-btn-left" 
-                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Tester</button>}
-                    {component == 'solutions' ?
-                    <button id="solutions" className="focus btn active-admin-btn admin-btn-right" 
-                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Utveckling</button> :
-                    <button id="solutions" className="focus btn admin-btn admin-btn-right" 
-                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Utveckling</button>}
-                </div>
-                <div className="row">
-                    {component == 'courses' ?
-                    <button id="courses" className="focus btn active-admin-btn admin-btn-left" 
-                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Utbildningar</button> :
-                    <button id="courses" className="focus btn admin-btn admin-btn-left" 
-                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Utbildningar</button>}
-                    {localStorage.getItem('component') == 'posts' ?
-                    <button id="posts" className="focus btn active-admin-btn admin-btn-right" 
-                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Inlägg</button> :
-                    <button id="posts" className="focus btn admin-btn admin-btn-right" 
-                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Inlägg</button>}
-                </div>
-                <div className="row">
-                    {component == 'comments' ?
-                    <button id="comments" className="focus btn active-admin-btn admin-btn-left"  
-                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Kommentarer</button> :
-                    <button id="comments" className="focus btn admin-btn admin-btn-left" 
-                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Kommentarer</button>}
-                    {component == 'users' ?
-                    <button id="users" className="focus btn active-admin-btn admin-btn-right" 
-                        aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Användare</button> :
-                    <button id="users" className="focus btn admin-btn admin-btn-right" 
-                        aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Användare</button>}
-                    {/* Gästskribenter */}
-                    <p>Här kan du administrera 
-                webbplatsens innehåll. Välj kategori
-                med hjälp av knapparna nedan. 
-                Gränssnittet anpassas efter den valda 
-                kategorin.</p>
-
-                {component == 'posts' ?
-                    <button id="posts" className="focus btn active-admin-btn admin-btn-contributors 
-                        admin-btn-right" aria-pressed="true" onClick={this.handleBtnClick}>
-                            Inlägg</button> :
+                {userRole == 'Medarbetare' ?
+                <div>
+                    <div className="row">
+                        <button id="tests" className="focus btn active-admin-btn admin-btn-left"  
+                            aria-pressed="true" onClick={(e) => handleBtnClick(e)}>Tester</button>
+                        <button id="solutions" className="focus btn admin-btn admin-btn-right" 
+                            aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Utveckling</button>
+                    </div>
+                    <div className="row">
+                        <button id="courses" className="focus btn admin-btn admin-btn-left" 
+                            aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Utbildningar</button>
+                        <button id="posts" className="focus btn admin-btn admin-btn-right" 
+                            aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Inlägg</button>
+                    </div>
+                    <div className="row">
+                        <button id="comments" className="focus btn admin-btn admin-btn-left" 
+                            aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Kommentarer</button>
+                        <button id="users" className="focus btn admin-btn admin-btn-right" 
+                            aria-pressed="false" onClick={(e) => handleBtnClick(e)}>Användare</button>
+                    </div>
+                </div> 
+                :
+                <div>
                     <button id="posts" className="focus btn admin-btn admin-btn-contributors admin-btn-right" 
-                        aria-pressed="false" onClick={this.handleBtnClick}>
-                            Inlägg</button>}
-                </div>
-            </nav> 
-            }
+                        aria-pressed="false" onClick={this.handleBtnClick}>Inlägg</button>
+                </div>}
+            </nav>
             {component != 'posts' && component != 'users' && component != 'comments' ? 
                 <Services service={component} serviceSE={serviceName} addSearch={addSearch}
                     search={this.state.search} /> : null}
@@ -188,32 +81,14 @@ function Admin() {
         </main>
     )
 
-    // Funktionen anpassar gränssnittet (via state) samt knapparnas utseende och aria-pressed 
     function handleBtnClick(e) {
         dispatch(pageActions.setAdminComponent(e.target.id));
-        /*
+        const buttons = document.getElementsByClassName('btn');
+
         for (let i = 0; i < buttons.length; i++) {
-            if (e.target.id == buttons[i].id) {
-                buttons[i].setAttribute('aria-pressed', true);
-
-            } else {
-                buttons[i].setAttribute('aria-pressed', false);
-            }
-        }
-        */
-
-        if (e.target.id !== 'tests') {
-            if (this.state.userRole == 'Medarbetare') {
-                buttons[2].setAttribute('aria-pressed', false);
-                buttons[2].className = 'focus btn admin-btn admin-btn-left';
-            }
-        }
-
-        if (e.target.id == 'posts') {
-            if (this.state.userRole == 'Gästskribent') {
-                buttons[2].setAttribute('aria-pressed', false);
-                buttons[2].className = 'focus btn admin-btn admin-btn-contributors admin-btn-right';
-            }
+            const isActiveBtn = e.target.id == buttons[i].id;
+            buttons[i].setAttribute('aria-pressed', isActiveBtn);
+            buttons[i].className == isActiveBtn ? 'focus btn active-admin-btn' : 'focus btn admin-btn';
         }
     }
 
