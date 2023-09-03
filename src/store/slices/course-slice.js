@@ -29,6 +29,13 @@ const courseSlice = createSlice({
                 german: german,
             };
         },
+        setCourse(state, action) {
+            const course = state.courses.find((element) => element.id == action.payload.id);
+            return {
+                ...state,
+                course: course,
+            };
+        },
         setErrorMessage(state, action) {
             return {
                 ...state,

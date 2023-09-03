@@ -29,6 +29,13 @@ const testSlice = createSlice({
                 german: german,
             };
         },
+        setTest(state, action) {
+            const test = state.tests.find((element) => element.id == action.payload.id);
+            return {
+                ...state,
+                test: test,
+            };
+        },
         setErrorMessage(state, action) {
             return {
                 ...state,

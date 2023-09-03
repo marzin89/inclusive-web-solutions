@@ -29,6 +29,13 @@ const solutionSlice = createSlice({
                 german: german,
             };
         },
+        setSolution(state, action) {
+            const solution = state.solutions.find((element) => element.id == action.payload.id);
+            return {
+                ...state,
+                solution: solution,
+            };
+        },
         setErrorMessage(state, action) {
             return {
                 ...state,
