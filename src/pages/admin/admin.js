@@ -14,10 +14,11 @@ const buttons = document.getElementsByClassName('btn');
 
 // Admin
 function Admin() {
-    const username  = useSelector((state) => state.user.username);
-    const userRole  = useSelector((state) => state.user.userRole);
-    const component = useSelector((state) => state.page.adminComponent);
-    const dispatch  = useDispatch();
+    const username    = useSelector((state) => state.user.username);
+    const userRole    = useSelector((state) => state.user.userRole);
+    const component   = useSelector((state) => state.page.adminComponent);
+    const serviceName = useSelector((state) => state.page.serviceName);
+    const dispatch    = useDispatch();
     // Konstruktor med props
     /*
     constructor(props) {
@@ -109,8 +110,6 @@ function Admin() {
                 <p id="logout"><Link className="focus" to={"/login"} onClick={(e) => logout(e)}>Logga ut</Link></p>
             </div>
             <h1>Admin</h1>
-            {/* Huvudmenyns utseende varierar beroende på användarens behörighet */}
-            {/*userRole == 'Medarbetare' ?*/
             <nav className="admin-menu" aria-label="Adminmeny">
                 <p>Här kan du administrera 
                 webbplatsens innehåll. Välj kategori
@@ -170,18 +169,8 @@ function Admin() {
                 </div>
             </nav> 
             }
-            {/* Formulär för att lägga till och redigera tjänster, användare, inlägg och kommentarer.
-                Vilket formulär som visas beror på vilket val som gjorts i menyn ovan. 
-                Data i form av poster och eventuella felmeddelanden skickas med i props. */}
-            
-            {component == 'tests' && this.state.userRole  == 'Medarbetare' ? 
-                <Services service="tests" serviceSE="Tester" data={this.state.tests} 
-                    search={this.state.search} /> : null}
-            {component == 'solutions' && this.state.userRole == 'Medarbetare' ? 
-                <Services service="solutions" serviceSE="Utvecklingspaket" data={this.state.solutions} 
-                    search={this.state.search} /> : null}
-            {component == 'courses' && this.state.userRole == 'Medarbetare' ? 
-                <Services service="courses" sericeSE="Utbildningar" data={this.state.courses} 
+            {component != 'posts' && component != 'users' && component != 'comments' ? 
+                <Services service={component} serviceSE={serviceName} addSearch={addSearch}
                     search={this.state.search} /> : null}
             {component == 'posts' ? <Posts posts={this.state.userRole == 'Medarbetare' ? 
                 this.state.posts : this.state.userPosts} search={this.state.search} 
