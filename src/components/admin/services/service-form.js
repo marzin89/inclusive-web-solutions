@@ -101,21 +101,6 @@ function ServiceForm(props) {
         nameRef.focus();
     }
 
-    function handleLinkClick(e) {
-        e.preventDefault();
-        setCrudAction(e.target.className);
-        scrollComponent(e.target.className == 'edit' ? formRef : resetBtnRef);
-        setId(e.target.id);
-
-        if (e.target.className == 'edit') {
-            populateForm(e.target.id);
-        
-        } else {  
-            localStorage.setItem('searchId', getForeignKey());
-            props.delete(id);
-        }
-    }
-
     function getForeignKey() {
         let service = this.props.service.slice(0, -1);
         const foreignKey = props.search.find((page) => page.foreignKey.indexOf(id) >= 0);

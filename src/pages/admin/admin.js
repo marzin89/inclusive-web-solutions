@@ -175,15 +175,15 @@ function Admin() {
                 Data i form av poster och eventuella felmeddelanden skickas med i props. */}
             
             {component == 'tests' && this.state.userRole  == 'Medarbetare' ? 
-                <Services service="tests" data={this.state.tests} search={this.state.search} 
+                <Services service="tests" serviceSE="Tester" data={this.state.tests} search={this.state.search} 
                 errorMessage={errorServices} confirmMessage={confirmServices}
                 post={this.addTest} delete={this.deleteTest} put={this.updateTest} /> : null}
             {component == 'solutions' && this.state.userRole == 'Medarbetare' ? 
-                <Services service="solutions" data={this.state.solutions} search={this.state.search}
+                <Services service="solutions" serviceSE="Utvecklingspaket" data={this.state.solutions} search={this.state.search}
                 errorMessage={errorServices} confirmMessage={confirmServices}
                 post={this.addSolution} delete={this.deleteSolution} put={this.updateSolution} /> : null}
             {component == 'courses' && this.state.userRole == 'Medarbetare' ? 
-                <Services service="courses" data={this.state.courses} search={this.state.search} 
+                <Services service="courses" sericeSE="Utbildningar" data={this.state.courses} search={this.state.search} 
                 errorMessage={errorServices} confirmMessage={confirmServices}
                 post={this.addCourse} delete={this.deleteCourse} put={this.updateCourse} /> : null}
             {component == 'posts' ? <Posts posts={this.state.userRole == 'Medarbetare' ? 
