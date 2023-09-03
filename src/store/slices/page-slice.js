@@ -19,6 +19,7 @@ const pageSlice = createSlice({
         searchIndexGerman: 0,
         errorMessage: '',
         adminComponent: 'tests',
+        adminServiceName: 'Tester',
     },
     reducers: {
         setLanguage(state, action) {
@@ -138,7 +139,8 @@ const pageSlice = createSlice({
         setAdminComponent(state, action) {
             return {
                 ...state,
-                adminComponent: action.payload,
+                adminComponent: action.payload.component,
+                adminServiceName: action.payload.serviceName,
             }
         }
     }
