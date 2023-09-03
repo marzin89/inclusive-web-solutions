@@ -88,7 +88,7 @@ function Admin() {
         for (let i = 0; i < buttons.length; i++) {
             const isActiveBtn = e.target.id == buttons[i].id;
             buttons[i].setAttribute('aria-pressed', isActiveBtn);
-            buttons[i].className == isActiveBtn ? 'focus btn active-admin-btn' : 'focus btn admin-btn';
+            buttons[i].className = isActiveBtn ? 'focus btn active-admin-btn' : 'focus btn admin-btn';
         }
     }
 

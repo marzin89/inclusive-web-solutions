@@ -120,12 +120,12 @@ function ServiceForm(props) {
             let publicId;
 
             if (imageRef.current.files[0]) {
-                let name      = imageInput.files[0].name.slice(0, imageInput.files[0].name.indexOf('.'));
-                let extension = imageInput.files[0].name.slice(imageInput.files[0].name.indexOf('.'));            
+                let name      = imageRef.files[0].name.slice(0, imageRef.files[0].name.indexOf('.'));
+                let extension = imageRef.files[0].name.slice(imageRef.files[0].name.indexOf('.'));            
                 publicId      = name;
                 imageUrl      = `https://res.cloudinary.com/inclusivewebsolutions/image/upload/${folder}/${publicId}${extension}`;
                 body.imageUrl = imageUrl;               
-                this.upload(imageInput.files[0], name);
+                this.upload(imageRef.files[0], name);
             }
 
             const body = {

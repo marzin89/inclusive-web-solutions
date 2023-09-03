@@ -12,6 +12,7 @@ function Services(props) {
     const [id, setId]                         = useState('');
     const [errorMessage, setErrorMessage]     = useState('');
     const [confirmMessage, setConfirmMessage] = useState('');
+    const service                             = useState('');
     const tests     = useSelector((state) => state.test.tests);
     const solutions = useSelector((state) => state.solution.solutions);
     const courses   = useSelector((state) => state.course.courses);
@@ -35,7 +36,6 @@ function Services(props) {
 
     function handleLinkClick(e) {
         e.preventDefault();
-        setCrudAction(e.target.className);
         scrollComponent(e.target.className == 'edit' ? formRef : resetBtnRef);
         setId(e.target.id);
 
