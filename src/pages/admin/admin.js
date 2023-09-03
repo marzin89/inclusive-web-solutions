@@ -175,17 +175,14 @@ function Admin() {
                 Data i form av poster och eventuella felmeddelanden skickas med i props. */}
             
             {component == 'tests' && this.state.userRole  == 'Medarbetare' ? 
-                <Services service="tests" serviceSE="Tester" data={this.state.tests} search={this.state.search} 
-                errorMessage={errorServices} confirmMessage={confirmServices}
-                post={this.addTest} delete={this.deleteTest} put={this.updateTest} /> : null}
+                <Services service="tests" serviceSE="Tester" data={this.state.tests} 
+                    search={this.state.search} /> : null}
             {component == 'solutions' && this.state.userRole == 'Medarbetare' ? 
-                <Services service="solutions" serviceSE="Utvecklingspaket" data={this.state.solutions} search={this.state.search}
-                errorMessage={errorServices} confirmMessage={confirmServices}
-                post={this.addSolution} delete={this.deleteSolution} put={this.updateSolution} /> : null}
+                <Services service="solutions" serviceSE="Utvecklingspaket" data={this.state.solutions} 
+                    search={this.state.search} /> : null}
             {component == 'courses' && this.state.userRole == 'Medarbetare' ? 
-                <Services service="courses" sericeSE="Utbildningar" data={this.state.courses} search={this.state.search} 
-                errorMessage={errorServices} confirmMessage={confirmServices}
-                post={this.addCourse} delete={this.deleteCourse} put={this.updateCourse} /> : null}
+                <Services service="courses" sericeSE="Utbildningar" data={this.state.courses} 
+                    search={this.state.search} /> : null}
             {component == 'posts' ? <Posts posts={this.state.userRole == 'Medarbetare' ? 
                 this.state.posts : this.state.userPosts} search={this.state.search} 
                 username={this.state.username} userRole={this.state.userRole} 

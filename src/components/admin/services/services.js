@@ -20,7 +20,8 @@ function Services(props) {
     return (
         <div id="main" className="admin-form">
             <h2 className="h2-admin">{props.service}</h2>
-            <ServiceForm errorMessage={errorMessage} confirmMessage={confirmMessage} service={props.service} />
+            <ServiceForm errorMessage={errorMessage} confirmMessage={confirmMessage} service={props.service}
+                post={addService} put={updateService} />
             <RenderServices function={handleLinkClick} />
         </div>
     );
@@ -43,7 +44,7 @@ function Services(props) {
         
         } else {  
             localStorage.setItem('searchId', getForeignKey());
-            props.delete(id);
+            deleteService(id);
         }
     }
 
@@ -53,7 +54,7 @@ function Services(props) {
         return foreignKey;
     }
 
-    async function get() {
+    async function getService() {
         const response = await fetch(`https://iws-rest-api.herokuapp.com/${props.service}/admin`);
         
         if (response.status != 200) {
@@ -81,6 +82,91 @@ function Services(props) {
 
         if (props.service == 'courses' && courses.length == 0) {
             dispatch(courseActions(data));
+        }
+    }
+
+    async function addService(body) {
+        const response = await fetch(`https://iws-rest-api.herokuapp.com/${props.service}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        })
+
+        if (response.status != 200) {
+            setErrorMessage(`Ett serverfel har uppstått. Det gick inte att lägga till 
+                ${props.serviceSE.toLowerCase()}. Försök igen lite senare.`);
+            setConfirmMessage('');
+            return;
+        }
+
+        const data = await response.json();
+        props.addSearch(body);
+
+        if (props.service == 'tests') {
+            dispatch(testActions.setTests(data));
+        }
+
+        if (props.service == 'solutions') {
+            dispatch(solutionActions.setSolutions(data));
+        }
+
+        if (props.service == 'courses') {
+            dispatch(courseActions.setCourses(data))
+        }
+
+        setConfirmMessage(`${props.serviceSE} har lagts till.`);
+    }
+
+    async function updateService(id, body) {
+        const response = await fetch(`https://iws-rest-api.herokuapp.com/${props.service}/id/${id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json',},
+            body:    JSON.stringify(body),
+        });
+
+        if (response.status != 200) {
+            setErrorMessage(`Ett serverfel har uppstått. Det gick inte att uppdatera 
+                ${props.serviceSE.toLowerCase()}. Försök igen lite senare.`);
+            setConfirmMessage('');
+            return;
+        }
+
+        const data = await response.json();
+        props.updateSearch(body);
+        updateStore(data);
+        setConfirmMessage(`${props.serviceSE} har uppdaterats.`);
+    }
+
+    async function deleteService(id) {
+        const response = await fetch(`https://iws-rest-api.herokuapp.com/${props.service}/id/${id}`, {
+            method:  'DELETE',
+            headers: {'Content-Type': 'application/json',},
+        });
+
+        if (!response.status != 200) {
+            setErrorMessage(`Ett serverfel har uppstått. Det gick inte att radera 
+                ${props.serviceSE.toLowerCase()}. Försök igen lite senare.`);
+            setConfirmMessage('');
+            return;
+        }
+
+        const data = await response.json();
+        props.deleteSearch();
+        updateStore(data);
+        setConfirmMessage('Testet har raderats.');
+    }
+
+    function updateStore(data) {
+        if (props.service == 'tests') {
+            dispatch(testActions.setTests(data));
+        }
+
+        if (props.service == 'solutions') {
+            dispatch(solutionActions.setSolutions(data));
+        }
+
+        if (props.service == 'courses') {
+            dispatch(courseActions.setCourses(data))
         }
     }
 
