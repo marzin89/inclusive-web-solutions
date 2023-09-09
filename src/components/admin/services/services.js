@@ -39,6 +39,8 @@ function Services(props) {
         scrollComponent(e.target.className == 'edit' ? formRef : resetBtnRef);
         setId(e.target.id);
 
+        
+
         if (e.target.className == 'edit') {
             populateForm(e.target.id);
         

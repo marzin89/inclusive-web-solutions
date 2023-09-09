@@ -18,7 +18,7 @@ function Breadcrumbs(props) {
                 <ul>
                     {props.breadcrumbs.map((breadcrumb, index) => {
                         return(
-                            <li><Link id={index == 0 ? 'first-breadcrumb' : ''} 
+                            <li key={index}><Link id={index == 0 ? 'first-breadcrumb' : ''} 
                                 className={breadcrumb.isCurrentPage ? 'active-breadcrumb focus focus-invisible regular-font-size'
                                     : "inactive-breadcrumb focus focus-invisible regular-font-size"} 
                                         to={breadcrumb.path}>{breadcrumb.page}</Link>{breadcrumb.isCurrentPage ? '' : '/'}</li>
