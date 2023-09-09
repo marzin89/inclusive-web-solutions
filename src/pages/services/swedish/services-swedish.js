@@ -1,18 +1,23 @@
-import { Link } from 'react-router-dom';
+import Breadcrumbs from '../../../components/breadcrumbs/breadcrumbs';
 import TestsSwedish from './tests-swedish';
 import SolutionsSwedish from './solutions-swedish';
 import CoursesSwedish from './courses-swedish';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { userActions } from '../../../store/slices/user-slice';
 
 function ServicesSwedish(props) {
-    const dispatch = useDispatch();
-    
-    function logout(e) {
-        e.preventDefault();
-        dispatch(userActions.logout());
-    }
+    const breadcrumbs =
+    [
+        {
+            page: 'Start',
+            path: '/',
+            isCurrentPage: false,
+        },
+        {
+            page: 'Tjänster',
+            path: '/services',
+            isCurrentPage: true,
+        }
+    ];
 
     useEffect(() => {
         document.title = 'Tjänster';
@@ -20,21 +25,8 @@ function ServicesSwedish(props) {
 
     return (
         <main>
-            <div className="row">
-                {/* Länkstig */}
-                <nav className="breadcrumbs" aria-label="Länkstig">
-                    <ul>
-                        <li><Link id="first-breadcrumb" className="inactive-breadcrumb focus 
-                            focus-invisible regular-font-size" to={"/"}>Start</Link>/</li>
-                        <li><Link className="active-breadcrumb focus focus-invisible 
-                            regular-font-size" to={"/services"}> Tjänster</Link></li>
-                    </ul>
-                </nav>
-                {props.isSignedIn ? <p id="logout">
-                    <Link className="focus focus-invisible regular-font-size" 
-                        to={"/services"} onClick={(e) => logout(e)}>Logga ut</Link>
-                            </p> : null}
-            </div>
+            <Breadcrumbs breadcrumbs={breadcrumbs} currentPage="Tjänster"
+                language={props.language} />
             <section id="services">
                 <h1 id="main" className="h1-font-size">Tjänster</h1>
                 <TestsSwedish />

@@ -1,27 +1,33 @@
-import { Link } from 'react-router-dom';
+import Breadcrumbs from '../../../components/breadcrumbs/breadcrumbs';
 import TestsGerman from './tests-german';
 import SolutionsGerman from './solutions-german';
 import CoursesGerman from './courses-german';
 import { useEffect } from 'react';
 
-function ServicesGerman() {
+function ServicesGerman(props) {
+    const breadcrumbs =
+    [
+        {
+            page: 'Home',
+            path: '/',
+            isCurrentPage: false,
+        },
+        {
+            page: 'Dienstleistungen',
+            path: '/services',
+            isCurrentPage: true,
+        }
+    ];
+
+
     useEffect(() => {
         document.title = 'Tjänster';
     });
 
     return (
         <main>
-            <div className="row">
-                {/* Länkstig */}
-                <nav className="breadcrumbs" aria-label="Brotkrümelnavigation">
-                    <ul>
-                        <li><Link id="first-breadcrumb" className="inactive-breadcrumb 
-                            focus focus-invisible regular-font-size" to={"/"}>Home</Link>/</li>
-                        <li><Link className="active-breadcrumb focus focus-invisible 
-                            regular-font-size" to={"/services"}> Dienstleistungen</Link></li>
-                    </ul>
-                </nav>
-            </div>
+            <Breadcrumbs breadcrumbs={breadcrumbs} currentPage="Dienstleistungen"  
+                language={props.language} />
             <section id="services">
                 <h1 id="main" className="h1-font-size">Dienstleistungen</h1>
                 <TestsGerman />

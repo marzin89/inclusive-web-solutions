@@ -1,12 +1,19 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { userActions } from '../../store/slices/user-slice';
+import { Link } from 'react-router-dom';
 
-function BreadCrumbs(props) {
+function Breadcrumbs(props) {
     const isSignedIn = useSelector((state) => state.user.isSignedIn);
-    const language = useSelector((state) => state.page.language);
+    const dispatch   = useDispatch();
+
+    function logout(e) {
+        e.preventDefault();
+        dispatch(userActions.logout());
+    }
 
     return(
         <div className="row">
-            <nav className="breadcrumbs" aria-label={language == 'Swedish' ? 'Länkstig' :
+            <nav className="breadcrumbs" aria-label={props.language == 'Swedish' ? 'Länkstig' :
                 'Brotkrümelnavigation'}>
                 <ul>
                     {props.breadcrumbs.map((breadcrumb, index) => {
@@ -19,10 +26,11 @@ function BreadCrumbs(props) {
                     })}
                 </ul>
             </nav>
-            {isSignedIn ? <p id="logout"><Link className="focus focus-invisible regular-font-size" 
-                to={props.currentPage} onClick={(e) => logout(e)}>Logga ut</Link></p> : null}
+            {isSignedIn && props.language == 'Swedish' ? 
+                <p id="logout"><Link className="focus focus-invisible regular-font-size" to={props.currentPage} 
+                    onClick={(e) => logout(e)}>Logga ut</Link></p> : null}
         </div>
     );
 }
 
-export default BreadCrumbs;
+export default Breadcrumbs;
