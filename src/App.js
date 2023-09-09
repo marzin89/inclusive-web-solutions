@@ -3,8 +3,7 @@ import HeaderSwedish from './components/header/swedish/header-swedish';
 import Footer from './components/footer/footer';
 import Login from './pages/login/login';
 import Admin from './pages/admin/admin';
-import HomeSwedish from './pages/home/swedish/home-swedish';
-import HomeGerman from './pages/home/german/home-german';
+import Home from './pages/home/home';
 import AboutSwedish from './pages/about/swedish/about-swedish';
 import AboutGerman from './pages/about/german/about-german';
 import ContactSwedish from './pages/contact/swedish/contact-swedish';
@@ -128,8 +127,8 @@ function App() {
           <Route path="/admin" element={isSignedIn ? 
             <Admin /> 
               : <Navigate replace to="/login" />} />
-          <Route path="/" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />
-          <Route path="/home" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />
+          <Route path="/" element={<Home language={language} isSignedIn={isSignedIn} />} />
+          <Route path="/home" element={<Home language={language} isSignedIn={isSignedIn} />} />
           <Route path="/about" element={language == 'Swedish' ? <AboutSwedish isSignedIn={isSignedIn} /> : <AboutGerman />} />
           <Route path="/contact" element={language == 'Swedish' ? <ContactSwedish isSignedIn={isSignedIn} /> : <ContactGerman />} />
           <Route path="/services" element={<Services language={language} />} />
@@ -141,7 +140,7 @@ function App() {
           <Route path="/test" element={<Test signedIn={isSignedIn} />} /> 
           <Route path="/solution" element={<Solution signedIn={isSignedIn} />} />
           <Route path="/course" element={<Course signedIn={isSignedIn} />} /> 
-          <Route path="*" element={language == 'Swedish' ? <HomeSwedish isSignedIn={isSignedIn} /> : <HomeGerman />} />
+          <Route path="*" element={<Home language={language} isSignedIn={isSignedIn} />} />
         </Routes>
         <Footer />
       </Router>
