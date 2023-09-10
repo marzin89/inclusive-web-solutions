@@ -33,7 +33,7 @@ function Blog(props) {
         const toggleBtns = [];
 
         for (let i = 0; i < numberOfPages; i++) {
-            toggleBtns.push(<ToggleBtn language={props.language} />);
+            toggleBtns.push(<ToggleBtn language={props.language} index={i} />);
         }
 
         return toggleBtns;
