@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import testActions from '../../store/slices/test-slice';
 import solutionActions from '../../store/slices/solution-slice';
 import courseActions from '../../store/slices/course-slice';
+import postActions from '../../store/slices/post-slice';
 
 function Navbar(props) {
     const services = useSelector((state) => {
@@ -12,8 +13,11 @@ function Navbar(props) {
         } else if (props.service == 'solution') {
             return state.solution.solutions;
         
-        } else {
+        } else if (props.service == 'course') {
             return state.course.courses;
+        
+        } else {
+            return state.post.posts;
         }
     });
     const dispatch = useDispatch();
@@ -25,9 +29,23 @@ function Navbar(props) {
     } else if (props.service == 'solution') {
         ariaLabel = props.language == 'Swedish' ? 'Undermeny med utvecklingspaket' : 'Unternavigation mit Developments';
     
-    } else {
+    } else if (props.service == 'course') {
         ariaLabel = props.language == 'Swedish' ? 'Undermeny med utbildningar' : 'Unternavigation mit Vorlesungen';
+    
+    } else {
+        ariaLabel = props.language == 'Swedish' ? 'Undermeny med blogginlägg' : 'Unternavigation mit Posts';
     }
+
+    let mainPage;
+
+    if (props.service != 'post') {
+        mainPage = props.language == 'Swedish' ? 'Tjänster' : 'Dienstleistungen';
+    
+    } else {
+        mainPage = props.language == 'Swedish' ? 'Blogg' : 'Blog';
+    }
+
+    const path = props.service == 'post' ? '/blog' : '/services';
 
     function handleLinkClick(e) {
         if (props.service == 'test') {
@@ -36,8 +54,11 @@ function Navbar(props) {
         } else if (props.service == 'solution') {
             dispatch(solutionActions.setSolution(e.target.id));
         
-        } else {
+        } else if (props.service == 'course') {
             dispatch(courseActions.setCourse(e.target.id));
+        
+        } else {
+            dispatch(postActions.setPost(e.target.id));
         }
     }
 
@@ -45,11 +66,11 @@ function Navbar(props) {
         <nav id="subnav" aria-label={ariaLabel}>
             <ul>
                 <li id="subnav-first-item"><Link className="focus focus-invisible regular-font-size" 
-                    to={'/services'}>{props.language == 'Swedish' ? 'Tjänster' : 'Dienstleistungen'}</Link></li>
+                    to={path}>{mainPage}</Link></li>
                 {services.map((service) => {
                     return(
-                        <li key={test.id} id={service.id == props.id ? 'open-subpage' : ''}>
-                            <Link id={test.id} className="focus focus-invisible regular-font-size subnav-link" 
+                        <li key={service.id} id={service.id == props.id ? 'open-subpage' : ''}>
+                            <Link id={service.id} className="focus focus-invisible regular-font-size subnav-link" 
                                 to={`/${props.service}`} onClick={() => handleLinkClick()}>{service.name}</Link></li>
                     );
                 })}
