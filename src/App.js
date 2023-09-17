@@ -12,9 +12,7 @@ import Blog from './pages/blog/blog';
 import Accessibility from './pages/accessibility/accessibility';
 import Search from './pages/search/search';
 import Post from './pages/post/post';
-import Test from './pages/test/test';
-import Solution from './pages/solution/solution';
-import Course from './pages/course/course';
+import Service from './pages/service/service';
 import {
   BrowserRouter as Router,
   Routes,
@@ -132,9 +130,9 @@ function App() {
           <Route path="/accessibility" element={<Accessibility language={language} />} />
           <Route path="/search" element={<Search language={language} />} />
           <Route path="/post" element={<Post signedIn={isSignedIn} />} />
-          <Route path="/test" element={<Test signedIn={isSignedIn} />} /> 
-          <Route path="/solution" element={<Solution signedIn={isSignedIn} />} />
-          <Route path="/course" element={<Course signedIn={isSignedIn} />} /> 
+          <Route path="/test" element={<Service service="test" language={language} />} /> 
+          <Route path="/solution" element={<Service service="solution" language={language} />} />
+          <Route path="/course" element={<Service service="course" language={language} />} /> 
           <Route path="*" element={<Home language={language} isSignedIn={isSignedIn} />} />
         </Routes>
         <Footer />
