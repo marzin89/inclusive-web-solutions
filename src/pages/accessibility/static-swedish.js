@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { pageActions } from '../../../store/slices/page-slice';
+import { pageActions } from '../../store/slices/page-slice';
 
 function StaticSwedish() {
     const accessibility = useSelector((state) => state.page.accessibility);
