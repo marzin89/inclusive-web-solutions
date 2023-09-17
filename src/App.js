@@ -6,8 +6,7 @@ import Admin from './pages/admin/admin';
 import Home from './pages/home/home';
 import AboutSwedish from './pages/about/swedish/about-swedish';
 import AboutGerman from './pages/about/german/about-german';
-import ContactSwedish from './pages/contact/swedish/contact-swedish';
-import ContactGerman from './pages/contact/german/contact-german';
+import Contact from './pages/contact/contact';
 import Services from './pages/services/services';
 import Blog from './pages/blog/blog';
 import AccessibilitySwedish from './pages/accessibility/swedish/accessibility-swedish';
@@ -128,7 +127,7 @@ function App() {
           <Route path="/" element={<Home language={language} isSignedIn={isSignedIn} />} />
           <Route path="/home" element={<Home language={language} isSignedIn={isSignedIn} />} />
           <Route path="/about" element={language == 'Swedish' ? <AboutSwedish isSignedIn={isSignedIn} /> : <AboutGerman />} />
-          <Route path="/contact" element={language == 'Swedish' ? <ContactSwedish isSignedIn={isSignedIn} /> : <ContactGerman />} />
+          <Route path="/contact" element={<Contact language={language} />} />
           <Route path="/services" element={<Services language={language} />} />
           <Route path="/blog" element={<Blog language={language} />} />
           <Route path="/accessibility" element={language == 'Swedish' ? <AccessibilitySwedish isSignedIn={isSignedIn} /> 
